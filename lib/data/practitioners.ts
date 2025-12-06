@@ -2,8 +2,8 @@ import { Practitioner, City } from '../types/practitioner';
 import practitionersData from '@/data/practitioners.json';
 import citiesData from '@/data/cities.json';
 
-export const practitioners: Practitioner[] = practitionersData as Practitioner[];
-export const cities: City[] = citiesData as City[];
+export const practitioners: Practitioner[] = practitionersData as any;
+export const cities: City[] = citiesData as any;
 
 export function getAllPractitioners(): Practitioner[] {
   return practitioners;
@@ -59,7 +59,7 @@ export function searchPractitioners(params: {
     const q = params.query.toLowerCase();
     results = results.filter(p =>
       p.name.toLowerCase().includes(q) ||
-      p.title.toLowerCase().includes(q) ||
+      (p.title && p.title.toLowerCase().includes(q)) ||
       p.city.toLowerCase().includes(q) ||
       p.specialties.some(s => s.toLowerCase().includes(q))
     );
@@ -67,24 +67,28 @@ export function searchPractitioners(params: {
 
   // Session type filter
   if (params.sessionType) {
-    results = results.filter(p => p.sessionType === params.sessionType);
+    results = results.filter(p =>
+      p.session_types && p.session_types.includes(params.sessionType!)
+    );
   }
 
   // Insurance filter
   if (params.acceptsInsurance === true) {
-    results = results.filter(p => p.acceptsInsurance === true);
+    results = results.filter(p =>
+      p.insurance_accepted && p.insurance_accepted.length > 0
+    );
   }
 
   // Price range filter
   if (params.priceRange) {
-    results = results.filter(p => p.priceRange === params.priceRange);
+    results = results.filter(p => p.price_range === params.priceRange);
   }
 
   // Minimum experience filter
   if (params.minExperience && params.minExperience > 0) {
     const minExp = params.minExperience;
     results = results.filter(p =>
-      p.yearsExperience !== undefined && p.yearsExperience >= minExp
+      p.years_experience !== undefined && p.years_experience >= minExp
     );
   }
 

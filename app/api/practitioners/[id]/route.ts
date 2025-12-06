@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@/lib/supabase/server';
 
 // GET /api/practitioners/[id] - Get specific practitioner
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createRouteHandlerClient();
+    const { id } = await params;
 
     const { data: practitioner, error } = await supabase
       .from('practitioners')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (error) throw error;
@@ -38,10 +38,11 @@ export async function GET(
 // PATCH /api/practitioners/[id] - Update practitioner profile
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createRouteHandlerClient();
+    const { id } = await params;
 
     const {
       data: { session },
@@ -55,7 +56,7 @@ export async function PATCH(
     const { data: practitioner } = await supabase
       .from('practitioners')
       .select('claimed_by')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (!practitioner) {
@@ -123,7 +124,7 @@ export async function PATCH(
     const { data: updatedPractitioner, error: updateError } = await supabase
       .from('practitioners')
       .update(updateData)
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 

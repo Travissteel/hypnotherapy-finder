@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -11,7 +11,7 @@ import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { signIn, user } = useAuth();
@@ -159,5 +159,29 @@ export default function LoginPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 bg-gray-50 py-16 pt-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-md mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl text-center">Loading...</CardTitle>
+                </CardHeader>
+              </Card>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

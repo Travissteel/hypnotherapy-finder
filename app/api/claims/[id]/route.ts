@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@/lib/supabase/server';
 import { sendClaimApprovedEmail, sendClaimRejectedEmail } from '@/lib/email/send-emails';
 
 // GET /api/claims/[id] - Get specific claim
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createRouteHandlerClient();
+    const { id } = await params;
 
     const {
       data: { session },
@@ -26,7 +26,7 @@ export async function GET(
         practitioner:practitioners(*),
         user:user_profiles(full_name, phone)
       `)
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (error) throw error;
@@ -55,10 +55,11 @@ export async function GET(
 // PATCH /api/claims/[id] - Update claim (admin only for approval/rejection)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createRouteHandlerClient();
+    const { id } = await params;
 
     const {
       data: { session },
@@ -98,7 +99,7 @@ export async function PATCH(
         practitioner:practitioners(name, city, state),
         user:user_profiles(full_name)
       `)
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (!claim) {
@@ -115,7 +116,7 @@ export async function PATCH(
         reviewed_by: session.user.id,
         reviewed_at: new Date().toISOString(),
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 
@@ -126,7 +127,7 @@ export async function PATCH(
       admin_id: session.user.id,
       action: status === 'approved' ? 'approved_claim' : 'rejected_claim',
       resource_type: 'claim',
-      resource_id: params.id,
+      resource_id: id,
       reason: admin_notes,
       changes: {
         status,
