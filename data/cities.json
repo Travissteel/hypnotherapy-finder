@@ -1,0 +1,182 @@
+[
+  {
+    "name": "Atlanta",
+    "state": "Georgia",
+    "slug": "atlanta",
+    "practitionerCount": 28
+  },
+  {
+    "name": "Austin",
+    "state": "Texas",
+    "slug": "austin",
+    "practitionerCount": 88
+  },
+  {
+    "name": "Baltimore",
+    "state": "Maryland",
+    "slug": "baltimore",
+    "practitionerCount": 16
+  },
+  {
+    "name": "Boston",
+    "state": "Massachusetts",
+    "slug": "boston",
+    "practitionerCount": 12
+  },
+  {
+    "name": "Charlotte",
+    "state": "North Carolina",
+    "slug": "charlotte",
+    "practitionerCount": 70
+  },
+  {
+    "name": "Chicago",
+    "state": "Illinois",
+    "slug": "chicago",
+    "practitionerCount": 112
+  },
+  {
+    "name": "Columbus",
+    "state": "Ohio",
+    "slug": "columbus",
+    "practitionerCount": 38
+  },
+  {
+    "name": "Dallas",
+    "state": "Texas",
+    "slug": "dallas",
+    "practitionerCount": 78
+  },
+  {
+    "name": "Denver",
+    "state": "Colorado",
+    "slug": "denver",
+    "practitionerCount": 106
+  },
+  {
+    "name": "Detroit",
+    "state": "Michigan",
+    "slug": "detroit",
+    "practitionerCount": 6
+  },
+  {
+    "name": "Fort Worth",
+    "state": "Texas",
+    "slug": "fort-worth",
+    "practitionerCount": 26
+  },
+  {
+    "name": "Houston",
+    "state": "Texas",
+    "slug": "houston",
+    "practitionerCount": 76
+  },
+  {
+    "name": "Indianapolis",
+    "state": "Indiana",
+    "slug": "indianapolis",
+    "practitionerCount": 16
+  },
+  {
+    "name": "Jacksonville",
+    "state": "Florida",
+    "slug": "jacksonville",
+    "practitionerCount": 74
+  },
+  {
+    "name": "Las Vegas",
+    "state": "Nevada",
+    "slug": "las-vegas",
+    "practitionerCount": 48
+  },
+  {
+    "name": "Los Angeles",
+    "state": "California",
+    "slug": "los-angeles",
+    "practitionerCount": 218
+  },
+  {
+    "name": "Louisville",
+    "state": "Kentucky",
+    "slug": "louisville",
+    "practitionerCount": 12
+  },
+  {
+    "name": "Memphis",
+    "state": "Tennessee",
+    "slug": "memphis",
+    "practitionerCount": 12
+  },
+  {
+    "name": "Milwaukee",
+    "state": "Wisconsin",
+    "slug": "milwaukee",
+    "practitionerCount": 6
+  },
+  {
+    "name": "Nashville",
+    "state": "Tennessee",
+    "slug": "nashville",
+    "practitionerCount": 46
+  },
+  {
+    "name": "New York",
+    "state": "New York",
+    "slug": "new-york",
+    "practitionerCount": 140
+  },
+  {
+    "name": "Philadelphia",
+    "state": "Pennsylvania",
+    "slug": "philadelphia",
+    "practitionerCount": 54
+  },
+  {
+    "name": "Phoenix",
+    "state": "Arizona",
+    "slug": "phoenix",
+    "practitionerCount": 106
+  },
+  {
+    "name": "Portland",
+    "state": "Oregon",
+    "slug": "portland",
+    "practitionerCount": 154
+  },
+  {
+    "name": "San Antonio",
+    "state": "Texas",
+    "slug": "san-antonio",
+    "practitionerCount": 48
+  },
+  {
+    "name": "San Diego",
+    "state": "California",
+    "slug": "san-diego",
+    "practitionerCount": 172
+  },
+  {
+    "name": "San Francisco",
+    "state": "California",
+    "slug": "san-francisco",
+    "practitionerCount": 114
+  },
+  {
+    "name": "San Jose",
+    "state": "California",
+    "slug": "san-jose",
+    "practitionerCount": 52
+  },
+  {
+    "name": "Seattle",
+    "state": "Washington",
+    "slug": "seattle",
+    "practitionerCount": 80
+  },
+  {
+    "name": "Washington",
+    "state": "DC",
+    "slug": "washington",
+    "practitionerCount": 22
+  }
+]
