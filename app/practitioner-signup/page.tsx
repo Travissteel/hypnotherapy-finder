@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
-import { CheckCircle, Star, Users, TrendingUp, Shield } from 'lucide-react';
+import { CheckCircle, Star, Users, TrendingUp, Shield, AlertCircle } from 'lucide-react';
 
 export default function PractitionerSignupPage() {
   const router = useRouter();
