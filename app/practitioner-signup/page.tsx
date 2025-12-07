@@ -72,6 +72,7 @@ export default function PractitionerSignupPage() {
 
       if (error) {
         console.error('Signup error:', error);
+        console.error('Error details:', JSON.stringify(error, null, 2));
         setError(error.message || 'Failed to create account');
         setLoading(false);
       } else {

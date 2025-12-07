@@ -81,7 +81,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const { error } = await supabase.auth.signUp({
+    console.log('AuthContext signUp called with:', { email, fullName, passwordLength: password.length });
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -91,6 +92,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         },
       },
     });
+    console.log('Signup response:', { data, error });
+    if (error) {
+      console.error('Signup failed:', error.message, error);
+    }
     return { error };
   };
 
