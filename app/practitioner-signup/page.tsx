@@ -77,6 +77,35 @@ export default function PractitionerSignupPage() {
         const { data: { session } } = await supabase.auth.getSession();
 
         if (session) {
+          // Create practitioner profile
+          const response = await fetch('/api/practitioners', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: fullName,
+              credentials: formData.certifications,
+              email: formData.email,
+              phone: formData.phone,
+              street: formData.street,
+              city: formData.city,
+              state: formData.state,
+              zipCode: formData.zipCode,
+              website: formData.website,
+              bio: formData.bio,
+              specialties: formData.specialties,
+              yearsExperience: formData.yearsExperience,
+              acceptsInsurance: formData.acceptsInsurance,
+              offersOnline: formData.offersOnline,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to create profile');
+          }
+
           // User is immediately logged in - redirect to dashboard
           router.push('/dashboard');
         } else {
