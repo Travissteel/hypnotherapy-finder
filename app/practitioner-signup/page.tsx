@@ -71,7 +71,18 @@ export default function PractitionerSignupPage() {
         setError(error.message || 'Failed to create account');
         setLoading(false);
       } else {
-        setStep(4); // Success step
+        // Check if user is immediately authenticated (email confirmation disabled)
+        const { createBrowserClient } = await import('@/lib/supabase/client');
+        const supabase = createBrowserClient();
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session) {
+          // User is immediately logged in - redirect to dashboard
+          router.push('/dashboard');
+        } else {
+          // Email confirmation required - show success message
+          setStep(4);
+        }
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred during signup');
