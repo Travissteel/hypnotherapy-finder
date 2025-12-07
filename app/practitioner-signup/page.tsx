@@ -64,27 +64,38 @@ export default function PractitionerSignupPage() {
     setError('');
 
     try {
+      console.log('Starting signup process...');
       const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      console.log('Calling signUp with:', formData.email, fullName);
+
       const { error } = await signUp(formData.email, formData.password, fullName);
 
       if (error) {
+        console.error('Signup error:', error);
         setError(error.message || 'Failed to create account');
         setLoading(false);
       } else {
+        console.log('Signup successful, checking session...');
         // Check if user is immediately authenticated (email confirmation disabled)
         const { createBrowserClient } = await import('@/lib/supabase/client');
         const supabase = createBrowserClient();
         const { data: { session } } = await supabase.auth.getSession();
 
+        console.log('Session check:', session ? 'Session exists' : 'No session');
+
         if (session) {
+          console.log('Redirecting to dashboard...');
           // User is immediately logged in - redirect to dashboard
           router.push('/dashboard');
         } else {
+          console.log('Showing email confirmation message...');
           // Email confirmation required - show success message
           setStep(4);
+          setLoading(false);
         }
       }
     } catch (err: any) {
+      console.error('Exception during signup:', err);
       setError(err.message || 'An error occurred during signup');
       setLoading(false);
     }
@@ -398,6 +409,13 @@ export default function PractitionerSignupPage() {
                         <div className="space-y-4">
                           <h3 className="text-lg font-semibold">Professional Details</h3>
 
+                          {error && (
+                            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
+                              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                              <p className="text-sm text-red-800">{error}</p>
+                            </div>
+                          )}
+
                           <div>
                             <label className="block text-sm font-medium mb-2">Certifications *</label>
                             <Input
@@ -480,11 +498,11 @@ export default function PractitionerSignupPage() {
                           </div>
 
                           <div className="flex gap-4">
-                            <Button type="button" variant="outline" onClick={() => setStep(2)} className="flex-1">
+                            <Button type="button" variant="outline" onClick={() => setStep(2)} className="flex-1" disabled={loading}>
                               Back
                             </Button>
-                            <Button type="submit" className="flex-1">
-                              Complete Registration
+                            <Button type="submit" className="flex-1" disabled={loading}>
+                              {loading ? 'Creating Account...' : 'Complete Registration'}
                             </Button>
                           </div>
                         </div>
