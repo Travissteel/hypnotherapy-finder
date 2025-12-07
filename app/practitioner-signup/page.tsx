@@ -64,39 +64,28 @@ export default function PractitionerSignupPage() {
     setError('');
 
     try {
-      console.log('Starting signup process...');
       const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-      console.log('Calling signUp with:', formData.email, fullName);
-
       const { error } = await signUp(formData.email, formData.password, fullName);
 
       if (error) {
-        console.error('Signup error:', error);
-        console.error('Error details:', JSON.stringify(error, null, 2));
         setError(error.message || 'Failed to create account');
         setLoading(false);
       } else {
-        console.log('Signup successful, checking session...');
         // Check if user is immediately authenticated (email confirmation disabled)
         const { createBrowserClient } = await import('@/lib/supabase/client');
         const supabase = createBrowserClient();
         const { data: { session } } = await supabase.auth.getSession();
 
-        console.log('Session check:', session ? 'Session exists' : 'No session');
-
         if (session) {
-          console.log('Redirecting to dashboard...');
           // User is immediately logged in - redirect to dashboard
           router.push('/dashboard');
         } else {
-          console.log('Showing email confirmation message...');
           // Email confirmation required - show success message
           setStep(4);
           setLoading(false);
         }
       }
     } catch (err: any) {
-      console.error('Exception during signup:', err);
       setError(err.message || 'An error occurred during signup');
       setLoading(false);
     }
