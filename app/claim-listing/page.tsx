@@ -30,6 +30,7 @@ export default function ClaimListingPage() {
     try {
       const params = new URLSearchParams();
       params.set(searchType, searchValue);
+      params.set('forClaim', 'true');
 
       const response = await fetch(`/api/practitioners/search?${params}`);
       const data = await response.json();
@@ -159,8 +160,8 @@ export default function ClaimListingPage() {
                       searchType === 'email'
                         ? 'you@example.com'
                         : searchType === 'phone'
-                        ? '(555) 123-4567'
-                        : 'Your Business Name'
+                          ? '(555) 123-4567'
+                          : 'Your Business Name'
                     }
                     required
                   />
