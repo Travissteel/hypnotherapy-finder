@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
     // Prepare the insert data
     const insertData = {
       name: body.name,
-      title: body.credentials || null,
       credentials: body.credentials ? [body.credentials] : [],
       email: body.email,
       phone: body.phone,
