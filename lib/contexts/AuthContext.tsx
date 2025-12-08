@@ -89,6 +89,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           full_name: fullName,
           user_type: 'practitioner',
         },
+        // Set the redirect URL for email confirmation
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm`,
       },
     });
     return { error };
