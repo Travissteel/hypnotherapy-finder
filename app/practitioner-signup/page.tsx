@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -12,7 +12,7 @@ import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
 import { CheckCircle, Star, Users, TrendingUp, Shield, AlertCircle } from 'lucide-react';
 
-export default function PractitionerSignupPage() {
+function PractitionerSignupForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { signUp } = useAuth();
@@ -650,5 +650,13 @@ export default function PractitionerSignupPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function PractitionerSignupPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PractitionerSignupForm />
+    </Suspense>
   );
 }
