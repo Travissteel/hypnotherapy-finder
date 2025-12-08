@@ -25,6 +25,9 @@ export async function GET(request: NextRequest) {
 
     // For claim search, require at least one identifier
     const forClaim = searchParams.get('forClaim') === 'true';
+
+    console.log('[Search API] Request params:', { email, phone, name, city, state, forClaim });
+
     if (forClaim && !email && !phone && !name) {
       return NextResponse.json(
         { error: 'At least one search parameter (email, phone, or name) is required' },
@@ -36,7 +39,7 @@ export async function GET(request: NextRequest) {
     // (The fuzzy search RPC function is not deployed)
     return basicSearch(email, phone, name, city, state, specialty, insurance, sessionType, limit, offset, forClaim);
   } catch (error: any) {
-    console.error('Error searching practitioners:', error);
+    console.error('[Search API] Error:', error);
     return NextResponse.json(
       { error: error.message || 'Failed to search practitioners' },
       { status: 500 }
@@ -104,6 +107,12 @@ async function basicSearch(
   query = query.range(offset, offset + limit - 1).order('name');
 
   const { data: practitioners, error, count } = await query;
+
+  console.log('[Search API] Query result:', {
+    practitionersCount: practitioners?.length || 0,
+    totalCount: count,
+    error: error?.message || null
+  });
 
   if (error) throw error;
 
