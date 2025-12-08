@@ -32,8 +32,13 @@ export default function ClaimListingPage() {
       params.set(searchType, searchValue);
       params.set('forClaim', 'true');
 
-      const response = await fetch(`/api/practitioners/search?${params}`);
+      const url = `/api/practitioners/search?${params}`;
+      console.log('[Claim Search] Fetching:', url);
+
+      const response = await fetch(url);
       const data = await response.json();
+
+      console.log('[Claim Search] Response:', { status: response.status, data });
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to search');
@@ -47,6 +52,7 @@ export default function ClaimListingPage() {
         setStep('select');
       }
     } catch (err: any) {
+      console.error('[Claim Search] Error:', err);
       setError(err.message || 'Failed to search for listings');
     } finally {
       setLoading(false);
