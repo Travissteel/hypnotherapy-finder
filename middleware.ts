@@ -73,7 +73,11 @@ export async function middleware(req: NextRequest) {
   }
 
   // Redirect to dashboard if logged in user tries to access login/signup
-  if ((req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/practitioner-signup') && session) {
+  // EXCEPTION: Allow access to /practitioner-signup?confirmed=true for users completing their profile after email confirmation
+  const isCompletingSignup = req.nextUrl.pathname === '/practitioner-signup' &&
+    req.nextUrl.searchParams.get('confirmed') === 'true';
+
+  if ((req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/practitioner-signup') && session && !isCompletingSignup) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
