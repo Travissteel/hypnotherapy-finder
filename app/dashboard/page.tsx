@@ -21,6 +21,7 @@ export default function DashboardPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [practitionerId, setPractitionerId] = useState<string | null>(null);
+  const [practitionerSlug, setPractitionerSlug] = useState<string | null>(null);
   const [noPractitionerRecord, setNoPractitionerRecord] = useState(false);
 
   // Practitioner profile data
@@ -90,6 +91,11 @@ export default function DashboardPage() {
 
       // Map Supabase data to profile state
       setPractitionerId(data.id);
+
+      // Generate slug from name and city (matching the pattern from static data)
+      const slug = `${data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.city.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.id.substring(0, 8)}`;
+      setPractitionerSlug(slug);
+
       setProfileData({
         name: data.name || '',
         credentials: Array.isArray(data.credentials)
@@ -278,8 +284,8 @@ export default function DashboardPage() {
                 </p>
               </div>
               <div className="flex gap-3">
-                <Button asChild variant="outline" disabled={!practitionerId}>
-                  <Link href={practitionerId ? `/practitioner/${practitionerId}` : '#'}>
+                <Button asChild variant="outline" disabled={!practitionerSlug}>
+                  <Link href={practitionerSlug ? `/practitioner/${practitionerSlug}` : '#'}>
                     <Eye className="h-4 w-4 mr-2" />
                     View Public Profile
                   </Link>
