@@ -113,7 +113,11 @@ export default function PractitionerSignupPage() {
             throw new Error(responseData.error || 'Failed to create profile');
           }
 
-          // User is immediately logged in - redirect to dashboard
+          console.log('Practitioner profile created successfully!');
+
+          // Wait a moment for the database to be consistent, then redirect to dashboard
+          await new Promise(resolve => setTimeout(resolve, 500));
+
           router.push('/dashboard');
         } else {
           // Email confirmation required - show success message
