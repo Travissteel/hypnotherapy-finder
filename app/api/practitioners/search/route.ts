@@ -32,29 +32,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Build RPC call for fuzzy search
-    if (name) {
-      // Use PostgreSQL trigram similarity for fuzzy name matching
-      const { data, error } = await supabase.rpc('search_practitioners_fuzzy', {
-        search_name: name,
-        search_city: city || null,
-        search_state: state || null,
-        search_specialty: specialty || null,
-        limit_count: limit,
-        offset_count: offset,
-        unclaimed_only: forClaim,
-      });
-
-      if (error) {
-        // If RPC function doesn't exist yet, fall back to basic search
-        console.warn('Fuzzy search function not available, using basic search:', error);
-        return basicSearch(email, phone, name, city, state, specialty, insurance, sessionType, limit, offset, forClaim);
-      }
-
-      return NextResponse.json({ practitioners: data || [], total: data?.length || 0 });
-    }
-
-    // Use basic search if no name provided
+    // Always use basic search with ILIKE pattern matching
+    // (The fuzzy search RPC function is not deployed)
     return basicSearch(email, phone, name, city, state, specialty, insurance, sessionType, limit, offset, forClaim);
   } catch (error: any) {
     console.error('Error searching practitioners:', error);
