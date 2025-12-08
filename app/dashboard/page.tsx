@@ -14,7 +14,7 @@ import { createBrowserClient } from '@/lib/supabase/client';
 import { Practitioner } from '@/lib/types/practitioner';
 
 export default function DashboardPage() {
-  const { user, session, loading: authLoading } = useAuth();
+  const { user, session, loading: authLoading, signOut } = useAuth();
   const [editMode, setEditMode] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -296,7 +296,13 @@ export default function DashboardPage() {
                     View Public Profile
                   </Button>
                 )}
-                <Button variant="outline">
+                <Button
+                  variant="outline"
+                  onClick={async () => {
+                    await signOut();
+                    window.location.href = '/';
+                  }}
+                >
                   <ExternalLink className="h-4 w-4 mr-2" />
                   Logout
                 </Button>
