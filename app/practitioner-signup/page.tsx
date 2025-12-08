@@ -78,32 +78,39 @@ export default function PractitionerSignupPage() {
 
         if (session) {
           // Create practitioner profile
+          console.log('Creating practitioner profile...');
+          const profileData = {
+            name: fullName,
+            credentials: formData.certifications,
+            email: formData.email,
+            phone: formData.phone,
+            street: formData.street,
+            city: formData.city,
+            state: formData.state,
+            zipCode: formData.zipCode,
+            website: formData.website,
+            bio: formData.bio,
+            specialties: formData.specialties,
+            yearsExperience: formData.yearsExperience,
+            acceptsInsurance: formData.acceptsInsurance,
+            offersOnline: formData.offersOnline,
+          };
+          console.log('Profile data to send:', profileData);
+
           const response = await fetch('/api/practitioners', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              name: fullName,
-              credentials: formData.certifications,
-              email: formData.email,
-              phone: formData.phone,
-              street: formData.street,
-              city: formData.city,
-              state: formData.state,
-              zipCode: formData.zipCode,
-              website: formData.website,
-              bio: formData.bio,
-              specialties: formData.specialties,
-              yearsExperience: formData.yearsExperience,
-              acceptsInsurance: formData.acceptsInsurance,
-              offersOnline: formData.offersOnline,
-            }),
+            body: JSON.stringify(profileData),
           });
 
+          console.log('Response status:', response.status);
+          const responseData = await response.json();
+          console.log('Response data:', responseData);
+
           if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to create profile');
+            throw new Error(responseData.error || 'Failed to create profile');
           }
 
           // User is immediately logged in - redirect to dashboard
