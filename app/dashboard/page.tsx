@@ -483,18 +483,58 @@ export default function DashboardPage() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium mb-2">Specialties</label>
-                        <div className="flex flex-wrap gap-2">
-                          {profileData.specialties.map((specialty) => (
-                            <Badge key={specialty} variant="secondary">
-                              {specialty}
-                            </Badge>
-                          ))}
-                          {editMode && (
-                            <Button size="sm" variant="outline">
-                              + Add Specialty
-                            </Button>
-                          )}
-                        </div>
+                        {editMode ? (
+                          <div className="space-y-3">
+                            <p className="text-sm text-gray-600">Click to add or remove specialties:</p>
+                            <div className="flex flex-wrap gap-2">
+                              {[
+                                'Anxiety & Stress',
+                                'Weight Loss',
+                                'Smoking Cessation',
+                                'Phobias',
+                                'Insomnia',
+                                'Pain Management',
+                                'PTSD & Trauma',
+                                'Confidence & Performance',
+                                'Past Life Regression',
+                                'General Hypnotherapy'
+                              ].map((specialty) => (
+                                <Badge
+                                  key={specialty}
+                                  variant={profileData.specialties.includes(specialty) ? 'default' : 'outline'}
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    if (profileData.specialties.includes(specialty)) {
+                                      setProfileData({
+                                        ...profileData,
+                                        specialties: profileData.specialties.filter(s => s !== specialty)
+                                      });
+                                    } else {
+                                      setProfileData({
+                                        ...profileData,
+                                        specialties: [...profileData.specialties, specialty]
+                                      });
+                                    }
+                                  }}
+                                >
+                                  {specialty}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-wrap gap-2">
+                            {profileData.specialties.length > 0 ? (
+                              profileData.specialties.map((specialty) => (
+                                <Badge key={specialty} variant="secondary">
+                                  {specialty}
+                                </Badge>
+                              ))
+                            ) : (
+                              <p className="text-sm text-gray-500">No specialties selected</p>
+                            )}
+                          </div>
+                        )}
                       </div>
 
                       <div>
