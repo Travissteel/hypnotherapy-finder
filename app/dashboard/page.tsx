@@ -94,6 +94,7 @@ export default function DashboardPage() {
 
       // Generate slug from name and city (matching the pattern from static data)
       const slug = `${data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.city.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.id.substring(0, 8)}`;
+      console.log('Generated practitioner slug:', slug);
       setPractitionerSlug(slug);
 
       setProfileData({
@@ -284,12 +285,19 @@ export default function DashboardPage() {
                 </p>
               </div>
               <div className="flex gap-3">
-                <Button asChild variant="outline" disabled={!practitionerSlug}>
-                  <Link href={practitionerSlug ? `/practitioner/${practitionerSlug}` : '#'}>
+                {practitionerSlug ? (
+                  <Button asChild variant="outline">
+                    <Link href={`/practitioner/${practitionerSlug}`}>
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Public Profile
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button variant="outline" disabled title="Profile loading...">
                     <Eye className="h-4 w-4 mr-2" />
                     View Public Profile
-                  </Link>
-                </Button>
+                  </Button>
+                )}
                 <Button variant="outline">
                   <ExternalLink className="h-4 w-4 mr-2" />
                   Logout
@@ -502,8 +510,9 @@ export default function DashboardPage() {
                                 <Badge
                                   key={specialty}
                                   variant={profileData.specialties.includes(specialty) ? 'default' : 'outline'}
-                                  className="cursor-pointer"
+                                  className="cursor-pointer hover:opacity-80 transition-opacity"
                                   onClick={() => {
+                                    console.log('Specialty badge clicked:', specialty);
                                     if (profileData.specialties.includes(specialty)) {
                                       setProfileData({
                                         ...profileData,
