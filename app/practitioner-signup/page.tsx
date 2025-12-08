@@ -47,53 +47,6 @@ export default function PractitionerSignupPage() {
     offersOnline: false,
   });
 
-  // Check if user is returning after email confirmation
-  useEffect(() => {
-    const confirmed = searchParams.get('confirmed');
-    const stepParam = searchParams.get('step');
-
-    if (confirmed === 'true' && stepParam === 'complete') {
-      // User confirmed email but has no profile yet
-      // Load data from localStorage if available
-      const savedData = localStorage.getItem('signupFormData');
-      if (savedData) {
-        try {
-          const parsed = JSON.parse(savedData);
-          setFormData(parsed);
-          setStep(3); // Go to final step to complete profile
-
-          // Automatically create the profile since user is now authenticated
-          createPractitionerProfileAfterConfirmation(parsed);
-        } catch (err) {
-          console.error('Error loading saved form data:', err);
-          setStep(1);
-        }
-      } else {
-        // No saved data, start from beginning
-        setStep(1);
-      }
-    }
-  }, [searchParams]);
-
-  const createPractitionerProfileAfterConfirmation = async (data: typeof formData) => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const fullName = `${data.firstName} ${data.lastName}`.trim();
-      await createPractitionerProfile(fullName, data);
-
-      // Clear saved form data
-      localStorage.removeItem('pendingSignupData');
-
-      // Redirect to dashboard
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to create profile. Please try again.');
-      setLoading(false);
-    }
-  };
-
   // Check if user is coming back from email confirmation
   useEffect(() => {
     const confirmed = searchParams.get('confirmed');
