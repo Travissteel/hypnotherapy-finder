@@ -48,32 +48,34 @@ function extractIdFromSlug(slug: string): string | null {
 }
 
 // Fetch practitioner from database
-async function getPractitioner(slug: string) {
+async function getPractitioner(slugOrId: string) {
   const supabase = await createSupabaseClient();
 
-  // First, try to find by exact slug match in database
-  let { data, error } = await supabase
-    .from('practitioners')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle();
+  // Check if it looks like a UUID (36 chars with dashes)
+  const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(slugOrId);
 
-  if (!error && data) {
-    return data;
-  }
-
-  // If not found by slug, try to extract ID from slug and search by ID prefix
-  const idFragment = extractIdFromSlug(slug);
-  if (idFragment) {
-    const { data: dataById, error: errorById } = await supabase
+  if (isUUID) {
+    // Look up by exact ID match
+    const { data, error } = await supabase
       .from('practitioners')
       .select('*')
-      .ilike('id', `${idFragment}%`)
+      .eq('id', slugOrId)
       .maybeSingle();
 
-    if (!errorById && dataById) {
-      return dataById;
+    if (!error && data) {
+      return data;
     }
+  }
+
+  // Fallback: try to find by slug match in database
+  const { data: dataBySlug, error: errorBySlug } = await supabase
+    .from('practitioners')
+    .select('*')
+    .eq('slug', slugOrId)
+    .maybeSingle();
+
+  if (!errorBySlug && dataBySlug) {
+    return dataBySlug;
   }
 
   return null;

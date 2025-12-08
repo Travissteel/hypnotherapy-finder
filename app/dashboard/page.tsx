@@ -92,10 +92,8 @@ export default function DashboardPage() {
       // Map Supabase data to profile state
       setPractitionerId(data.id);
 
-      // Generate slug from name and city (matching the pattern from static data)
-      const slug = `${data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.city.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${data.id.substring(0, 8)}`;
-      console.log('Generated practitioner slug:', slug);
-      setPractitionerSlug(slug);
+      // Use the practitioner ID directly for public profile link
+      setPractitionerSlug(data.id);
 
       setProfileData({
         name: data.name || '',
