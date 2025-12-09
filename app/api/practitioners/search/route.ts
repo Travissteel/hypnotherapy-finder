@@ -80,14 +80,18 @@ async function basicSearch(
     query = query.ilike('phone', `%${cleanPhone}%`);
   }
 
+  // When name is provided (from the search bar), search across name, city, AND state
+  // This allows users to type "texas" or "sydney" and find matching results
   if (name) {
-    query = query.ilike('name', `%${name}%`);
+    query = query.or(`name.ilike.%${name}%,city.ilike.%${name}%,state.ilike.%${name}%`);
   }
 
+  // City filter (from dropdown) - exact match on city field
   if (city) {
     query = query.ilike('city', `%${city}%`);
   }
 
+  // State filter - if provided separately
   if (state) {
     query = query.ilike('state', `%${state}%`);
   }
