@@ -71,16 +71,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Practitioner ID is required' }, { status: 400 });
     }
 
-    // Ensure user_profile exists (required for foreign key constraint)
-    const { data: existingProfile } = await supabase
+    // Ensure user_profile exists (required for foreign key constraint on claims table)
+    const { data: existingProfile, error: profileCheckError } = await supabase
       .from('user_profiles')
       .select('id')
       .eq('id', session.user.id)
-      .single();
+      .maybeSingle();
+
+    console.log('[Claims API] Profile check:', {
+      userId: session.user.id,
+      existingProfile,
+      profileCheckError
+    });
 
     if (!existingProfile) {
       // Create a minimal user profile if it doesn't exist
       // Note: user_profiles table has: id, user_type, full_name, phone, is_practitioner, is_admin, etc.
+      // The id must match an existing auth.users entry (foreign key constraint)
+      console.log('[Claims API] Creating user profile for:', session.user.id);
+
       const { error: profileError } = await supabase
         .from('user_profiles')
         .insert({
@@ -92,12 +101,15 @@ export async function POST(request: NextRequest) {
         });
 
       if (profileError) {
-        console.error('Error creating user profile:', profileError);
+        console.error('[Claims API] Error creating user profile:', profileError);
         return NextResponse.json(
-          { error: 'Failed to create user profile. Please try again.' },
+          { error: `Failed to create user profile: ${profileError.message}` },
           { status: 500 }
         );
       }
+      console.log('[Claims API] User profile created successfully');
+    } else {
+      console.log('[Claims API] User profile already exists');
     }
 
     // Check if practitioner exists and is unclaimed
