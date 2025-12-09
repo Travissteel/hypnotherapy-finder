@@ -38,7 +38,7 @@ export function PractitionerCard({ practitioner }: PractitionerCardProps) {
               <Badge variant="outline" className="gap-1">
                 <Video className="h-3 w-3" />
                 {practitioner.sessionType === 'in-person' ? 'In-Person' :
-                 practitioner.sessionType === 'virtual' ? 'Virtual' : 'Both Options'}
+                  practitioner.sessionType === 'virtual' ? 'Virtual' : 'Both Options'}
               </Badge>
             )}
             {practitioner.acceptsInsurance && (
@@ -114,7 +114,7 @@ export function PractitionerCard({ practitioner }: PractitionerCardProps) {
 
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`/practitioner/${practitioner.slug}`}>View Full Profile</Link>
+          <Link href={`/practitioner/${practitioner.id}`}>View Full Profile</Link>
         </Button>
       </CardFooter>
     </Card>

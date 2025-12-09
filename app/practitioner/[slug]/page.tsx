@@ -78,6 +78,35 @@ async function getPractitioner(slugOrId: string) {
     return dataBySlug;
   }
 
+  // Final fallback: try static JSON data for legacy practitioners
+  try {
+    const { getPractitionerBySlug } = await import('@/lib/data/practitioners');
+    const staticPractitioner = getPractitionerBySlug(slugOrId);
+    if (staticPractitioner) {
+      // Convert static data to match database format
+      return {
+        id: staticPractitioner.id,
+        name: staticPractitioner.name,
+        email: (staticPractitioner as any).email || null,
+        phone: staticPractitioner.phone || null,
+        website: staticPractitioner.website || null,
+        credentials: (staticPractitioner as any).credentials || [],
+        specialties: staticPractitioner.specialties || [],
+        bio: (staticPractitioner as any).bio || null,
+        years_experience: staticPractitioner.yearsExperience || null,
+        address: staticPractitioner.street || null,
+        city: staticPractitioner.city,
+        state: staticPractitioner.state,
+        zip: (staticPractitioner as any).zip || null,
+        session_types: staticPractitioner.session_types || [],
+        claim_status: 'unclaimed',
+        claimed_by: null,
+      };
+    }
+  } catch (e) {
+    console.error('Error loading static practitioner data:', e);
+  }
+
   return null;
 }
 
@@ -241,6 +270,13 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                           <a href={`mailto:${practitioner.email}`}>
                             <Mail className="h-4 w-4 mr-2" />
                             Send Email
+                          </a>
+                        </Button>
+                      )}
+                      {practitioner.claim_status === 'unclaimed' && (
+                        <Button asChild variant="secondary">
+                          <a href={`/claim-listing?practitioner=${practitioner.id}`}>
+                            Claim This Listing
                           </a>
                         </Button>
                       )}
