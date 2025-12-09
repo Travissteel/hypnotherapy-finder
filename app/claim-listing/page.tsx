@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,18 +9,67 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Practitioner } from '@/lib/types/practitioner';
 import { useAuth } from '@/lib/contexts/AuthContext';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { Loader2 } from 'lucide-react';
 
-export default function ClaimListingPage() {
+function ClaimListingContent() {
   const router = useRouter();
-  const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const { user, loading: authLoading } = useAuth();
   const [step, setStep] = useState<'search' | 'select' | 'verify'>('search');
   const [searchType, setSearchType] = useState<'email' | 'phone' | 'name'>('email');
   const [searchValue, setSearchValue] = useState('');
   const [practitioners, setPractitioners] = useState<Practitioner[]>([]);
   const [selectedPractitioner, setSelectedPractitioner] = useState<Practitioner | null>(null);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  // Check for practitioner ID in URL params on mount
+  useEffect(() => {
+    const practitionerId = searchParams.get('practitioner');
+
+    if (practitionerId) {
+      // Fetch the specific practitioner and go directly to verify step
+      fetchPractitionerById(practitionerId);
+    } else {
+      setInitialLoading(false);
+    }
+  }, [searchParams]);
+
+  // Fetch a specific practitioner by ID (when coming from "Claim This Listing" button)
+  const fetchPractitionerById = async (id: string) => {
+    setInitialLoading(true);
+    try {
+      const response = await fetch(`/api/practitioners/${id}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch practitioner');
+      }
+
+      if (data.practitioner) {
+        // Check if already claimed
+        if (data.practitioner.claim_status !== 'unclaimed') {
+          setError(`This listing is already ${data.practitioner.claim_status}. You cannot claim it.`);
+          setInitialLoading(false);
+          return;
+        }
+
+        setSelectedPractitioner(data.practitioner);
+        setStep('verify');
+      } else {
+        setError('Practitioner not found');
+      }
+    } catch (err: any) {
+      console.error('[Claim] Error fetching practitioner:', err);
+      setError(err.message || 'Failed to load practitioner');
+    } finally {
+      setInitialLoading(false);
+    }
+  };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,33 +147,92 @@ export default function ClaimListingPage() {
     }
   };
 
+  // Show loading state while checking for practitioner ID
+  if (initialLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 pt-20">
+          <Card className="max-w-md w-full">
+            <CardContent className="pt-6">
+              <div className="flex flex-col items-center gap-4">
+                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                <p className="text-gray-600">Loading listing details...</p>
+              </div>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Require login to claim
+  if (!authLoading && !user) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 pt-20">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle>Login Required</CardTitle>
+              <CardDescription>
+                You need to be logged in to claim a listing.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-gray-600">
+                Please log in or create an account to claim this listing.
+              </p>
+              <div className="flex gap-2">
+                <Button asChild className="flex-1">
+                  <a href={`/login?redirect=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '/claim-listing')}`}>Log In</a>
+                </Button>
+                <Button asChild variant="outline" className="flex-1">
+                  <a href="/practitioner-signup">Sign Up</a>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardHeader>
-            <CardTitle className="text-green-600">Claim Submitted Successfully!</CardTitle>
-            <CardDescription>
-              Your claim has been submitted for review. We'll notify you once it's been approved.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">Redirecting to your dashboard...</p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 pt-20">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle className="text-green-600">Claim Submitted Successfully!</CardTitle>
+              <CardDescription>
+                Your claim has been submitted for review. We'll notify you once it's been approved.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">Redirecting to your dashboard...</p>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Claim Your Listing</h1>
-          <p className="text-lg text-gray-600">
-            Find and claim your hypnotherapy practice listing to manage your profile
-          </p>
-        </div>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 pt-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Claim Your Listing</h1>
+            <p className="text-lg text-gray-600">
+              Find and claim your hypnotherapy practice listing to manage your profile
+            </p>
+          </div>
 
         {/* Search Step */}
         {step === 'search' && (
@@ -284,8 +392,15 @@ export default function ClaimListingPage() {
                   variant="outline"
                   className="flex-1"
                   onClick={() => {
-                    setStep('select');
-                    setSelectedPractitioner(null);
+                    // If came from direct link (no search results), go back to search
+                    // Otherwise go back to selection
+                    if (practitioners.length === 0) {
+                      setStep('search');
+                      setSelectedPractitioner(null);
+                    } else {
+                      setStep('select');
+                      setSelectedPractitioner(null);
+                    }
                   }}
                 >
                   Back
@@ -293,7 +408,7 @@ export default function ClaimListingPage() {
                 <Button
                   className="flex-1"
                   onClick={handleSubmitClaim}
-                  disabled={loading}
+                  disabled={loading || !user}
                 >
                   {loading ? 'Submitting...' : 'Submit Claim'}
                 </Button>
@@ -301,7 +416,23 @@ export default function ClaimListingPage() {
             </CardContent>
           </Card>
         )}
-      </div>
+        </div>
+      </main>
+      <Footer />
     </div>
+  );
+}
+
+export default function ClaimListingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex flex-col">
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        </div>
+      </div>
+    }>
+      <ClaimListingContent />
+    </Suspense>
   );
 }
