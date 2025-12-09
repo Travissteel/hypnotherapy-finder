@@ -80,12 +80,13 @@ export async function POST(request: NextRequest) {
 
     if (!existingProfile) {
       // Create a minimal user profile if it doesn't exist
+      // Note: user_profiles table has: id, user_type, full_name, phone, is_practitioner, is_admin, etc.
       const { error: profileError } = await supabase
         .from('user_profiles')
         .insert({
           id: session.user.id,
-          email: session.user.email,
           full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+          user_type: 'practitioner',
           is_practitioner: false,
           is_admin: false,
         });
