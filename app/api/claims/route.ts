@@ -71,6 +71,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Practitioner ID is required' }, { status: 400 });
     }
 
+    // Ensure user_profile exists (required for foreign key constraint)
+    const { data: existingProfile } = await supabase
+      .from('user_profiles')
+      .select('id')
+      .eq('id', session.user.id)
+      .single();
+
+    if (!existingProfile) {
+      // Create a minimal user profile if it doesn't exist
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .insert({
+          id: session.user.id,
+          email: session.user.email,
+          full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+          is_practitioner: false,
+          is_admin: false,
+        });
+
+      if (profileError) {
+        console.error('Error creating user profile:', profileError);
+        return NextResponse.json(
+          { error: 'Failed to create user profile. Please try again.' },
+          { status: 500 }
+        );
+      }
+    }
+
     // Check if practitioner exists and is unclaimed
     const { data: practitioner, error: practitionerError } = await supabase
       .from('practitioners')
