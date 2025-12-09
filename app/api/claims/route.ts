@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@/lib/supabase/server';
+import { createRouteHandlerClient, createAdminClient } from '@/lib/supabase/server';
 
 // GET /api/claims - Get user's claims or all claims (admin)
 export async function GET(request: NextRequest) {
@@ -86,28 +86,37 @@ export async function POST(request: NextRequest) {
 
     if (!existingProfile) {
       // Create a minimal user profile if it doesn't exist
+      // Use admin client to bypass RLS policies
       // Note: user_profiles table has: id, user_type, full_name, phone, is_practitioner, is_admin, etc.
-      // The id must match an existing auth.users entry (foreign key constraint)
       console.log('[Claims API] Creating user profile for:', session.user.id);
 
-      const { error: profileError } = await supabase
-        .from('user_profiles')
-        .insert({
-          id: session.user.id,
-          full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
-          user_type: 'practitioner',
-          is_practitioner: false,
-          is_admin: false,
-        });
+      try {
+        const adminClient = createAdminClient();
+        const { error: profileError } = await adminClient
+          .from('user_profiles')
+          .insert({
+            id: session.user.id,
+            full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+            user_type: 'practitioner',
+            is_practitioner: false,
+            is_admin: false,
+          });
 
-      if (profileError) {
-        console.error('[Claims API] Error creating user profile:', profileError);
+        if (profileError) {
+          console.error('[Claims API] Error creating user profile:', profileError);
+          return NextResponse.json(
+            { error: `Failed to create user profile: ${profileError.message}` },
+            { status: 500 }
+          );
+        }
+        console.log('[Claims API] User profile created successfully');
+      } catch (adminError: any) {
+        console.error('[Claims API] Admin client error:', adminError);
         return NextResponse.json(
-          { error: `Failed to create user profile: ${profileError.message}` },
+          { error: `Failed to create user profile: ${adminError.message}` },
           { status: 500 }
         );
       }
-      console.log('[Claims API] User profile created successfully');
     } else {
       console.log('[Claims API] User profile already exists');
     }
