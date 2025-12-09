@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -15,9 +15,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { searchPractitioners, getAllSpecialties, getAllCities } from '@/lib/data/practitioners';
+import { getAllSpecialties, getAllCities } from '@/lib/data/practitioners';
 import { Practitioner } from '@/lib/types/practitioner';
-import { Search, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -26,6 +26,7 @@ function SearchContent() {
   const [selectedCity, setSelectedCity] = useState('all');
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Ensure we're on the client before rendering results
   useEffect(() => {
@@ -65,35 +66,51 @@ function SearchContent() {
 
   const languages = ['English', 'Spanish', 'French', 'German', 'Mandarin', 'Cantonese', 'Italian', 'Portuguese'];
 
-  useEffect(() => {
-    const searchResults = searchPractitioners({
-      city: selectedCity === 'all' ? '' : selectedCity,
-      specialties: selectedSpecialties,
-      query: query,
-      sessionType: selectedSessionType,
-      acceptsInsurance: acceptsInsurance,
-      priceRange: selectedPriceRange,
-      minExperience: minExperience,
-      certifications: selectedCertifications,
-      gender: selectedGender === 'any' ? '' : selectedGender,
-      languages: selectedLanguages,
-      acceptingNewClients: acceptingNewClients,
-    });
+  // Fetch practitioners from API
+  const fetchPractitioners = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const params = new URLSearchParams();
 
-    setResults(searchResults);
-  }, [
-    query,
-    selectedCity,
-    selectedSpecialties,
-    selectedSessionType,
-    acceptsInsurance,
-    selectedPriceRange,
-    minExperience,
-    selectedCertifications,
-    selectedGender,
-    selectedLanguages,
-    acceptingNewClients,
-  ]);
+      if (query) params.set('name', query);
+      if (selectedCity && selectedCity !== 'all') params.set('city', selectedCity);
+      if (selectedSpecialties.length > 0) params.set('specialty', selectedSpecialties[0]);
+      if (selectedSessionType) params.set('sessionType', selectedSessionType);
+
+      const response = await fetch(`/api/practitioners/search?${params}`);
+      const data = await response.json();
+
+      if (response.ok && data.practitioners) {
+        // Map database fields to component expected fields
+        const mappedResults = data.practitioners.map((p: any) => ({
+          ...p,
+          // Map database field names to UI field names
+          yearsExperience: p.years_experience,
+          sessionType: p.session_types?.[0] || null,
+          acceptsInsurance: p.insurance_accepted?.length > 0,
+          street: p.address,
+          slug: p.slug || p.id,
+        }));
+        setResults(mappedResults);
+      } else {
+        setResults([]);
+      }
+    } catch (error) {
+      console.error('Error fetching practitioners:', error);
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [query, selectedCity, selectedSpecialties, selectedSessionType]);
+
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchPractitioners();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [fetchPractitioners]);
 
   const toggleSpecialty = (specialty: string) => {
     setSelectedSpecialties((prev) =>
@@ -514,7 +531,7 @@ function SearchContent() {
             <div className="lg:col-span-3">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold">
-                  {results.length} practitioner{results.length !== 1 ? 's' : ''} found
+                  {isLoading ? 'Searching...' : `${results.length} practitioner${results.length !== 1 ? 's' : ''} found`}
                 </h2>
                 {activeFilterCount > 0 && (
                   <p className="text-sm text-gray-600 mt-1">
@@ -523,9 +540,10 @@ function SearchContent() {
                 )}
               </div>
 
-              {!isClient ? (
+              {!isClient || isLoading ? (
                 <div className="bg-white p-12 rounded-lg border text-center">
-                  <p className="text-gray-600">Loading...</p>
+                  <Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600 mb-2" />
+                  <p className="text-gray-600">Loading practitioners...</p>
                 </div>
               ) : results.length === 0 ? (
                 <div className="bg-white p-12 rounded-lg border text-center">
