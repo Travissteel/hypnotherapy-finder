@@ -8,8 +8,25 @@ import { CheckCircle, XCircle, Brain, TrendingUp, Search } from 'lucide-react';
 
 export const metadata = {
   title: 'Does Hypnotherapy Work? Scientific Evidence & Success Rates | 2025',
-  description: 'Does hypnotherapy really work? Comprehensive review of scientific evidence, success rates, and effectiveness for anxiety, weight loss, smoking, pain, and more. Evidence-based answers.',
+  description: 'Does hypnotherapy really work? Scientific evidence, success rates, and effectiveness for anxiety, weight loss, smoking, and pain management.',
   keywords: 'does hypnotherapy work, hypnotherapy effectiveness, hypnotherapy success rate, clinical hypnosis research',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/does-hypnotherapy-work',
+  },
+  openGraph: {
+    title: 'Does Hypnotherapy Work? Scientific Evidence & Success Rates',
+    description: 'Does hypnotherapy really work? Comprehensive review of scientific evidence, success rates, and effectiveness.',
+    url: 'https://hypnotherapy-finder.com/does-hypnotherapy-work',
+    type: 'article',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Does Hypnotherapy Work - Scientific Evidence',
+      }
+    ],
+  },
 };
 
 export default function DoesHypnotherapyWorkPage() {

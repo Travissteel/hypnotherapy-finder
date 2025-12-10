@@ -10,7 +10,7 @@ import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
   title: 'Hypnotherapy Near Me - Find Local Certified Hypnotherapists | Free Directory',
-  description: 'Find qualified hypnotherapists near you. Search our directory of certified hypnotherapy professionals in your local area. Compare credentials, specialties, and reviews to find the best hypnotherapist near me.',
+  description: 'Find qualified hypnotherapists near you. Search our free directory of certified professionals. Compare credentials, specialties, and reviews.',
   keywords: 'hypnotherapy near me, hypnotherapist near me, local hypnotherapy, find hypnotherapist, certified hypnotherapist near me',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me',

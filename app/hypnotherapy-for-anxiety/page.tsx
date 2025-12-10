@@ -10,7 +10,7 @@ import { getAllPractitioners } from '@/lib/data/practitioners';
 
 export const metadata = {
   title: 'Hypnotherapy for Anxiety - Find Anxiety Hypnotherapists Near You',
-  description: 'Discover how hypnotherapy for anxiety can help manage stress, panic attacks, and anxiety disorders. Find certified anxiety hypnotherapists near you. Evidence-based techniques for lasting relief.',
+  description: 'Hypnotherapy for anxiety helps manage stress, panic attacks, and anxiety disorders. Find certified specialists near you for lasting relief.',
   keywords: 'hypnotherapy for anxiety, anxiety hypnotherapy, hypnosis for anxiety, anxiety treatment, hypnotherapy anxiety relief',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/hypnotherapy-for-anxiety',

@@ -8,12 +8,24 @@ import { Brain, Clock, Heart, Shield, Sparkles, Target } from 'lucide-react';
 
 export const metadata = {
   title: 'How Hypnotherapy Works | Understanding the Science and Process',
-  description: 'Learn how hypnotherapy works, what to expect in a session, and how it can help with anxiety, weight loss, smoking cessation, and more. Evidence-based explanation of hypnosis therapy.',
+  description: 'Learn how hypnotherapy works, what to expect in a session, and how it helps with anxiety, weight loss, smoking cessation, and more.',
   keywords: 'how does hypnotherapy work, what is hypnotherapy, hypnosis therapy, clinical hypnotherapy',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/how-it-works',
+  },
   openGraph: {
     title: 'How Hypnotherapy Works - Complete Guide',
     description: 'Understand the science behind hypnotherapy and what happens during a session. Learn how hypnotherapy helps with various conditions.',
+    url: 'https://hypnotherapy-finder.com/how-it-works',
     type: 'article',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'How Hypnotherapy Works',
+      }
+    ],
   },
 };
 

@@ -10,7 +10,7 @@ import { getAllPractitioners } from '@/lib/data/practitioners';
 
 export const metadata = {
   title: 'Quit Smoking Hypnotherapy - Stop Smoking with Hypnosis | Find Specialists',
-  description: 'Discover how quit smoking hypnotherapy can help you become smoke-free. Find certified hypnotherapists specializing in smoking cessation. Proven method to stop smoking for good.',
+  description: 'Quit smoking hypnotherapy helps you become smoke-free. Find certified specialists in smoking cessation. Proven method to stop smoking for good.',
   keywords: 'quit smoking hypnotherapy, stop smoking hypnosis, smoking cessation hypnotherapy, hypnosis to quit smoking, quit cigarettes hypnotherapy',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/quit-smoking-hypnotherapy',

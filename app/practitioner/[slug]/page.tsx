@@ -329,14 +329,16 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       <p>
                         {practitioner.city}, {practitioner.state}
                       </p>
-                      <div className="pt-4">
-                        <Link
-                          href={`/location/${practitioner.citySlug}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          View all practitioners in {practitioner.city} →
-                        </Link>
-                      </div>
+                      {practitioner.city && (
+                        <div className="pt-4">
+                          <Link
+                            href={`/location/${practitioner.city.toLowerCase().replace(/s+/g, '-')}`}
+                            className="text-blue-600 hover:underline"
+                          >
+                            View all practitioners in {practitioner.city} →
+                          </Link>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>

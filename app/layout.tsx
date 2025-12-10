@@ -27,7 +27,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://hypnotherapy-finder.com',
     siteName: 'Hypnotherapy Finder',
     title: 'Find a Certified Hypnotherapist Near You | Hypnotherapy Finder',
     description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 2000+ verified hypnotherapists nationwide.',

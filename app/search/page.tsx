@@ -167,7 +167,7 @@ function SearchContent() {
       <main className="flex-1 bg-gray-50 pt-20">
         <div className="bg-white border-b py-8">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-6">Find a Hypnotherapist</h1>
+            <h1 className="text-3xl font-bold mb-6">Find a Hypnotherapist Near You</h1>
 
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">

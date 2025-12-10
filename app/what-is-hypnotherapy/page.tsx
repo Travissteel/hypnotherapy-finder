@@ -9,10 +9,24 @@ import { Brain, CheckCircle, Search, BookOpen, Users } from 'lucide-react';
 
 export const metadata = {
   title: 'What is Hypnotherapy? Complete Guide to Hypnosis Therapy | 2025',
-  description: 'What is hypnotherapy and how does it work? Learn everything about hypnotherapy, clinical hypnosis, and therapeutic hypnosis. Evidence-based answers to all your hypnotherapy questions.',
+  description: 'What is hypnotherapy and how does it work? Complete guide to clinical hypnosis, techniques, effectiveness, and costs. Evidence-based answers.',
   keywords: 'what is hypnotherapy, hypnosis therapy, clinical hypnosis, therapeutic hypnosis, hypnotherapy definition',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/what-is-hypnotherapy',
+  },
+  openGraph: {
+    title: 'What is Hypnotherapy? Complete Guide to Hypnosis Therapy | 2025',
+    description: 'What is hypnotherapy and how does it work? Learn everything about hypnotherapy, clinical hypnosis, and therapeutic hypnosis.',
+    url: 'https://hypnotherapy-finder.com/what-is-hypnotherapy',
+    type: 'website',
+    images: [
+      {
+        url: '/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'What is Hypnotherapy',
+      }
+    ],
   },
 };
 

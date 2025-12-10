@@ -10,7 +10,7 @@ import { getAllPractitioners } from '@/lib/data/practitioners';
 
 export const metadata = {
   title: 'Weight Loss Hypnotherapy - Find Certified Hypnotherapists for Weight Management',
-  description: 'Discover how weight loss hypnotherapy can help you achieve lasting results. Find certified hypnotherapists specializing in weight management. Natural, effective approach to healthy weight loss.',
+  description: 'Weight loss hypnotherapy helps you achieve lasting results. Find certified specialists in weight management for natural, sustainable weight loss.',
   keywords: 'weight loss hypnotherapy, hypnosis for weight loss, weight management hypnotherapy, lose weight with hypnosis, hypnotherapy diet',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/weight-loss-hypnotherapy',
