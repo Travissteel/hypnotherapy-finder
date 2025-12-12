@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/terms',
   },
+  openGraph: {
+    url: 'https://hypnotherapy-finder.com/terms',
+    title: 'Terms of Service | Hypnotherapy Finder',
+    description: 'Terms of service for Hypnotherapy Finder directory. Read our terms and conditions for using the hypnotherapist directory.',
+    siteName: 'Hypnotherapy Finder',
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
 export default function TermsPage() {

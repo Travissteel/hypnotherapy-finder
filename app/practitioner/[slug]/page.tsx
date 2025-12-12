@@ -15,6 +15,17 @@ interface PractitionerPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Generate static params for all practitioners at build time
+export async function generateStaticParams() {
+  // Import static practitioners data for pre-rendering
+  const { getAllPractitioners } = await import('@/lib/data/practitioners');
+  const practitioners = getAllPractitioners();
+
+  return practitioners.map((practitioner) => ({
+    slug: practitioner.slug,
+  }));
+}
+
 // Helper to create Supabase client for server components
 async function createSupabaseClient() {
   const cookieStore = await cookies();
@@ -124,9 +135,35 @@ export async function generateMetadata({
 
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
 
+  // Build description with potential truncation to stay within 155 character limit
+  let description = `Connect with ${practitioner.name}, a certified hypnotherapist in ${practitioner.city}, ${practitioner.state}.`;
+
+  if (specialties.length > 0) {
+    const baseLength = description.length + 1; // +1 for space
+    const specialtiesPrefix = 'Specializing in ';
+    const maxSpecialtiesLength = 155 - baseLength - specialtiesPrefix.length - 1; // -1 for period
+
+    let specialtiesText = specialties.slice(0, 3).join(', ');
+
+    // If still too long, try with fewer specialties
+    if (specialtiesPrefix.length + specialtiesText.length > maxSpecialtiesLength && specialties.length > 1) {
+      specialtiesText = specialties.slice(0, 2).join(', ');
+    }
+
+    // Add specialties if they fit
+    if (specialtiesPrefix.length + specialtiesText.length <= maxSpecialtiesLength) {
+      description += ` ${specialtiesPrefix}${specialtiesText}.`;
+    }
+  }
+
+  // Final safety check: truncate if still too long
+  if (description.length > 155) {
+    description = description.substring(0, 152) + '...';
+  }
+
   return {
     title: `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${practitioner.state}`,
-    description: `Connect with ${practitioner.name}, a certified hypnotherapist in ${practitioner.city}, ${practitioner.state}. Specializing in ${specialties.slice(0, 3).join(', ')}.`,
+    description,
     keywords: `${practitioner.name}, hypnotherapist ${practitioner.city}, ${specialties.join(', ')}`,
     alternates: {
       canonical: `https://hypnotherapy-finder.com/practitioner/${slug}`,
@@ -332,7 +369,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       {practitioner.city && (
                         <div className="pt-4">
                           <Link
-                            href={`/location/${practitioner.city.toLowerCase().replace(/s+/g, '-')}`}
+                            href={`/location/${practitioner.city.toLowerCase().replace(/\s+/g, '-')}`}
                             className="text-blue-600 hover:underline"
                           >
                             View all practitioners in {practitioner.city} →

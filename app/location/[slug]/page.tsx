@@ -31,12 +31,24 @@ export async function generateMetadata({
     };
   }
 
+  const title = `Hypnotherapists in ${city.name}, ${city.state} | Find Certified Practitioners Near You`;
+  const description = `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
+  const url = `https://hypnotherapy-finder.com/location/${slug}`;
+
   return {
-    title: `Hypnotherapists in ${city.name}, ${city.state} | Find Certified Practitioners Near You`,
-    description: `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`,
+    title,
+    description,
     keywords: `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
     alternates: {
-      canonical: `https://hypnotherapy-finder.com/location/${slug}`,
+      canonical: url,
+    },
+    openGraph: {
+      url,
+      title,
+      description,
+      siteName: 'Hypnotherapy Finder',
+      locale: 'en_US',
+      type: 'website',
     },
   };
 }
