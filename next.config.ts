@@ -4,16 +4,105 @@ const nextConfig: NextConfig = {
   // Redirect ghost/old URLs to correct pages
   async redirects() {
     return [
+      // Old how-it-works URL
       {
         source: '/how-it-works-2',
         destination: '/how-it-works',
-        permanent: true, // 301 redirect
+        permanent: true,
       },
       {
         source: '/how-it-works-2/',
         destination: '/how-it-works',
         permanent: true,
       },
+
+      // Legacy WordPress wpbdp_category URLs
+      {
+        source: '/all-practitioners/wpbdp_category/:slug*',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/all-practitioners/:path*',
+        destination: '/search',
+        permanent: true,
+      },
+
+      // Legacy specialty/certification URLs
+      {
+        source: '/specialty/:slug*',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/certification/:slug*',
+        destination: '/search',
+        permanent: true,
+      },
+
+      // Old city URL formats (city-state pattern)
+      {
+        source: '/fort-worth-tx-2',
+        destination: '/location/fort-worth',
+        permanent: true,
+      },
+      {
+        source: '/fort-worth-tx-2/',
+        destination: '/location/fort-worth',
+        permanent: true,
+      },
+      {
+        source: '/philadelphia-pa',
+        destination: '/location/philadelphia',
+        permanent: true,
+      },
+      {
+        source: '/philadelphia-pa/',
+        destination: '/location/philadelphia',
+        permanent: true,
+      },
+      {
+        source: '/phoenix-az',
+        destination: '/location/phoenix',
+        permanent: true,
+      },
+      {
+        source: '/phoenix-az/',
+        destination: '/location/phoenix',
+        permanent: true,
+      },
+      {
+        source: '/austin-tx',
+        destination: '/location/austin',
+        permanent: true,
+      },
+      {
+        source: '/austin-tx/',
+        destination: '/location/austin',
+        permanent: true,
+      },
+
+      // /location/ (bare) to /locations
+      {
+        source: '/location',
+        destination: '/locations',
+        permanent: true,
+      },
+
+      // /register to practitioner signup
+      {
+        source: '/register',
+        destination: '/practitioner-signup',
+        permanent: true,
+      },
+      {
+        source: '/register/',
+        destination: '/practitioner-signup',
+        permanent: true,
+      },
+
+      // Query param URLs - redirect to search (can't preserve params, but better than 404)
+      // These are handled by the search page anyway
     ];
   },
 };
