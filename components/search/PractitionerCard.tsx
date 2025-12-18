@@ -114,7 +114,7 @@ export function PractitionerCard({ practitioner }: PractitionerCardProps) {
 
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`/practitioner/${practitioner.id}`}>View Full Profile</Link>
+          <Link href={`/practitioner/${practitioner.slug || practitioner.id}`}>View Full Profile</Link>
         </Button>
       </CardFooter>
     </Card>

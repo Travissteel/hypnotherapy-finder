@@ -108,6 +108,7 @@ async function getPractitioner(slugOrId: string) {
         address: staticPractitioner.street || null,
         city: staticPractitioner.city,
         state: staticPractitioner.state,
+        citySlug: (staticPractitioner as any).citySlug || staticPractitioner.city.toLowerCase().replace(/\s+/g, '-'),
         zip: (staticPractitioner as any).zip || null,
         session_types: staticPractitioner.session_types || [],
         claim_status: 'unclaimed',
@@ -220,7 +221,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
         '@type': 'ListItem',
         position: 3,
         name: `${practitioner.city}, ${practitioner.state}`,
-        item: `https://hypnotherapy-finder.com/location/${practitioner.city.toLowerCase().replace(/\s+/g, '-')}`,
+        item: `https://hypnotherapy-finder.com/location/${practitioner.citySlug || practitioner.city.toLowerCase().replace(/\s+/g, '-')}`,
       },
       {
         '@type': 'ListItem',
@@ -369,7 +370,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       {practitioner.city && (
                         <div className="pt-4">
                           <Link
-                            href={`/location/${practitioner.city.toLowerCase().replace(/\s+/g, '-')}`}
+                            href={`/location/${practitioner.citySlug || practitioner.city.toLowerCase().replace(/\s+/g, '-')}`}
                             className="text-blue-600 hover:underline"
                           >
                             View all practitioners in {practitioner.city} →
