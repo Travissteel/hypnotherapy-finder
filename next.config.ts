@@ -101,8 +101,19 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // Query param URLs - redirect to search (can't preserve params, but better than 404)
-      // These are handled by the search page anyway
+      // Homepage with specialty param -> search page with specialty param
+      {
+        source: '/',
+        has: [
+          {
+            type: 'query',
+            key: 'specialty',
+            value: '(?<specialty>.*)',
+          },
+        ],
+        destination: '/search?specialty=:specialty',
+        permanent: true,
+      },
     ];
   },
 };
