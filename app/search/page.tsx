@@ -22,9 +22,13 @@ import { Search, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 function SearchContent() {
   const searchParams = useSearchParams();
   const [results, setResults] = useState<Practitioner[]>([]);
-  const [query, setQuery] = useState(searchParams.get('location') || '');
-  const [selectedCity, setSelectedCity] = useState('all');
-  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [query, setQuery] = useState(searchParams.get('location') || searchParams.get('q') || '');
+  const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || 'all');
+  // Initialize specialty from URL param (normalize case for matching)
+  const initialSpecialty = searchParams.get('specialty');
+  const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(
+    initialSpecialty ? [initialSpecialty.charAt(0).toUpperCase() + initialSpecialty.slice(1).toLowerCase()] : []
+  );
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
