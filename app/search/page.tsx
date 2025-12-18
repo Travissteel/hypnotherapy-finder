@@ -19,15 +19,46 @@ import { getAllSpecialties, getAllCities } from '@/lib/data/practitioners';
 import { Practitioner } from '@/lib/types/practitioner';
 import { Search, X, ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 
+// Map URL param shortcuts to actual specialty names
+const specialtyParamMap: Record<string, string> = {
+  'anxiety': 'Anxiety & Stress',
+  'stress': 'Anxiety & Stress',
+  'smoking': 'Smoking Cessation',
+  'weight': 'Weight Loss',
+  'weight-loss': 'Weight Loss',
+  'pain': 'Pain Management',
+  'trauma': 'PTSD & Trauma',
+  'ptsd': 'PTSD & Trauma',
+  'confidence': 'Confidence & Performance',
+  'performance': 'Confidence & Performance',
+  'past-life': 'Past Life Regression',
+  'regression': 'Past Life Regression',
+  'general': 'General Hypnotherapy',
+  'insomnia': 'Anxiety & Stress', // Often treated under anxiety/stress
+  'sleep': 'Anxiety & Stress',
+};
+
+function mapSpecialtyParam(param: string | null): string[] {
+  if (!param) return [];
+  const normalized = param.toLowerCase().trim();
+  // Check if it's a shorthand param
+  if (specialtyParamMap[normalized]) {
+    return [specialtyParamMap[normalized]];
+  }
+  // Otherwise capitalize first letter of each word
+  return [param.split(' ').map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+  ).join(' ')];
+}
+
 function SearchContent() {
   const searchParams = useSearchParams();
   const [results, setResults] = useState<Practitioner[]>([]);
   const [query, setQuery] = useState(searchParams.get('location') || searchParams.get('q') || '');
   const [selectedCity, setSelectedCity] = useState(searchParams.get('city') || 'all');
-  // Initialize specialty from URL param (normalize case for matching)
-  const initialSpecialty = searchParams.get('specialty');
+  // Initialize specialty from URL param with mapping
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(
-    initialSpecialty ? [initialSpecialty.charAt(0).toUpperCase() + initialSpecialty.slice(1).toLowerCase()] : []
+    mapSpecialtyParam(searchParams.get('specialty'))
   );
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
