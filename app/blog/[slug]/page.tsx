@@ -8,8 +8,9 @@ import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const post = getPostBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const post = getPostBySlug(slug);
     if (!post) return { title: 'Post Not Found' };
 
     return {
@@ -25,8 +26,9 @@ export async function generateStaticParams() {
     }));
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-    const post = getPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const post = getPostBySlug(slug);
 
     if (!post) {
         notFound();
