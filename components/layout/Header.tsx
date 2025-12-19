@@ -24,6 +24,9 @@ export function Header() {
             <Link href="/what-is-hypnotherapy" className="text-gray-700 hover:text-teal-600 font-bold text-lg transition-colors">
               Resources
             </Link>
+            <Link href="/blog" className="text-gray-700 hover:text-teal-600 font-bold text-lg transition-colors">
+              Blog
+            </Link>
             <Link href="/practitioner-signup" className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
               For Practitioners
             </Link>
