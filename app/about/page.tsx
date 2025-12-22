@@ -2,7 +2,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Award, BookOpen, History, Users } from 'lucide-react';
+import { Award, BookOpen, History, Users, Linkedin } from 'lucide-react';
 
 export const metadata = {
   title: 'About Hypnotherapy | History, Science, and Professional Standards',
@@ -162,6 +162,55 @@ export default function AboutPage() {
                     <li>Read reviews and testimonials</li>
                     <li>Schedule a consultation to ensure good fit</li>
                   </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Meet the Founder */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 mb-8">
+                <Users className="h-8 w-8 text-blue-600" />
+                <h2 className="text-3xl font-bold">Meet the Founder</h2>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl border border-blue-100 shadow-sm">
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Travis Steel</h3>
+                    <p className="text-blue-600 font-medium mb-4">Founder & Creator of Hypnotherapy Finder</p>
+
+                    <div className="prose prose-blue text-gray-700 mb-6">
+                      <p className="mb-4">
+                        Travis is passionate about connecting people with effective therapeutic solutions.
+                        With a background in modern hypnosis, he understands the transformative power of
+                        professional hypnotherapy.
+                      </p>
+
+                      <div className="flex items-start gap-3 bg-white p-4 rounded-lg border border-blue-100 mb-6">
+                        <Award className="h-6 w-6 text-teal-500 flex-shrink-0 mt-1" />
+                        <div>
+                          <p className="font-semibold text-gray-900">Certified in Modern Hypnosis</p>
+                          <p className="text-sm text-gray-600">Institute of Applied Psychology Australia</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <a
+                        href="https://www.linkedin.com/in/travis-steel-94596143/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-[#0077b5] text-white rounded-lg hover:bg-[#006399] transition-colors font-medium"
+                      >
+                        <Linkedin className="h-5 w-5" />
+                        Connect on LinkedIn
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

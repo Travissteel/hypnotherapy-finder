@@ -24,6 +24,9 @@ export function Header() {
             <Link href="/what-is-hypnotherapy" className="text-gray-700 hover:text-teal-600 font-bold text-lg transition-colors">
               Resources
             </Link>
+            <Link href="/about" className="text-gray-700 hover:text-teal-600 font-bold text-lg transition-colors">
+              About
+            </Link>
             <Link href="/blog" className="text-gray-700 hover:text-teal-600 font-bold text-lg transition-colors">
               Blog
             </Link>
@@ -33,6 +36,9 @@ export function Header() {
           </div>
 
           <div className="md:hidden">
+            <Button asChild size="sm" variant="ghost" className="w-full justify-start">
+              <Link href="/about">About</Link>
+            </Button>
             <Button asChild size="sm">
               <Link href="/search">Search</Link>
             </Button>

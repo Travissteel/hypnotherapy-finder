@@ -46,6 +46,11 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-4">Resources</h4>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/about" className="hover:text-white transition">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link href="/what-is-hypnotherapy" className="hover:text-white transition">
                   What is Hypnotherapy?
                 </Link>
