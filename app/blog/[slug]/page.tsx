@@ -16,6 +16,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {
         title: `${post.title} | Hypnotherapy Directory`,
         description: post.summary || `Read about ${post.title}`,
+        alternates: {
+            canonical: `https://hypnotherapy-finder.com/blog/${slug}`,
+        },
     };
 }
 

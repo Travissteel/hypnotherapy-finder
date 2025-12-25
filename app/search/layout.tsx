@@ -2,9 +2,12 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Search Hypnotherapists | Hypnotherapy Finder',
-  description: 'Search for qualified hypnotherapists near you. Filter by specialty, location, session type, and more.',
+  description: 'Search and find qualified hypnotherapists near you. Filter by specialty, location, session type, certifications, and more. Browse 2000+ certified practitioners nationwide.',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/search',
+  },
   robots: {
-    index: false,
+    index: true,
     follow: true,
   },
 };

@@ -1,11 +1,13 @@
 import { MetadataRoute } from 'next';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
+import { getAllPosts } from '@/lib/blog';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://hypnotherapy-finder.com';
 
   const practitioners = getAllPractitioners();
   const cities = getAllCities();
+  const blogPosts = getAllPosts();
 
   // Homepage and static pages
   const staticPages: MetadataRoute.Sitemap = [
@@ -100,6 +102,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/search`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/practitioner-signup`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -123,5 +131,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...locationPages, ...practitionerPages];
+  // Blog pages
+  const blogPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    ...blogPosts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+  ];
+
+  return [...staticPages, ...locationPages, ...practitionerPages, ...blogPages];
 }
