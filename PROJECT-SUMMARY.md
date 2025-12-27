@@ -180,6 +180,13 @@ hypnotherapy-directory/
 | hypnotherapy los angeles | 67.7 | Top 30 |
 | find a hypnotherapist | 80.4 | Top 40 |
 
+### Blog Content (December 2024)
+- **LA Hypnotherapy Guide**: `/blog/hypnotherapy-los-angeles-guide`
+  - 211 lines, ~8 min read
+  - Targets: hypnotherapy los angeles, LA hypnotherapist
+  - Includes: neighborhood breakdown, pricing, FAQs
+  - Internal links to /location/los-angeles
+
 ## Technology Stack
 
 - **Framework**: Next.js 14.2
