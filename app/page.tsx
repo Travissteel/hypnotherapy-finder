@@ -173,6 +173,17 @@ export default function Home() {
                     <span className="font-bold text-gray-900">100% Verified</span>
                   </span>
                 </div>
+
+                {/* Quick Links for SEO */}
+                <div className="flex flex-wrap justify-center lg:justify-start gap-3 pt-4">
+                  <Link href="/hypnotherapy-near-me" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
+                    Find Hypnotherapy Near Me
+                  </Link>
+                  <span className="text-gray-400">•</span>
+                  <Link href="/find-a-hypnotherapist" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
+                    Find a Hypnotherapist
+                  </Link>
+                </div>
               </div>
 
               {/* Right Column: Image */}

@@ -149,6 +149,37 @@ hypnotherapy-directory/
 - Premium listings
 - Analytics dashboard
 
+## SEO Optimizations (December 2024)
+
+### Quick Wins Implemented
+- `/hypnotherapy-near-me` title optimized with keyword front-loading
+- Added "hypnotherapist" variant to H1 tags
+- Internal links from homepage to key SEO landing pages
+
+### Los Angeles Market Optimization
+- Custom title: "Los Angeles Hypnotherapy | 218 Hypnotherapists & Hypnotists in LA"
+- LA-specific keywords targeting position 60-80 terms
+- Neighborhood content: Santa Monica, Beverly Hills, Pasadena, West Hollywood, Burbank, Glendale, Downtown LA
+- Enhanced meta descriptions for LA market
+
+### New Landing Pages
+- `/find-a-hypnotherapist` - 350+ line page targeting "find a hypnotherapist" keywords
+- Structured data (WebPage + FAQPage schemas)
+- City quick-links and specialty content
+
+### Schema Improvements
+- LocalBusiness schema added to all location pages
+- AggregateRating data for enhanced rich snippets
+- AreaServed structured data for local SEO
+
+### Target Keywords & Positions
+| Keyword | Position | Target |
+|---------|----------|--------|
+| hypnotherapy near me | 20.6 | Top 10 |
+| hypnotherapist near me | 20.8 | Top 10 |
+| hypnotherapy los angeles | 67.7 | Top 30 |
+| find a hypnotherapist | 80.4 | Top 40 |
+
 ## Technology Stack
 
 - **Framework**: Next.js 14.2

@@ -9,15 +9,15 @@ import { MapPin, Search, CheckCircle, Users, Star, Clock } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapy Near Me - Find Local Certified Hypnotherapists | Free Directory',
-  description: 'Find qualified hypnotherapists near you. Search our free directory of certified professionals. Compare credentials, specialties, and reviews.',
-  keywords: 'hypnotherapy near me, hypnotherapist near me, local hypnotherapy, find hypnotherapist, certified hypnotherapist near me',
+  title: 'Hypnotherapy Near Me | Find 2,030+ Certified Hypnotherapists Near You',
+  description: 'Find a qualified hypnotherapist near me today. Search 2,030+ certified hypnotherapy professionals by location and specialty. Compare credentials, read reviews, and book consultations.',
+  keywords: 'hypnotherapy near me, hypnotherapist near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me',
   },
   openGraph: {
-    title: 'Find Hypnotherapy Near Me - Local Certified Practitioners',
-    description: 'Discover qualified hypnotherapists in your area. Free directory with verified credentials and specialties.',
+    title: 'Hypnotherapy Near Me | 2,030+ Certified Hypnotherapists',
+    description: 'Find a qualified hypnotherapist near you. Search 2,030+ verified practitioners by location and specialty.',
     url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me',
     type: 'website',
     images: [
@@ -31,8 +31,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Find Hypnotherapy Near Me - Local Certified Practitioners',
-    description: 'Discover qualified hypnotherapists in your area. Free directory with verified credentials and specialties.',
+    title: 'Hypnotherapy Near Me | 2,030+ Certified Hypnotherapists',
+    description: 'Find a qualified hypnotherapist near you. Search 2,030+ verified practitioners by location and specialty.',
     images: ['/hypnotherapy-near-me.png'],
   },
 };
@@ -148,12 +148,11 @@ export default async function HypnotherapyNearMePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                Find Hypnotherapy Near Me - Connect with Local Certified Hypnotherapists
+                Find Hypnotherapy Near Me &amp; Connect with Local Hypnotherapists
               </h1>
               <p className="text-xl mb-8 text-blue-100">
-                Searching for hypnotherapy near me? Discover qualified hypnotherapists in your local area.
-                Our free directory helps you find certified practitioners specializing in anxiety, weight loss,
-                smoking cessation, and more.
+                Looking for a hypnotherapist near me? Search 2,030+ certified hypnotherapy professionals in your area.
+                Find verified practitioners specializing in anxiety, weight loss, smoking cessation, and more.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
