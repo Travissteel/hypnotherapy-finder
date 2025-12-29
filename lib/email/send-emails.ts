@@ -10,6 +10,7 @@ interface SendClaimApprovedEmailParams {
   city: string;
   state: string;
   dashboardUrl: string;
+  practitionerSlug: string;
   adminNotes?: string;
 }
 
@@ -26,6 +27,7 @@ export async function sendClaimApprovedEmail(params: SendClaimApprovedEmailParam
         city: params.city,
         state: params.state,
         dashboardUrl: params.dashboardUrl,
+        practitionerSlug: params.practitionerSlug,
         adminNotes: params.adminNotes,
       }),
     });

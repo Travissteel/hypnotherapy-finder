@@ -8,6 +8,8 @@ import {
   Preview,
   Section,
   Text,
+  CodeBlock,
+  Hr,
 } from '@react-email/components';
 
 interface ClaimApprovedEmailProps {
@@ -16,6 +18,7 @@ interface ClaimApprovedEmailProps {
   city: string;
   state: string;
   dashboardUrl: string;
+  practitionerSlug: string;
   adminNotes?: string;
 }
 
@@ -25,8 +28,15 @@ export default function ClaimApprovedEmail({
   city = 'Los Angeles',
   state = 'California',
   dashboardUrl = 'https://hypnotherapy-finder.com/dashboard',
+  practitionerSlug = 'dr-smith-los-angeles',
   adminNotes,
 }: ClaimApprovedEmailProps) {
+  const profileUrl = `https://hypnotherapy-finder.com/practitioner/${practitionerSlug}`;
+  const badgeCode = `<a href="${profileUrl}" target="_blank" rel="noopener">
+  <img src="https://hypnotherapy-finder.com/badges/verified-practitioner.svg"
+       alt="Verified on Hypnotherapy Finder"
+       width="180" height="60" />
+</a>`;
   return (
     <Html>
       <Head />
@@ -69,6 +79,35 @@ export default function ClaimApprovedEmail({
               Go to Dashboard
             </Link>
           </Section>
+
+          <Hr style={divider} />
+
+          <Section style={badgeSection}>
+            <Heading style={h2}>Get Your Verified Badge</Heading>
+            <Text style={badgeText}>
+              Add our "Verified Practitioner" badge to your website to show clients you're a trusted professional listed on Hypnotherapy Finder. This also helps us verify you as the listing owner.
+            </Text>
+
+            <Text style={badgeText}>
+              <strong>Copy this code and paste it into your website:</strong>
+            </Text>
+
+            <Section style={codeSection}>
+              <Text style={codeText}>{badgeCode}</Text>
+            </Section>
+
+            <Text style={badgeText}>
+              <strong>Benefits of adding the badge:</strong>
+            </Text>
+            <Text style={benefitsList}>
+              ✓ Shows clients you're verified and trusted<br />
+              ✓ Links directly to your profile<br />
+              ✓ Boosts your credibility<br />
+              ✓ Helps potential clients find you
+            </Text>
+          </Section>
+
+          <Hr style={divider} />
 
           <Text style={text}>
             Thank you for being part of our hypnotherapy directory!
@@ -173,4 +212,57 @@ const footer = {
   lineHeight: '20px',
   margin: '48px 40px 0',
   textAlign: 'center' as const,
+};
+
+const divider = {
+  borderColor: '#e6ebf1',
+  margin: '32px 40px',
+};
+
+const h2 = {
+  color: '#333',
+  fontSize: '22px',
+  fontWeight: 'bold',
+  margin: '0 0 16px 0',
+  textAlign: 'center' as const,
+};
+
+const badgeSection = {
+  margin: '32px 40px',
+  padding: '24px',
+  backgroundColor: '#f0fdf4',
+  borderRadius: '8px',
+  border: '1px solid #bbf7d0',
+};
+
+const badgeText = {
+  color: '#333',
+  fontSize: '15px',
+  lineHeight: '24px',
+  margin: '12px 0',
+};
+
+const codeSection = {
+  backgroundColor: '#1f2937',
+  borderRadius: '6px',
+  padding: '16px',
+  margin: '16px 0',
+  overflowX: 'auto' as const,
+};
+
+const codeText = {
+  color: '#e5e7eb',
+  fontSize: '12px',
+  fontFamily: 'monospace',
+  lineHeight: '20px',
+  margin: '0',
+  whiteSpace: 'pre-wrap' as const,
+  wordBreak: 'break-all' as const,
+};
+
+const benefitsList = {
+  color: '#166534',
+  fontSize: '15px',
+  lineHeight: '28px',
+  margin: '12px 0 0 0',
 };
