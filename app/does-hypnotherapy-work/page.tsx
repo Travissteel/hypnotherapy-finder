@@ -7,7 +7,7 @@ import Script from 'next/script';
 import { CheckCircle, XCircle, Brain, TrendingUp, Search } from 'lucide-react';
 
 export const metadata = {
-  title: 'Does Hypnotherapy Work? Scientific Evidence & Success Rates | 2025',
+  title: 'Does Hypnotherapy Work? | Evidence',
   description: 'Does hypnotherapy really work? Scientific evidence, success rates, and effectiveness for anxiety, weight loss, smoking, and pain management.',
   keywords: 'does hypnotherapy work, hypnotherapy effectiveness, hypnotherapy success rate, clinical hypnosis research',
   alternates: {

@@ -9,8 +9,8 @@ import { Wind, Heart, CheckCircle, Search, Ban, TrendingUp } from 'lucide-react'
 import { getAllPractitioners } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Quit Smoking Hypnotherapy - Stop Smoking with Hypnosis | Find Specialists',
-  description: 'Quit smoking hypnotherapy helps you become smoke-free. Find certified specialists in smoking cessation. Proven method to stop smoking for good.',
+  title: 'Quit Smoking Hypnotherapy | Stop Smoking',
+  description: 'Quit smoking hypnotherapy helps you become smoke-free. Find certified specialists in smoking cessation.',
   keywords: 'quit smoking hypnotherapy, stop smoking hypnosis, smoking cessation hypnotherapy, hypnosis to quit smoking, quit cigarettes hypnotherapy',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/quit-smoking-hypnotherapy',

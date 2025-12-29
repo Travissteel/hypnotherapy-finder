@@ -7,7 +7,7 @@ import Script from 'next/script';
 import { Brain, Clock, Heart, Shield, Sparkles, Target } from 'lucide-react';
 
 export const metadata = {
-  title: 'How Hypnotherapy Works | Understanding the Science and Process',
+  title: 'How Hypnotherapy Works | Science Guide',
   description: 'Learn how hypnotherapy works, what to expect in a session, and how it helps with anxiety, weight loss, smoking cessation, and more.',
   keywords: 'how does hypnotherapy work, what is hypnotherapy, hypnosis therapy, clinical hypnotherapy',
   alternates: {

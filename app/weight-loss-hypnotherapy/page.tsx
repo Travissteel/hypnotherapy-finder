@@ -9,8 +9,8 @@ import { Scale, Target, CheckCircle, Search, TrendingDown, Brain } from 'lucide-
 import { getAllPractitioners } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Weight Loss Hypnotherapy - Find Certified Hypnotherapists for Weight Management',
-  description: 'Weight loss hypnotherapy helps you achieve lasting results. Find certified specialists in weight management for natural, sustainable weight loss.',
+  title: 'Weight Loss Hypnotherapy | Find Specialists',
+  description: 'Weight loss hypnotherapy helps you achieve lasting results. Find certified specialists in weight management.',
   keywords: 'weight loss hypnotherapy, hypnosis for weight loss, weight management hypnotherapy, lose weight with hypnosis, hypnotherapy diet',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/weight-loss-hypnotherapy',

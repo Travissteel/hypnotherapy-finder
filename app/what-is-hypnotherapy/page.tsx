@@ -8,14 +8,14 @@ import Script from 'next/script';
 import { Brain, CheckCircle, Search, BookOpen, Users } from 'lucide-react';
 
 export const metadata = {
-  title: 'What is Hypnotherapy? Complete Guide to Hypnosis Therapy | 2025',
+  title: 'What is Hypnotherapy? | Complete Guide',
   description: 'What is hypnotherapy and how does it work? Complete guide to clinical hypnosis, techniques, effectiveness, and costs. Evidence-based answers.',
   keywords: 'what is hypnotherapy, hypnosis therapy, clinical hypnosis, therapeutic hypnosis, hypnotherapy definition',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/what-is-hypnotherapy',
   },
   openGraph: {
-    title: 'What is Hypnotherapy? Complete Guide to Hypnosis Therapy | 2025',
+    title: 'What is Hypnotherapy? | Complete Guide',
     description: 'What is hypnotherapy and how does it work? Learn everything about hypnotherapy, clinical hypnosis, and therapeutic hypnosis.',
     url: 'https://hypnotherapy-finder.com/what-is-hypnotherapy',
     type: 'website',

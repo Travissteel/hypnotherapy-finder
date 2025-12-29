@@ -9,8 +9,8 @@ import { MapPin, Search, CheckCircle, Users, Star, Clock } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapy Near Me | Find 1,150+ Certified Hypnotherapists Near You',
-  description: 'Find a qualified hypnotherapist near me today. Search 1,150+ certified hypnotherapy professionals by location and specialty. Compare credentials, read reviews, and book consultations.',
+  title: 'Hypnotherapy Near Me | 1,150+ Practitioners',
+  description: 'Find a qualified hypnotherapist near me. Search 1,150+ certified hypnotherapy professionals by location and specialty.',
   keywords: 'hypnotherapy near me, hypnotherapist near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me',

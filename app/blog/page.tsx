@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Calendar, User, Clock, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-    title: 'Hypnotherapy Industry Insights & Data | Hypnotherapy Directory',
+    title: 'Hypnotherapy Blog | Industry Insights',
     description: 'Latest reports, trends, and market data for the hypnotherapy industry. Expert analysis on pricing, demographics, and clinical efficacy.',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/blog',

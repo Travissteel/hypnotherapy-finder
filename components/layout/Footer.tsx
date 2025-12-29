@@ -20,6 +20,11 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-4">Popular Searches</h4>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/find-a-hypnotherapist" className="hover:text-white transition">
+                  Find a Hypnotherapist
+                </Link>
+              </li>
+              <li>
                 <Link href="/hypnotherapy-near-me" className="hover:text-white transition">
                   Hypnotherapy Near Me
                 </Link>

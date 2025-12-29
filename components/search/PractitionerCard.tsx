@@ -9,7 +9,20 @@ interface PractitionerCardProps {
   practitioner: Practitioner;
 }
 
+// Helper to ensure website URLs have proper protocol
+function normalizeWebsiteUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 export function PractitionerCard({ practitioner }: PractitionerCardProps) {
+  const websiteUrl = normalizeWebsiteUrl(practitioner.website);
+
   return (
     <Card className="h-full hover:shadow-lg transition-shadow">
       <CardContent className="pt-6">
@@ -95,11 +108,11 @@ export function PractitionerCard({ practitioner }: PractitionerCardProps) {
                 </a>
               </div>
             )}
-            {practitioner.website && (
+            {websiteUrl && (
               <div className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
                 <a
-                  href={practitioner.website}
+                  href={websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-blue-600 truncate"

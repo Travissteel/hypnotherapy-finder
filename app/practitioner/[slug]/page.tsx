@@ -11,6 +11,17 @@ import { MapPin, Phone, Globe, Mail } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
 
+// Helper to ensure website URLs have proper protocol
+function normalizeWebsiteUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
 interface PractitionerPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -182,6 +193,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
 
   // Ensure arrays exist
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
+  const websiteUrl = normalizeWebsiteUrl(practitioner.website);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -197,7 +209,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
     },
     ...(practitioner.phone && { telephone: practitioner.phone }),
     ...(practitioner.email && { email: practitioner.email }),
-    ...(practitioner.website && { url: practitioner.website }),
+    ...(websiteUrl && { url: websiteUrl }),
     medicalSpecialty: specialties,
   };
 
@@ -291,10 +303,10 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                           </a>
                         </Button>
                       )}
-                      {practitioner.website && (
+                      {websiteUrl && (
                         <Button asChild variant="outline">
                           <a
-                            href={practitioner.website}
+                            href={websiteUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -410,11 +422,11 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                           </a>
                         </div>
                       )}
-                      {practitioner.website && (
+                      {websiteUrl && (
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Website</div>
                           <a
-                            href={practitioner.website}
+                            href={websiteUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline font-medium break-all"
