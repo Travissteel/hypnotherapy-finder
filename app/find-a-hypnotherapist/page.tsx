@@ -8,22 +8,22 @@ import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-    title: 'Find a Hypnotherapist | Search 2,030+ Verified Practitioners',
-    description: 'Find a hypnotherapist near you. Search our directory of 2,030+ certified hypnotherapy practitioners. Compare credentials, specialties, and contact hypnotherapists directly.',
+    title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
+    description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified hypnotherapy practitioners. Compare credentials, specialties, and contact hypnotherapists directly.',
     keywords: 'find a hypnotherapist, find hypnotherapist, hypnotherapist finder, search hypnotherapist, hypnotherapist directory, certified hypnotherapist',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
     },
     openGraph: {
-        title: 'Find a Hypnotherapist | Search 2,030+ Verified Practitioners',
-        description: 'Find a hypnotherapist near you. Search our directory of 2,030+ certified hypnotherapy practitioners.',
+        title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
+        description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified hypnotherapy practitioners.',
         url: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Find a Hypnotherapist | Search 2,030+ Verified Practitioners',
-        description: 'Find a hypnotherapist near you. Search our directory of 2,030+ certified practitioners.',
+        title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
+        description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified practitioners.',
     },
 };
 

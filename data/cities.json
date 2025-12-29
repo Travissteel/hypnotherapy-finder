@@ -9,97 +9,97 @@
     "name": "Austin",
     "state": "Texas",
     "slug": "austin",
-    "practitionerCount": 88
+    "practitionerCount": 44
   },
   {
     "name": "Baltimore",
     "state": "Maryland",
     "slug": "baltimore",
-    "practitionerCount": 16
+    "practitionerCount": 15
   },
   {
     "name": "Boston",
     "state": "Massachusetts",
     "slug": "boston",
-    "practitionerCount": 12
+    "practitionerCount": 15
   },
   {
     "name": "Charlotte",
     "state": "North Carolina",
     "slug": "charlotte",
-    "practitionerCount": 70
+    "practitionerCount": 35
   },
   {
     "name": "Chicago",
     "state": "Illinois",
     "slug": "chicago",
-    "practitionerCount": 112
+    "practitionerCount": 70
   },
   {
     "name": "Columbus",
     "state": "Ohio",
     "slug": "columbus",
-    "practitionerCount": 38
+    "practitionerCount": 19
   },
   {
     "name": "Dallas",
     "state": "Texas",
     "slug": "dallas",
-    "practitionerCount": 78
+    "practitionerCount": 75
   },
   {
     "name": "Denver",
     "state": "Colorado",
     "slug": "denver",
-    "practitionerCount": 106
+    "practitionerCount": 53
   },
   {
     "name": "Detroit",
     "state": "Michigan",
     "slug": "detroit",
-    "practitionerCount": 6
+    "practitionerCount": 9
   },
   {
     "name": "Fort Worth",
     "state": "Texas",
     "slug": "fort-worth",
-    "practitionerCount": 26
+    "practitionerCount": 13
   },
   {
     "name": "Houston",
     "state": "Texas",
     "slug": "houston",
-    "practitionerCount": 76
+    "practitionerCount": 43
   },
   {
     "name": "Indianapolis",
     "state": "Indiana",
     "slug": "indianapolis",
-    "practitionerCount": 16
+    "practitionerCount": 9
   },
   {
     "name": "Jacksonville",
     "state": "Florida",
     "slug": "jacksonville",
-    "practitionerCount": 74
+    "practitionerCount": 37
   },
   {
     "name": "Las Vegas",
     "state": "Nevada",
     "slug": "las-vegas",
-    "practitionerCount": 48
+    "practitionerCount": 24
   },
   {
     "name": "Los Angeles",
     "state": "California",
     "slug": "los-angeles",
-    "practitionerCount": 218
+    "practitionerCount": 125
   },
   {
     "name": "Louisville",
     "state": "Kentucky",
     "slug": "louisville",
-    "practitionerCount": 12
+    "practitionerCount": 10
   },
   {
     "name": "Memphis",
@@ -108,75 +108,81 @@
     "practitionerCount": 12
   },
   {
+    "name": "Miami",
+    "state": "Florida",
+    "slug": "miami",
+    "practitionerCount": 5
+  },
+  {
     "name": "Milwaukee",
     "state": "Wisconsin",
     "slug": "milwaukee",
-    "practitionerCount": 6
+    "practitionerCount": 10
   },
   {
     "name": "Nashville",
     "state": "Tennessee",
     "slug": "nashville",
-    "practitionerCount": 46
+    "practitionerCount": 23
   },
   {
     "name": "New York",
     "state": "New York",
     "slug": "new-york",
-    "practitionerCount": 140
+    "practitionerCount": 70
   },
   {
     "name": "Philadelphia",
     "state": "Pennsylvania",
     "slug": "philadelphia",
-    "practitionerCount": 54
+    "practitionerCount": 27
   },
   {
     "name": "Phoenix",
     "state": "Arizona",
     "slug": "phoenix",
-    "practitionerCount": 106
+    "practitionerCount": 53
   },
   {
     "name": "Portland",
     "state": "Oregon",
     "slug": "portland",
-    "practitionerCount": 154
+    "practitionerCount": 77
   },
   {
     "name": "San Antonio",
     "state": "Texas",
     "slug": "san-antonio",
-    "practitionerCount": 48
+    "practitionerCount": 24
   },
   {
     "name": "San Diego",
     "state": "California",
     "slug": "san-diego",
-    "practitionerCount": 172
+    "practitionerCount": 86
   },
   {
     "name": "San Francisco",
     "state": "California",
     "slug": "san-francisco",
-    "practitionerCount": 114
+    "practitionerCount": 57
   },
   {
     "name": "San Jose",
     "state": "California",
     "slug": "san-jose",
-    "practitionerCount": 52
+    "practitionerCount": 26
   },
   {
     "name": "Seattle",
     "state": "Washington",
     "slug": "seattle",
-    "practitionerCount": 80
+    "practitionerCount": 48
   },
   {
     "name": "Washington",
     "state": "DC",
     "slug": "washington",
-    "practitionerCount": 22
+    "practitionerCount": 11
   }
 ]

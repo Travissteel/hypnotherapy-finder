@@ -10,14 +10,14 @@ import { Search, Users, CheckCircle, MapPin, Star, Award, Shield } from 'lucide-
 
 export const metadata = {
   title: 'Find a Certified Hypnotherapist Near You',
-  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 2000+ verified hypnotherapists nationwide.',
+  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
   keywords: 'hypnotherapy near me, hypnotherapist, hypnosis therapy, anxiety treatment, weight loss hypnotherapy, quit smoking',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com',
   },
   openGraph: {
     title: 'Find a Certified Hypnotherapist Near You | Hypnotherapy Finder',
-    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 2000+ verified hypnotherapists nationwide.',
+    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
     url: 'https://hypnotherapy-finder.com',
     type: 'website',
     images: [
@@ -162,11 +162,11 @@ export default function Home() {
                 <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm pt-6">
                   <span className="flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md">
                     <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="font-bold text-gray-900">2,030+ Certified</span>
+                    <span className="font-bold text-gray-900">1,150+ Certified</span>
                   </span>
                   <span className="flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md">
                     <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="font-bold text-gray-900">30 Cities</span>
+                    <span className="font-bold text-gray-900">31 Cities</span>
                   </span>
                   <span className="flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full shadow-md">
                     <CheckCircle className="h-5 w-5 text-green-600" />
