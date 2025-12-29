@@ -180,8 +180,16 @@ export default function Home() {
                     Find Hypnotherapy Near Me
                   </Link>
                   <span className="text-gray-400">•</span>
-                  <Link href="/find-a-hypnotherapist" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
-                    Find a Hypnotherapist
+                  <Link href="/hypnotherapy-for-anxiety" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
+                    Anxiety Hypnotherapy
+                  </Link>
+                  <span className="text-gray-400">•</span>
+                  <Link href="/weight-loss-hypnotherapy" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
+                    Weight Loss Hypnotherapy
+                  </Link>
+                  <span className="text-gray-400">•</span>
+                  <Link href="/quit-smoking-hypnotherapy" className="text-indigo-700 hover:text-indigo-900 font-semibold underline underline-offset-2">
+                    Quit Smoking Hypnotherapy
                   </Link>
                 </div>
               </div>

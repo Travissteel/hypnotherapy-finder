@@ -31,15 +31,25 @@ export async function generateMetadata({
     };
   }
 
-  // LA-specific title optimization for high-volume keywords
-  const title = slug === 'los-angeles'
-    ? `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`
-    : `Hypnotherapists in ${city.name}, ${city.state} | Find ${city.practitionerCount} Certified Practitioners`;
+  // City-specific title optimization for high-volume keywords
+  let title = `Hypnotherapists in ${city.name}, ${city.state} | Find ${city.practitionerCount} Certified Practitioners`;
+  if (slug === 'los-angeles') {
+    title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
+  } else if (slug === 'chicago') {
+    title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
+  } else if (slug === 'austin') {
+    title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Quit Smoking & More`;
+  }
 
-  // LA-specific description with keyword variations
-  const description = slug === 'los-angeles'
-    ? `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`
-    : `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
+  // City-specific description with keyword variations
+  let description = `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
+  if (slug === 'los-angeles') {
+    description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`;
+  } else if (slug === 'chicago') {
+    description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists for anxiety, weight loss, quit smoking. Downtown, Lincoln Park, Oak Park & suburbs.`;
+  } else if (slug === 'austin') {
+    description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, weight loss, anxiety. South Austin, Downtown, North Austin & surrounding areas.`;
+  }
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
 
   return {
@@ -47,6 +57,10 @@ export async function generateMetadata({
     description,
     keywords: slug === 'los-angeles'
       ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
+      : slug === 'chicago'
+      ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
+      : slug === 'austin'
+      ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
     alternates: {
       canonical: url,
@@ -220,12 +234,20 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
                   {slug === 'los-angeles'
                     ? 'Los Angeles Hypnotherapy & Hypnotherapists'
+                    : slug === 'chicago'
+                    ? 'Chicago Hypnotherapy & Hypnotherapists'
+                    : slug === 'austin'
+                    ? 'Austin Hypnotherapy & Hypnotherapists'
                     : `Hypnotherapists in ${city.name}`}
                 </h1>
 
                 <p className="text-xl text-gray-600">
                   {slug === 'los-angeles'
                     ? `Connect with ${city.practitionerCount} certified LA hypnotherapists and hypnotists in Los Angeles, California`
+                    : slug === 'chicago'
+                    ? `Connect with ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists in Chicago, Illinois`
+                    : slug === 'austin'
+                    ? `Connect with ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, anxiety & more`
                     : `Connect with ${city.practitionerCount} certified hypnotherapy practitioners in ${city.name}, ${city.state}`}
                 </p>
               </div>
@@ -239,6 +261,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   {slug === 'los-angeles'
                     ? 'Find the Best Hypnotherapy in Los Angeles, CA'
+                    : slug === 'chicago'
+                    ? 'Find the Best Hypnotherapy in Chicago, IL'
+                    : slug === 'austin'
+                    ? 'Find the Best Hypnotherapy in Austin, TX'
                     : `Find Qualified Hypnotherapists in ${city.name}, ${city.state}`}
                 </h2>
                 {slug === 'los-angeles' ? (
@@ -248,6 +274,22 @@ export default async function LocationPage({ params }: LocationPageProps) {
                       Pasadena, West Hollywood, Burbank, Glendale, and Downtown LA</strong>. Whether you need help with anxiety,
                     weight loss, smoking cessation, or stress management, find experienced Los Angeles hypnotherapy practitioners
                     ready to help you achieve your wellness goals.
+                  </p>
+                ) : slug === 'chicago' ? (
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    <strong>Looking for hypnotherapy in Chicago?</strong> Our directory features {city.practitionerCount} certified
+                    Chicago hypnotherapists and hypnotists across all Chicago neighborhoods including <strong>Downtown, Lincoln Park,
+                      Lakeview, Oak Park, Evanston, Naperville, and the greater Chicagoland area</strong>. Whether you need help with anxiety,
+                    weight loss, quit smoking, or stress management, find experienced Chicago hypnotherapy practitioners
+                    ready to help you achieve your wellness goals.
+                  </p>
+                ) : slug === 'austin' ? (
+                  <p className="text-gray-700 leading-relaxed mb-4">
+                    <strong>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} certified
+                    Austin hypnotherapists across all Austin areas including <strong>South Austin, Downtown, North Austin,
+                      Round Rock, Cedar Park, and the greater Austin metro</strong>. Especially popular: <strong>hypnotherapy to quit smoking</strong> in
+                    South Austin and throughout Texas. Find experienced Austin hypnotherapy practitioners for anxiety, weight loss,
+                    smoking cessation, and more.
                   </p>
                 ) : (
                   <p className="text-gray-700 leading-relaxed mb-4">
@@ -333,12 +375,26 @@ export default async function LocationPage({ params }: LocationPageProps) {
             )}
           </div>
 
-          {/* Related Locations */}
-          <div className="bg-white py-12 border-t">
+          {/* Related Specialties */}
+          <div className="bg-blue-50 py-12 border-t">
             <div className="container mx-auto px-4">
               <h2 className="text-2xl font-bold mb-6 text-center">
-                Explore Other Locations
+                Explore Hypnotherapy Specialties
               </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+                <Link href="/hypnotherapy-for-anxiety" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
+                  <h3 className="font-semibold text-lg text-blue-600">Anxiety Hypnotherapy</h3>
+                  <p className="text-sm text-gray-600">Manage stress and panic attacks</p>
+                </Link>
+                <Link href="/weight-loss-hypnotherapy" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
+                  <h3 className="font-semibold text-lg text-blue-600">Weight Loss Hypnotherapy</h3>
+                  <p className="text-sm text-gray-600">Sustainable weight management</p>
+                </Link>
+                <Link href="/quit-smoking-hypnotherapy" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
+                  <h3 className="font-semibold text-lg text-blue-600">Quit Smoking Hypnotherapy</h3>
+                  <p className="text-sm text-gray-600">Break free from nicotine</p>
+                </Link>
+              </div>
               <div className="flex justify-center">
                 <Link
                   href="/locations"
