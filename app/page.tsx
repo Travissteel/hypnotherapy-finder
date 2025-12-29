@@ -200,7 +200,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/60 via-transparent to-transparent z-10 group-hover:from-indigo-900/40 transition-all"></div>
                   <img
                     src="/therapy-session.png"
-                    alt="Hypnotherapy Session"
+                    alt="Professional hypnotherapy session with certified hypnotherapist helping client with anxiety, weight loss, and smoking cessation treatment"
                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                   />
 
