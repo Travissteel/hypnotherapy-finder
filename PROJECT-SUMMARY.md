@@ -21,11 +21,12 @@ A **production-ready hypnotherapy practitioner directory** with:
 - **WCAG 2.1 AA** accessibility compliance
 
 ### ✅ Technical Implementation
-- **Next.js 14** with App Router
+- **Next.js 16** (Upgraded to latest stable)
 - **TypeScript** for type safety
-- **Tailwind CSS** for styling
+- **Tailwind CSS 4** for styling
 - **shadcn/ui** for components
-- **Static Site Generation (SSG)** for performance
+- **Supabase** for database, auth, and storage
+- **Security Hardened**: CSP, HSTS, and XFO headers implemented
 - **Zero runtime errors** on build
 
 ## Site Statistics
@@ -137,7 +138,13 @@ hypnotherapy-directory/
 - Start content marketing
 - Reach out to practitioners for profile claims
 - Build backlinks
-- Create blog content
+- ✅ Create blog content
+- ✅ Security Hardening (Jan 2026)
+  - Upgraded Next.js to address high-severity vulnerabilities
+  - Implemented Content Security Policy (CSP)
+  - Added HSTS, X-Frame-Options, and Referrer-Policy headers
+  - Secured Admin APIs (removed hardcoded secrets)
+  - Refactored Search API for least-privilege (RLS enforcement)
 
 ### Future Enhancements
 - User authentication for practitioners

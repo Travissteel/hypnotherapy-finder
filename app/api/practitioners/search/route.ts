@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-// Use service role for advanced search queries
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+import { createRouteHandlerClient } from '@/lib/supabase/server';
 
 // GET /api/practitioners/search - Advanced search with fuzzy matching
 export async function GET(request: NextRequest) {
   try {
+    const supabase = await createRouteHandlerClient();
+
     const searchParams = request.nextUrl.searchParams;
 
     const email = searchParams.get('email');
@@ -37,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     // Always use basic search with ILIKE pattern matching
     // (The fuzzy search RPC function is not deployed)
-    return basicSearch(email, phone, name, city, state, specialty, insurance, sessionType, limit, offset, forClaim);
+    return basicSearch(supabase, email, phone, name, city, state, specialty, insurance, sessionType, limit, offset, forClaim);
   } catch (error: any) {
     console.error('[Search API] Error:', error);
     return NextResponse.json(
@@ -48,6 +44,7 @@ export async function GET(request: NextRequest) {
 }
 
 async function basicSearch(
+  supabase: any,
   email: string | null,
   phone: string | null,
   name: string | null,

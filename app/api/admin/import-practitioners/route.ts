@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
     try {
         // Verify admin access (simple API key check)
         const authHeader = request.headers.get('authorization');
-        const expectedKey = process.env.ADMIN_API_KEY || 'import-practitioners-secret';
+        const expectedKey = process.env.ADMIN_API_KEY;
 
-        if (authHeader !== `Bearer ${expectedKey}`) {
+        if (!expectedKey || authHeader !== `Bearer ${expectedKey}`) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
