@@ -196,7 +196,7 @@ hypnotherapy-directory/
 
 ## Technology Stack
 
-- **Framework**: Next.js 14.2
+- **Framework**: Next.js 16 (Latest Stable)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS 4
 - **Components**: shadcn/ui
