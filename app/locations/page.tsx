@@ -7,6 +7,9 @@ import { MapPin } from 'lucide-react';
 export const metadata = {
   title: 'Hypnotherapy Locations | Find Practitioners in Your City',
   description: 'Browse hypnotherapists by location across the United States. Find certified practitioners in over 50 cities nationwide.',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/locations',
+  },
 };
 
 export default function LocationsPage() {

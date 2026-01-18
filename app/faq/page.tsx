@@ -8,6 +8,9 @@ export const metadata = {
   title: 'Hypnotherapy FAQs | Common Questions About Hypnosis Answered',
   description: 'Get answers to common questions about hypnotherapy, including safety, effectiveness, what to expect, costs, and how to choose a hypnotherapist.',
   keywords: 'hypnotherapy questions, is hypnotherapy safe, how much does hypnotherapy cost, hypnosis FAQ',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/faq',
+  },
 };
 
 export default function FAQPage() {

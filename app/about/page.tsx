@@ -8,6 +8,9 @@ export const metadata = {
   title: 'About Hypnotherapy | History, Science, and Professional Standards',
   description: 'Learn about the history of hypnotherapy, from ancient practices to modern clinical applications. Discover professional certifications and what makes a qualified hypnotherapist.',
   keywords: 'hypnotherapy history, clinical hypnosis, hypnotherapy certification, professional hypnotherapist',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/about',
+  },
 };
 
 export default function AboutPage() {

@@ -4,6 +4,9 @@ import { Footer } from '@/components/layout/Footer';
 export const metadata = {
   title: 'Privacy Policy | Hypnotherapy Finder',
   description: 'Privacy policy for Hypnotherapy Finder directory. Learn how we collect, use, and protect your personal information.',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/privacy',
+  },
 };
 
 export default function PrivacyPage() {

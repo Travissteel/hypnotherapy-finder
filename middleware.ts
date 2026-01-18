@@ -3,6 +3,16 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
+  const hostname = req.headers.get('host') || '';
+
+  // Redirect www to non-www (canonical domain standardization)
+  // This fixes the "Alternate Page with Proper Canonical Tag" issue in Search Console
+  if (hostname.startsWith('www.')) {
+    const newUrl = new URL(req.url);
+    newUrl.host = hostname.replace('www.', '');
+    return NextResponse.redirect(newUrl, 301);
+  }
+
   let res = NextResponse.next({
     request: {
       headers: req.headers,
@@ -85,5 +95,9 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/practitioner-signup', '/claim-listing/:path*', '/profile/:path*'],
+  // Match all paths for www redirect, plus protected routes for auth
+  matcher: [
+    // Match all paths except static files and api routes for www redirect
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
+  ],
 };

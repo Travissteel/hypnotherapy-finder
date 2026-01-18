@@ -8,16 +8,14 @@ export default function robots(): MetadataRoute.Robots {
       disallow: [
         '/api/',
         '/admin/',
-        '/dashboard',
         '/dashboard/',
         '/login',
-        '/login/',
         '/claim-listing',
-        '/claim-listing/',
         '/profile/',
         '/auth/',
       ],
     },
     sitemap: 'https://hypnotherapy-finder.com/sitemap.xml',
+    host: 'https://hypnotherapy-finder.com',
   };
 }

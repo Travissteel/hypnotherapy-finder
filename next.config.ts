@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Disable trailing slashes for consistent URLs (SEO best practice)
+  // This ensures /about and /about/ are not treated as different pages
+  trailingSlash: false,
+
   // Redirect ghost/old URLs to correct pages
+  // NOTE: With trailingSlash: false, Next.js handles trailing slash redirects automatically
+  // Do NOT add duplicate redirects for trailing slash versions - this creates redirect chains
   async redirects() {
     return [
       // ============================================
@@ -43,16 +49,61 @@ const nextConfig: NextConfig = {
 
       // ============================================
       // Legacy practitioner URLs (old WordPress format)
-      // Redirect to search since old practitioners may not exist
       // ============================================
       {
         source: '/practitioner/dr-jane-smith',
         destination: '/search',
         permanent: true,
       },
+      // Old practitioner slugs with city suffixes (from 404 report)
       {
-        source: '/practitioner/dr-jane-smith/',
+        source: '/practitioner/technologies-of-the-self-victoria-bresee-denver-35',
         destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/practitioner/hypnosis-network-fort-worth-3',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/practitioner/victoria-lee-denver-33',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/practitioner/john-bentz-master-hypnotherapist-houston-20',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/practitioner/you-austin-1',
+        destination: '/search',
+        permanent: true,
+      },
+
+      // ============================================
+      // Malformed location URLs
+      // ============================================
+      // URL-encoded specialty text mistakenly used as location
+      {
+        source: '/location/Anxiety%20%7C%20Habits%20%7C%20Emotional%20Blockages',
+        destination: '/hypnotherapy-for-anxiety',
+        permanent: true,
+      },
+
+      // ============================================
+      // Catch-all for malformed URLs with .com domains
+      // These handle all the .com URLs in both practitioner and location paths
+      // ============================================
+      {
+        source: '/practitioner/:slug*.com',
+        destination: '/search',
+        permanent: true,
+      },
+      {
+        source: '/location/:slug*.com',
+        destination: '/locations',
         permanent: true,
       },
 
@@ -65,17 +116,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/fort-worth-tx-2/',
-        destination: '/location/fort-worth',
-        permanent: true,
-      },
-      {
         source: '/philadelphia-pa',
-        destination: '/location/philadelphia',
-        permanent: true,
-      },
-      {
-        source: '/philadelphia-pa/',
         destination: '/location/philadelphia',
         permanent: true,
       },
@@ -85,28 +126,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/phoenix-az/',
-        destination: '/location/phoenix',
-        permanent: true,
-      },
-      {
         source: '/austin-tx',
         destination: '/location/austin',
         permanent: true,
       },
       {
-        source: '/austin-tx/',
-        destination: '/location/austin',
-        permanent: true,
-      },
-      {
         source: '/jacksonville-fl-2',
-        destination: '/location/jacksonville',
-        permanent: true,
-      },
-      {
-        source: '/jacksonville-fl-2/',
-        destination: '/location/jacksonville',
+        destination: '/locations',
         permanent: true,
       },
 
@@ -115,11 +141,6 @@ const nextConfig: NextConfig = {
       // ============================================
       {
         source: '/how-it-works-2',
-        destination: '/how-it-works',
-        permanent: true,
-      },
-      {
-        source: '/how-it-works-2/',
         destination: '/how-it-works',
         permanent: true,
       },
@@ -134,11 +155,6 @@ const nextConfig: NextConfig = {
       // /register to practitioner signup
       {
         source: '/register',
-        destination: '/practitioner-signup',
-        permanent: true,
-      },
-      {
-        source: '/register/',
         destination: '/practitioner-signup',
         permanent: true,
       },

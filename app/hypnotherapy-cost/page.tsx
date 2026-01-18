@@ -10,6 +10,9 @@ export const metadata = {
   title: 'How Much Does Hypnotherapy Cost? 2025 Prices & Insurance Coverage',
   description: 'Complete guide to hypnotherapy costs: average session prices, insurance coverage, payment options, and cost by condition. Find affordable hypnotherapy near you.',
   keywords: 'how much does hypnotherapy cost, hypnotherapy cost, hypnotherapy prices, hypnotherapy insurance coverage, how much is hypnotherapy',
+  alternates: {
+    canonical: 'https://hypnotherapy-finder.com/hypnotherapy-cost',
+  },
 };
 
 export default function HypnotherapyCostPage() {

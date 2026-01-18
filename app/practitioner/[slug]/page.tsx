@@ -284,7 +284,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                     <h2 className="text-3xl font-extrabold mb-4">Are you {practitioner.name}?</h2>
                     <p className="text-indigo-100 text-lg mb-8 font-medium max-w-xl">Claim this listing to update your information, manage appointments, and connect with more clients.</p>
                     <Button asChild size="lg" className="bg-white text-indigo-900 hover:bg-indigo-50 font-extrabold px-10 py-7 rounded-2xl shadow-xl transform transition-all active:scale-95">
-                      <Link href={`/claim-listing?practitioner=${practitioner.id}`}>Claim Profile Now</Link>
+                      <Link href={`/claim-listing?practitioner=${practitioner.id}`} rel="nofollow">Claim Profile Now</Link>
                     </Button>
                   </div>
                 </div>
