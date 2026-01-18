@@ -96,7 +96,7 @@ export async function PATCH(
       .from('claims')
       .select(`
         *,
-        practitioner:practitioners(name, city, state),
+        practitioner:practitioners(name, city, state, slug),
         user:user_profiles(full_name)
       `)
       .eq('id', id)
@@ -152,6 +152,7 @@ export async function PATCH(
           city,
           state,
           dashboardUrl: `${baseUrl}/dashboard`,
+          practitionerSlug: claim.practitioner?.slug || '',
           adminNotes: admin_notes,
         });
       } else if (status === 'rejected' && userEmail && rejection_reason) {

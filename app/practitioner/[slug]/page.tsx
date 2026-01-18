@@ -265,7 +265,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                   <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Clinical Specialties</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {specialties.map((spec, idx) => (
+                  {specialties.map((spec: string, idx: number) => (
                     <div key={idx} className="flex items-center gap-4 p-5 rounded-3xl bg-gray-50/50 border border-gray-100 hover:bg-indigo-50/30 hover:border-indigo-100 transition-all group">
                       <div className="p-2 bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform">
                         <CheckCircle className="h-5 w-5 text-indigo-600" />
