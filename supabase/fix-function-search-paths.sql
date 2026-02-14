@@ -1,10 +1,198 @@
 -- ============================================
--- FUZZY SEARCH FUNCTION
+-- FIX FUNCTION SEARCH PATH WARNINGS
 -- ============================================
--- This function uses PostgreSQL's pg_trgm extension for fuzzy text matching
--- Run this in Supabase SQL Editor after the main schema
+-- This migration adds explicit search_path settings to all functions
+-- to prevent potential SQL injection attacks via search_path manipulation.
+--
+-- Run this in Supabase SQL Editor to fix function search path warnings
 
--- Create fuzzy search function for practitioners
+-- Fix update_updated_at_column function
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
+
+-- Fix handle_new_user function
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_profiles (id, full_name, user_type)
+  VALUES (
+    NEW.id,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.email),
+    COALESCE(NEW.raw_user_meta_data->>'user_type', 'practitioner')
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = public, pg_catalog;
+
+-- Fix handle_claim_approval function
+CREATE OR REPLACE FUNCTION public.handle_claim_approval()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.status = 'approved' AND OLD.status != 'approved' THEN
+    -- Update practitioner
+    UPDATE practitioners
+    SET
+      claim_status = 'claimed',
+      claimed_by = NEW.user_id,
+      claim_date = NOW(),
+      verified = true,
+      verification_date = NOW()
+    WHERE id = NEW.practitioner_id;
+
+    -- Update user profile
+    UPDATE user_profiles
+    SET claimed_listings_count = claimed_listings_count + 1
+    WHERE id = NEW.user_id;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = public, pg_catalog;
+
+-- Fix generate_slug function
+CREATE OR REPLACE FUNCTION generate_slug(name TEXT, city TEXT, state TEXT)
+RETURNS TEXT AS $$
+DECLARE
+  base_slug TEXT;
+  final_slug TEXT;
+  counter INTEGER := 0;
+BEGIN
+  -- Create base slug
+  base_slug := lower(regexp_replace(name || '-' || city || '-' || state, '[^a-zA-Z0-9]+', '-', 'g'));
+  base_slug := trim(both '-' from base_slug);
+  final_slug := base_slug;
+
+  -- Ensure uniqueness
+  WHILE EXISTS (SELECT 1 FROM practitioners WHERE slug = final_slug) LOOP
+    counter := counter + 1;
+    final_slug := base_slug || '-' || counter;
+  END LOOP;
+
+  RETURN final_slug;
+END;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
+
+-- Fix track_page_view function
+CREATE OR REPLACE FUNCTION track_page_view(
+  p_page_path TEXT,
+  p_page_title TEXT DEFAULT NULL,
+  p_referrer TEXT DEFAULT NULL,
+  p_user_id UUID DEFAULT NULL,
+  p_session_id TEXT DEFAULT NULL,
+  p_ip_address TEXT DEFAULT NULL,
+  p_user_agent TEXT DEFAULT NULL
+)
+RETURNS UUID AS $$
+DECLARE
+  v_view_id UUID;
+BEGIN
+  INSERT INTO page_views (
+    page_path,
+    page_title,
+    referrer,
+    user_id,
+    session_id,
+    ip_address,
+    user_agent
+  )
+  VALUES (
+    p_page_path,
+    p_page_title,
+    p_referrer,
+    p_user_id,
+    p_session_id,
+    p_ip_address,
+    p_user_agent
+  )
+  RETURNING id INTO v_view_id;
+
+  RETURN v_view_id;
+END;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
+
+-- Fix track_search_query function
+CREATE OR REPLACE FUNCTION track_search_query(
+  p_query_text TEXT,
+  p_filters JSONB DEFAULT NULL,
+  p_results_count INTEGER DEFAULT 0,
+  p_user_id UUID DEFAULT NULL,
+  p_session_id TEXT DEFAULT NULL,
+  p_ip_address TEXT DEFAULT NULL
+)
+RETURNS UUID AS $$
+DECLARE
+  v_search_id UUID;
+BEGIN
+  INSERT INTO search_queries (
+    query_text,
+    filters,
+    results_count,
+    user_id,
+    session_id,
+    ip_address
+  )
+  VALUES (
+    p_query_text,
+    p_filters,
+    p_results_count,
+    p_user_id,
+    p_session_id,
+    p_ip_address
+  )
+  RETURNING id INTO v_search_id;
+
+  RETURN v_search_id;
+END;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
+
+-- Fix track_practitioner_view function
+CREATE OR REPLACE FUNCTION track_practitioner_view(
+  p_practitioner_id UUID,
+  p_user_id UUID DEFAULT NULL,
+  p_session_id TEXT DEFAULT NULL,
+  p_ip_address TEXT DEFAULT NULL,
+  p_source TEXT DEFAULT 'direct',
+  p_referrer TEXT DEFAULT NULL
+)
+RETURNS UUID AS $$
+DECLARE
+  v_view_id UUID;
+BEGIN
+  INSERT INTO practitioner_views (
+    practitioner_id,
+    user_id,
+    session_id,
+    ip_address,
+    source,
+    referrer
+  )
+  VALUES (
+    p_practitioner_id,
+    p_user_id,
+    p_session_id,
+    p_ip_address,
+    p_source,
+    p_referrer
+  )
+  RETURNING id INTO v_view_id;
+
+  RETURN v_view_id;
+END;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
+
+-- Fix search_practitioners_fuzzy function
 CREATE OR REPLACE FUNCTION search_practitioners_fuzzy(
   search_name TEXT DEFAULT NULL,
   search_city TEXT DEFAULT NULL,
@@ -94,14 +282,7 @@ END;
 $$ LANGUAGE plpgsql
 SET search_path = public, pg_catalog;
 
--- Create index for faster trigram searches (if not already created)
-CREATE INDEX IF NOT EXISTS idx_practitioners_name_trgm
-ON practitioners USING GIN(name gin_trgm_ops);
-
-CREATE INDEX IF NOT EXISTS idx_practitioners_city_trgm
-ON practitioners USING GIN(city gin_trgm_ops);
-
--- Create full-text search function for more complex queries
+-- Fix search_practitioners_fulltext function
 CREATE OR REPLACE FUNCTION search_practitioners_fulltext(
   search_query TEXT,
   limit_count INTEGER DEFAULT 50,
@@ -182,7 +363,3 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql
 SET search_path = public, pg_catalog;
-
--- Example usage:
--- SELECT * FROM search_practitioners_fuzzy('John Smyth', 'Los Angles', 'California', NULL, 20, 0, FALSE);
--- SELECT * FROM search_practitioners_fulltext('hypnotherapy anxiety Los Angeles', 20, 0);

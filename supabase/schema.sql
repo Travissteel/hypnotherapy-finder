@@ -227,7 +227,8 @@ BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
 
 -- Triggers for updated_at
 CREATE TRIGGER update_practitioners_updated_at BEFORE UPDATE ON practitioners
@@ -251,7 +252,8 @@ BEGIN
   );
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = public, pg_catalog;
 
 -- Trigger to create profile on user signup
 CREATE TRIGGER on_auth_user_created
@@ -281,7 +283,8 @@ BEGIN
 
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER
+SET search_path = public, pg_catalog;
 
 -- Trigger for claim approval
 CREATE TRIGGER on_claim_approved
@@ -311,7 +314,8 @@ BEGIN
 
   RETURN final_slug;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
 
 -- ============================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -377,7 +381,8 @@ CREATE POLICY "Admins can view audit logs"
 -- ============================================
 
 -- View for pending claims with practitioner details
-CREATE VIEW pending_claims_view AS
+CREATE VIEW pending_claims_view
+WITH (security_invoker=true) AS
 SELECT
   c.*,
   p.name as practitioner_name,
@@ -393,7 +398,8 @@ WHERE c.status = 'pending'
 ORDER BY c.created_at ASC;
 
 -- View for practitioner statistics
-CREATE VIEW practitioner_stats AS
+CREATE VIEW practitioner_stats
+WITH (security_invoker=true) AS
 SELECT
   p.id,
   p.name,

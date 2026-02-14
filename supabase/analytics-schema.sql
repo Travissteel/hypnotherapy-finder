@@ -128,7 +128,8 @@ CREATE INDEX idx_claim_events_event_type ON claim_events(event_type);
 -- ============================================
 
 -- Daily page views summary
-CREATE OR REPLACE VIEW daily_page_views AS
+CREATE OR REPLACE VIEW daily_page_views
+WITH (security_invoker=true) AS
 SELECT
   DATE(viewed_at) as date,
   COUNT(*) as total_views,
@@ -139,7 +140,8 @@ GROUP BY DATE(viewed_at)
 ORDER BY date DESC;
 
 -- Popular pages
-CREATE OR REPLACE VIEW popular_pages AS
+CREATE OR REPLACE VIEW popular_pages
+WITH (security_invoker=true) AS
 SELECT
   page_path,
   COUNT(*) as view_count,
@@ -150,7 +152,8 @@ GROUP BY page_path
 ORDER BY view_count DESC;
 
 -- Top searched terms
-CREATE OR REPLACE VIEW top_searches AS
+CREATE OR REPLACE VIEW top_searches
+WITH (security_invoker=true) AS
 SELECT
   query_text,
   COUNT(*) as search_count,
@@ -162,7 +165,8 @@ GROUP BY query_text
 ORDER BY search_count DESC;
 
 -- Most viewed practitioners
-CREATE OR REPLACE VIEW most_viewed_practitioners AS
+CREATE OR REPLACE VIEW most_viewed_practitioners
+WITH (security_invoker=true) AS
 SELECT
   pv.practitioner_id,
   p.name,
@@ -179,7 +183,8 @@ GROUP BY pv.practitioner_id, p.name, p.city, p.state
 ORDER BY view_count DESC;
 
 -- Claim funnel metrics
-CREATE OR REPLACE VIEW claim_funnel AS
+CREATE OR REPLACE VIEW claim_funnel
+WITH (security_invoker=true) AS
 SELECT
   DATE(created_at) as date,
   COUNT(*) FILTER (WHERE event_type = 'created') as claims_created,
@@ -234,7 +239,8 @@ BEGIN
 
   RETURN v_view_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
 
 -- Function to track search query
 CREATE OR REPLACE FUNCTION track_search_query(
@@ -269,7 +275,8 @@ BEGIN
 
   RETURN v_search_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
 
 -- Function to track practitioner view
 CREATE OR REPLACE FUNCTION track_practitioner_view(
@@ -304,7 +311,8 @@ BEGIN
 
   RETURN v_view_id;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql
+SET search_path = public, pg_catalog;
 
 -- ============================================
 -- ROW LEVEL SECURITY FOR ANALYTICS

@@ -22,25 +22,42 @@ export async function GET(request: NextRequest) {
       .eq('id', session.user.id)
       .single();
 
-    let query = supabase
+    // Fetch claims with practitioner data
+    let claimsQuery = supabase
       .from('claims')
       .select(`
         *,
-        practitioner:practitioners(id, name, email, city, state, phone),
-        user:user_profiles(full_name, phone)
+        practitioner:practitioners(id, name, email, city, state, phone)
       `)
       .order('created_at', { ascending: false });
 
     // If not admin, only show user's own claims
     if (!profile?.is_admin) {
-      query = query.eq('user_id', session.user.id);
+      claimsQuery = claimsQuery.eq('user_id', session.user.id);
     }
 
-    const { data: claims, error } = await query;
+    const { data: claims, error: claimsError } = await claimsQuery;
+
+    if (claimsError) throw claimsError;
+
+    // Fetch user profiles separately for each claim
+    const userIds = [...new Set(claims?.map(c => c.user_id) || [])];
+    const { data: userProfiles } = await supabase
+      .from('user_profiles')
+      .select('id, full_name, phone')
+      .in('id', userIds);
+
+    // Merge user profile data into claims
+    const claimsWithUsers = claims?.map(claim => ({
+      ...claim,
+      user: userProfiles?.find(u => u.id === claim.user_id) || null
+    }));
+
+    const error = claimsError;
 
     if (error) throw error;
 
-    return NextResponse.json({ claims });
+    return NextResponse.json({ claims: claimsWithUsers });
   } catch (error: any) {
     console.error('Error fetching claims:', error);
     return NextResponse.json(
