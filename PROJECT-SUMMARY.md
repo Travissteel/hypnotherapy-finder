@@ -153,6 +153,7 @@ hypnotherapy-directory/
   - Updated vulnerable dependencies (next-mdx-remote 5.0.0 → 6.0.0)
   - Consolidated Vercel deployment infrastructure
   - Created comprehensive admin access and security documentation
+  - Fixed missing slugs for claimed practitioners (404 error resolution)
 
 ### Completed Enhancements
 - ✅ User authentication for practitioners (Supabase Auth)
