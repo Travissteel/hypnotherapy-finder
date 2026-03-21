@@ -23,6 +23,9 @@ export default function DashboardPage() {
   const [practitionerId, setPractitionerId] = useState<string | null>(null);
   const [practitionerSlug, setPractitionerSlug] = useState<string | null>(null);
   const [noPractitionerRecord, setNoPractitionerRecord] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [actualSlug, setActualSlug] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Practitioner profile data
   const [profileData, setProfileData] = useState({
@@ -94,6 +97,8 @@ export default function DashboardPage() {
 
       // Use the practitioner ID directly for public profile link
       setPractitionerSlug(data.id);
+      setActualSlug(data.slug || null);
+      setVerified(data.verified === true && data.claim_status === 'claimed');
 
       setProfileData({
         name: data.name || '',
@@ -181,6 +186,12 @@ export default function DashboardPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleCopy = async (text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const stats = [
@@ -630,6 +641,56 @@ export default function DashboardPage() {
                 </ul>
               </CardContent>
             </Card>
+
+            {verified && actualSlug && (
+              <Card className="mt-6 border-green-200 bg-green-50">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    Your Verified Practitioner Badge
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 mb-4">
+                    You are a verified practitioner on Hypnotherapy Finder. Add this badge to your website to show clients you are verified — it links back to your profile.
+                  </p>
+
+                  <div className="mb-4">
+                    <p className="text-sm font-medium mb-2">Badge preview:</p>
+                    <img
+                      src={`/api/badge/${actualSlug}`}
+                      alt="Verified Practitioner Badge"
+                      width={200}
+                      height={56}
+                      className="rounded"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <p className="text-sm font-medium mb-2">Embed code for your website:</p>
+                    <div className="relative">
+                      <pre className="bg-white border border-gray-200 rounded p-3 text-xs overflow-x-auto text-gray-700 pr-24">
+{`<a href="https://hypnotherapy-finder.com/practitioner/${actualSlug}" target="_blank" rel="noopener">
+  <img src="https://hypnotherapy-finder.com/api/badge/${actualSlug}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />
+</a>`}
+                      </pre>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="absolute top-2 right-2 text-xs"
+                        onClick={() => handleCopy(`<a href="https://hypnotherapy-finder.com/practitioner/${actualSlug}" target="_blank" rel="noopener">\n  <img src="https://hypnotherapy-finder.com/api/badge/${actualSlug}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />\n</a>`)}
+                      >
+                        {copied ? '✓ Copied!' : 'Copy'}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-500">
+                    Place this code anywhere on your website — your homepage, contact page, or email signature works great.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </main>

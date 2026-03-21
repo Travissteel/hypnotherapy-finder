@@ -8,8 +8,6 @@ import {
   Preview,
   Section,
   Text,
-  CodeBlock,
-  Hr,
 } from '@react-email/components';
 
 interface ClaimApprovedEmailProps {
@@ -18,7 +16,7 @@ interface ClaimApprovedEmailProps {
   city: string;
   state: string;
   dashboardUrl: string;
-  practitionerSlug: string;
+  practitionerSlug?: string;
   adminNotes?: string;
 }
 
@@ -32,35 +30,27 @@ export default function ClaimApprovedEmail({
   adminNotes,
 }: ClaimApprovedEmailProps) {
   const profileUrl = `https://hypnotherapy-finder.com/practitioner/${practitionerSlug}`;
-  const badgeCode = `<a href="${profileUrl}" target="_blank" rel="noopener">
-  <img src="https://hypnotherapy-finder.com/badges/verified-practitioner.svg"
-       alt="Verified on Hypnotherapy Finder"
-       width="180" height="60" />
-</a>`;
+  const badgeUrl = `https://hypnotherapy-finder.com/api/badge/${practitionerSlug}`;
+  const embedCode = `<a href="${profileUrl}" target="_blank" rel="noopener">\n  <img src="${badgeUrl}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />\n</a>`;
+
   return (
     <Html>
       <Head />
-      <Preview>Your claim has been approved!</Preview>
+      <Preview>Your listing is approved - here is your verified badge!</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Heading style={h1}>🎉 Claim Approved!</Heading>
+          <Heading style={h1}>Claim Approved!</Heading>
 
           <Text style={text}>Hi {claimantName},</Text>
 
           <Text style={text}>
-            Great news! Your claim for the listing <strong>{practitionerName}</strong> in {city}, {state} has been approved.
+            Your listing <strong>{practitionerName}</strong> in {city}, {state} has been approved on Hypnotherapy Finder.
           </Text>
 
           <Section style={infoSection}>
-            <Text style={infoText}>
-              <strong>Practitioner:</strong> {practitionerName}
-            </Text>
-            <Text style={infoText}>
-              <strong>Location:</strong> {city}, {state}
-            </Text>
-            <Text style={infoText}>
-              <strong>Status:</strong> Approved ✅
-            </Text>
+            <Text style={infoText}><strong>Practitioner:</strong> {practitionerName}</Text>
+            <Text style={infoText}><strong>Location:</strong> {city}, {state}</Text>
+            <Text style={infoText}><strong>Status:</strong> Verified</Text>
           </Section>
 
           {adminNotes && (
@@ -70,9 +60,27 @@ export default function ClaimApprovedEmail({
             </Section>
           )}
 
-          <Text style={text}>
-            You can now manage your listing from your dashboard. Update your profile, add photos, and enhance your visibility.
-          </Text>
+          {/* Verified badge section */}
+          <Section style={badgeSection}>
+            <Text style={badgeHeading}>Your Verified Practitioner Badge</Text>
+            <Text style={{ ...text, margin: '0 0 16px 0' }}>
+              Add this badge to your website to show clients you are verified. It links directly to your Hypnotherapy Finder profile.
+            </Text>
+            <Section style={{ textAlign: 'center' as const, margin: '16px 0' }}>
+              <Link href={profileUrl}>
+                <img src={badgeUrl} alt="Verified Practitioner Badge" width="200" height="56" />
+              </Link>
+            </Section>
+            <Text style={{ ...text, fontSize: '14px', color: '#555', margin: '0 0 8px 0' }}>
+              Copy and paste this code anywhere on your website:
+            </Text>
+            <Section style={codeSection}>
+              <Text style={codeText}>{embedCode}</Text>
+            </Section>
+            <Text style={{ ...text, fontSize: '13px', color: '#888', margin: '8px 0 0 0' }}>
+              Your profile: <Link href={profileUrl} style={{ color: '#4f46e5' }}>{profileUrl}</Link>
+            </Text>
+          </Section>
 
           <Section style={buttonSection}>
             <Link href={dashboardUrl} style={button}>
@@ -80,37 +88,8 @@ export default function ClaimApprovedEmail({
             </Link>
           </Section>
 
-          <Hr style={divider} />
-
-          <Section style={badgeSection}>
-            <Heading style={h2}>Get Your Verified Badge</Heading>
-            <Text style={badgeText}>
-              Add our "Verified Practitioner" badge to your website to show clients you're a trusted professional listed on Hypnotherapy Finder. This also helps us verify you as the listing owner.
-            </Text>
-
-            <Text style={badgeText}>
-              <strong>Copy this code and paste it into your website:</strong>
-            </Text>
-
-            <Section style={codeSection}>
-              <Text style={codeText}>{badgeCode}</Text>
-            </Section>
-
-            <Text style={badgeText}>
-              <strong>Benefits of adding the badge:</strong>
-            </Text>
-            <Text style={benefitsList}>
-              ✓ Shows clients you're verified and trusted<br />
-              ✓ Links directly to your profile<br />
-              ✓ Boosts your credibility<br />
-              ✓ Helps potential clients find you
-            </Text>
-          </Section>
-
-          <Hr style={divider} />
-
           <Text style={text}>
-            Thank you for being part of our hypnotherapy directory!
+            Thank you for being part of Hypnotherapy Finder!
           </Text>
 
           <Text style={footer}>
@@ -189,6 +168,37 @@ const notesText = {
   margin: '0',
 };
 
+const badgeSection = {
+  backgroundColor: '#f0fdf4',
+  borderRadius: '8px',
+  margin: '32px 40px',
+  padding: '24px',
+  borderLeft: '4px solid #10b981',
+};
+
+const badgeHeading = {
+  color: '#065f46',
+  fontSize: '18px',
+  fontWeight: 'bold' as const,
+  margin: '0 0 12px 0',
+};
+
+const codeSection = {
+  backgroundColor: '#1e293b',
+  borderRadius: '6px',
+  padding: '12px 16px',
+  margin: '8px 0 16px 0',
+};
+
+const codeText = {
+  color: '#e2e8f0',
+  fontSize: '12px',
+  fontFamily: 'monospace',
+  lineHeight: '1.6',
+  margin: '0',
+  whiteSpace: 'pre' as const,
+};
+
 const buttonSection = {
   margin: '32px 40px',
   textAlign: 'center' as const,
@@ -212,57 +222,4 @@ const footer = {
   lineHeight: '20px',
   margin: '48px 40px 0',
   textAlign: 'center' as const,
-};
-
-const divider = {
-  borderColor: '#e6ebf1',
-  margin: '32px 40px',
-};
-
-const h2 = {
-  color: '#333',
-  fontSize: '22px',
-  fontWeight: 'bold',
-  margin: '0 0 16px 0',
-  textAlign: 'center' as const,
-};
-
-const badgeSection = {
-  margin: '32px 40px',
-  padding: '24px',
-  backgroundColor: '#f0fdf4',
-  borderRadius: '8px',
-  border: '1px solid #bbf7d0',
-};
-
-const badgeText = {
-  color: '#333',
-  fontSize: '15px',
-  lineHeight: '24px',
-  margin: '12px 0',
-};
-
-const codeSection = {
-  backgroundColor: '#1f2937',
-  borderRadius: '6px',
-  padding: '16px',
-  margin: '16px 0',
-  overflowX: 'auto' as const,
-};
-
-const codeText = {
-  color: '#e5e7eb',
-  fontSize: '12px',
-  fontFamily: 'monospace',
-  lineHeight: '20px',
-  margin: '0',
-  whiteSpace: 'pre-wrap' as const,
-  wordBreak: 'break-all' as const,
-};
-
-const benefitsList = {
-  color: '#166534',
-  fontSize: '15px',
-  lineHeight: '28px',
-  margin: '12px 0 0 0',
 };

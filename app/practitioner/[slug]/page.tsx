@@ -108,10 +108,27 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   let description = `Connect with ${practitioner.name}, a certified hypnotherapist in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Specializing in ${specialties.slice(0, 3).join(', ')}.` : ''}`;
   if (description.length > 155) description = description.substring(0, 152) + '...';
 
+  const ogTitle = `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${practitioner.state}`;
+  const ogImage = practitioner.photo_url || 'https://hypnotherapy-finder.com/og-image.jpg';
+
   return {
-    title: `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${practitioner.state}`,
+    title: ogTitle,
     description,
     alternates: { canonical: `https://hypnotherapy-finder.com/practitioner/${slug}` },
+    openGraph: {
+      title: ogTitle,
+      description,
+      url: `https://hypnotherapy-finder.com/practitioner/${slug}`,
+      siteName: 'Hypnotherapy Finder',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: practitioner.name }],
+      type: 'profile',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: ogTitle,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
@@ -192,10 +209,12 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                     <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
                       {practitioner.name}
                     </h1>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 shadow-sm ring-1 ring-indigo-100">
-                      <CheckCircle className="h-3.5 w-3.5 fill-indigo-700 text-indigo-50" />
-                      Verified Professional
-                    </span>
+                    {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 shadow-sm ring-1 ring-indigo-100">
+                        <CheckCircle className="h-3.5 w-3.5 fill-indigo-700 text-indigo-50" />
+                        Verified Professional
+                      </span>
+                    )}
                   </div>
                   <p className="mt-3 text-xl md:text-2xl text-gray-500 font-medium">
                     {practitioner.title || 'Clinical Hypnotherapist & Mindset Coach'}
@@ -358,6 +377,27 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                   )}
                 </div>
               </div>
+
+              {/* Verified Badge */}
+              {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
+                <div className="bg-green-50 rounded-[2.5rem] p-8 border border-green-100 shadow-sm">
+                  <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-green-700 mb-4">Verified Practitioner</h4>
+                  <div className="flex justify-center mb-4">
+                    <a href={`https://hypnotherapy-finder.com/practitioner/${practitioner.slug}`}>
+                      <img
+                        src={`/api/badge/${practitioner.slug}`}
+                        alt="Verified Practitioner - Hypnotherapy Finder"
+                        width={200}
+                        height={56}
+                        className="rounded"
+                      />
+                    </a>
+                  </div>
+                  <p className="text-xs text-green-700 text-center font-medium">
+                    Identity and credentials verified by Hypnotherapy Finder
+                  </p>
+                </div>
+              )}
 
               {/* Benefits CTA */}
               <div className="bg-gradient-to-br from-indigo-50 to-white rounded-[2.5rem] p-10 border border-indigo-100/50 shadow-sm relative overflow-hidden group">

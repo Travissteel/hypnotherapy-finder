@@ -10,7 +10,7 @@ interface SendClaimApprovedEmailParams {
   city: string;
   state: string;
   dashboardUrl: string;
-  practitionerSlug: string;
+  practitionerSlug?: string;
   adminNotes?: string;
 }
 
