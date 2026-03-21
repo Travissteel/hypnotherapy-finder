@@ -63,24 +63,54 @@ export default function ClaimApprovedEmail({
           {/* Verified badge section */}
           <Section style={badgeSection}>
             <Text style={badgeHeading}>Your Verified Practitioner Badge</Text>
-            <Text style={{ ...text, margin: '0 0 16px 0' }}>
-              Add this badge to your website to show clients you are verified. It links directly to your Hypnotherapy Finder profile.
+            <Text style={{ ...text, margin: '0 0 20px 0' }}>
+              You now have a verified badge you can display on your website. Here is how to add it in 3 simple steps:
             </Text>
-            <Section style={{ textAlign: 'center' as const, margin: '16px 0' }}>
+
+            {/* Step 1 */}
+            <Section style={stepSection}>
+              <Text style={stepNumber}>Step 1 — Copy your badge code</Text>
+              <Text style={{ ...text, margin: '0 0 10px 0', fontSize: '14px', color: '#555' }}>
+                Select all the code below and copy it:
+              </Text>
+              <Section style={codeSection}>
+                <Text style={codeText}>{embedCode}</Text>
+              </Section>
+            </Section>
+
+            {/* Badge preview */}
+            <Section style={{ textAlign: 'center' as const, margin: '8px 0 20px 0' }}>
+              <Text style={{ ...text, fontSize: '13px', color: '#888', margin: '0 0 10px 0' }}>This is what your badge looks like:</Text>
               <Link href={profileUrl}>
                 <img src={badgeUrl} alt="Verified Practitioner Badge" width="200" height="56" />
               </Link>
             </Section>
-            <Text style={{ ...text, fontSize: '14px', color: '#555', margin: '0 0 8px 0' }}>
-              Copy and paste this code anywhere on your website:
-            </Text>
-            <Section style={codeSection}>
-              <Text style={codeText}>{embedCode}</Text>
+
+            {/* Step 2 */}
+            <Section style={stepSection}>
+              <Text style={stepNumber}>Step 2 — Paste it on your website</Text>
+              <Text style={{ ...text, margin: '0 0 8px 0', fontSize: '14px', color: '#374151' }}>
+                Paste the code into any page on your website. Great spots include:
+              </Text>
+              <Text style={bulletText}>&#10003; Your homepage footer or sidebar</Text>
+              <Text style={bulletText}>&#10003; Your Contact or About page</Text>
+              <Text style={bulletText}>&#10003; Your email signature</Text>
+              <Text style={{ ...bulletText, marginBottom: '0' }}>&#10003; A "credentials" or "trust" section</Text>
             </Section>
-            <Text style={{ ...text, fontSize: '13px', color: '#888', margin: '8px 0 0 0' }}>
-              Your profile: <Link href={profileUrl} style={{ color: '#4f46e5' }}>{profileUrl}</Link>
-            </Text>
+
+            {/* Step 3 */}
+            <Section style={{ ...stepSection, borderBottom: 'none', marginBottom: '0', paddingBottom: '0' }}>
+              <Text style={stepNumber}>Step 3 — Click to verify it works</Text>
+              <Text style={{ ...text, margin: '0', fontSize: '14px', color: '#374151' }}>
+                After adding the badge, click it to confirm it links to your profile at:{' '}
+                <Link href={profileUrl} style={{ color: '#4f46e5' }}>{profileUrl}</Link>
+              </Text>
+            </Section>
           </Section>
+
+          <Text style={{ ...text, fontSize: '14px', color: '#6b7280', margin: '0 40px 24px' }}>
+            You can always find your badge code again in your dashboard at any time.
+          </Text>
 
           <Section style={buttonSection}>
             <Link href={dashboardUrl} style={button}>
@@ -181,6 +211,26 @@ const badgeHeading = {
   fontSize: '18px',
   fontWeight: 'bold' as const,
   margin: '0 0 12px 0',
+};
+
+const stepSection = {
+  borderBottom: '1px solid #d1fae5',
+  marginBottom: '20px',
+  paddingBottom: '20px',
+};
+
+const stepNumber = {
+  color: '#065f46',
+  fontSize: '15px',
+  fontWeight: 'bold' as const,
+  margin: '0 0 8px 0',
+};
+
+const bulletText = {
+  color: '#374151',
+  fontSize: '14px',
+  lineHeight: '22px',
+  margin: '0 0 4px 0',
 };
 
 const codeSection = {
