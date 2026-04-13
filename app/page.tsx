@@ -6,7 +6,7 @@ import { getFeaturedPractitioners, getAllCities } from '@/lib/data/practitioners
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity, Brain, HeartPulse, Users2, Repeat2 } from 'lucide-react';
+import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves } from 'lucide-react';
 
 export const metadata = {
   title: 'Find a Certified Hypnotherapist Near You',
@@ -367,7 +367,7 @@ export default function Home() {
               <h2 className="text-4xl font-extrabold text-gray-900">Free Resources</h2>
               <p className="mt-4 text-xl text-gray-600">Tools to help you understand your wellbeing</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               <Link
                 href="/stress-level-calculator"
                 className="group block p-7 bg-gradient-to-br from-indigo-50 to-teal-50 border-2 border-indigo-100 rounded-2xl hover:shadow-xl hover:border-indigo-300 transition-all"
@@ -444,6 +444,38 @@ export default function Home() {
                   Do you have OCD? Check for obsessions, compulsions, and Pure O symptoms.
                 </p>
                 <span className="text-orange-600 font-semibold text-sm group-hover:text-orange-800 transition-colors">
+                  Take the free test →
+                </span>
+              </Link>
+
+              <Link
+                href="/phobia-test"
+                className="group block p-7 bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-violet-100 rounded-2xl hover:shadow-xl hover:border-violet-300 transition-all"
+              >
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <Zap className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Phobia Test</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  Do you have a phobia? Check 16 common phobias and rate their impact on your life.
+                </p>
+                <span className="text-violet-600 font-semibold text-sm group-hover:text-violet-800 transition-colors">
+                  Take the free test →
+                </span>
+              </Link>
+
+              <Link
+                href="/thalassophobia-test"
+                className="group block p-7 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-100 rounded-2xl hover:shadow-xl hover:border-cyan-300 transition-all"
+              >
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <Waves className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Thalassophobia Test</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                  Fear of deep water or the ocean? Find out if you have thalassophobia.
+                </p>
+                <span className="text-cyan-600 font-semibold text-sm group-hover:text-cyan-800 transition-colors">
                   Take the free test →
                 </span>
               </Link>

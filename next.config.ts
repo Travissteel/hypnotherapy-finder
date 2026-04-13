@@ -244,6 +244,34 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Phobia test keyword variants
+      // ============================================
+      {
+        source: '/phobia-quiz',
+        destination: '/phobia-test',
+        permanent: true,
+      },
+      {
+        source: '/do-i-have-a-phobia-test',
+        destination: '/phobia-test',
+        permanent: true,
+      },
+
+      // ============================================
+      // Thalassophobia test keyword variants
+      // ============================================
+      {
+        source: '/thalassophobia-quiz',
+        destination: '/thalassophobia-test',
+        permanent: true,
+      },
+      {
+        source: '/fear-of-deep-water-test',
+        destination: '/thalassophobia-test',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',
