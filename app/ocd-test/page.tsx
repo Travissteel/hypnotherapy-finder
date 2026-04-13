@@ -6,7 +6,7 @@ import OCDTest from './OCDTest';
 export const metadata: Metadata = {
   title: 'OCD Test — Do I Have OCD? Free Self-Assessment | Hypnotherapy Finder',
   description: 'Take our free OCD test to check for symptoms of obsessive-compulsive disorder, including Pure O. Answer 14 questions and get your personalised result in under 3 minutes.',
-  keywords: 'ocd test, do I have ocd quiz, ocd self assessment, ocd symptoms test, pure o ocd test, obsessive compulsive disorder test, ocd quiz online',
+  keywords: 'ocd test, do I have ocd quiz, do i have ocd test, ocd self assessment, ocd symptoms test, pure o ocd test, obsessive compulsive disorder test, ocd quiz online',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/ocd-test',
   },

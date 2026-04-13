@@ -238,6 +238,11 @@ const nextConfig: NextConfig = {
         destination: '/ocd-test',
         permanent: true,
       },
+      {
+        source: '/do-i-have-ocd-test',
+        destination: '/ocd-test',
+        permanent: true,
+      },
 
       // Homepage with specialty param -> search page with specialty param
       {
