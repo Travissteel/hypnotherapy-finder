@@ -310,6 +310,20 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Insomnia test keyword variants
+      // ============================================
+      {
+        source: '/insomnia-quiz',
+        destination: '/insomnia-test',
+        permanent: true,
+      },
+      {
+        source: '/do-i-have-insomnia-quiz',
+        destination: '/insomnia-test',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',

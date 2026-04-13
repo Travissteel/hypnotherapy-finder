@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf } from 'lucide-react';
+import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free Mental Health Quizzes & Tests | Hypnotherapy Finder',
@@ -140,12 +140,23 @@ const quizzes = [
     volume: '100 searches/month',
   },
   {
+    href: '/insomnia-test',
+    icon: Moon,
+    gradient: 'from-indigo-600 to-blue-700',
+    border: 'border-indigo-100 hover:border-indigo-300',
+    bg: 'from-indigo-50 to-blue-50',
+    accent: 'text-indigo-600 group-hover:text-indigo-800',
+    title: 'Insomnia Test',
+    desc: 'Do you have insomnia? Check for sleep problems and their impact.',
+    volume: '3.45k searches/month',
+  },
+  {
     href: '/stress-level-calculator',
     icon: Activity,
-    gradient: 'from-indigo-500 to-teal-500',
-    border: 'border-indigo-100 hover:border-indigo-300',
-    bg: 'from-indigo-50 to-teal-50',
-    accent: 'text-indigo-600 group-hover:text-indigo-800',
+    gradient: 'from-teal-500 to-cyan-500',
+    border: 'border-teal-100 hover:border-teal-300',
+    bg: 'from-teal-50 to-cyan-50',
+    accent: 'text-teal-600 group-hover:text-teal-800',
     title: 'Stress Quiz',
     desc: 'How stressed are you? Get your personalised score.',
     volume: '520 searches/month',
