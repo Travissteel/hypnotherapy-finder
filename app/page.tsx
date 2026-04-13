@@ -6,7 +6,7 @@ import { getFeaturedPractitioners, getAllCities } from '@/lib/data/practitioners
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Search, Users, CheckCircle, MapPin, Star, Award, Shield } from 'lucide-react';
+import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity } from 'lucide-react';
 
 export const metadata = {
   title: 'Find a Certified Hypnotherapist Near You',
@@ -356,6 +356,33 @@ export default function Home() {
               <Button asChild variant="outline" className="px-8 py-6 text-lg font-bold rounded-xl border-2 hover:bg-gray-50">
                 <Link href="/locations">View All Locations →</Link>
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Resources Section */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-extrabold text-gray-900">Free Resources</h2>
+              <p className="mt-4 text-xl text-gray-600">Tools to help you understand your wellbeing</p>
+            </div>
+            <div className="max-w-sm mx-auto">
+              <Link
+                href="/stress-level-calculator"
+                className="group block p-8 bg-gradient-to-br from-indigo-50 to-teal-50 border-2 border-indigo-100 rounded-2xl hover:shadow-xl hover:border-indigo-300 transition-all"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Activity className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Stress Level Calculator</h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Answer five quick questions to assess your current stress level and find out if hypnotherapy could help.
+                </p>
+                <span className="text-indigo-600 font-semibold group-hover:text-indigo-800 transition-colors">
+                  Take the free assessment →
+                </span>
+              </Link>
             </div>
           </div>
         </section>
