@@ -178,6 +178,25 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // PTSD quiz keyword variants
+      // ============================================
+      {
+        source: '/do-i-have-ptsd-quiz',
+        destination: '/ptsd-quiz',
+        permanent: true,
+      },
+      {
+        source: '/complex-ptsd-quiz',
+        destination: '/ptsd-quiz',
+        permanent: true,
+      },
+      {
+        source: '/ptsd-test',
+        destination: '/ptsd-quiz',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',

@@ -6,7 +6,7 @@ import { getFeaturedPractitioners, getAllCities } from '@/lib/data/practitioners
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity } from 'lucide-react';
+import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity, Brain } from 'lucide-react';
 
 export const metadata = {
   title: 'Find a Certified Hypnotherapist Near You',
@@ -367,7 +367,7 @@ export default function Home() {
               <h2 className="text-4xl font-extrabold text-gray-900">Free Resources</h2>
               <p className="mt-4 text-xl text-gray-600">Tools to help you understand your wellbeing</p>
             </div>
-            <div className="max-w-sm mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
               <Link
                 href="/stress-level-calculator"
                 className="group block p-8 bg-gradient-to-br from-indigo-50 to-teal-50 border-2 border-indigo-100 rounded-2xl hover:shadow-xl hover:border-indigo-300 transition-all"
@@ -375,12 +375,28 @@ export default function Home() {
                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Activity className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">Stress Level Calculator</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Stress Quiz</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  Answer five quick questions to assess your current stress level and find out if hypnotherapy could help.
+                  How stressed are you? Answer five quick questions to get your personalised stress score.
                 </p>
                 <span className="text-indigo-600 font-semibold group-hover:text-indigo-800 transition-colors">
-                  Take the free assessment →
+                  Take the free quiz →
+                </span>
+              </Link>
+
+              <Link
+                href="/ptsd-quiz"
+                className="group block p-8 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-100 rounded-2xl hover:shadow-xl hover:border-purple-300 transition-all"
+              >
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Brain className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">PTSD Quiz</h3>
+                <p className="text-gray-600 leading-relaxed mb-4">
+                  Do you have PTSD or C-PTSD? Take our free self-assessment covering all key trauma symptoms.
+                </p>
+                <span className="text-purple-600 font-semibold group-hover:text-purple-800 transition-colors">
+                  Take the free quiz →
                 </span>
               </Link>
             </div>
