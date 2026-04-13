@@ -159,6 +159,25 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Stress quiz/test keyword variants
+      // ============================================
+      {
+        source: '/stress-quiz',
+        destination: '/stress-level-calculator',
+        permanent: true,
+      },
+      {
+        source: '/stress-test',
+        destination: '/stress-level-calculator',
+        permanent: true,
+      },
+      {
+        source: '/how-stressed-am-i',
+        destination: '/stress-level-calculator',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',
