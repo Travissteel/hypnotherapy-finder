@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile } from 'lucide-react';
+import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free Mental Health Quizzes & Tests | Hypnotherapy Finder',
@@ -160,6 +160,28 @@ const quizzes = [
     title: 'Insomnia Test',
     desc: 'Do you have insomnia? Check for sleep problems and their impact.',
     volume: '3.45k searches/month',
+  },
+  {
+    href: '/self-esteem-test',
+    icon: Star,
+    gradient: 'from-yellow-500 to-amber-500',
+    border: 'border-yellow-100 hover:border-yellow-300',
+    bg: 'from-yellow-50 to-amber-50',
+    accent: 'text-yellow-600 group-hover:text-yellow-800',
+    title: 'Self-Esteem Test',
+    desc: 'Do you have low self-esteem? Check across self-worth, criticism, and confidence.',
+    volume: '1.45k searches/month',
+  },
+  {
+    href: '/codependency-quiz',
+    icon: Link2,
+    gradient: 'from-sky-500 to-blue-500',
+    border: 'border-sky-100 hover:border-sky-300',
+    bg: 'from-sky-50 to-blue-50',
+    accent: 'text-sky-600 group-hover:text-sky-800',
+    title: 'Codependency Quiz',
+    desc: 'Am I codependent? Check for caretaking, loss of self, and abandonment fears.',
+    volume: '450 searches/month',
   },
   {
     href: '/people-pleaser-quiz',

@@ -357,6 +357,34 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Self-esteem test keyword variants
+      // ============================================
+      {
+        source: '/self-esteem-quiz',
+        destination: '/self-esteem-test',
+        permanent: true,
+      },
+      {
+        source: '/low-self-esteem-test',
+        destination: '/self-esteem-test',
+        permanent: true,
+      },
+
+      // ============================================
+      // Codependency quiz keyword variants
+      // ============================================
+      {
+        source: '/codependency-test',
+        destination: '/codependency-quiz',
+        permanent: true,
+      },
+      {
+        source: '/am-i-codependent-quiz',
+        destination: '/codependency-quiz',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',
