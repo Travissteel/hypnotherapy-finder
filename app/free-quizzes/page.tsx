@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon } from 'lucide-react';
+import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free Mental Health Quizzes & Tests | Hypnotherapy Finder',
@@ -140,6 +140,17 @@ const quizzes = [
     volume: '100 searches/month',
   },
   {
+    href: '/anger-test',
+    icon: Angry,
+    gradient: 'from-red-500 to-orange-500',
+    border: 'border-red-100 hover:border-red-300',
+    bg: 'from-red-50 to-orange-50',
+    accent: 'text-red-600 group-hover:text-red-800',
+    title: 'Anger Test',
+    desc: 'Do you have anger issues? Check across 6 dimensions including suppression and hostility.',
+    volume: '7.2k searches/month',
+  },
+  {
     href: '/insomnia-test',
     icon: Moon,
     gradient: 'from-indigo-600 to-blue-700',
@@ -149,6 +160,17 @@ const quizzes = [
     title: 'Insomnia Test',
     desc: 'Do you have insomnia? Check for sleep problems and their impact.',
     volume: '3.45k searches/month',
+  },
+  {
+    href: '/people-pleaser-quiz',
+    icon: Smile,
+    gradient: 'from-fuchsia-500 to-pink-500',
+    border: 'border-fuchsia-100 hover:border-fuchsia-300',
+    bg: 'from-fuchsia-50 to-pink-50',
+    accent: 'text-fuchsia-600 group-hover:text-fuchsia-800',
+    title: 'People Pleaser Quiz',
+    desc: 'Am I a people pleaser? Check for approval seeking and boundary issues.',
+    volume: '150 searches/month',
   },
   {
     href: '/stress-level-calculator',

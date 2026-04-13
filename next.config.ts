@@ -324,6 +324,39 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Anger test keyword variants
+      // ============================================
+      {
+        source: '/anger-issues-test',
+        destination: '/anger-test',
+        permanent: true,
+      },
+      {
+        source: '/anger-issues-quiz',
+        destination: '/anger-test',
+        permanent: true,
+      },
+      {
+        source: '/multidimensional-anger-test',
+        destination: '/anger-test',
+        permanent: true,
+      },
+      {
+        source: '/anger-quiz',
+        destination: '/anger-test',
+        permanent: true,
+      },
+
+      // ============================================
+      // People pleaser quiz keyword variants
+      // ============================================
+      {
+        source: '/people-pleaser-test',
+        destination: '/people-pleaser-quiz',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',

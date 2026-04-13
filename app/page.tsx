@@ -399,8 +399,8 @@ export default function Home() {
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                   <Activity className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">See All 12 Free Quizzes</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">Anxiety, burnout, phobias, thalassophobia, claustrophobia, and more.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">See All 15 Free Quizzes</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">Anger, insomnia, burnout, phobias, thalassophobia, people pleasing, and more.</p>
                 <span className="text-indigo-600 font-semibold text-sm group-hover:text-indigo-800 transition-colors">View all free tests →</span>
               </Link>
             </div>
