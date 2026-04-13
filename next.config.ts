@@ -272,6 +272,44 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Burnout keyword variants
+      // ============================================
+      {
+        source: '/burnout-test',
+        destination: '/burnout-quiz',
+        permanent: true,
+      },
+      {
+        source: '/am-i-burned-out',
+        destination: '/burnout-quiz',
+        permanent: true,
+      },
+
+      // ============================================
+      // Specific phobia redirects
+      // ============================================
+      {
+        source: '/acrophobia-test',
+        destination: '/phobia-test',
+        permanent: true,
+      },
+      {
+        source: '/agoraphobia-quiz',
+        destination: '/agoraphobia-test',
+        permanent: true,
+      },
+      {
+        source: '/claustrophobia-quiz',
+        destination: '/claustrophobia-test',
+        permanent: true,
+      },
+      {
+        source: '/emetophobia-quiz',
+        destination: '/emetophobia-test',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',

@@ -6,7 +6,7 @@ import { getFeaturedPractitioners, getAllCities } from '@/lib/data/practitioners
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves } from 'lucide-react';
+import { Search, Users, CheckCircle, MapPin, Star, Award, Shield, Activity, Brain, Users2, Repeat2 } from 'lucide-react';
 
 export const metadata = {
   title: 'Find a Certified Hypnotherapist Near You',
@@ -364,120 +364,44 @@ export default function Home() {
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-extrabold text-gray-900">Free Resources</h2>
-              <p className="mt-4 text-xl text-gray-600">Tools to help you understand your wellbeing</p>
+              <h2 className="text-4xl font-extrabold text-gray-900">Free Mental Health Quizzes</h2>
+              <p className="mt-4 text-xl text-gray-600">Anonymous self-assessments to help you understand your wellbeing</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              <Link
-                href="/stress-level-calculator"
-                className="group block p-7 bg-gradient-to-br from-indigo-50 to-teal-50 border-2 border-indigo-100 rounded-2xl hover:shadow-xl hover:border-indigo-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Activity className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Stress Quiz</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  How stressed are you? Get your personalised stress score in 5 questions.
-                </p>
-                <span className="text-indigo-600 font-semibold text-sm group-hover:text-indigo-800 transition-colors">
-                  Take the free quiz →
-                </span>
-              </Link>
-
-              <Link
-                href="/ptsd-quiz"
-                className="group block p-7 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-100 rounded-2xl hover:shadow-xl hover:border-purple-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Brain className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">PTSD Quiz</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Check for PTSD and C-PTSD symptoms with our free 13-question self-assessment.
-                </p>
-                <span className="text-purple-600 font-semibold text-sm group-hover:text-purple-800 transition-colors">
-                  Take the free quiz →
-                </span>
-              </Link>
-
-              <Link
-                href="/anxiety-quiz"
-                className="group block p-7 bg-gradient-to-br from-teal-50 to-blue-50 border-2 border-teal-100 rounded-2xl hover:shadow-xl hover:border-teal-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-500 to-blue-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <HeartPulse className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Anxiety Quiz</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Do you have anxiety? Find out with our free 12-question self-assessment.
-                </p>
-                <span className="text-teal-600 font-semibold text-sm group-hover:text-teal-800 transition-colors">
-                  Take the free quiz →
-                </span>
-              </Link>
-
-              <Link
-                href="/social-anxiety-test"
-                className="group block p-7 bg-gradient-to-br from-pink-50 to-purple-50 border-2 border-pink-100 rounded-2xl hover:shadow-xl hover:border-pink-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Users2 className="h-7 w-7 text-white" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Social Anxiety Test</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Do you have social anxiety disorder? Take our free online test.
-                </p>
-                <span className="text-pink-600 font-semibold text-sm group-hover:text-pink-800 transition-colors">
-                  Take the free test →
-                </span>
-              </Link>
-
-              <Link
-                href="/ocd-test"
-                className="group block p-7 bg-gradient-to-br from-orange-50 to-rose-50 border-2 border-orange-100 rounded-2xl hover:shadow-xl hover:border-orange-300 transition-all"
-              >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link href="/ocd-test" className="group block p-7 bg-gradient-to-br from-orange-50 to-rose-50 border-2 border-orange-100 rounded-2xl hover:shadow-xl hover:border-orange-300 transition-all">
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                   <Repeat2 className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">OCD Test</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Do you have OCD? Check for obsessions, compulsions, and Pure O symptoms.
-                </p>
-                <span className="text-orange-600 font-semibold text-sm group-hover:text-orange-800 transition-colors">
-                  Take the free test →
-                </span>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">Check for obsessions, compulsions, and Pure O symptoms.</p>
+                <span className="text-orange-600 font-semibold text-sm group-hover:text-orange-800 transition-colors">Take the free test →</span>
               </Link>
 
-              <Link
-                href="/phobia-test"
-                className="group block p-7 bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-violet-100 rounded-2xl hover:shadow-xl hover:border-violet-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Zap className="h-7 w-7 text-white" />
+              <Link href="/social-anxiety-test" className="group block p-7 bg-gradient-to-br from-pink-50 to-purple-50 border-2 border-pink-100 rounded-2xl hover:shadow-xl hover:border-pink-300 transition-all">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <Users2 className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Phobia Test</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Do you have a phobia? Check 16 common phobias and rate their impact on your life.
-                </p>
-                <span className="text-violet-600 font-semibold text-sm group-hover:text-violet-800 transition-colors">
-                  Take the free test →
-                </span>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Social Anxiety Test</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">Do you have social anxiety disorder? Find out in 2 minutes.</p>
+                <span className="text-pink-600 font-semibold text-sm group-hover:text-pink-800 transition-colors">Take the free test →</span>
               </Link>
 
-              <Link
-                href="/thalassophobia-test"
-                className="group block p-7 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-100 rounded-2xl hover:shadow-xl hover:border-cyan-300 transition-all"
-              >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Waves className="h-7 w-7 text-white" />
+              <Link href="/ptsd-quiz" className="group block p-7 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-100 rounded-2xl hover:shadow-xl hover:border-purple-300 transition-all">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <Brain className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">Thalassophobia Test</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Fear of deep water or the ocean? Find out if you have thalassophobia.
-                </p>
-                <span className="text-cyan-600 font-semibold text-sm group-hover:text-cyan-800 transition-colors">
-                  Take the free test →
-                </span>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">PTSD Quiz</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">Check for PTSD and Complex PTSD symptoms.</p>
+                <span className="text-purple-600 font-semibold text-sm group-hover:text-purple-800 transition-colors">Take the free quiz →</span>
+              </Link>
+
+              <Link href="/free-quizzes" className="group block p-7 bg-gradient-to-br from-gray-50 to-slate-50 border-2 border-dashed border-gray-300 rounded-2xl hover:shadow-xl hover:border-indigo-400 transition-all">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-teal-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                  <Activity className="h-7 w-7 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">See All 12 Free Quizzes</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">Anxiety, burnout, phobias, thalassophobia, claustrophobia, and more.</p>
+                <span className="text-indigo-600 font-semibold text-sm group-hover:text-indigo-800 transition-colors">View all free tests →</span>
               </Link>
             </div>
           </div>
