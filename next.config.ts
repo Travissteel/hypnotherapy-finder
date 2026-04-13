@@ -197,6 +197,34 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // Anxiety quiz keyword variants
+      // ============================================
+      {
+        source: '/anxiety-test',
+        destination: '/anxiety-quiz',
+        permanent: true,
+      },
+      {
+        source: '/do-i-have-anxiety-quiz',
+        destination: '/anxiety-quiz',
+        permanent: true,
+      },
+
+      // ============================================
+      // Social anxiety test keyword variants
+      // ============================================
+      {
+        source: '/social-anxiety-quiz',
+        destination: '/social-anxiety-test',
+        permanent: true,
+      },
+      {
+        source: '/social-anxiety-disorder-test',
+        destination: '/social-anxiety-test',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',
