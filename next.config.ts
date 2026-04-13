@@ -225,6 +225,20 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // ============================================
+      // OCD test keyword variants
+      // ============================================
+      {
+        source: '/do-i-have-ocd-quiz',
+        destination: '/ocd-test',
+        permanent: true,
+      },
+      {
+        source: '/ocd-quiz',
+        destination: '/ocd-test',
+        permanent: true,
+      },
+
       // Homepage with specialty param -> search page with specialty param
       {
         source: '/',
