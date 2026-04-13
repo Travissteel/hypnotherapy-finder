@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -175,6 +176,8 @@ export default function SelfEsteemTest() {
               </p>
             </div>
           )}
+          <ShareResult quizName="Self-Esteem Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/self-esteem-test" />
+
           <button onClick={() => { setAnswers({}); setResult(null); }} className="w-full text-gray-500 hover:text-gray-700 text-sm underline underline-offset-2 transition-colors">Retake the test</button>
         </div>
       )}

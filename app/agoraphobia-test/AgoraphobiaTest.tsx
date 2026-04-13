@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -110,6 +111,8 @@ export default function AgoraphobiaTest() {
               <p className="text-emerald-900 text-sm leading-relaxed">Agoraphobia is maintained by a cycle of anxiety and avoidance — the more you avoid, the more threatening the world feels. Hypnotherapy helps break this cycle by calming the fear response at its root, using gradual exposure techniques under hypnosis, and rebuilding your confidence in your ability to cope. Many people experience significant improvement within a handful of sessions.</p>
             </div>
           )}
+          <ShareResult quizName="Agoraphobia Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/agoraphobia-test" />
+
           <button onClick={() => { setAnswers({}); setResult(null); }} className="w-full text-gray-500 hover:text-gray-700 text-sm underline underline-offset-2 transition-colors">Retake the test</button>
         </div>
       )}

@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -109,6 +110,8 @@ export default function ClaustrophobiaTest() {
               <p className="text-slate-700 text-sm leading-relaxed">Claustrophobia is a learned fear response — your subconscious has associated small spaces with danger. Hypnotherapy works at this subconscious level using techniques like the Rewind Technique and systematic desensitisation to deactivate the fear trigger. Many people find they can comfortably use lifts, undergo MRI scans, or travel on the underground after just a few sessions.</p>
             </div>
           )}
+          <ShareResult quizName="Claustrophobia Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/claustrophobia-test" />
+
           <button onClick={() => { setAnswers({}); setResult(null); }} className="w-full text-gray-500 hover:text-gray-700 text-sm underline underline-offset-2 transition-colors">Retake the test</button>
         </div>
       )}

@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -212,6 +213,9 @@ export default function StressCalculator() {
                 <Link href="/search">Find a Hypnotherapist Near You →</Link>
               </Button>
             )}
+            <div className="mt-6">
+              <ShareResult quizName="Stress Level Calculator" resultHeadline={result.level} url="https://hypnotherapy-finder.com/stress-level-calculator" />
+            </div>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -110,6 +111,8 @@ export default function EmetophobiaTest() {
               <p className="text-lime-900 text-sm leading-relaxed">Emetophobia is often deeply rooted in an early experience that the subconscious has over-generalised into a broad fear of vomiting. Hypnotherapy works by revisiting and reprocessing these roots safely, desensitising the fear response, and helping you develop a calm, rational response to nausea. Many emetophobia sufferers report that hypnotherapy gave them back their freedom around food and social situations.</p>
             </div>
           )}
+          <ShareResult quizName="Emetophobia Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/emetophobia-test" />
+
           <button onClick={() => { setAnswers({}); setResult(null); }} className="w-full text-gray-500 hover:text-gray-700 text-sm underline underline-offset-2 transition-colors">Retake the test</button>
         </div>
       )}

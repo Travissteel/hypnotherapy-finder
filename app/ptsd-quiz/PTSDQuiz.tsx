@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -253,6 +254,8 @@ export default function PTSDQuiz() {
               Hypnotherapy for trauma works by helping you access a relaxed state where distressing memories can be processed more safely. Techniques such as EMDR-informed hypnosis, ego state therapy, and parts work can reduce the emotional charge of traumatic memories and help rebuild a sense of safety and control.
             </p>
           </div>
+
+          <ShareResult quizName="PTSD Quiz" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/ptsd-quiz" />
 
           <button
             onClick={() => { setAnswers({}); setResult(null); }}
