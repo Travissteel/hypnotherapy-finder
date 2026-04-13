@@ -1,4 +1,5 @@
 'use client';
+import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -245,6 +246,8 @@ export default function PhobiaTest() {
               </p>
             </div>
           )}
+
+          <ShareResult quizName="Phobia Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/phobia-test" />
 
           <button
             onClick={() => { setStage('phobias'); setSelectedPhobias([]); setImpactAnswers({}); setResult(null); }}
