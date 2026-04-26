@@ -1,54 +1,27 @@
 'use client';
 
-import { useState, useEffect, Suspense, useCallback, useMemo } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PractitionerCard } from '@/components/search/PractitionerCard';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Practitioner } from '@/lib/types/practitioner';
 import {
-  Search as SearchIcon,
+  Search,
   X,
   ChevronDown,
-  ChevronUp,
   Loader2,
   Sliders,
   MapPin,
-  Video,
-  DollarSign,
-  Award,
   CheckCircle,
-  BrainCircuit,
   LayoutGrid,
-  Map as MapIcon,
-  Search
 } from 'lucide-react';
 
 const SPECIALTIES_LIST = [
-  'Anxiety & Stress',
-  'Smoking Cessation',
-  'Weight Loss',
-  'Pain Management',
-  'PTSD & Trauma',
-  'Confidence & Performance',
-  'Past Life Regression',
-  'General Hypnotherapy',
-  'Phobias & Fears',
-  'Sleep Issues',
-  'Public Speaking',
-  'Self-Esteem',
-  'Addiction Recovery',
-  'Performance Anxiety'
+  'Anxiety & Stress', 'Smoking Cessation', 'Weight Loss', 'Pain Management',
+  'PTSD & Trauma', 'Confidence & Performance', 'Past Life Regression',
+  'General Hypnotherapy', 'Phobias & Fears', 'Sleep Issues',
+  'Public Speaking', 'Self-Esteem', 'Addiction Recovery', 'Performance Anxiety'
 ];
 
 interface FilterState {
@@ -60,43 +33,29 @@ interface FilterState {
   acceptsInsurance: boolean;
 }
 
-const CollapsibleSection: React.FC<{
-  title: string;
-  count?: number;
-  isOpenInitial?: boolean;
-  children: React.ReactNode;
-}> = ({ title, count, isOpenInitial = true, children }) => {
+const CollapsibleSection: React.FC<{ title: string; count?: number; isOpenInitial?: boolean; children: React.ReactNode }> = ({ title, count, isOpenInitial = true, children }) => {
   const [isOpen, setIsOpen] = useState(isOpenInitial);
   return (
-    <div className="border-b border-gray-100 pb-6 mb-6 last:border-0 last:pb-0 last:mb-0">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between text-left group"
-      >
-        <div className="flex items-center gap-2">
-          <h3 className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.1em] group-hover:text-indigo-700 transition-colors">
-            {title}
-          </h3>
+    <div style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: 20, marginBottom: 20 }}>
+      <button onClick={() => setIsOpen(!isOpen)} style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)' }}>{title}</h3>
           {count && count > 0 && (
-            <span className="bg-indigo-100 text-indigo-700 text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-              {count}
-            </span>
+            <span style={{ background: 'oklch(0.72 0.12 185 / 0.2)', color: 'var(--hf-accent)', fontSize: 10, padding: '1px 7px', borderRadius: 9999, fontWeight: 700 }}>{count}</span>
           )}
         </div>
-        <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown style={{ width: 14, height: 14, color: 'var(--hf-fg-dim)', transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
       </button>
-      {isOpen && <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">{children}</div>}
+      {isOpen && <div style={{ marginTop: 16 }}>{children}</div>}
     </div>
   );
 };
 
 function SearchContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [results, setResults] = useState<Practitioner[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [specSearch, setSpecSearch] = useState('');
 
   const [filters, setFilters] = useState<FilterState>({
@@ -108,9 +67,7 @@ function SearchContent() {
     acceptsInsurance: false
   });
 
-  const handleFilterChange = (updates: Partial<FilterState>) => {
-    setFilters(prev => ({ ...prev, ...updates }));
-  };
+  const handleFilterChange = (updates: Partial<FilterState>) => setFilters(prev => ({ ...prev, ...updates }));
 
   const toggleFilter = <K extends keyof FilterState>(key: K, value: FilterState[K] extends Array<infer U> ? U : never) => {
     const currentValues = filters[key] as Array<typeof value>;
@@ -120,323 +77,218 @@ function SearchContent() {
     handleFilterChange({ [key]: nextValues } as Partial<FilterState>);
   };
 
-  const handleReset = () => {
-    setFilters({
-      specializations: [],
-      sessionTypes: [],
-      location: '',
-      searchQuery: '',
-      priceRanges: [],
-      acceptsInsurance: false
-    });
-  };
+  const handleReset = () => setFilters({ specializations: [], sessionTypes: [], location: '', searchQuery: '', priceRanges: [], acceptsInsurance: false });
 
-  // Fetch practitioners from API
   const fetchPractitioners = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
-
       if (filters.searchQuery) params.set('name', filters.searchQuery);
       if (filters.location) params.set('city', filters.location);
       if (filters.specializations.length > 0) params.set('specialty', filters.specializations.join(','));
-
-      // Map session types to API format
       if (filters.sessionTypes.length > 0) {
         if (filters.sessionTypes.includes('In-Person Only')) params.set('sessionType', 'in-person');
         else if (filters.sessionTypes.includes('Virtual/Online Only')) params.set('sessionType', 'virtual');
       }
-
       const response = await fetch(`/api/practitioners/search?${params}`);
       const data = await response.json();
-
-      if (response.ok && data.practitioners) {
-        setResults(data.practitioners);
-      } else {
-        setResults([]);
-      }
-    } catch (error) {
-      console.error('Error fetching practitioners:', error);
+      setResults(response.ok && data.practitioners ? data.practitioners : []);
+    } catch {
       setResults([]);
     } finally {
       setIsLoading(false);
     }
   }, [filters.searchQuery, filters.location, filters.specializations, filters.sessionTypes]);
 
-  // Initial fetch and on filter changes (debounced)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchPractitioners();
-    }, 300);
+    const timer = setTimeout(() => fetchPractitioners(), 300);
     return () => clearTimeout(timer);
   }, [fetchPractitioners]);
 
-  const filteredSpecs = SPECIALTIES_LIST.filter(s =>
-    s.toLowerCase().includes(specSearch.toLowerCase())
-  );
+  const filteredSpecs = SPECIALTIES_LIST.filter(s => s.toLowerCase().includes(specSearch.toLowerCase()));
+  const activeFilterCount = [filters.specializations.length > 0, filters.sessionTypes.length > 0, filters.priceRanges.length > 0, filters.acceptsInsurance].filter(Boolean).length;
 
-  const activeFilterCount = [
-    filters.specializations.length > 0,
-    filters.sessionTypes.length > 0,
-    filters.priceRanges.length > 0,
-    filters.acceptsInsurance
-  ].filter(Boolean).length;
+  const checkboxStyle = { width: 18, height: 18, cursor: 'pointer', accentColor: 'var(--hf-accent)' };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 pt-20">
-        {/* Search Header Section */}
-        <section className="bg-gradient-to-br from-indigo-50/50 via-white to-teal-50/30 border-b border-gray-100 py-12 md:py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto text-center mb-10">
-              <span className="inline-block rounded-full bg-indigo-100 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-indigo-700 mb-4 shadow-sm">Directory Search</span>
-              <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
-                Find Your Perfect <span className="text-indigo-700">Practitioner</span>
+      <main style={{ flex: 1, paddingTop: 80 }}>
+        {/* Search Header */}
+        <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ maxWidth: 1020, margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: 32 }}>
+              <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Directory Search</span>
+              <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 10 }}>
+                Find Your Perfect <span style={{ color: 'var(--hf-accent)' }}>Practitioner</span>
               </h1>
-              <p className="mt-4 text-lg text-gray-600 font-medium">
-                Connect with certified hypnotherapists dedicated to your wellbeing.
-              </p>
+              <p style={{ fontSize: 16, color: 'var(--hf-fg-dim)' }}>Connect with certified hypnotherapists dedicated to your wellbeing.</p>
             </div>
-
-            <div className="max-w-4xl mx-auto">
-              <div className="flex flex-col md:flex-row gap-4 p-2 bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-white">
-                <div className="flex-1 relative group">
-                  <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-300 group-focus-within:text-indigo-600 transition-colors" />
+            <div className="glass" style={{ borderRadius: 20, padding: '8px', maxWidth: 860, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
+                  <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: 'var(--hf-fg-dim)' }} />
                   <input
                     type="text"
-                    placeholder="Search by name, title, or keyword..."
+                    placeholder="Name, title, or keyword…"
                     value={filters.searchQuery}
                     onChange={(e) => handleFilterChange({ searchQuery: e.target.value })}
-                    className="w-full h-14 pl-14 pr-6 bg-gray-50 border-transparent rounded-2xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-indigo-100 focus:border-indigo-200 outline-none transition-all font-medium"
+                    style={{ width: '100%', height: 48, paddingLeft: 44, paddingRight: 16, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'var(--hf-fg)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
                   />
-                  {filters.searchQuery && (
-                    <button
-                      onClick={() => handleFilterChange({ searchQuery: '' })}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors"
-                    >
-                      <X className="h-4 w-4 text-gray-400" />
-                    </button>
-                  )}
                 </div>
-                <div className="flex-1 relative group">
-                  <MapPin className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-300 group-focus-within:text-teal-600 transition-colors" />
+                <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
+                  <MapPin style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: 'var(--hf-fg-dim)' }} />
                   <input
                     type="text"
-                    placeholder="City, state, or zip code..."
+                    placeholder="City or state…"
                     value={filters.location}
                     onChange={(e) => handleFilterChange({ location: e.target.value })}
-                    className="w-full h-14 pl-14 pr-6 bg-gray-50 border-transparent rounded-2xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-teal-100 focus:border-teal-200 outline-none transition-all font-medium"
+                    style={{ width: '100%', height: 48, paddingLeft: 44, paddingRight: 16, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'var(--hf-fg)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
                   />
-                  {filters.location && (
-                    <button
-                      onClick={() => handleFilterChange({ location: '' })}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-200 rounded-full transition-colors"
-                    >
-                      <X className="h-4 w-4 text-gray-400" />
-                    </button>
-                  )}
                 </div>
-                <Button
+                <button
                   onClick={() => fetchPractitioners()}
-                  className="h-14 px-10 bg-indigo-700 hover:bg-indigo-800 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2 transform active:scale-95"
+                  className="btn-gradient hf-btn-accent"
+                  style={{ height: 48, padding: '0 28px', borderRadius: 12, border: 'none', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}
                 >
-                  <Search className="h-5 w-5" />
-                  Search Now
-                </Button>
+                  <Search style={{ width: 15, height: 15 }} />
+                  Search
+                </button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Search Content Section */}
-        <section className="py-12 md:py-20 lg:py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-12">
-              {/* Sticky Sidebar Filters */}
-              <aside className="w-full lg:w-80 flex-shrink-0">
-                <div className="sticky top-28 bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
-                  <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-50">
-                    <div className="flex items-center gap-2">
-                      <div className="size-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200">
-                        <Sliders className="h-5 w-5 text-white" />
-                      </div>
-                      <h2 className="text-gray-900 text-xl font-extrabold tracking-tight">Filters</h2>
+        {/* Content */}
+        <section style={{ padding: '40px 24px 80px' }}>
+          <div style={{ maxWidth: 1020, margin: '0 auto', display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+            {/* Sidebar Filters */}
+            <aside style={{ width: 280, flexShrink: 0, position: 'sticky', top: 100 }}>
+              <div className="glass-card" style={{ padding: '28px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 10, background: 'oklch(0.72 0.12 185 / 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Sliders style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} />
                     </div>
-                    {activeFilterCount > 0 && (
-                      <button onClick={handleReset} className="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-full transition-colors">Clear All</button>
-                    )}
+                    <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)' }}>Filters</h2>
                   </div>
-
-                  <div className="space-y-2">
-                    {/* Specialties Collapsible */}
-                    <CollapsibleSection title="Specialties" count={filters.specializations.length}>
-                      <div className="relative mb-4 group">
-                        <input
-                          type="text"
-                          placeholder="Search specialties..."
-                          value={specSearch}
-                          onChange={(e) => setSpecSearch(e.target.value)}
-                          className="w-full h-11 pl-10 pr-4 bg-gray-50 border-transparent rounded-xl text-sm focus:bg-white focus:ring-2 focus:ring-indigo-100 focus:border-indigo-200 outline-none transition-all font-medium"
-                        />
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 h-4 w-4 group-focus-within:text-indigo-600 transition-colors" />
-                      </div>
-                      <div className="max-h-64 overflow-y-auto pr-2 space-y-2.5 custom-scrollbar">
-                        {filteredSpecs.map((spec: string) => (
-                          <label key={spec} className="flex items-center group cursor-pointer">
-                            <div className="relative flex items-center">
-                              <input
-                                type="checkbox"
-                                className="peer h-5 w-5 cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white transition-all checked:bg-indigo-600 checked:border-indigo-600 hover:border-indigo-300"
-                                checked={filters.specializations.includes(spec)}
-                                onChange={() => toggleFilter('specializations', spec)}
-                              />
-                              <CheckCircle className="absolute inset-0 h-5 w-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity p-1 pointer-events-none" />
-                            </div>
-                            <span className="ml-3 text-sm font-bold text-gray-500 group-hover:text-indigo-700 transition-colors">{spec}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </CollapsibleSection>
-
-                    {/* Session Type Collapsible */}
-                    <CollapsibleSection title="Session Type" count={filters.sessionTypes.length}>
-                      <div className="space-y-2.5">
-                        {['Virtual/Online Only', 'In-Person Only', 'Hybrid Sessions'].map((type) => (
-                          <label key={type} className="flex items-center group cursor-pointer">
-                            <div className="relative flex items-center">
-                              <input
-                                type="checkbox"
-                                className="peer h-5 w-5 cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white transition-all checked:bg-teal-600 checked:border-teal-600 hover:border-teal-300"
-                                checked={filters.sessionTypes.includes(type)}
-                                onChange={() => toggleFilter('sessionTypes', type)}
-                              />
-                              <CheckCircle className="absolute inset-0 h-5 w-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity p-1 pointer-events-none" />
-                            </div>
-                            <span className="ml-3 text-sm font-bold text-gray-500 group-hover:text-teal-700 transition-colors">{type}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </CollapsibleSection>
-
-                    {/* Pricing Collapsible */}
-                    <CollapsibleSection title="Pricing & Insurance">
-                      <div className="space-y-4">
-                        <div className="space-y-2.5">
-                          {['$', '$$', '$$$', '$$$$'].map((range) => (
-                            <label key={range} className="flex items-center group cursor-pointer">
-                              <div className="relative flex items-center">
-                                <input
-                                  type="checkbox"
-                                  className="peer h-5 w-5 cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white transition-all checked:bg-amber-500 checked:border-amber-500 hover:border-amber-300"
-                                  checked={filters.priceRanges.includes(range)}
-                                  onChange={() => toggleFilter('priceRanges', range)}
-                                />
-                                <CheckCircle className="absolute inset-0 h-5 w-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity p-1 pointer-events-none" />
-                              </div>
-                              <span className="ml-3 text-sm font-bold text-gray-500 group-hover:text-amber-700 transition-colors">
-                                {range === '$' ? 'Under $100' : range === '$$' ? '$100 - $150' : range === '$$$' ? '$150 - $200' : '$200+'}
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                        <div className="pt-4 border-t border-gray-50">
-                          <label className="flex items-center group cursor-pointer">
-                            <div className="relative flex items-center">
-                              <input
-                                type="checkbox"
-                                className="peer h-5 w-5 cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white transition-all checked:bg-indigo-600 checked:border-indigo-600 hover:border-indigo-300"
-                                checked={filters.acceptsInsurance}
-                                onChange={(e) => handleFilterChange({ acceptsInsurance: e.target.checked })}
-                              />
-                              <CheckCircle className="absolute inset-0 h-5 w-5 text-white opacity-0 peer-checked:opacity-100 transition-opacity p-1 pointer-events-none" />
-                            </div>
-                            <span className="ml-3 text-sm font-bold text-gray-500 group-hover:text-indigo-700 transition-colors">Accepts Insurance</span>
-                          </label>
-                        </div>
-                      </div>
-                    </CollapsibleSection>
-                  </div>
-                </div>
-              </aside>
-
-              {/* Results Grid */}
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-8">
-                  <div>
-                    <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">
-                      {isLoading ? 'Searching...' : `${results.length} Practitioners Found`}
-                    </h2>
-                    <p className="text-sm text-gray-500 font-medium mt-1">Based on your current filters</p>
-                  </div>
-
-                  <div className="flex items-center gap-3 bg-gray-50 p-1.5 rounded-2xl border border-gray-100">
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={`p-2 rounded-xl transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                      <LayoutGrid className="h-5 w-5" />
+                  {activeFilterCount > 0 && (
+                    <button onClick={handleReset} style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--hf-accent)', background: 'oklch(0.72 0.12 185 / 0.1)', border: 'none', padding: '4px 10px', borderRadius: 9999, cursor: 'pointer' }}>
+                      Clear All
                     </button>
-                    <button
-                      onClick={() => setViewMode('map')}
-                      className={`p-2 rounded-xl transition-all ${viewMode === 'map' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                      <MapIcon className="h-5 w-5" />
-                    </button>
-                  </div>
+                  )}
                 </div>
 
-                {/* Active Filter Badges */}
-                {activeFilterCount > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-10">
-                    {filters.specializations.map((spec: string) => (
-                      <Badge key={spec} variant="secondary" className="bg-indigo-50 text-indigo-700 border-indigo-100 py-1.5 px-3 rounded-xl flex items-center gap-1.5 group hover:bg-indigo-100 transition-colors">
-                        {spec}
-                        <button onClick={() => toggleFilter('specializations', spec)} className="hover:text-indigo-900">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                    {filters.sessionTypes.map((type: string) => (
-                      <Badge key={type} variant="secondary" className="bg-teal-50 text-teal-700 border-teal-100 py-1.5 px-3 rounded-xl flex items-center gap-1.5 group hover:bg-teal-100 transition-colors">
-                        {type}
-                        <button onClick={() => toggleFilter('sessionTypes', type)} className="hover:text-teal-900">
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
+                <CollapsibleSection title="Specialties" count={filters.specializations.length}>
+                  <div style={{ position: 'relative', marginBottom: 12 }}>
+                    <input
+                      type="text"
+                      placeholder="Search specialties…"
+                      value={specSearch}
+                      onChange={(e) => setSpecSearch(e.target.value)}
+                      style={{ width: '100%', height: 38, paddingLeft: 12, paddingRight: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, color: 'var(--hf-fg)', fontSize: 12, outline: 'none', boxSizing: 'border-box' }}
+                    />
+                  </div>
+                  <div style={{ maxHeight: 220, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {filteredSpecs.map((spec) => (
+                      <label key={spec} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                        <input type="checkbox" style={checkboxStyle} checked={filters.specializations.includes(spec)} onChange={() => toggleFilter('specializations', spec)} />
+                        <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>{spec}</span>
+                      </label>
                     ))}
                   </div>
-                )}
+                </CollapsibleSection>
 
-                {isLoading ? (
-                  <div className="flex flex-col items-center justify-center py-32 bg-gray-50/50 rounded-[3rem] border-2 border-dashed border-gray-100">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-indigo-200 rounded-full blur-2xl opacity-20 animate-pulse"></div>
-                      <Loader2 className="h-16 w-16 text-indigo-600 animate-spin relative z-10" />
-                    </div>
-                    <p className="mt-8 text-xl font-extrabold text-gray-900 tracking-tight">Finding Specialists...</p>
-                    <p className="mt-2 text-gray-500 font-medium">Matching your specific needs</p>
-                  </div>
-                ) : results.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {results.map((practitioner) => (
-                      <PractitionerCard key={practitioner.id} practitioner={practitioner} />
+                <CollapsibleSection title="Session Type" count={filters.sessionTypes.length}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {['Virtual/Online Only', 'In-Person Only', 'Hybrid Sessions'].map((type) => (
+                      <label key={type} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                        <input type="checkbox" style={checkboxStyle} checked={filters.sessionTypes.includes(type)} onChange={() => toggleFilter('sessionTypes', type)} />
+                        <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>{type}</span>
+                      </label>
                     ))}
                   </div>
-                ) : (
-                  <div className="text-center py-32 bg-gray-50/50 rounded-[3rem] border-2 border-dashed border-gray-200">
-                    <div className="size-20 bg-white rounded-3xl shadow-lg border border-gray-100 flex items-center justify-center mx-auto mb-8">
-                      <Search className="h-10 w-10 text-gray-300" />
+                </CollapsibleSection>
+
+                <CollapsibleSection title="Pricing & Insurance">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {['$', '$$', '$$$', '$$$$'].map((range) => (
+                      <label key={range} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                        <input type="checkbox" style={checkboxStyle} checked={filters.priceRanges.includes(range)} onChange={() => toggleFilter('priceRanges', range)} />
+                        <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          {range === '$' ? 'Under $100' : range === '$$' ? '$100–$150' : range === '$$$' ? '$150–$200' : '$200+'}
+                        </span>
+                      </label>
+                    ))}
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12, marginTop: 4 }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                        <input type="checkbox" style={checkboxStyle} checked={filters.acceptsInsurance} onChange={(e) => handleFilterChange({ acceptsInsurance: e.target.checked })} />
+                        <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>Accepts Insurance</span>
+                      </label>
                     </div>
-                    <h3 className="text-2xl font-extrabold text-gray-900 tracking-tight">No results found</h3>
-                    <p className="mt-4 text-gray-600 font-medium max-w-sm mx-auto">Try adjusting your filters or searching in a different location.</p>
-                    <Button onClick={handleReset} variant="outline" className="mt-10 rounded-2xl border-2 px-8 py-6 h-auto font-bold text-indigo-600 hover:bg-indigo-50 border-indigo-100">
-                      Clear All Filters
-                    </Button>
                   </div>
-                )}
+                </CollapsibleSection>
               </div>
+            </aside>
+
+            {/* Results */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+                <div>
+                  <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)' }}>
+                    {isLoading ? 'Searching…' : `${results.length} Practitioners Found`}
+                  </h2>
+                  <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', marginTop: 2 }}>Based on your current filters</p>
+                </div>
+              </div>
+
+              {/* Active Filter Badges */}
+              {activeFilterCount > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+                  {filters.specializations.map((spec) => (
+                    <span key={spec} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, color: 'var(--hf-accent)', background: 'oklch(0.72 0.12 185 / 0.12)', padding: '4px 10px', borderRadius: 9999 }}>
+                      {spec}
+                      <button onClick={() => toggleFilter('specializations', spec)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'inherit', lineHeight: 1 }}>
+                        <X style={{ width: 11, height: 11 }} />
+                      </button>
+                    </span>
+                  ))}
+                  {filters.sessionTypes.map((type) => (
+                    <span key={type} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, color: 'oklch(0.72 0.12 160)', background: 'oklch(0.72 0.12 160 / 0.12)', padding: '4px 10px', borderRadius: 9999 }}>
+                      {type}
+                      <button onClick={() => toggleFilter('sessionTypes', type)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'inherit', lineHeight: 1 }}>
+                        <X style={{ width: 11, height: 11 }} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {isLoading ? (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', background: 'rgba(255,255,255,0.02)', borderRadius: 24, border: '1px dashed rgba(255,255,255,0.1)' }}>
+                  <Loader2 style={{ width: 40, height: 40, color: 'var(--hf-accent)' }} className="animate-spin" />
+                  <p style={{ marginTop: 20, fontSize: 16, fontWeight: 600, color: 'var(--hf-fg)' }}>Finding Specialists…</p>
+                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginTop: 4 }}>Matching your specific needs</p>
+                </div>
+              ) : results.length > 0 ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+                  {results.map((practitioner) => (
+                    <PractitionerCard key={practitioner.id} practitioner={practitioner} />
+                  ))}
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '80px 24px', background: 'rgba(255,255,255,0.02)', borderRadius: 24, border: '1px dashed rgba(255,255,255,0.1)' }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                    <Search style={{ width: 24, height: 24, color: 'var(--hf-fg-dim)' }} />
+                  </div>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 10 }}>No results found</h3>
+                  <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', maxWidth: 320, margin: '0 auto 24px', lineHeight: 1.6 }}>Try adjusting your filters or searching in a different location.</p>
+                  <button onClick={handleReset} style={{ padding: '10px 24px', borderRadius: 9999, border: '1px solid rgba(255,255,255,0.12)', background: 'none', color: 'var(--hf-accent)', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
+                    Clear All Filters
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -450,8 +302,8 @@ function SearchContent() {
 export default function SearchPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Loader2 className="h-12 w-12 text-indigo-600 animate-spin" />
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--hf-bg)' }}>
+        <Loader2 style={{ width: 40, height: 40, color: 'var(--hf-accent)' }} className="animate-spin" />
       </div>
     }>
       <SearchContent />

@@ -19,16 +19,29 @@ const embedCode = (slug: string) =>
        width="180" height="60" style="display:block;" />
 </a>`;
 
+const whyPoints = [
+  'Builds instant trust — clients see you\'re part of a verified directory',
+  'Links clients directly to your profile with reviews and full contact details',
+  'Signals professional credibility alongside your certifications',
+  'Takes less than 2 minutes to add to any website',
+];
+
+const placementTips = [
+  { place: 'Footer', desc: 'Visible on every page — most common placement' },
+  { place: 'About page', desc: 'Alongside your other professional certifications' },
+  { place: 'Contact page', desc: 'Where clients are deciding whether to reach out' },
+];
+
 export default function BadgePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 pt-20">
+      <main style={{ flex: 1, paddingTop: 80 }}>
         {/* Hero */}
-        <section className="bg-gradient-to-b from-indigo-50 to-white py-16">
-          <div className="container mx-auto px-4 max-w-3xl text-center">
-            <div className="flex justify-center mb-6">
+        <section style={{ background: 'linear-gradient(to bottom, oklch(0.22 0.06 185), var(--hf-bg))', padding: '64px 0' }}>
+          <div style={{ maxWidth: 672, margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
               <Image
                 src="/badges/verified-practitioner.svg"
                 alt="Verified on Hypnotherapy Finder badge"
@@ -37,62 +50,57 @@ export default function BadgePage() {
                 unoptimized
               />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 16, lineHeight: 1.2 }}>
               Your Verified Practitioner Badge
             </h1>
-            <p className="text-xl text-gray-600">
-              Display this badge on your website to show clients you're verified
-              on Hypnotherapy Finder — and link directly to your profile.
+            <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', lineHeight: 1.7 }}>
+              Display this badge on your website to show clients you're verified on Hypnotherapy Finder — and link directly to your profile.
             </p>
           </div>
         </section>
 
         {/* Why add the badge */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Why add the badge?</h2>
-            <ul className="space-y-4">
-              {[
-                'Builds instant trust — clients see you\'re part of a verified directory',
-                'Links clients directly to your profile with reviews and full contact details',
-                'Signals professional credibility alongside your certifications',
-                'Takes less than 2 minutes to add to any website',
-              ].map((point, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-indigo-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">{point}</span>
+        <section style={{ padding: '48px 0', background: 'var(--hf-bg-mid)' }}>
+          <div style={{ maxWidth: 672, margin: '0 auto', padding: '0 16px' }}>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 24 }}>Why add the badge?</h2>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {whyPoints.map((point, i) => (
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <CheckCircle style={{ width: 20, height: 20, color: 'var(--hf-accent)', flexShrink: 0, marginTop: 2 }} />
+                  <span style={{ color: 'var(--hf-fg-dim)', lineHeight: 1.6 }}>{point}</span>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        {/* Embed code section */}
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">How to add it</h2>
-            <p className="text-gray-600 mb-8">
+        {/* Embed code */}
+        <section style={{ padding: '48px 0' }}>
+          <div style={{ maxWidth: 672, margin: '0 auto', padding: '0 16px' }}>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 8 }}>How to add it</h2>
+            <p style={{ color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7 }}>
               Copy the code below and paste it into your website where you'd like the badge to appear.
-              Replace <code className="bg-gray-200 px-1 rounded text-sm font-mono">your-listing-slug</code> with
-              your actual profile slug (visible in your{' '}
-              <Link href="/dashboard" className="text-indigo-600 hover:underline">dashboard</Link>
+              Replace{' '}
+              <code style={{ background: 'rgba(255,255,255,0.08)', padding: '2px 6px', borderRadius: 4, fontSize: 13, fontFamily: 'monospace', color: 'var(--hf-accent)' }}>your-listing-slug</code>
+              {' '}with your actual profile slug (visible in your{' '}
+              <Link href="/dashboard" style={{ color: 'var(--hf-accent)', textDecoration: 'underline' }}>dashboard</Link>
               {' '}or at the end of your listing URL).
             </p>
 
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-semibold text-gray-700">Your embed code</span>
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ marginBottom: 8 }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)' }}>Your embed code</span>
               </div>
-              <pre className="bg-gray-900 text-green-400 text-sm rounded-lg p-4 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed">
+              <pre style={{ background: 'oklch(0.12 0 0)', border: '1px solid rgba(255,255,255,0.08)', color: 'oklch(0.75 0.15 145)', fontSize: 13, borderRadius: 12, padding: 16, overflowX: 'auto', whiteSpace: 'pre-wrap', wordBreak: 'break-all', lineHeight: 1.6 }}>
                 {embedCode('your-listing-slug')}
               </pre>
             </div>
 
-            <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-5">
-              <p className="text-sm text-indigo-800">
-                <strong>Find your slug:</strong> Log into your{' '}
-                <Link href="/dashboard" className="underline">dashboard</Link>{' '}
-                — your personalised embed code with your slug pre-filled is waiting for you there.
+            <div className="glass-card" style={{ padding: 20, borderLeft: '3px solid var(--hf-accent)' }}>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7 }}>
+                <strong style={{ color: 'var(--hf-fg)' }}>Find your slug:</strong> Log into your{' '}
+                <Link href="/dashboard" style={{ color: 'var(--hf-accent)', textDecoration: 'underline' }}>dashboard</Link>
+                {' '}— your personalised embed code with your slug pre-filled is waiting for you there.
                 Or find your profile on the directory and copy the last part of the URL.
               </p>
             </div>
@@ -100,18 +108,14 @@ export default function BadgePage() {
         </section>
 
         {/* Placement tips */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4 max-w-3xl">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Where to place it</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { place: 'Footer', desc: 'Visible on every page — most common placement' },
-                { place: 'About page', desc: 'Alongside your other professional certifications' },
-                { place: 'Contact page', desc: 'Where clients are deciding whether to reach out' },
-              ].map(({ place, desc }) => (
-                <div key={place} className="border rounded-lg p-5 text-center">
-                  <p className="font-semibold text-gray-900 mb-1">{place}</p>
-                  <p className="text-sm text-gray-600">{desc}</p>
+        <section style={{ padding: '48px 0', background: 'var(--hf-bg-mid)' }}>
+          <div style={{ maxWidth: 672, margin: '0 auto', padding: '0 16px' }}>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 24 }}>Where to place it</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+              {placementTips.map(({ place, desc }) => (
+                <div key={place} className="glass-card" style={{ padding: 20, textAlign: 'center' }}>
+                  <p style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 6 }}>{place}</p>
+                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.5 }}>{desc}</p>
                 </div>
               ))}
             </div>
@@ -119,18 +123,18 @@ export default function BadgePage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 bg-indigo-600 text-white text-center">
-          <div className="container mx-auto px-4 max-w-2xl">
-            <h2 className="text-3xl font-bold mb-4">Not listed yet?</h2>
-            <p className="text-indigo-100 mb-8 text-lg">
-              Claim your free listing on Hypnotherapy Finder and start connecting
-              with clients searching for practitioners near them.
+        <section style={{ padding: '64px 0', background: 'linear-gradient(135deg, oklch(0.28 0.1 185 / 0.6), oklch(0.2 0.08 220 / 0.6))', textAlign: 'center' }}>
+          <div style={{ maxWidth: 512, margin: '0 auto', padding: '0 16px' }}>
+            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 16 }}>Not listed yet?</h2>
+            <p style={{ color: 'var(--hf-fg-dim)', marginBottom: 32, fontSize: 17, lineHeight: 1.7 }}>
+              Claim your free listing on Hypnotherapy Finder and start connecting with clients searching for practitioners near them.
             </p>
             <Link
               href="/practitioner-signup"
-              className="inline-flex items-center gap-2 bg-white text-indigo-600 font-semibold px-8 py-3 rounded-lg hover:bg-indigo-50 transition-colors"
+              className="btn-gradient hf-btn-accent"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}
             >
-              Claim Your Free Listing <ExternalLink className="h-4 w-4" />
+              Claim Your Free Listing <ExternalLink style={{ width: 16, height: 16 }} />
             </Link>
           </div>
         </section>

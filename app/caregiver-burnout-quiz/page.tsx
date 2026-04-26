@@ -18,19 +18,21 @@ export const metadata: Metadata = {
 
 export default function CaregiverBurnoutQuizPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <main className="flex-1 pt-20">
-        <section className="relative pt-16 pb-12 overflow-hidden bg-gradient-to-br from-rose-100 via-pink-100 to-red-100">
-          <div className="absolute inset-0 overflow-hidden -z-10">
-            <div className="absolute top-[-10%] left-[-10%] w-80 h-80 bg-rose-400 rounded-full filter blur-3xl opacity-40 animate-blob"></div>
-            <div className="absolute top-[-10%] right-[-10%] w-80 h-80 bg-pink-400 rounded-full filter blur-3xl opacity-40 animate-blob" style={{ animationDelay: '3s' }}></div>
-          </div>
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
-            <p className="text-rose-600 font-bold uppercase tracking-widest text-sm mb-4">Free · Anonymous · 2 Minutes</p>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">Caregiver Burnout Quiz</h1>
-            <p className="text-xl text-gray-700 font-medium max-w-2xl mx-auto">Caring for a loved one is one of the hardest things a person can do. Answer 12 honest questions to find out if you are experiencing caregiver burnout.</p>
-            <p className="text-sm text-gray-500 mt-4">Not a clinical diagnosis. Your responses are completely anonymous.</p>
+      <main style={{ flex: 1, paddingTop: 80 }}>
+        <section style={{ background: 'var(--hf-bg-mid)', padding: '64px 24px 48px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ maxWidth: 700, margin: '0 auto' }}>
+            <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Free · Anonymous · 2 Minutes</span>
+            <h1 className="font-serif-display" style={{ fontSize: 'clamp(26px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 16 }}>
+              Caregiver Burnout Quiz
+            </h1>
+            <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.65, maxWidth: 560, margin: '0 auto' }}>
+              Caring for a loved one is one of the hardest things a person can do. Answer 12 honest questions to find out if you are experiencing caregiver burnout.
+            </p>
+            <p style={{ fontSize: 12, color: 'oklch(0.55 0 0)', marginTop: 16 }}>
+              Not a clinical diagnosis. Your responses are completely anonymous.
+            </p>
           </div>
         </section>
         <CaregiverBurnoutQuiz />

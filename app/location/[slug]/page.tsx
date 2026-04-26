@@ -14,397 +14,221 @@ interface LocationPageProps {
 
 export async function generateStaticParams() {
   const cities = getAllCities();
-  return cities.map((city) => ({
-    slug: city.slug,
-  }));
+  return cities.map((city) => ({ slug: city.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: LocationPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: LocationPageProps): Promise<Metadata> {
   const { slug } = await params;
   const city = getCityBySlug(slug);
+  if (!city) return { title: 'Location Not Found' };
 
-  if (!city) {
-    return {
-      title: 'Location Not Found',
-    };
-  }
-
-  // City-specific title optimization for high-volume keywords
   let title = `Hypnotherapists in ${city.name}, ${city.state} | Find ${city.practitionerCount} Certified Practitioners`;
-  if (slug === 'los-angeles') {
-    title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
-  } else if (slug === 'chicago') {
-    title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
-  } else if (slug === 'austin') {
-    title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Quit Smoking & More`;
-  }
+  if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
+  else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
+  else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Quit Smoking & More`;
 
-  // City-specific description with keyword variations
   let description = `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
-  if (slug === 'los-angeles') {
-    description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`;
-  } else if (slug === 'chicago') {
-    description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists for anxiety, weight loss, quit smoking. Downtown, Lincoln Park, Oak Park & suburbs.`;
-  } else if (slug === 'austin') {
-    description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, weight loss, anxiety. South Austin, Downtown, North Austin & surrounding areas.`;
-  }
-  const url = `https://hypnotherapy-finder.com/location/${slug}`;
+  if (slug === 'los-angeles') description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`;
+  else if (slug === 'chicago') description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists for anxiety, weight loss, quit smoking. Downtown, Lincoln Park, Oak Park & suburbs.`;
+  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, weight loss, anxiety. South Austin, Downtown, North Austin & surrounding areas.`;
 
+  const url = `https://hypnotherapy-finder.com/location/${slug}`;
   return {
-    title,
-    description,
-    keywords: slug === 'los-angeles'
-      ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
-      : slug === 'chicago'
-      ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
-      : slug === 'austin'
-      ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
+    title, description,
+    keywords: slug === 'los-angeles' ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
+      : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
+      : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      url,
-      title,
-      description,
-      siteName: 'Hypnotherapy Finder',
-      locale: 'en_US',
-      type: 'website',
-    },
+    alternates: { canonical: url },
+    openGraph: { url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website' },
   };
 }
 
 export default async function LocationPage({ params }: LocationPageProps) {
   const { slug } = await params;
   const city = getCityBySlug(slug);
-
-  if (!city) {
-    notFound();
-  }
+  if (!city) notFound();
 
   const practitioners = getPractitionersByCity(slug);
 
   const itemListSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
+    '@context': 'https://schema.org', '@type': 'ItemList',
     name: `Hypnotherapists in ${city.name}, ${city.state}`,
     description: `Directory of certified hypnotherapists in ${city.name}`,
     numberOfItems: practitioners.length,
     itemListElement: practitioners.slice(0, 10).map((p, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'MedicalBusiness',
-        name: p.name,
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: p.city,
-          addressRegion: p.state,
-          addressCountry: 'US',
-        },
-      },
+      '@type': 'ListItem', position: index + 1,
+      item: { '@type': 'MedicalBusiness', name: p.name, address: { '@type': 'PostalAddress', addressLocality: p.city, addressRegion: p.state, addressCountry: 'US' } },
     })),
   };
 
   const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    '@context': 'https://schema.org', '@type': 'FAQPage',
     mainEntity: [
-      {
-        '@type': 'Question',
-        name: `How many hypnotherapists are in ${city.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `There are ${city.practitionerCount} certified hypnotherapists in ${city.name}, ${city.state} listed in our directory. These practitioners specialize in various areas including anxiety treatment, weight loss, smoking cessation, pain management, and more. You can browse all ${city.name} hypnotherapists on this page.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `What does hypnotherapy cost in ${city.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `Hypnotherapy in ${city.name}, ${city.state} typically costs between $100-$250 per session, depending on the practitioner's experience, credentials, and specialty. Initial consultations may cost more. Many ${city.name} hypnotherapists offer package deals for multiple sessions at reduced rates. Contact practitioners directly for specific pricing and insurance acceptance.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: `How do I choose a hypnotherapist in ${city.name}?`,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: `When choosing a hypnotherapist in ${city.name}, look for proper certifications (CHt, NGH, IACT, or ABH), relevant experience in your concern area, good reviews, and someone you feel comfortable with. Licensed healthcare providers (psychologists, physicians) with hypnotherapy training are ideal if you want insurance coverage. Browse our ${city.name} directory to compare credentials and specialties.`,
-        },
-      },
+      { '@type': 'Question', name: `How many hypnotherapists are in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `There are ${city.practitionerCount} certified hypnotherapists in ${city.name}, ${city.state} listed in our directory.` } },
+      { '@type': 'Question', name: `What does hypnotherapy cost in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Hypnotherapy in ${city.name}, ${city.state} typically costs between $100-$250 per session.` } },
+      { '@type': 'Question', name: `How do I choose a hypnotherapist in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `When choosing a hypnotherapist in ${city.name}, look for proper certifications (CHt, NGH, IACT, or ABH), relevant experience, good reviews, and someone you feel comfortable with.` } },
     ],
   };
 
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: 'Home',
-        item: 'https://hypnotherapy-finder.com',
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Locations',
-        item: 'https://hypnotherapy-finder.com/locations',
-      },
-      {
-        '@type': 'ListItem',
-        position: 3,
-        name: `${city.name}, ${city.state}`,
-        item: `https://hypnotherapy-finder.com/location/${slug}`,
-      },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://hypnotherapy-finder.com' },
+      { '@type': 'ListItem', position: 2, name: 'Locations', item: 'https://hypnotherapy-finder.com/locations' },
+      { '@type': 'ListItem', position: 3, name: `${city.name}, ${city.state}`, item: `https://hypnotherapy-finder.com/location/${slug}` },
     ],
   };
 
-  // LocalBusiness schema for enhanced local SEO signals
   const localBusinessSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@context': 'https://schema.org', '@type': 'LocalBusiness',
     '@id': `https://hypnotherapy-finder.com/location/${slug}#business`,
     name: `Hypnotherapy in ${city.name}`,
     description: `Directory of ${city.practitionerCount} certified hypnotherapists in ${city.name}, ${city.state}`,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: city.name,
-      addressRegion: city.state,
-      addressCountry: 'US',
-    },
-    areaServed: {
-      '@type': 'City',
-      name: city.name,
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: practitioners.length,
-      bestRating: '5',
-      worstRating: '1',
-    },
+    address: { '@type': 'PostalAddress', addressLocality: city.name, addressRegion: city.state, addressCountry: 'US' },
+    areaServed: { '@type': 'City', name: city.name },
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', reviewCount: practitioners.length, bestRating: '5', worstRating: '1' },
     url: `https://hypnotherapy-finder.com/location/${slug}`,
   };
 
+  const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
+    : slug === 'chicago' ? 'Chicago Hypnotherapy & Hypnotherapists'
+    : slug === 'austin' ? 'Austin Hypnotherapy & Hypnotherapists'
+    : `Hypnotherapists in ${city.name}`;
+
+  const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} certified LA hypnotherapists and hypnotists in Los Angeles, California`
+    : slug === 'chicago' ? `Connect with ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists in Chicago, Illinois`
+    : slug === 'austin' ? `Connect with ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, anxiety & more`
+    : `Connect with ${city.practitionerCount} certified hypnotherapy practitioners in ${city.name}, ${city.state}`;
+
   return (
     <>
-      <Script
-        id="schema-itemlist"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
-        strategy="beforeInteractive"
-      />
-      <Script
-        id="schema-faq"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        strategy="beforeInteractive"
-      />
-      <Script
-        id="schema-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-        strategy="beforeInteractive"
-      />
-      <Script
-        id="schema-local-business"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-        strategy="beforeInteractive"
-      />
+      <Script id="schema-itemlist" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} strategy="beforeInteractive" />
+      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} strategy="beforeInteractive" />
+      <Script id="schema-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} strategy="beforeInteractive" />
+      <Script id="schema-local-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} strategy="beforeInteractive" />
 
-      <div className="min-h-screen flex flex-col">
+      <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
 
-        <main className="flex-1 bg-gray-50 pt-20">
+        <main style={{ flex: 1, paddingTop: 80 }}>
           {/* Header */}
-          <div className="bg-gradient-to-b from-blue-50 to-white py-16">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto text-center space-y-4">
-                <div className="flex items-center justify-center gap-2 text-blue-600">
-                  <MapPin className="h-6 w-6" />
-                  <span className="text-lg font-medium">{city.state}</span>
-                </div>
-
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
-                  {slug === 'los-angeles'
-                    ? 'Los Angeles Hypnotherapy & Hypnotherapists'
-                    : slug === 'chicago'
-                    ? 'Chicago Hypnotherapy & Hypnotherapists'
-                    : slug === 'austin'
-                    ? 'Austin Hypnotherapy & Hypnotherapists'
-                    : `Hypnotherapists in ${city.name}`}
-                </h1>
-
-                <p className="text-xl text-gray-600">
-                  {slug === 'los-angeles'
-                    ? `Connect with ${city.practitionerCount} certified LA hypnotherapists and hypnotists in Los Angeles, California`
-                    : slug === 'chicago'
-                    ? `Connect with ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists in Chicago, Illinois`
-                    : slug === 'austin'
-                    ? `Connect with ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, anxiety & more`
-                    : `Connect with ${city.practitionerCount} certified hypnotherapy practitioners in ${city.name}, ${city.state}`}
-                </p>
+          <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ maxWidth: 760, margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
+                <MapPin style={{ width: 18, height: 18, color: 'var(--hf-accent)' }} />
+                <span style={{ fontSize: 14, color: 'var(--hf-accent)', fontWeight: 500 }}>{city.state}</span>
               </div>
+              <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 14 }}>{cityHeading}</h1>
+              <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6 }}>{citySubheading}</p>
             </div>
-          </div>
+          </section>
 
           {/* SEO Content */}
-          <div className="bg-white py-12 border-b">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto prose prose-lg">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  {slug === 'los-angeles'
-                    ? 'Find the Best Hypnotherapy in Los Angeles, CA'
-                    : slug === 'chicago'
-                    ? 'Find the Best Hypnotherapy in Chicago, IL'
-                    : slug === 'austin'
-                    ? 'Find the Best Hypnotherapy in Austin, TX'
+          <section style={{ padding: '48px 24px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ maxWidth: 860, margin: '0 auto' }}>
+              <div className="glass-card" style={{ padding: '40px' }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>
+                  {slug === 'los-angeles' ? 'Find the Best Hypnotherapy in Los Angeles, CA'
+                    : slug === 'chicago' ? 'Find the Best Hypnotherapy in Chicago, IL'
+                    : slug === 'austin' ? 'Find the Best Hypnotherapy in Austin, TX'
                     : `Find Qualified Hypnotherapists in ${city.name}, ${city.state}`}
                 </h2>
+
                 {slug === 'los-angeles' ? (
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    <strong>Looking for hypnotherapy in Los Angeles?</strong> Our directory features {city.practitionerCount} certified
-                    LA hypnotherapists and hypnotists across all Los Angeles neighborhoods including <strong>Santa Monica, Beverly Hills,
-                      Pasadena, West Hollywood, Burbank, Glendale, and Downtown LA</strong>. Whether you need help with anxiety,
-                    weight loss, smoking cessation, or stress management, find experienced Los Angeles hypnotherapy practitioners
-                    ready to help you achieve your wellness goals.
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Los Angeles?</strong> Our directory features {city.practitionerCount} certified LA hypnotherapists and hypnotists across all Los Angeles neighborhoods including <strong style={{ color: 'var(--hf-fg)' }}>Santa Monica, Beverly Hills, Pasadena, West Hollywood, Burbank, Glendale, and Downtown LA</strong>. Whether you need help with anxiety, weight loss, smoking cessation, or stress management, find experienced practitioners ready to help.
                   </p>
                 ) : slug === 'chicago' ? (
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    <strong>Looking for hypnotherapy in Chicago?</strong> Our directory features {city.practitionerCount} certified
-                    Chicago hypnotherapists and hypnotists across all Chicago neighborhoods including <strong>Downtown, Lincoln Park,
-                      Lakeview, Oak Park, Evanston, Naperville, and the greater Chicagoland area</strong>. Whether you need help with anxiety,
-                    weight loss, quit smoking, or stress management, find experienced Chicago hypnotherapy practitioners
-                    ready to help you achieve your wellness goals.
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Chicago?</strong> Our directory features {city.practitionerCount} certified Chicago hypnotherapists and hypnotists across all Chicago neighborhoods including <strong style={{ color: 'var(--hf-fg)' }}>Downtown, Lincoln Park, Lakeview, Oak Park, Evanston, Naperville, and the greater Chicagoland area</strong>.
                   </p>
                 ) : slug === 'austin' ? (
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    <strong>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} certified
-                    Austin hypnotherapists across all Austin areas including <strong>South Austin, Downtown, North Austin,
-                      Round Rock, Cedar Park, and the greater Austin metro</strong>. Especially popular: <strong>hypnotherapy to quit smoking</strong> in
-                    South Austin and throughout Texas. Find experienced Austin hypnotherapy practitioners for anxiety, weight loss,
-                    smoking cessation, and more.
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} certified Austin hypnotherapists across all Austin areas including <strong style={{ color: 'var(--hf-fg)' }}>South Austin, Downtown, North Austin, Round Rock, Cedar Park, and the greater Austin metro</strong>. Especially popular: <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapy to quit smoking</strong> in South Austin.
                   </p>
                 ) : (
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    <strong>Looking for hypnotherapy in {city.name}?</strong> Our directory features {city.practitionerCount} certified
-                    hypnotherapists in the {city.name} area. Whether you're seeking help with anxiety, weight loss, smoking cessation,
-                    pain management, or other challenges, you'll find experienced practitioners ready to help you achieve your wellness goals.
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in {city.name}?</strong> Our directory features {city.practitionerCount} certified hypnotherapists in the {city.name} area. Whether you're seeking help with anxiety, weight loss, smoking cessation, pain management, or other challenges, you'll find experienced practitioners ready to help.
                   </p>
                 )}
 
-                <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                  What Can {city.name} Hypnotherapists Help With?
-                </h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Hypnotherapists in {city.name}, {city.state} use guided relaxation and focused attention to help with:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-                  <li><strong>Anxiety and stress management</strong> - Reduce worry, panic attacks, and daily anxiety</li>
-                  <li><strong>Weight loss and healthy habits</strong> - Address emotional eating and build sustainable habits</li>
-                  <li><strong>Smoking cessation</strong> - Break nicotine addiction and become smoke-free</li>
-                  <li><strong>Phobia treatment</strong> - Overcome specific fears like flying, heights, or public speaking</li>
-                  <li><strong>Sleep disorders and insomnia</strong> - Improve sleep quality and overcome sleep issues</li>
-                  <li><strong>Chronic pain management</strong> - Reduce pain intensity and improve quality of life</li>
-                  <li><strong>PTSD and trauma therapy</strong> - Process traumatic experiences in a safe environment</li>
-                  <li><strong>Confidence and performance</strong> - Enhance sports performance, public speaking, and self-esteem</li>
-                </ul>
-
-                <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                  How Much Does Hypnotherapy Cost in {city.name}?
-                </h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Hypnotherapy sessions in {city.name} typically cost <strong>$100-$250 per session</strong>, with the average
-                  around $150-$175. Initial consultations may be longer and cost $150-$250. Many {city.name} hypnotherapists
-                  offer package deals for multiple sessions at discounted rates. Some practitioners accept insurance when hypnotherapy
-                  is provided by a licensed healthcare professional for a covered condition.
-                </p>
-
-                <h3 className="text-xl font-bold text-gray-900 mt-8 mb-4">
-                  How to Choose a Hypnotherapist in {city.name}
-                </h3>
-                <p className="text-gray-700 leading-relaxed mb-2">
-                  When selecting a hypnotherapist in {city.name}, {city.state}, consider:
-                </p>
-                <ul className="list-disc pl-6 text-gray-700 space-y-2">
-                  <li><strong>Credentials:</strong> Look for CHt certification from NGH, IACT, or ABH</li>
-                  <li><strong>Experience:</strong> Ask about their experience treating your specific concern</li>
-                  <li><strong>Specialization:</strong> Find practitioners who specialize in your area of need</li>
-                  <li><strong>Licensed providers:</strong> Psychologists or physicians with hypnotherapy training often qualify for insurance</li>
-                  <li><strong>Personal comfort:</strong> Choose someone you feel comfortable working with</li>
-                </ul>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28, marginTop: 28 }}>
+                  <div>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>What Can {city.name} Hypnotherapists Help With?</h3>
+                    <ul style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {['Anxiety and stress management', 'Weight loss and healthy habits', 'Smoking cessation', 'Phobia treatment', 'Sleep disorders and insomnia', 'Chronic pain management', 'PTSD and trauma therapy', 'Confidence and performance'].map((item) => (
+                        <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.5 }}>
+                          <span style={{ color: 'var(--hf-accent)', flexShrink: 0 }}>✓</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>How to Choose a Hypnotherapist in {city.name}</h3>
+                    <ul style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {[
+                        ['Credentials:', 'Look for CHt certification from NGH, IACT, or ABH'],
+                        ['Experience:', 'Ask about their experience treating your specific concern'],
+                        ['Specialization:', 'Find practitioners who specialize in your area of need'],
+                        ['Cost:', '$100–$250/session; packages often available'],
+                      ].map(([label, text]) => (
+                        <li key={label} style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.5 }}>
+                          <strong style={{ color: 'var(--hf-fg)' }}>{label}</strong> {text}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Practitioners Grid */}
-          <div className="container mx-auto px-4 py-12">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-2">
-                All Practitioners in {city.name}
-              </h2>
-              <p className="text-gray-600">
-                Browse {practitioners.length} certified hypnotherapists
-              </p>
-            </div>
+          <section style={{ padding: '48px 24px' }}>
+            <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+              <div style={{ marginBottom: 28 }}>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>All Practitioners in {city.name}</h2>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)' }}>Browse {practitioners.length} certified hypnotherapists</p>
+              </div>
 
-            {practitioners.length === 0 ? (
-              <div className="bg-white p-12 rounded-lg border text-center">
-                <p className="text-gray-600">
-                  No practitioners found in {city.name} yet.
-                </p>
-                <Link
-                  href="/search"
-                  className="text-blue-600 hover:underline mt-4 inline-block"
-                >
-                  Search all locations
-                </Link>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {practitioners.map((practitioner) => (
-                  <PractitionerCard key={practitioner.id} practitioner={practitioner} />
-                ))}
-              </div>
-            )}
-          </div>
+              {practitioners.length === 0 ? (
+                <div className="glass-card" style={{ padding: '48px', textAlign: 'center' }}>
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', marginBottom: 16 }}>No practitioners found in {city.name} yet.</p>
+                  <Link href="/search" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>Search all locations →</Link>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+                  {practitioners.map((practitioner) => (
+                    <PractitionerCard key={practitioner.id} practitioner={practitioner} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
 
           {/* Related Specialties */}
-          <div className="bg-blue-50 py-12 border-t">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl font-bold mb-6 text-center">
-                Explore Hypnotherapy Specialties
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
-                <Link href="/hypnotherapy-for-anxiety" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
-                  <h3 className="font-semibold text-lg text-blue-600">Anxiety Hypnotherapy</h3>
-                  <p className="text-sm text-gray-600">Manage stress and panic attacks</p>
-                </Link>
-                <Link href="/weight-loss-hypnotherapy" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
-                  <h3 className="font-semibold text-lg text-blue-600">Weight Loss Hypnotherapy</h3>
-                  <p className="text-sm text-gray-600">Sustainable weight management</p>
-                </Link>
-                <Link href="/quit-smoking-hypnotherapy" className="block p-4 bg-white rounded-lg hover:shadow-md transition-shadow text-center">
-                  <h3 className="font-semibold text-lg text-blue-600">Quit Smoking Hypnotherapy</h3>
-                  <p className="text-sm text-gray-600">Break free from nicotine</p>
-                </Link>
+          <section style={{ padding: '0 24px 72px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+            <div style={{ maxWidth: 900, margin: '0 auto', paddingTop: 48 }}>
+              <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 24 }}>Explore Hypnotherapy Specialties</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 24 }}>
+                {[
+                  { href: '/hypnotherapy-for-anxiety', title: 'Anxiety Hypnotherapy', desc: 'Manage stress and panic attacks' },
+                  { href: '/weight-loss-hypnotherapy', title: 'Weight Loss Hypnotherapy', desc: 'Sustainable weight management' },
+                  { href: '/quit-smoking-hypnotherapy', title: 'Quit Smoking Hypnotherapy', desc: 'Break free from nicotine' },
+                ].map((link) => (
+                  <Link key={link.href} href={link.href} className="glass-card hf-card-hover" style={{ display: 'block', padding: '20px', textDecoration: 'none', textAlign: 'center' }}>
+                    <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--hf-accent)', marginBottom: 6 }}>{link.title}</h3>
+                    <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)' }}>{link.desc}</p>
+                  </Link>
+                ))}
               </div>
-              <div className="flex justify-center">
-                <Link
-                  href="/locations"
-                  className="text-blue-600 hover:underline text-lg"
-                >
-                  View all locations →
-                </Link>
+              <div style={{ textAlign: 'center' }}>
+                <Link href="/locations" style={{ fontSize: 14, color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>View all locations →</Link>
               </div>
             </div>
-          </div>
+          </section>
         </main>
 
         <Footer />

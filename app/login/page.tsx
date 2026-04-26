@@ -4,25 +4,30 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: 'rgba(255,255,255,0.04)',
+  border: '2px solid rgba(255,255,255,0.1)',
+  borderRadius: 10,
+  padding: '12px 16px',
+  color: 'var(--hf-fg)',
+  fontSize: 15,
+  outline: 'none',
+  boxSizing: 'border-box',
+};
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { signIn, user } = useAuth();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
   useEffect(() => {
     if (user) {
       const redirect = searchParams.get('redirect') || '/dashboard';
@@ -31,10 +36,7 @@ function LoginForm() {
   }, [user, router, searchParams]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
   };
 
@@ -50,7 +52,6 @@ function LoginForm() {
         setError(error.message || 'Invalid email or password');
         setLoading(false);
       } else {
-        // Success - redirect handled by useEffect
         const redirect = searchParams.get('redirect') || '/dashboard';
         router.push(redirect);
       }
@@ -61,99 +62,102 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 bg-gray-50 py-16 pt-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-md mx-auto">
-            <h1 className="text-3xl font-bold text-center mb-6">Sign In</h1>
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl text-center">Practitioner Sign In</CardTitle>
-                <p className="text-center text-gray-600 mt-2">
-                  Manage your profile and connect with clients
-                </p>
-              </CardHeader>
-              <CardContent>
-                {error && (
-                  <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-800">{error}</p>
-                  </div>
-                )}
+      <main style={{ flex: 1, paddingTop: 80, padding: '80px 16px 48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '100%', maxWidth: 440 }}>
+          <h1 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 32 }}>Sign In</h1>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      Email Address
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      className="w-full"
-                    />
-                  </div>
+          <div className="glass-card" style={{ padding: 32 }}>
+            <div style={{ marginBottom: 24, textAlign: 'center' }}>
+              <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Practitioner Sign In</h2>
+              <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14 }}>Manage your profile and connect with clients</p>
+            </div>
 
-                  <div>
-                    <label htmlFor="password" className="block text-sm font-medium mb-2">
-                      Password
-                    </label>
-                    <Input
-                      id="password"
-                      name="password"
-                      type="password"
-                      required
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Enter your password"
-                      className="w-full"
-                    />
-                  </div>
+            {error && (
+              <div style={{ marginBottom: 20, padding: 14, background: 'oklch(0.25 0.1 20 / 0.3)', border: '1px solid oklch(0.5 0.2 20 / 0.4)', borderRadius: 10, display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                <AlertCircle style={{ width: 18, height: 18, color: 'oklch(0.7 0.15 20)', flexShrink: 0, marginTop: 1 }} />
+                <p style={{ fontSize: 13, color: 'oklch(0.8 0.1 20)', lineHeight: 1.5 }}>{error}</p>
+              </div>
+            )}
 
-                  <div className="flex items-center justify-between text-sm">
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" className="rounded" />
-                      <span>Remember me</span>
-                    </label>
-                    <a href="#" className="text-blue-600 hover:underline">
-                      Forgot password?
-                    </a>
-                  </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+              <div>
+                <label htmlFor="email" style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 8 }}>
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  style={inputStyle}
+                />
+              </div>
 
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? 'Signing in...' : 'Sign In'}
-                  </Button>
-                </form>
+              <div>
+                <label htmlFor="password" style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 8 }}>
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  style={inputStyle}
+                />
+              </div>
 
-                <div className="mt-6 pt-6 border-t text-center">
-                  <p className="text-gray-600 mb-4">Don't have an account?</p>
-                  <Button asChild variant="outline" className="w-full">
-                    <Link href="/practitioner-signup">Create Free Profile</Link>
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 13 }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                  <input type="checkbox" style={{ accentColor: 'var(--hf-accent)' }} />
+                  <span style={{ color: 'var(--hf-fg-dim)' }}>Remember me</span>
+                </label>
+                <a href="#" style={{ color: 'var(--hf-accent)', textDecoration: 'underline' }}>
+                  Forgot password?
+                </a>
+              </div>
 
-                <div className="mt-6 bg-blue-50 p-4 rounded-lg text-sm">
-                  <p className="font-semibold text-gray-900 mb-1">Pre-Launch Special - 100% Free!</p>
-                  <p className="text-gray-700">
-                    Join our founding practitioner community and get free access for 6 months before our official launch. All features free during this pre-launch period.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+              <button
+                type="submit"
+                disabled={loading}
+                className={!loading ? 'btn-gradient hf-btn-accent' : ''}
+                style={{ width: '100%', padding: '13px', borderRadius: 10, border: 'none', color: '#fff', fontWeight: 700, fontSize: 15, cursor: loading ? 'not-allowed' : 'pointer', background: loading ? 'rgba(255,255,255,0.08)' : undefined, opacity: loading ? 0.7 : 1 }}
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </button>
+            </form>
 
-            {/* Help Section */}
-            <div className="mt-6 text-center text-sm text-gray-600">
-              <p className="mb-2">Need help getting started?</p>
-              <Link href="/contact" className="text-blue-600 hover:underline">
-                Contact Support
+            <div style={{ marginTop: 24, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.08)', textAlign: 'center' }}>
+              <p style={{ color: 'var(--hf-fg-dim)', marginBottom: 16, fontSize: 14 }}>Don't have an account?</p>
+              <Link
+                href="/practitioner-signup"
+                style={{ display: 'block', width: '100%', padding: '12px', borderRadius: 10, border: '2px solid rgba(255,255,255,0.12)', color: 'var(--hf-fg)', fontWeight: 600, fontSize: 14, textDecoration: 'none', textAlign: 'center' }}
+              >
+                Create Free Profile
               </Link>
             </div>
+
+            <div style={{ marginTop: 20, background: 'oklch(0.72 0.12 185 / 0.08)', border: '1px solid oklch(0.72 0.12 185 / 0.2)', borderRadius: 10, padding: 16 }}>
+              <p style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 6, fontSize: 14 }}>Pre-Launch Special — 100% Free!</p>
+              <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.6 }}>
+                Join our founding practitioner community and get free access for 6 months before our official launch. All features free during this pre-launch period.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ marginTop: 24, textAlign: 'center', fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+            <p style={{ marginBottom: 8 }}>Need help getting started?</p>
+            <Link href="/contact" style={{ color: 'var(--hf-accent)', textDecoration: 'underline' }}>
+              Contact Support
+            </Link>
           </div>
         </div>
       </main>
@@ -166,17 +170,11 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex flex-col">
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Header />
-        <main className="flex-1 bg-gray-50 py-16 pt-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-md mx-auto">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Loading...</CardTitle>
-                </CardHeader>
-              </Card>
-            </div>
+        <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="glass-card" style={{ padding: 32, textAlign: 'center' }}>
+            <p style={{ color: 'var(--hf-fg-dim)', fontSize: 16 }}>Loading...</p>
           </div>
         </main>
         <Footer />

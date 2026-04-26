@@ -3,15 +3,34 @@
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Eye, Edit, Save, CheckCircle, TrendingUp, Users, Star, ExternalLink, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { createBrowserClient } from '@/lib/supabase/client';
-import { Practitioner } from '@/lib/types/practitioner';
+
+const inputStyle = (enabled: boolean): React.CSSProperties => ({
+  width: '100%',
+  background: enabled ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
+  border: `2px solid ${enabled ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)'}`,
+  borderRadius: 10,
+  padding: '11px 14px',
+  color: enabled ? 'var(--hf-fg)' : 'var(--hf-fg-dim)',
+  fontSize: 14,
+  outline: 'none',
+  boxSizing: 'border-box' as const,
+});
+
+const cardStyle: React.CSSProperties = {
+  background: 'var(--hf-bg-mid)',
+  border: '1px solid rgba(255,255,255,0.08)',
+  borderRadius: 16,
+  padding: 24,
+};
+
+const ALL_SPECIALTIES = [
+  'Anxiety & Stress', 'Weight Loss', 'Smoking Cessation', 'Phobias', 'Insomnia',
+  'Pain Management', 'PTSD & Trauma', 'Confidence & Performance', 'Past Life Regression', 'General Hypnotherapy',
+];
 
 export default function DashboardPage() {
   const { user, session, loading: authLoading, signOut } = useAuth();
@@ -27,36 +46,21 @@ export default function DashboardPage() {
   const [actualSlug, setActualSlug] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
-  // Practitioner profile data
   const [profileData, setProfileData] = useState({
-    name: '',
-    credentials: '',
-    email: '',
-    phone: '',
-    street: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    website: '',
-    specialties: [] as string[],
-    yearsExperience: '',
-    bio: '',
-    acceptsInsurance: false,
-    offersOnline: false,
-    profileViews: 0,
-    inquiries: 0,
+    name: '', credentials: '', email: '', phone: '',
+    street: '', city: '', state: '', zipCode: '', website: '',
+    specialties: [] as string[], yearsExperience: '', bio: '',
+    acceptsInsurance: false, offersOnline: false,
+    profileViews: 0, inquiries: 0,
   });
 
-  // Fetch practitioner data on mount
   useEffect(() => {
     if (authLoading) return;
-
     if (!user || !session) {
       setLoading(false);
       setError('Please log in to access your dashboard');
       return;
     }
-
     fetchPractitionerData();
   }, [user, session, authLoading]);
 
@@ -65,8 +69,6 @@ export default function DashboardPage() {
       setLoading(true);
       setError(null);
       const supabase = createBrowserClient();
-
-      // Fetch practitioner data where claimed_by = user.id
       const { data, error: fetchError } = await supabase
         .from('practitioners')
         .select('*')
@@ -75,7 +77,6 @@ export default function DashboardPage() {
 
       if (fetchError) {
         if (fetchError.code === 'PGRST116') {
-          // No practitioner record found
           setNoPractitionerRecord(true);
           setError('No practitioner profile found. Please claim a listing first.');
         } else {
@@ -92,19 +93,14 @@ export default function DashboardPage() {
         return;
       }
 
-      // Map Supabase data to profile state
       setPractitionerId(data.id);
-
-      // Use the practitioner ID directly for public profile link
       setPractitionerSlug(data.id);
       setActualSlug(data.slug || null);
       setVerified(data.verified === true && data.claim_status === 'claimed');
 
       setProfileData({
         name: data.name || '',
-        credentials: Array.isArray(data.credentials)
-          ? data.credentials.join(', ')
-          : data.credentials || '',
+        credentials: Array.isArray(data.credentials) ? data.credentials.join(', ') : data.credentials || '',
         email: data.email || '',
         phone: data.phone || '',
         street: data.address || '',
@@ -117,8 +113,8 @@ export default function DashboardPage() {
         bio: data.bio || '',
         acceptsInsurance: Array.isArray(data.insurance_accepted) && data.insurance_accepted.length > 0,
         offersOnline: Array.isArray(data.session_types) && data.session_types.includes('online'),
-        profileViews: 0, // TODO: Implement analytics
-        inquiries: 0, // TODO: Implement analytics
+        profileViews: 0,
+        inquiries: 0,
       });
 
       setNoPractitionerRecord(false);
@@ -131,16 +127,10 @@ export default function DashboardPage() {
   };
 
   const handleSave = async () => {
-    if (!practitionerId) {
-      setError('No practitioner ID found');
-      return;
-    }
-
+    if (!practitionerId) { setError('No practitioner ID found'); return; }
     try {
       setSaving(true);
       setError(null);
-
-      // Prepare data for API
       const updateData = {
         name: profileData.name,
         credentials: profileData.credentials.split(',').map(c => c.trim()).filter(Boolean),
@@ -155,30 +145,20 @@ export default function DashboardPage() {
         years_experience: profileData.yearsExperience ? parseInt(profileData.yearsExperience) : undefined,
         bio: profileData.bio,
         insurance_accepted: profileData.acceptsInsurance ? ['Yes'] : [],
-        session_types: profileData.offersOnline
-          ? ['online', 'in-person']
-          : ['in-person'],
+        session_types: profileData.offersOnline ? ['online', 'in-person'] : ['in-person'],
       };
-
-      // Save to database via API
       const response = await fetch(`/api/practitioners/${practitionerId}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData),
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to save changes');
       }
-
       setSaved(true);
       setEditMode(false);
       setTimeout(() => setSaved(false), 3000);
-
-      // Refresh data
       await fetchPractitionerData();
     } catch (err: any) {
       console.error('Error saving profile:', err);
@@ -194,29 +174,23 @@ export default function DashboardPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const stats = [
-    { label: 'Profile Views', value: profileData.profileViews, icon: Eye, trend: '+15% this month' },
-    { label: 'Client Inquiries', value: profileData.inquiries, icon: Users, trend: '+3 this week' },
-    { label: 'Profile Completeness', value: '85%', icon: CheckCircle, trend: 'Good' },
-  ];
+  const toggleSpecialty = (specialty: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      specialties: prev.specialties.includes(specialty)
+        ? prev.specialties.filter(s => s !== specialty)
+        : [...prev.specialties, specialty],
+    }));
+  };
 
-  // Show loading state
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Header />
-        <main className="flex-1 bg-gray-50 py-8 pt-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-center py-12">
-                    <Loader2 className="h-8 w-8 animate-spin text-blue-600 mr-3" />
-                    <span className="text-lg">Loading your dashboard...</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+        <main style={{ flex: 1, paddingTop: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Loader2 style={{ width: 32, height: 32, color: 'var(--hf-accent)', animation: 'spin 1s linear infinite' }} />
+            <span style={{ fontSize: 16, color: 'var(--hf-fg-dim)' }}>Loading your dashboard...</span>
           </div>
         </main>
         <Footer />
@@ -224,33 +198,24 @@ export default function DashboardPage() {
     );
   }
 
-  // Show error state for no practitioner record
   if (noPractitionerRecord) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Header />
-        <main className="flex-1 bg-gray-50 py-8 pt-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <AlertCircle className="h-16 w-16 text-amber-500 mb-4" />
-                    <h2 className="text-2xl font-bold mb-2">No Practitioner Profile Found</h2>
-                    <p className="text-gray-600 mb-6 max-w-md">
-                      You don't have a claimed practitioner profile yet. Please claim a listing first to access your dashboard.
-                    </p>
-                    <div className="flex gap-3">
-                      <Button asChild>
-                        <Link href="/claim-listing">Claim a Listing</Link>
-                      </Button>
-                      <Button asChild variant="outline">
-                        <Link href="/">Return Home</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        <main style={{ flex: 1, paddingTop: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '80px 16px' }}>
+          <div className="glass-card" style={{ padding: 48, textAlign: 'center', maxWidth: 480 }}>
+            <AlertCircle style={{ width: 56, height: 56, color: 'oklch(0.75 0.15 60)', margin: '0 auto 20px' }} />
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 10 }}>No Practitioner Profile Found</h2>
+            <p style={{ color: 'var(--hf-fg-dim)', marginBottom: 24, lineHeight: 1.6 }}>
+              You don't have a claimed practitioner profile yet. Please claim a listing first to access your dashboard.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+              <Link href="/claim-listing" className="btn-gradient hf-btn-accent" style={{ padding: '10px 20px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                Claim a Listing
+              </Link>
+              <Link href="/" style={{ padding: '10px 20px', borderRadius: 10, border: '2px solid rgba(255,255,255,0.12)', color: 'var(--hf-fg)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                Return Home
+              </Link>
             </div>
           </div>
         </main>
@@ -259,439 +224,323 @@ export default function DashboardPage() {
     );
   }
 
+  const sectionDivider: React.CSSProperties = { paddingTop: 24, marginTop: 24, borderTop: '1px solid rgba(255,255,255,0.06)' };
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 bg-gray-50 py-8 pt-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-red-900 mb-1">Error</h3>
-                  <p className="text-sm text-red-700">{error}</p>
-                </div>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setError(null)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-100"
-                >
-                  Dismiss
-                </Button>
+      <main style={{ flex: 1, paddingTop: 80, padding: '80px 16px 48px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          {error && (
+            <div style={{ marginBottom: 24, background: 'oklch(0.25 0.1 20 / 0.3)', border: '1px solid oklch(0.5 0.2 20 / 0.4)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+              <AlertCircle style={{ width: 20, height: 20, color: 'oklch(0.7 0.15 20)', flexShrink: 0, marginTop: 1 }} />
+              <div style={{ flex: 1 }}>
+                <p style={{ fontWeight: 600, color: 'oklch(0.8 0.1 20)', marginBottom: 4 }}>Error</p>
+                <p style={{ fontSize: 13, color: 'oklch(0.75 0.1 20)' }}>{error}</p>
               </div>
-            )}
+              <button onClick={() => setError(null)} style={{ background: 'none', border: 'none', color: 'oklch(0.7 0.15 20)', cursor: 'pointer', fontSize: 13 }}>Dismiss</button>
+            </div>
+          )}
 
-            {/* Header */}
-            <div className="flex justify-between items-center mb-8">
-              <div>
-                <h1 className="text-3xl font-bold">Dashboard</h1>
-                <p className="text-gray-600 mt-1">
-                  Welcome back{profileData.name ? `, ${profileData.name.split(' ')[0]}` : ''}!
+          {/* Header row */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--hf-fg)' }}>Dashboard</h1>
+              <p style={{ color: 'var(--hf-fg-dim)', marginTop: 4 }}>
+                Welcome back{profileData.name ? `, ${profileData.name.split(' ')[0]}` : ''}!
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {practitionerSlug ? (
+                <Link href={`/practitioner/${practitionerSlug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, border: '2px solid rgba(255,255,255,0.12)', color: 'var(--hf-fg)', fontWeight: 600, fontSize: 13, textDecoration: 'none' }}>
+                  <Eye style={{ width: 15, height: 15 }} />
+                  View Public Profile
+                </Link>
+              ) : (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, border: '2px solid rgba(255,255,255,0.06)', color: 'var(--hf-fg-dim)', fontWeight: 600, fontSize: 13, opacity: 0.5 }}>
+                  <Eye style={{ width: 15, height: 15 }} />
+                  View Public Profile
+                </span>
+              )}
+              <button
+                onClick={async () => { await signOut(); window.location.href = '/'; }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, border: '2px solid rgba(255,255,255,0.12)', background: 'none', color: 'var(--hf-fg)', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}
+              >
+                <ExternalLink style={{ width: 15, height: 15 }} />
+                Logout
+              </button>
+            </div>
+          </div>
+
+          {/* Free Period Banner */}
+          <div className="glass-card" style={{ padding: 24, marginBottom: 24, borderLeft: '3px solid var(--hf-accent)' }}>
+            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              <div style={{ padding: 12, background: 'oklch(0.72 0.12 185 / 0.15)', borderRadius: 12, flexShrink: 0 }}>
+                <Star style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 6 }}>Pre-Launch Member Benefits</h3>
+                <p style={{ color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}>
+                  As a founding member, you have full access to all features free for 6 months before our official launch. Help us build the best hypnotherapy directory! After official launch, premium features start at $29/month.
                 </p>
-              </div>
-              <div className="flex gap-3">
-                {practitionerSlug ? (
-                  <Button asChild variant="outline">
-                    <Link href={`/practitioner/${practitionerSlug}`}>
-                      <Eye className="h-4 w-4 mr-2" />
-                      View Public Profile
-                    </Link>
-                  </Button>
-                ) : (
-                  <Button variant="outline" disabled title="Profile loading...">
-                    <Eye className="h-4 w-4 mr-2" />
-                    View Public Profile
-                  </Button>
-                )}
-                <Button
-                  variant="outline"
-                  onClick={async () => {
-                    await signOut();
-                    window.location.href = '/';
-                  }}
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
+                <button style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.12)', background: 'none', color: 'var(--hf-fg-dim)', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                  Learn More About Premium
+                </button>
               </div>
             </div>
+          </div>
 
-            {/* Free Period Banner */}
-            <Card className="mb-6 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-white rounded-lg">
-                    <Star className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-1">Pre-Launch Member Benefits</h3>
-                    <p className="text-gray-700 text-sm mb-3">
-                      As a founding member, you have full access to all features free for 6 months before our official launch.
-                      Help us build the best hypnotherapy directory! After official launch, premium features start at $29/month.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">Learn More About Premium</Button>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              {stats.map((stat, idx) => (
-                <Card key={idx}>
-                  <CardContent className="pt-6">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
-                        <p className="text-3xl font-bold">{stat.value}</p>
-                        <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
-                          <TrendingUp className="h-4 w-4" />
-                          {stat.trend}
-                        </p>
-                      </div>
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <stat.icon className="h-6 w-6 text-blue-600" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Profile Management */}
-            <Card>
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <CardTitle>Your Profile</CardTitle>
-                  {saved && (
-                    <div className="flex items-center gap-2 text-green-600">
-                      <CheckCircle className="h-5 w-5" />
-                      <span className="text-sm font-medium">Changes saved!</span>
-                    </div>
-                  )}
-                  {!editMode ? (
-                    <Button onClick={() => setEditMode(true)} size="sm">
-                      <Edit className="h-4 w-4 mr-2" />
-                      Edit Profile
-                    </Button>
-                  ) : (
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => {
-                          setEditMode(false);
-                          setError(null);
-                        }}
-                        variant="outline"
-                        size="sm"
-                        disabled={saving}
-                      >
-                        Cancel
-                      </Button>
-                      <Button onClick={handleSave} size="sm" disabled={saving}>
-                        {saving ? (
-                          <>
-                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            Saving...
-                          </>
-                        ) : (
-                          <>
-                            <Save className="h-4 w-4 mr-2" />
-                            Save Changes
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {/* Basic Info */}
+          {/* Stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
+            {[
+              { label: 'Profile Views', value: profileData.profileViews, Icon: Eye, trend: '+15% this month' },
+              { label: 'Client Inquiries', value: profileData.inquiries, Icon: Users, trend: '+3 this week' },
+              { label: 'Profile Completeness', value: '85%', Icon: CheckCircle, trend: 'Good' },
+            ].map(({ label, value, Icon, trend }) => (
+              <div key={label} style={cardStyle}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                   <div>
-                    <h3 className="font-semibold mb-4">Basic Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Full Name</label>
-                        <Input
-                          value={profileData.name}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Credentials</label>
-                        <Input
-                          value={profileData.credentials}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, credentials: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Email</label>
-                        <Input
-                          type="email"
-                          value={profileData.email}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Phone</label>
-                        <Input
-                          value={profileData.phone}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                        />
-                      </div>
-                    </div>
+                    <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', marginBottom: 8, fontWeight: 500 }}>{label}</p>
+                    <p style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)' }}>{value}</p>
+                    <p style={{ fontSize: 12, color: 'oklch(0.7 0.15 145)', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <TrendingUp style={{ width: 13, height: 13 }} />{trend}
+                    </p>
                   </div>
-
-                  {/* Location Info */}
-                  <div className="pt-6 border-t">
-                    <h3 className="font-semibold mb-4">Location & Contact</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium mb-2">Street Address</label>
-                        <Input
-                          value={profileData.street}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, street: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">City</label>
-                        <Input
-                          value={profileData.city}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, city: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">State</label>
-                        <Input
-                          value={profileData.state}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, state: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Zip Code</label>
-                        <Input
-                          value={profileData.zipCode}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, zipCode: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Website</label>
-                        <Input
-                          type="url"
-                          value={profileData.website}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Professional Details */}
-                  <div className="pt-6 border-t">
-                    <h3 className="font-semibold mb-4">Professional Details</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Specialties</label>
-                        {editMode ? (
-                          <div className="space-y-3">
-                            <p className="text-sm text-gray-600">Click to add or remove specialties:</p>
-                            <div className="flex flex-wrap gap-2">
-                              {[
-                                'Anxiety & Stress',
-                                'Weight Loss',
-                                'Smoking Cessation',
-                                'Phobias',
-                                'Insomnia',
-                                'Pain Management',
-                                'PTSD & Trauma',
-                                'Confidence & Performance',
-                                'Past Life Regression',
-                                'General Hypnotherapy'
-                              ].map((specialty) => (
-                                <Badge
-                                  key={specialty}
-                                  variant={profileData.specialties.includes(specialty) ? 'default' : 'outline'}
-                                  className="cursor-pointer hover:opacity-80 transition-opacity"
-                                  onClick={() => {
-                                    console.log('Specialty badge clicked:', specialty);
-                                    if (profileData.specialties.includes(specialty)) {
-                                      setProfileData({
-                                        ...profileData,
-                                        specialties: profileData.specialties.filter(s => s !== specialty)
-                                      });
-                                    } else {
-                                      setProfileData({
-                                        ...profileData,
-                                        specialties: [...profileData.specialties, specialty]
-                                      });
-                                    }
-                                  }}
-                                >
-                                  {specialty}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="flex flex-wrap gap-2">
-                            {profileData.specialties.length > 0 ? (
-                              profileData.specialties.map((specialty) => (
-                                <Badge key={specialty} variant="secondary">
-                                  {specialty}
-                                </Badge>
-                              ))
-                            ) : (
-                              <p className="text-sm text-gray-500">No specialties selected</p>
-                            )}
-                          </div>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Years of Experience</label>
-                        <Input
-                          type="number"
-                          value={profileData.yearsExperience}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, yearsExperience: e.target.value })}
-                          className="max-w-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Bio / About</label>
-                        <textarea
-                          value={profileData.bio}
-                          disabled={!editMode}
-                          onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-                          rows={4}
-                          className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm disabled:bg-gray-50 disabled:text-gray-500"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={profileData.acceptsInsurance}
-                            disabled={!editMode}
-                            onChange={(e) => setProfileData({ ...profileData, acceptsInsurance: e.target.checked })}
-                            className="rounded"
-                          />
-                          <span className="text-sm">I accept insurance</span>
-                        </label>
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={profileData.offersOnline}
-                            disabled={!editMode}
-                            onChange={(e) => setProfileData({ ...profileData, offersOnline: e.target.checked })}
-                            className="rounded"
-                          />
-                          <span className="text-sm">I offer online/virtual sessions</span>
-                        </label>
-                      </div>
-                    </div>
+                  <div style={{ padding: 12, background: 'oklch(0.72 0.12 185 / 0.12)', borderRadius: 10 }}>
+                    <Icon style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            ))}
+          </div>
 
-            {/* Quick Tips */}
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle className="text-lg">Quick Tips to Improve Your Profile</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Add a professional photo to increase trust (coming soon)</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Write a detailed bio highlighting your unique approach</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>List all your specialties to appear in more searches</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Keep your contact information up to date</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-500">Collect client reviews (coming soon)</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+          {/* Profile Card */}
+          <div style={cardStyle}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <h2 style={{ fontWeight: 800, fontSize: 18, color: 'var(--hf-fg)' }}>Your Profile</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                {saved && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'oklch(0.7 0.15 145)', fontSize: 13, fontWeight: 600 }}>
+                    <CheckCircle style={{ width: 16, height: 16 }} />
+                    Changes saved!
+                  </div>
+                )}
+                {!editMode ? (
+                  <button onClick={() => setEditMode(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 8, border: '2px solid rgba(255,255,255,0.12)', background: 'none', color: 'var(--hf-fg)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                    <Edit style={{ width: 14, height: 14 }} />Edit Profile
+                  </button>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => { setEditMode(false); setError(null); }} disabled={saving} style={{ padding: '8px 14px', borderRadius: 8, border: '2px solid rgba(255,255,255,0.12)', background: 'none', color: 'var(--hf-fg-dim)', fontSize: 13, fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.5 : 1 }}>
+                      Cancel
+                    </button>
+                    <button onClick={handleSave} disabled={saving} className={!saving ? 'btn-gradient hf-btn-accent' : ''} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 8, border: 'none', color: '#fff', fontSize: 13, fontWeight: 600, cursor: saving ? 'not-allowed' : 'pointer', background: saving ? 'rgba(255,255,255,0.08)' : undefined, opacity: saving ? 0.7 : 1 }}>
+                      {saving ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />Saving...</> : <><Save style={{ width: 14, height: 14 }} />Save Changes</>}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
 
-            {verified && actualSlug && (
-              <Card className="mt-6 border-green-200 bg-green-50">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    Your Verified Practitioner Badge
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600 mb-4">
-                    You are a verified practitioner on Hypnotherapy Finder. Add this badge to your website to show clients you are verified — it links back to your profile.
-                  </p>
-
-                  <div className="mb-4">
-                    <p className="text-sm font-medium mb-2">Badge preview:</p>
-                    <img
-                      src={`/api/badge/${actualSlug}`}
-                      alt="Verified Practitioner Badge"
-                      width={200}
-                      height={56}
-                      className="rounded"
+            {/* Basic Info */}
+            <div>
+              <h3 style={{ fontWeight: 700, fontSize: 14, color: 'var(--hf-fg-dim)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Basic Information</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+                {[
+                  { label: 'Full Name', key: 'name', type: 'text' },
+                  { label: 'Credentials', key: 'credentials', type: 'text' },
+                  { label: 'Email', key: 'email', type: 'email' },
+                  { label: 'Phone', key: 'phone', type: 'tel' },
+                ].map(({ label, key, type }) => (
+                  <div key={key}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 }}>{label}</label>
+                    <input
+                      type={type}
+                      value={(profileData as any)[key]}
+                      disabled={!editMode}
+                      onChange={(e) => setProfileData({ ...profileData, [key]: e.target.value })}
+                      style={inputStyle(editMode)}
                     />
                   </div>
+                ))}
+              </div>
+            </div>
 
-                  <div className="mb-3">
-                    <p className="text-sm font-medium mb-2">Embed code for your website:</p>
-                    <div className="relative">
-                      <pre className="bg-white border border-gray-200 rounded p-3 text-xs overflow-x-auto text-gray-700 pr-24">
+            {/* Location */}
+            <div style={sectionDivider}>
+              <h3 style={{ fontWeight: 700, fontSize: 14, color: 'var(--hf-fg-dim)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Location & Contact</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+                <div style={{ gridColumn: '1 / -1' }}>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 }}>Street Address</label>
+                  <input value={profileData.street} disabled={!editMode} onChange={(e) => setProfileData({ ...profileData, street: e.target.value })} style={inputStyle(editMode)} />
+                </div>
+                {[
+                  { label: 'City', key: 'city' },
+                  { label: 'State', key: 'state' },
+                  { label: 'Zip Code', key: 'zipCode' },
+                  { label: 'Website', key: 'website' },
+                ].map(({ label, key }) => (
+                  <div key={key}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 }}>{label}</label>
+                    <input value={(profileData as any)[key]} disabled={!editMode} onChange={(e) => setProfileData({ ...profileData, [key]: e.target.value })} style={inputStyle(editMode)} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Professional Details */}
+            <div style={sectionDivider}>
+              <h3 style={{ fontWeight: 700, fontSize: 14, color: 'var(--hf-fg-dim)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 }}>Professional Details</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 8 }}>Specialties</label>
+                  {editMode ? (
+                    <div>
+                      <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', marginBottom: 10 }}>Click to add or remove specialties:</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {ALL_SPECIALTIES.map((specialty) => {
+                          const selected = profileData.specialties.includes(specialty);
+                          return (
+                            <button
+                              key={specialty}
+                              type="button"
+                              onClick={() => toggleSpecialty(specialty)}
+                              style={{
+                                padding: '5px 12px', borderRadius: 9999,
+                                border: `1px solid ${selected ? 'var(--hf-accent)' : 'rgba(255,255,255,0.12)'}`,
+                                background: selected ? 'oklch(0.72 0.12 185 / 0.2)' : 'rgba(255,255,255,0.04)',
+                                color: selected ? 'var(--hf-fg)' : 'var(--hf-fg-dim)',
+                                fontSize: 12, fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s',
+                              }}
+                            >
+                              {specialty}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                      {profileData.specialties.length > 0 ? (
+                        profileData.specialties.map((specialty) => (
+                          <span key={specialty} style={{ padding: '4px 12px', borderRadius: 9999, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)', color: 'var(--hf-fg-dim)', fontSize: 12, fontWeight: 600 }}>
+                            {specialty}
+                          </span>
+                        ))
+                      ) : (
+                        <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', opacity: 0.6 }}>No specialties selected</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ maxWidth: 200 }}>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 }}>Years of Experience</label>
+                  <input
+                    type="number"
+                    value={profileData.yearsExperience}
+                    disabled={!editMode}
+                    onChange={(e) => setProfileData({ ...profileData, yearsExperience: e.target.value })}
+                    style={inputStyle(editMode)}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 }}>Bio / About</label>
+                  <textarea
+                    value={profileData.bio}
+                    disabled={!editMode}
+                    onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
+                    rows={4}
+                    style={{
+                      width: '100%', boxSizing: 'border-box',
+                      background: editMode ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.02)',
+                      border: `2px solid ${editMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)'}`,
+                      borderRadius: 10, padding: '11px 14px',
+                      color: editMode ? 'var(--hf-fg)' : 'var(--hf-fg-dim)',
+                      fontSize: 14, outline: 'none', resize: 'vertical',
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {[
+                    { key: 'acceptsInsurance', label: 'I accept insurance' },
+                    { key: 'offersOnline', label: 'I offer online/virtual sessions' },
+                  ].map(({ key, label }) => (
+                    <label key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: editMode ? 'pointer' : 'default' }}>
+                      <input
+                        type="checkbox"
+                        checked={(profileData as any)[key]}
+                        disabled={!editMode}
+                        onChange={(e) => setProfileData({ ...profileData, [key]: e.target.checked })}
+                        style={{ accentColor: 'var(--hf-accent)', width: 16, height: 16 }}
+                      />
+                      <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>{label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Tips */}
+          <div style={{ ...cardStyle, marginTop: 20 }}>
+            <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 16 }}>Quick Tips to Improve Your Profile</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { text: 'Add a professional photo to increase trust (coming soon)', done: true },
+                { text: 'Write a detailed bio highlighting your unique approach', done: true },
+                { text: 'List all your specialties to appear in more searches', done: true },
+                { text: 'Keep your contact information up to date', done: true },
+                { text: 'Collect client reviews (coming soon)', done: false },
+              ].map(({ text, done }) => (
+                <li key={text} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <CheckCircle style={{ width: 18, height: 18, color: done ? 'oklch(0.7 0.15 145)' : 'rgba(255,255,255,0.2)', flexShrink: 0, marginTop: 1 }} />
+                  <span style={{ fontSize: 13, color: done ? 'var(--hf-fg-dim)' : 'rgba(255,255,255,0.3)' }}>{text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Verified Badge */}
+          {verified && actualSlug && (
+            <div style={{ ...cardStyle, marginTop: 20, borderLeft: '3px solid oklch(0.7 0.15 145)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <CheckCircle style={{ width: 20, height: 20, color: 'oklch(0.7 0.15 145)' }} />
+                <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)' }}>Your Verified Practitioner Badge</h3>
+              </div>
+              <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20, lineHeight: 1.6 }}>
+                You are a verified practitioner on Hypnotherapy Finder. Add this badge to your website to show clients you are verified — it links back to your profile.
+              </p>
+
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 10 }}>Badge preview:</p>
+                <img src={`/api/badge/${actualSlug}`} alt="Verified Practitioner Badge" width={200} height={56} style={{ borderRadius: 8 }} />
+              </div>
+
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 10 }}>Embed code for your website:</p>
+                <div style={{ position: 'relative' }}>
+                  <pre style={{ background: 'oklch(0.12 0 0)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '12px 16px', fontSize: 12, color: 'oklch(0.7 0.12 185)', overflowX: 'auto', paddingRight: 80, lineHeight: 1.6 }}>
 {`<a href="https://hypnotherapy-finder.com/practitioner/${actualSlug}" target="_blank" rel="noopener">
   <img src="https://hypnotherapy-finder.com/api/badge/${actualSlug}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />
 </a>`}
-                      </pre>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="absolute top-2 right-2 text-xs"
-                        onClick={() => handleCopy(`<a href="https://hypnotherapy-finder.com/practitioner/${actualSlug}" target="_blank" rel="noopener">\n  <img src="https://hypnotherapy-finder.com/api/badge/${actualSlug}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />\n</a>`)}
-                      >
-                        {copied ? '✓ Copied!' : 'Copy'}
-                      </Button>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-gray-500">
-                    Place this code anywhere on your website — your homepage, contact page, or email signature works great.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+                  </pre>
+                  <button
+                    style={{ position: 'absolute', top: 8, right: 8, padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: 'var(--hf-fg-dim)', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                    onClick={() => handleCopy(`<a href="https://hypnotherapy-finder.com/practitioner/${actualSlug}" target="_blank" rel="noopener">\n  <img src="https://hypnotherapy-finder.com/api/badge/${actualSlug}" alt="Verified Practitioner - Hypnotherapy Finder" width="200" height="56" />\n</a>`)}
+                  >
+                    {copied ? '✓ Copied!' : 'Copy'}
+                  </button>
+                </div>
+                <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)', marginTop: 8, opacity: 0.7 }}>
+                  Place this code anywhere on your website — your homepage, contact page, or email signature works great.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </main>
 

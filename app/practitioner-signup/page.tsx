@@ -4,10 +4,6 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import Link from 'next/link';
 import { CheckCircle, Star, Users, TrendingUp, Shield, AlertCircle } from 'lucide-react';
@@ -21,49 +17,24 @@ function PractitionerSignupForm() {
   const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
-    // Personal Info
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-
-    // Business Info
-    businessName: '',
-    street: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    website: '',
-
-    // Professional Info
-    certifications: '',
-    specialties: [] as string[],
-    yearsExperience: '',
-    bio: '',
-
-    // Preferences
-    acceptsInsurance: false,
-    offersOnline: false,
+    firstName: '', lastName: '', email: '', phone: '', password: '',
+    businessName: '', street: '', city: '', state: '', zipCode: '', website: '',
+    certifications: '', specialties: [] as string[], yearsExperience: '', bio: '',
+    acceptsInsurance: false, offersOnline: false,
   });
 
-  // Check if user is coming back from email confirmation
   useEffect(() => {
     const confirmed = searchParams.get('confirmed');
     const stepParam = searchParams.get('step');
-
     if (confirmed === 'true' && stepParam === 'complete') {
       setIsEmailConfirmed(true);
-      // Load form data from localStorage
       const savedData = localStorage.getItem('pendingSignupData');
       if (savedData) {
         try {
           const parsed = JSON.parse(savedData);
           setFormData(parsed);
-          // Automatically create practitioner profile
           createPractitionerProfileAfterConfirmation(parsed);
         } catch (err) {
-          console.error('Failed to parse saved signup data:', err);
           setError('Failed to load your signup data. Please sign up again.');
         }
       }
@@ -73,10 +44,7 @@ function PractitionerSignupForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     if (type === 'checkbox') {
-      setFormData({
-        ...formData,
-        [name]: (e.target as HTMLInputElement).checked,
-      });
+      setFormData({ ...formData, [name]: (e.target as HTMLInputElement).checked });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -87,43 +55,14 @@ function PractitionerSignupForm() {
     setLoading(true);
     try {
       const fullName = `${data.firstName} ${data.lastName}`.trim();
-      const profileData = {
-        name: fullName,
-        credentials: data.certifications,
-        email: data.email,
-        phone: data.phone,
-        street: data.street,
-        city: data.city,
-        state: data.state,
-        zipCode: data.zipCode,
-        website: data.website,
-        bio: data.bio,
-        specialties: data.specialties,
-        yearsExperience: data.yearsExperience,
-        acceptsInsurance: data.acceptsInsurance,
-        offersOnline: data.offersOnline,
-      };
-
       const response = await fetch('/api/practitioners', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(profileData),
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: fullName, credentials: data.certifications, email: data.email, phone: data.phone, street: data.street, city: data.city, state: data.state, zipCode: data.zipCode, website: data.website, bio: data.bio, specialties: data.specialties, yearsExperience: data.yearsExperience, acceptsInsurance: data.acceptsInsurance, offersOnline: data.offersOnline }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create profile');
-      }
-
-      // Clear localStorage after successful creation
+      if (!response.ok) { const errorData = await response.json(); throw new Error(errorData.error || 'Failed to create profile'); }
       localStorage.removeItem('pendingSignupData');
-
-      // Redirect to dashboard
       router.push('/dashboard');
     } catch (err: any) {
-      console.error('Error creating practitioner profile:', err);
       setError(err.message || 'Failed to create practitioner profile');
     } finally {
       setLoading(false);
@@ -131,42 +70,12 @@ function PractitionerSignupForm() {
   };
 
   const createPractitionerProfile = async (fullName: string, data: typeof formData) => {
-    console.log('Creating practitioner profile...');
-    const profileData = {
-      name: fullName,
-      credentials: data.certifications,
-      email: data.email,
-      phone: data.phone,
-      street: data.street,
-      city: data.city,
-      state: data.state,
-      zipCode: data.zipCode,
-      website: data.website,
-      bio: data.bio,
-      specialties: data.specialties,
-      yearsExperience: data.yearsExperience,
-      acceptsInsurance: data.acceptsInsurance,
-      offersOnline: data.offersOnline,
-    };
-    console.log('Profile data to send:', profileData);
-
     const response = await fetch('/api/practitioners', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(profileData),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: fullName, credentials: data.certifications, email: data.email, phone: data.phone, street: data.street, city: data.city, state: data.state, zipCode: data.zipCode, website: data.website, bio: data.bio, specialties: data.specialties, yearsExperience: data.yearsExperience, acceptsInsurance: data.acceptsInsurance, offersOnline: data.offersOnline }),
     });
-
-    console.log('Response status:', response.status);
     const responseData = await response.json();
-    console.log('Response data:', responseData);
-
-    if (!response.ok) {
-      throw new Error(responseData.error || 'Failed to create profile');
-    }
-
-    console.log('Practitioner profile created successfully!');
+    if (!response.ok) throw new Error(responseData.error || 'Failed to create profile');
     return responseData;
   };
 
@@ -174,38 +83,23 @@ function PractitionerSignupForm() {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
       const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-
-      // Save form data to localStorage before signup
-      // This ensures we don't lose the data if email confirmation is required
       localStorage.setItem('pendingSignupData', JSON.stringify(formData));
-
       const { error } = await signUp(formData.email, formData.password, fullName);
-
       if (error) {
         setError(error.message || 'Failed to create account');
         setLoading(false);
       } else {
-        // Check if user is immediately authenticated (email confirmation disabled)
         const { createBrowserClient } = await import('@/lib/supabase/client');
         const supabase = createBrowserClient();
         const { data: { session } } = await supabase.auth.getSession();
-
         if (session) {
-          // Email confirmation is DISABLED - create profile immediately
           await createPractitionerProfile(fullName, formData);
-
-          // Clear saved form data
           localStorage.removeItem('pendingSignupData');
-
-          // Wait a moment for the database to be consistent, then redirect to dashboard
           await new Promise(resolve => setTimeout(resolve, 500));
-
           router.push('/dashboard');
         } else {
-          // Email confirmation is ENABLED - show confirmation message
           setStep(4);
           setLoading(false);
         }
@@ -216,434 +110,195 @@ function PractitionerSignupForm() {
     }
   };
 
-  const specialtyOptions = [
-    'Anxiety & Stress',
-    'Weight Loss',
-    'Smoking Cessation',
-    'Phobias',
-    'Insomnia',
-    'Pain Management',
-    'PTSD & Trauma',
-    'Confidence & Performance',
-    'Past Life Regression',
-    'General Hypnotherapy',
-  ];
-
+  const specialtyOptions = ['Anxiety & Stress', 'Weight Loss', 'Smoking Cessation', 'Phobias', 'Insomnia', 'Pain Management', 'PTSD & Trauma', 'Confidence & Performance', 'Past Life Regression', 'General Hypnotherapy'];
   const toggleSpecialty = (specialty: string) => {
-    setFormData({
-      ...formData,
-      specialties: formData.specialties.includes(specialty)
-        ? formData.specialties.filter(s => s !== specialty)
-        : [...formData.specialties, specialty],
-    });
+    setFormData({ ...formData, specialties: formData.specialties.includes(specialty) ? formData.specialties.filter(s => s !== specialty) : [...formData.specialties, specialty] });
   };
 
+  const inputStyle = { width: '100%', height: 44, padding: '0 14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color: 'var(--hf-fg)', fontSize: 14, outline: 'none', boxSizing: 'border-box' as const };
+  const labelStyle = { display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 6 };
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 bg-gray-50 pt-20">
+      <main style={{ flex: 1, paddingTop: 80 }}>
         {/* Hero */}
-        <section className="bg-gradient-to-b from-blue-600 to-blue-700 text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Join Our Directory
-              </h1>
-              <p className="text-xl mb-6">
-                Connect with clients actively seeking hypnotherapy services in your area
-              </p>
-              <div className="flex flex-wrap justify-center gap-4 text-sm">
-                <span className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5" />
-                  100% Free During Pre-Launch
+        <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: '-20%', left: '-5%', width: 300, height: 300, background: 'var(--hf-accent)', borderRadius: '50%', filter: 'blur(100px)', opacity: 0.07 }} />
+          <div style={{ maxWidth: 700, margin: '0 auto', position: 'relative' }}>
+            <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>For Practitioners</span>
+            <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 14 }}>Join Our Directory</h1>
+            <p style={{ fontSize: 16, color: 'var(--hf-fg-dim)', marginBottom: 24, lineHeight: 1.6 }}>Connect with clients actively seeking hypnotherapy services in your area</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 20 }}>
+              {['100% Free During Pre-Launch', 'Easy Profile Setup', 'Get Found by Local Clients'].map((item) => (
+                <span key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                  <CheckCircle style={{ width: 15, height: 15, color: 'var(--hf-accent)' }} />
+                  {item}
                 </span>
-                <span className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5" />
-                  Easy Profile Setup
-                </span>
-                <span className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5" />
-                  Get Found by Local Clients
-                </span>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Benefits */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <h2 className="text-2xl font-bold text-center mb-8">Why List with Us?</h2>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Users className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Reach More Clients</h3>
-                    <p className="text-sm text-gray-600">
-                      Get discovered by people actively searching for hypnotherapy
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Star className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Build Your Reputation</h3>
-                    <p className="text-sm text-gray-600">
-                      Showcase your credentials and expertise
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <TrendingUp className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">Grow Your Practice</h3>
-                    <p className="text-sm text-gray-600">
-                      Connect with clients in your specialty areas
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardContent className="pt-6 text-center">
-                    <Shield className="h-10 w-10 text-blue-600 mx-auto mb-3" />
-                    <h3 className="font-semibold mb-2">100% Free (Launch Special)</h3>
-                    <p className="text-sm text-gray-600">
-                      Join during our pre-launch period
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
+        <section style={{ padding: '48px 24px', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+          <div style={{ maxWidth: 900, margin: '0 auto' }}>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 28 }}>Why List with Us?</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+              {[
+                { icon: Users, title: 'Reach More Clients', desc: 'Get discovered by people actively searching for hypnotherapy' },
+                { icon: Star, title: 'Build Your Reputation', desc: 'Showcase your credentials and expertise' },
+                { icon: TrendingUp, title: 'Grow Your Practice', desc: 'Connect with clients in your specialty areas' },
+                { icon: Shield, title: '100% Free (Launch Special)', desc: 'Join during our pre-launch period' },
+              ].map((item) => (
+                <div key={item.title} className="glass-card" style={{ padding: '24px', textAlign: 'center' }}>
+                  <item.icon style={{ width: 28, height: 28, color: 'var(--hf-accent)', margin: '0 auto 12px' }} />
+                  <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 6 }}>{item.title}</h3>
+                  <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', lineHeight: 1.5, fontWeight: 300 }}>{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Sign Up Form */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto">
-              {step === 4 ? (
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle className="h-10 w-10 text-green-600" />
-                      </div>
-                      <h2 className="text-2xl font-bold mb-4">Check Your Email!</h2>
-                      <p className="text-gray-600 mb-6">
-                        We've sent a confirmation link to <strong>{formData.email}</strong>.
-                        Please check your email and click the link to verify your account.
-                      </p>
-                      <div className="space-y-4">
-                        <div className="bg-blue-50 p-4 rounded-lg text-left">
-                          <h3 className="font-semibold mb-2">What happens next?</h3>
-                          <ul className="text-sm text-gray-700 space-y-2">
-                            <li>✓ Click the confirmation link in your email</li>
-                            <li>✓ You'll be redirected back to complete your profile</li>
-                            <li>✓ Your profile will be live and searchable</li>
-                          </ul>
-                        </div>
-                        <div className="bg-yellow-50 p-4 rounded-lg text-left">
-                          <h3 className="font-semibold mb-2">Didn't receive the email?</h3>
-                          <p className="text-sm text-gray-700">
-                            Check your spam folder, or contact support@hypnotherapy-finder.com for assistance.
-                          </p>
-                        </div>
-                        <Button asChild className="w-full">
-                          <Link href="/">Return to Homepage</Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ) : (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl">Create Your Profile</CardTitle>
-                    <div className="flex gap-2 mt-4">
-                      <div className={`h-2 flex-1 rounded ${step >= 1 ? 'bg-blue-600' : 'bg-gray-200'}`} />
-                      <div className={`h-2 flex-1 rounded ${step >= 2 ? 'bg-blue-600' : 'bg-gray-200'}`} />
-                      <div className={`h-2 flex-1 rounded ${step >= 3 ? 'bg-blue-600' : 'bg-gray-200'}`} />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      {/* Step 1: Personal Information */}
-                      {step === 1 && (
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold">Personal Information</h3>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium mb-2">First Name *</label>
-                              <Input
-                                name="firstName"
-                                required
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                placeholder="John"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium mb-2">Last Name *</label>
-                              <Input
-                                name="lastName"
-                                required
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                placeholder="Doe"
-                              />
-                            </div>
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Email Address *</label>
-                            <Input
-                              name="email"
-                              type="email"
-                              required
-                              value={formData.email}
-                              onChange={handleChange}
-                              placeholder="john@example.com"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Phone Number *</label>
-                            <Input
-                              name="phone"
-                              type="tel"
-                              required
-                              value={formData.phone}
-                              onChange={handleChange}
-                              placeholder="(555) 123-4567"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Password *</label>
-                            <Input
-                              name="password"
-                              type="password"
-                              required
-                              value={formData.password}
-                              onChange={handleChange}
-                              placeholder="Create a secure password"
-                            />
-                          </div>
-
-                          <Button type="button" onClick={() => setStep(2)} className="w-full">
-                            Continue
-                          </Button>
-                        </div>
-                      )}
-
-                      {/* Step 2: Business Information */}
-                      {step === 2 && (
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold">Business Information</h3>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Business Name</label>
-                            <Input
-                              name="businessName"
-                              value={formData.businessName}
-                              onChange={handleChange}
-                              placeholder="Your practice name (or leave blank to use your name)"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Street Address *</label>
-                            <Input
-                              name="street"
-                              required
-                              value={formData.street}
-                              onChange={handleChange}
-                              placeholder="123 Main St, Suite 100"
-                            />
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium mb-2">City *</label>
-                              <Input
-                                name="city"
-                                required
-                                value={formData.city}
-                                onChange={handleChange}
-                                placeholder="Austin"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium mb-2">State *</label>
-                              <Input
-                                name="state"
-                                required
-                                value={formData.state}
-                                onChange={handleChange}
-                                placeholder="TX"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="block text-sm font-medium mb-2">Zip Code *</label>
-                              <Input
-                                name="zipCode"
-                                required
-                                value={formData.zipCode}
-                                onChange={handleChange}
-                                placeholder="78701"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-medium mb-2">Website</label>
-                              <Input
-                                name="website"
-                                type="url"
-                                value={formData.website}
-                                onChange={handleChange}
-                                placeholder="https://yourwebsite.com"
-                              />
-                            </div>
-                          </div>
-
-                          <div className="flex gap-4">
-                            <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
-                              Back
-                            </Button>
-                            <Button type="button" onClick={() => setStep(3)} className="flex-1">
-                              Continue
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Step 3: Professional Details */}
-                      {step === 3 && (
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold">Professional Details</h3>
-
-                          {error && (
-                            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-                              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
-                              <p className="text-sm text-red-800">{error}</p>
-                            </div>
-                          )}
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Certifications *</label>
-                            <Input
-                              name="certifications"
-                              required
-                              value={formData.certifications}
-                              onChange={handleChange}
-                              placeholder="e.g., CHt, NGH Certified"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-3">Specialties * (select all that apply)</label>
-                            <div className="flex flex-wrap gap-2">
-                              {specialtyOptions.map((specialty) => (
-                                <Badge
-                                  key={specialty}
-                                  variant={formData.specialties.includes(specialty) ? 'default' : 'outline'}
-                                  className="cursor-pointer"
-                                  onClick={() => toggleSpecialty(specialty)}
-                                >
-                                  {specialty}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">Years of Experience</label>
-                            <Input
-                              name="yearsExperience"
-                              type="number"
-                              value={formData.yearsExperience}
-                              onChange={handleChange}
-                              placeholder="5"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="block text-sm font-medium mb-2">About You / Bio</label>
-                            <textarea
-                              name="bio"
-                              value={formData.bio}
-                              onChange={handleChange}
-                              rows={4}
-                              placeholder="Tell potential clients about your approach, experience, and what makes you unique..."
-                              className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm"
-                            />
-                          </div>
-
-                          <div className="space-y-3">
-                            <label className="flex items-center gap-2">
-                              <input
-                                type="checkbox"
-                                name="acceptsInsurance"
-                                checked={formData.acceptsInsurance}
-                                onChange={handleChange}
-                                className="rounded"
-                              />
-                              <span className="text-sm">I accept insurance</span>
-                            </label>
-                            <label className="flex items-center gap-2">
-                              <input
-                                type="checkbox"
-                                name="offersOnline"
-                                checked={formData.offersOnline}
-                                onChange={handleChange}
-                                className="rounded"
-                              />
-                              <span className="text-sm">I offer online/virtual sessions</span>
-                            </label>
-                          </div>
-
-                          <div className="bg-blue-50 p-4 rounded-lg text-sm">
-                            <p className="font-semibold mb-2">Launch Special - Free Access</p>
-                            <p className="text-gray-700">
-                              Join us and get free access for 6 months before our official launch as a founding practitioner.
-                              All features are completely free during this pre-launch period. After official launch, premium features start at $29/month.
-                            </p>
-                          </div>
-
-                          <div className="flex gap-4">
-                            <Button type="button" variant="outline" onClick={() => setStep(2)} className="flex-1" disabled={loading}>
-                              Back
-                            </Button>
-                            <Button type="submit" className="flex-1" disabled={loading}>
-                              {loading ? 'Creating Account...' : 'Complete Registration'}
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </form>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Already Have Account */}
-              {step !== 4 && (
-                <div className="text-center mt-6">
-                  <p className="text-gray-600">
-                    Already have an account?{' '}
-                    <Link href="/login" className="text-blue-600 hover:underline font-semibold">
-                      Sign In
-                    </Link>
-                  </p>
+        {/* Form */}
+        <section style={{ padding: '48px 24px 80px' }}>
+          <div style={{ maxWidth: 560, margin: '0 auto' }}>
+            {step === 4 ? (
+              <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
+                <div style={{ width: 64, height: 64, background: 'oklch(0.6 0.15 145 / 0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+                  <CheckCircle style={{ width: 32, height: 32, color: 'oklch(0.7 0.15 145)' }} />
                 </div>
-              )}
-            </div>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>Check Your Email!</h2>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 24 }}>
+                  We've sent a confirmation link to <strong style={{ color: 'var(--hf-fg)' }}>{formData.email}</strong>. Please check your email and click the link to verify your account.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div className="glass" style={{ padding: '16px 20px', borderRadius: 12, textAlign: 'left' }}>
+                    <h3 style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 10 }}>What happens next?</h3>
+                    {['Click the confirmation link in your email', "You'll be redirected back to complete your profile", 'Your profile will be live and searchable'].map((item) => (
+                      <div key={item} style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--hf-fg-dim)', marginBottom: 6, alignItems: 'flex-start' }}>
+                        <CheckCircle style={{ width: 13, height: 13, color: 'var(--hf-accent)', flexShrink: 0, marginTop: 1 }} />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                  <Link href="/" className="btn-gradient" style={{ display: 'block', padding: '12px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none', textAlign: 'center' }}>
+                    Return to Homepage
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="glass-card" style={{ padding: '36px' }}>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 6 }}>Create Your Profile</h2>
+                <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Step {step} of 3</p>
+                {/* Progress Bar */}
+                <div style={{ display: 'flex', gap: 6, marginBottom: 28 }}>
+                  {[1, 2, 3].map((s) => (
+                    <div key={s} style={{ flex: 1, height: 3, borderRadius: 9999, background: s <= step ? 'var(--hf-accent)' : 'rgba(255,255,255,0.1)' }} />
+                  ))}
+                </div>
+
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {/* Step 1 */}
+                  {step === 1 && (
+                    <>
+                      <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 4 }}>Personal Information</h3>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                        <div><label style={labelStyle}>First Name *</label><input name="firstName" required value={formData.firstName} onChange={handleChange} placeholder="John" style={inputStyle} /></div>
+                        <div><label style={labelStyle}>Last Name *</label><input name="lastName" required value={formData.lastName} onChange={handleChange} placeholder="Doe" style={inputStyle} /></div>
+                      </div>
+                      <div><label style={labelStyle}>Email Address *</label><input name="email" type="email" required value={formData.email} onChange={handleChange} placeholder="john@example.com" style={inputStyle} /></div>
+                      <div><label style={labelStyle}>Phone Number *</label><input name="phone" type="tel" required value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" style={inputStyle} /></div>
+                      <div><label style={labelStyle}>Password *</label><input name="password" type="password" required value={formData.password} onChange={handleChange} placeholder="Create a secure password" style={inputStyle} /></div>
+                      <button type="button" onClick={() => setStep(2)} className="btn-gradient hf-btn-accent" style={{ width: '100%', padding: '12px', borderRadius: 10, border: 'none', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer', marginTop: 8 }}>
+                        Continue
+                      </button>
+                    </>
+                  )}
+
+                  {/* Step 2 */}
+                  {step === 2 && (
+                    <>
+                      <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 4 }}>Business Information</h3>
+                      <div><label style={labelStyle}>Business Name</label><input name="businessName" value={formData.businessName} onChange={handleChange} placeholder="Your practice name (or leave blank)" style={inputStyle} /></div>
+                      <div><label style={labelStyle}>Street Address *</label><input name="street" required value={formData.street} onChange={handleChange} placeholder="123 Main St, Suite 100" style={inputStyle} /></div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                        <div><label style={labelStyle}>City *</label><input name="city" required value={formData.city} onChange={handleChange} placeholder="Austin" style={inputStyle} /></div>
+                        <div><label style={labelStyle}>State *</label><input name="state" required value={formData.state} onChange={handleChange} placeholder="TX" style={inputStyle} /></div>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                        <div><label style={labelStyle}>Zip Code *</label><input name="zipCode" required value={formData.zipCode} onChange={handleChange} placeholder="78701" style={inputStyle} /></div>
+                        <div><label style={labelStyle}>Website</label><input name="website" type="url" value={formData.website} onChange={handleChange} placeholder="https://yourwebsite.com" style={inputStyle} /></div>
+                      </div>
+                      <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+                        <button type="button" onClick={() => setStep(1)} style={{ flex: 1, padding: '12px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'none', color: 'var(--hf-fg-dim)', fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>Back</button>
+                        <button type="button" onClick={() => setStep(3)} className="btn-gradient hf-btn-accent" style={{ flex: 1, padding: '12px', borderRadius: 10, border: 'none', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer' }}>Continue</button>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Step 3 */}
+                  {step === 3 && (
+                    <>
+                      <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 4 }}>Professional Details</h3>
+                      {error && (
+                        <div style={{ padding: '12px 16px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)', borderRadius: 10, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                          <AlertCircle style={{ width: 15, height: 15, color: '#ef4444', flexShrink: 0, marginTop: 1 }} />
+                          <p style={{ fontSize: 12, color: '#fca5a5' }}>{error}</p>
+                        </div>
+                      )}
+                      <div><label style={labelStyle}>Certifications *</label><input name="certifications" required value={formData.certifications} onChange={handleChange} placeholder="e.g., CHt, NGH Certified" style={inputStyle} /></div>
+                      <div>
+                        <label style={labelStyle}>Specialties * (select all that apply)</label>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                          {specialtyOptions.map((specialty) => (
+                            <button key={specialty} type="button" onClick={() => toggleSpecialty(specialty)}
+                              style={{ padding: '5px 12px', borderRadius: 9999, border: `1px solid ${formData.specialties.includes(specialty) ? 'var(--hf-accent)' : 'rgba(255,255,255,0.12)'}`, background: formData.specialties.includes(specialty) ? 'oklch(0.72 0.12 185 / 0.15)' : 'transparent', color: formData.specialties.includes(specialty) ? 'var(--hf-accent)' : 'var(--hf-fg-dim)', fontSize: 12, cursor: 'pointer', transition: 'all 0.15s' }}>
+                              {specialty}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div><label style={labelStyle}>Years of Experience</label><input name="yearsExperience" type="number" value={formData.yearsExperience} onChange={handleChange} placeholder="5" style={inputStyle} /></div>
+                      <div>
+                        <label style={labelStyle}>About You / Bio</label>
+                        <textarea name="bio" value={formData.bio} onChange={handleChange} rows={4} placeholder="Tell potential clients about your approach and experience..." style={{ ...inputStyle, height: 'auto', padding: '12px 14px', resize: 'vertical' }} />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {[
+                          { name: 'acceptsInsurance', checked: formData.acceptsInsurance, label: 'I accept insurance' },
+                          { name: 'offersOnline', checked: formData.offersOnline, label: 'I offer online/virtual sessions' },
+                        ].map((item) => (
+                          <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                            <input type="checkbox" name={item.name} checked={item.checked} onChange={handleChange} style={{ accentColor: 'var(--hf-accent)', width: 15, height: 15 }} />
+                            <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>{item.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                      <div className="glass" style={{ padding: '14px 16px', borderRadius: 10, fontSize: 12 }}>
+                        <p style={{ fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 4 }}>Launch Special – Free Access</p>
+                        <p style={{ color: 'var(--hf-fg-dim)', lineHeight: 1.55, fontWeight: 300 }}>Join and get free access for 6 months as a founding practitioner. All features are completely free during this pre-launch period.</p>
+                      </div>
+                      <div style={{ display: 'flex', gap: 10 }}>
+                        <button type="button" onClick={() => setStep(2)} disabled={loading} style={{ flex: 1, padding: '12px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.1)', background: 'none', color: 'var(--hf-fg-dim)', fontWeight: 500, fontSize: 14, cursor: 'pointer' }}>Back</button>
+                        <button type="submit" disabled={loading} className="btn-gradient hf-btn-accent" style={{ flex: 1, padding: '12px', borderRadius: 10, border: 'none', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer', opacity: loading ? 0.7 : 1 }}>
+                          {loading ? 'Creating Account…' : 'Complete Registration'}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </form>
+              </div>
+            )}
+
+            {step !== 4 && (
+              <p style={{ textAlign: 'center', fontSize: 13, color: 'var(--hf-fg-dim)', marginTop: 20 }}>
+                Already have an account?{' '}
+                <Link href="/login" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>Sign In</Link>
+              </p>
+            )}
           </div>
         </section>
       </main>
@@ -655,7 +310,11 @@ function PractitionerSignupForm() {
 
 export default function PractitionerSignupPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--hf-bg)' }}>
+        <div style={{ color: 'var(--hf-fg-dim)' }}>Loading…</div>
+      </div>
+    }>
       <PractitionerSignupForm />
     </Suspense>
   );

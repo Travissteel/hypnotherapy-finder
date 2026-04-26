@@ -2,40 +2,20 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import {
-  MapPin,
-  Phone,
-  Globe,
-  Mail,
-  CheckCircle,
-  Star,
-  History,
-  User,
-  Calendar,
-  Award,
-  Video,
-  ChevronRight,
-  ShieldCheck,
-  Languages,
-  DollarSign,
-  BrainCircuit
+  MapPin, Phone, Globe, Mail, CheckCircle, Star, User, Award, Video,
+  ChevronRight, ShieldCheck, Languages, DollarSign, BrainCircuit
 } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
 
-// Helper to ensure website URLs have proper protocol
 function normalizeWebsiteUrl(url: string | null | undefined): string | null {
   if (!url) return null;
   const trimmed = url.trim();
   if (!trimmed) return null;
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-    return trimmed;
-  }
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
   return `https://${trimmed}`;
 }
 
@@ -43,32 +23,21 @@ interface PractitionerPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Generate static params for all practitioners at build time
 export async function generateStaticParams() {
   const { getAllPractitioners } = await import('@/lib/data/practitioners');
   const practitioners = getAllPractitioners();
-  return practitioners.map((practitioner) => ({
-    slug: practitioner.slug,
-  }));
+  return practitioners.map((practitioner) => ({ slug: practitioner.slug }));
 }
 
-// Helper to create Supabase client
 async function createSupabaseClient() {
   const cookieStore = await cookies();
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-      },
-    }
+    { cookies: { get(name: string) { return cookieStore.get(name)?.value; } } }
   );
 }
 
-// Fetch practitioner from database
 async function getPractitioner(slugOrId: string) {
   const supabase = await createSupabaseClient();
   const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(slugOrId);
@@ -85,13 +54,7 @@ async function getPractitioner(slugOrId: string) {
     const { getPractitionerBySlug } = await import('@/lib/data/practitioners');
     const staticPractitioner = getPractitionerBySlug(slugOrId);
     if (staticPractitioner) {
-      return {
-        ...staticPractitioner,
-        id: staticPractitioner.id,
-        years_experience: (staticPractitioner as any).yearsExperience || null,
-        address: (staticPractitioner as any).street || null,
-        claim_status: 'unclaimed',
-      };
+      return { ...staticPractitioner, id: staticPractitioner.id, years_experience: (staticPractitioner as any).yearsExperience || null, address: (staticPractitioner as any).street || null, claim_status: 'unclaimed' };
     }
   } catch (e) {
     console.error('Error loading static data:', e);
@@ -112,23 +75,10 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   const ogImage = practitioner.photo_url || 'https://hypnotherapy-finder.com/og-image.jpg';
 
   return {
-    title: ogTitle,
-    description,
+    title: ogTitle, description,
     alternates: { canonical: `https://hypnotherapy-finder.com/practitioner/${slug}` },
-    openGraph: {
-      title: ogTitle,
-      description,
-      url: `https://hypnotherapy-finder.com/practitioner/${slug}`,
-      siteName: 'Hypnotherapy Finder',
-      images: [{ url: ogImage, width: 1200, height: 630, alt: practitioner.name }],
-      type: 'profile',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: ogTitle,
-      description,
-      images: [ogImage],
-    },
+    openGraph: { title: ogTitle, description, url: `https://hypnotherapy-finder.com/practitioner/${slug}`, siteName: 'Hypnotherapy Finder', images: [{ url: ogImage, width: 1200, height: 630, alt: practitioner.name }], type: 'profile' },
+    twitter: { card: 'summary_large_image', title: ogTitle, description, images: [ogImage] },
   };
 }
 
@@ -141,275 +91,252 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
   const websiteUrl = normalizeWebsiteUrl(practitioner.website);
 
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'MedicalBusiness',
+    '@context': 'https://schema.org', '@type': 'MedicalBusiness',
     name: practitioner.name,
     description: `Certified hypnotherapist specializing in ${specialties.join(', ')}`,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: practitioner.address,
-      addressLocality: practitioner.city,
-      addressRegion: practitioner.state,
-      addressCountry: 'US',
-    },
+    address: { '@type': 'PostalAddress', streetAddress: practitioner.address, addressLocality: practitioner.city, addressRegion: practitioner.state, addressCountry: 'US' },
     ...(practitioner.phone && { telephone: practitioner.phone }),
     ...(websiteUrl && { url: websiteUrl }),
     medicalSpecialty: specialties,
   };
 
+  const breadcrumbLinkStyle = { fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--hf-fg-dim)', textDecoration: 'none' };
+
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
 
-      <main className="flex-grow pt-24 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-
+      <main style={{ flex: 1, paddingTop: 100 }}>
+        <div style={{ maxWidth: 1020, margin: '0 auto', padding: '0 24px 80px' }}>
           {/* Breadcrumbs */}
-          <div className="mb-8 flex items-center gap-2 px-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
-            <Link href="/" className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors">Home</Link>
-            <ChevronRight className="h-3 w-3 text-gray-300" />
-            <Link href="/search" className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors">Find a Therapist</Link>
-            <ChevronRight className="h-3 w-3 text-gray-300" />
-            <Link href={`/search?location=${practitioner.city}`} className="text-[10px] font-extrabold uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors">{practitioner.city}</Link>
-            <ChevronRight className="h-3 w-3 text-gray-300" />
-            <span className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-700">{practitioner.name}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 28, flexWrap: 'wrap' }}>
+            <Link href="/" style={breadcrumbLinkStyle}>Home</Link>
+            <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
+            <Link href="/search" style={breadcrumbLinkStyle}>Find a Therapist</Link>
+            <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
+            <Link href={`/search?location=${practitioner.city}`} style={breadcrumbLinkStyle}>{practitioner.city}</Link>
+            <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--hf-accent)' }}>{practitioner.name}</span>
           </div>
 
-          {/* Profile Hero Section */}
-          <section className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 overflow-hidden border border-gray-100 mb-12 transform transition-all">
-            <div className="h-48 bg-gradient-to-r from-indigo-600 via-indigo-700 to-teal-600 relative overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute top-[-50%] left-[-10%] w-96 h-96 bg-white rounded-full blur-[100px]"></div>
-                <div className="absolute bottom-[-50%] right-[-10%] w-96 h-96 bg-teal-200 rounded-full blur-[100px]"></div>
-              </div>
+          {/* Profile Hero */}
+          <section className="glass-card" style={{ overflow: 'hidden', marginBottom: 32 }}>
+            {/* Banner */}
+            <div style={{ height: 160, background: 'linear-gradient(135deg, oklch(0.20 0.02 260) 0%, oklch(0.14 0.015 260) 100%)', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '-50%', left: '-10%', width: 300, height: 300, background: 'var(--hf-accent)', borderRadius: '50%', filter: 'blur(80px)', opacity: 0.08 }} />
+              <div style={{ position: 'absolute', bottom: '-50%', right: '-10%', width: 300, height: 300, background: 'oklch(0.72 0.12 285)', borderRadius: '50%', filter: 'blur(80px)', opacity: 0.07 }} />
             </div>
-            <div className="px-8 pb-10 -mt-20 relative z-10 flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="flex flex-col md:flex-row items-center md:items-end gap-8 text-center md:text-left">
-                <div className="relative">
-                  <div className="size-48 min-w-48 rounded-[2.5rem] border-8 border-white bg-white shadow-2xl overflow-hidden flex items-center justify-center">
-                    {practitioner.imageUrl ? (
-                      <img alt={practitioner.name} className="w-full h-full object-cover" src={practitioner.imageUrl} />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center text-gray-300 w-full h-full bg-gray-50">
-                        <User className="h-20 w-20" />
-                        <span className="text-[10px] font-extrabold uppercase tracking-widest mt-2">Certified</span>
+
+            {/* Profile Content */}
+            <div style={{ padding: '0 32px 32px', marginTop: -64, position: 'relative' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end' }}>
+                  {/* Avatar */}
+                  <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ width: 120, height: 120, borderRadius: 24, border: '4px solid var(--hf-bg)', background: 'var(--hf-bg-mid)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {practitioner.imageUrl ? (
+                        <img alt={practitioner.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={practitioner.imageUrl} />
+                      ) : (
+                        <User style={{ width: 48, height: 48, color: 'var(--hf-fg-dim)' }} />
+                      )}
+                    </div>
+                    {practitioner.acceptingNewClients && (
+                      <div style={{ position: 'absolute', bottom: -4, right: -4, background: 'oklch(0.6 0.15 145)', padding: 6, borderRadius: '50%', border: '2px solid var(--hf-bg)' }}>
+                        <ShieldCheck style={{ width: 14, height: 14, color: '#fff' }} />
                       </div>
                     )}
                   </div>
-                  {practitioner.acceptingNewClients && (
-                    <div className="absolute -bottom-2 -right-2 bg-green-500 p-2 rounded-2xl border-4 border-white shadow-lg">
-                      <ShieldCheck className="h-6 w-6 text-white" />
+
+                  {/* Name & Details */}
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                      <h1 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, color: 'var(--hf-fg)', lineHeight: 1.2 }}>{practitioner.name}</h1>
+                      {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'oklch(0.72 0.12 185 / 0.12)', color: 'var(--hf-accent)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 10px', borderRadius: 9999 }}>
+                          <CheckCircle style={{ width: 10, height: 10 }} />
+                          Verified Professional
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
-
-                <div className="flex flex-col pb-2">
-                  <div className="flex items-center gap-3 justify-center md:justify-start flex-wrap">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-                      {practitioner.name}
-                    </h1>
-                    {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest text-indigo-700 shadow-sm ring-1 ring-indigo-100">
-                        <CheckCircle className="h-3.5 w-3.5 fill-indigo-700 text-indigo-50" />
-                        Verified Professional
+                    <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', marginBottom: 12 }}>
+                      {practitioner.title || 'Clinical Hypnotherapist & Mindset Coach'}
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                        <MapPin style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.city}, {practitioner.state}
                       </span>
-                    )}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                        <Award style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.years_experience || '10'}+ Years Exp.
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                        <Star style={{ width: 14, height: 14, color: 'oklch(0.8 0.15 75)', fill: 'oklch(0.8 0.15 75)' }} /> 4.9 (82 reviews)
+                      </span>
+                    </div>
                   </div>
-                  <p className="mt-3 text-xl md:text-2xl text-gray-500 font-medium">
-                    {practitioner.title || 'Clinical Hypnotherapist & Mindset Coach'}
-                  </p>
-                  <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-6 text-sm">
-                    <span className="flex items-center gap-2 font-bold text-gray-600">
-                      <MapPin className="h-5 w-5 text-indigo-600" /> {practitioner.city}, {practitioner.state}
-                    </span>
-                    <span className="flex items-center gap-2 font-bold text-gray-600">
-                      <Award className="h-5 w-5 text-indigo-600" /> {practitioner.years_experience || '10'}+ Years Exp.
-                    </span>
-                    <span className="flex items-center gap-2 font-bold text-gray-600">
-                      <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" /> 4.9 (82 reviews)
-                    </span>
+
+                  {/* CTA Buttons */}
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    {practitioner.phone && (
+                      <a href={`tel:${practitioner.phone}`} className="glass hf-glass-hover" style={{ padding: '10px 20px', borderRadius: 12, color: 'var(--hf-fg)', fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+                        Inquiry
+                      </a>
+                    )}
+                    <button className="btn-gradient hf-btn-accent" style={{ padding: '10px 20px', borderRadius: 12, border: 'none', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+                      Book Consultation
+                    </button>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex w-full shrink-0 gap-4 lg:w-auto pb-2">
-                {practitioner.phone && (
-                  <Button asChild variant="outline" className="flex-1 lg:flex-none h-14 rounded-2xl border-2 border-gray-100 bg-white px-8 text-sm font-bold text-gray-700 hover:border-indigo-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all shadow-sm">
-                    <a href={`tel:${practitioner.phone}`}>Inquiry</a>
-                  </Button>
-                )}
-                <Button className="flex-1 lg:flex-none h-14 rounded-2xl bg-indigo-700 px-10 text-sm font-bold text-white shadow-xl shadow-indigo-100 hover:bg-indigo-800 transition-all transform hover:-translate-y-1">
-                  Book Consultation
-                </Button>
               </div>
             </div>
           </section>
 
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-            {/* Left Column: Content */}
-            <div className="lg:col-span-8 space-y-12">
-
-              {/* About Section */}
-              <div className="bg-[#fffcf8] rounded-[3rem] shadow-sm border border-orange-100/30 overflow-hidden">
-                <div className="px-10 py-6 border-b border-orange-100/20 bg-white/50 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-orange-50 rounded-xl">
-                      <User className="h-5 w-5 text-orange-600" />
+          {/* Two Column Layout */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 320px', gap: 24, alignItems: 'flex-start' }}>
+              {/* Left: Content */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                {/* About */}
+                <div className="glass-card" style={{ overflow: 'hidden' }}>
+                  <div style={{ padding: '20px 28px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{ padding: 8, background: 'rgba(255,255,255,0.05)', borderRadius: 10 }}>
+                      <User style={{ width: 16, height: 16, color: 'var(--hf-fg-dim)' }} />
                     </div>
-                    <h2 className="text-xs font-extrabold uppercase tracking-[0.2em] text-orange-800/60">Introduction</h2>
+                    <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)' }}>Introduction</span>
+                  </div>
+                  <div style={{ padding: '28px' }}>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16, lineHeight: 1.35 }}>Mastering the Mind for Sustainable Change</h2>
+                    <div style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, fontWeight: 300 }}>
+                      {practitioner.bio ? (
+                        <p>{practitioner.bio}</p>
+                      ) : (
+                        <>
+                          <p style={{ marginBottom: 12 }}>Welcome. I'm {practitioner.name}, a certified hypnotherapist dedicated to helping individuals unlock their potential and overcome personal challenges in {practitioner.city}. My practice is built on a deep fascination for the subconscious mind and its profound ability to influence our behaviors, emotions, and well-being.</p>
+                          <p>I believe that every person holds the key to their own healing. My role is to provide a safe, supportive, and non-judgmental space where you can explore the depths of your mind, identify the root causes of your concerns, and create lasting, positive change.</p>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="p-10 md:p-14">
-                  <h2 className="text-3xl font-extrabold text-gray-900 mb-8 leading-tight">Mastering the Mind for Sustainable Change</h2>
-                  <div className="prose prose-lg prose-indigo max-w-none text-gray-700 leading-relaxed font-medium space-y-6">
-                    {practitioner.bio ? (
-                      <p>{practitioner.bio}</p>
-                    ) : (
-                      <>
-                        <p>Welcome. I'm {practitioner.name}, a certified hypnotherapist dedicated to helping individuals unlock their potential and overcome personal challenges in {practitioner.city}. My practice is built on a deep fascination for the subconscious mind and its profound ability to influence our behaviors, emotions, and well-being.</p>
-                        <p>I believe that every person holds the key to their own healing. My role is to provide a safe, supportive, and non-judgmental space where you can explore the depths of your mind, identify the root causes of your concerns, and create lasting, positive change.</p>
-                      </>
+
+                {/* Specialties */}
+                <div className="glass-card" style={{ padding: '28px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+                    <div style={{ padding: 8, background: 'oklch(0.72 0.12 185 / 0.12)', borderRadius: 10 }}>
+                      <BrainCircuit style={{ width: 16, height: 16, color: 'var(--hf-accent)' }} />
+                    </div>
+                    <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--hf-fg)' }}>Clinical Specialties</h2>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10 }}>
+                    {specialties.map((spec: string, idx: number) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                        <CheckCircle style={{ width: 14, height: 14, color: 'var(--hf-accent)', flexShrink: 0 }} />
+                        <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)', fontWeight: 400 }}>{spec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Claim CTA */}
+                {practitioner.claim_status === 'unclaimed' && (
+                  <div className="glass-card" style={{ padding: '36px', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: -40, right: -40, width: 180, height: 180, background: 'var(--hf-accent)', borderRadius: '50%', filter: 'blur(60px)', opacity: 0.08 }} />
+                    <div style={{ position: 'relative' }}>
+                      <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 10 }}>Are you {practitioner.name}?</h2>
+                      <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 24, maxWidth: 420, fontWeight: 300 }}>
+                        Claim this listing to update your information, manage appointments, and connect with more clients.
+                      </p>
+                      <Link href={`/claim-listing?practitioner=${practitioner.id}`} rel="nofollow" className="btn-gradient hf-btn-accent" style={{ display: 'inline-block', padding: '12px 28px', borderRadius: 12, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                        Claim Profile Now
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right: Sidebar */}
+              <aside style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {/* Practice Details */}
+                <div className="glass-card" style={{ padding: '28px' }}>
+                  <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Practice Details</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 20 }}>
+                    {[
+                      { icon: Languages, label: 'Languages', value: 'English, Spanish' },
+                      { icon: Video, label: 'Sessions', value: 'Virtual & In-Person' },
+                      { icon: DollarSign, label: 'Rate', value: `$${practitioner.session_price || '150'} – $220` },
+                    ].map(({ icon: Icon, label, value }) => (
+                      <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <div style={{ padding: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 8 }}>
+                            <Icon style={{ width: 13, height: 13, color: 'var(--hf-accent)' }} />
+                          </div>
+                          <span style={{ fontSize: 12, color: 'var(--hf-fg-dim)' }}>{label}</span>
+                        </div>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--hf-fg)' }}>{value}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {practitioner.phone && (
+                      <a href={`tel:${practitioner.phone}`} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                        <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Phone style={{ width: 13, height: 13 }} />
+                        </div>
+                        {practitioner.phone}
+                      </a>
+                    )}
+                    {websiteUrl && (
+                      <a href={websiteUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                        <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Globe style={{ width: 13, height: 13 }} />
+                        </div>
+                        Official Website
+                      </a>
+                    )}
+                    {practitioner.email && (
+                      <a href={`mailto:${practitioner.email}`} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13, overflow: 'hidden' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                        <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <Mail style={{ width: 13, height: 13 }} />
+                        </div>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{practitioner.email}</span>
+                      </a>
                     )}
                   </div>
                 </div>
-              </div>
 
-              {/* Specialties Section */}
-              <div className="bg-white rounded-[3rem] shadow-sm border border-gray-100 p-10 md:p-14">
-                <div className="flex items-center gap-3 mb-10">
-                  <div className="p-2 bg-indigo-50 rounded-xl">
-                    <BrainCircuit className="h-6 w-6 text-indigo-700" />
-                  </div>
-                  <h2 className="text-2xl font-extrabold text-gray-900 tracking-tight">Clinical Specialties</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {specialties.map((spec: string, idx: number) => (
-                    <div key={idx} className="flex items-center gap-4 p-5 rounded-3xl bg-gray-50/50 border border-gray-100 hover:bg-indigo-50/30 hover:border-indigo-100 transition-all group">
-                      <div className="p-2 bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform">
-                        <CheckCircle className="h-5 w-5 text-indigo-600" />
-                      </div>
-                      <span className="font-bold text-gray-700">{spec}</span>
+                {/* Verified Badge */}
+                {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
+                  <div className="glass-card" style={{ padding: '24px', textAlign: 'center' }}>
+                    <h4 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'oklch(0.7 0.15 145)', marginBottom: 16 }}>Verified Practitioner</h4>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+                      <a href={`https://hypnotherapy-finder.com/practitioner/${practitioner.slug}`}>
+                        <img src={`/api/badge/${practitioner.slug}`} alt="Verified Practitioner - Hypnotherapy Finder" width={200} height={56} style={{ borderRadius: 8 }} />
+                      </a>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <p style={{ fontSize: 11, color: 'oklch(0.7 0.15 145)', fontWeight: 300 }}>Identity and credentials verified by Hypnotherapy Finder</p>
+                  </div>
+                )}
 
-              {/* Claims Section */}
-              {practitioner.claim_status === 'unclaimed' && (
-                <div className="bg-indigo-900 rounded-[3rem] p-10 md:p-14 text-white relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full blur-[100px] opacity-20 -mr-32 -mt-32"></div>
-                  <div className="relative z-10">
-                    <h2 className="text-3xl font-extrabold mb-4">Are you {practitioner.name}?</h2>
-                    <p className="text-indigo-100 text-lg mb-8 font-medium max-w-xl">Claim this listing to update your information, manage appointments, and connect with more clients.</p>
-                    <Button asChild size="lg" className="bg-white text-indigo-900 hover:bg-indigo-50 font-extrabold px-10 py-7 rounded-2xl shadow-xl transform transition-all active:scale-95">
-                      <Link href={`/claim-listing?practitioner=${practitioner.id}`} rel="nofollow">Claim Profile Now</Link>
-                    </Button>
+                {/* Start Transformation CTA */}
+                <div className="glass-card" style={{ padding: '28px', position: 'relative', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: -30, right: -30, width: 120, height: 120, background: 'var(--hf-accent)', borderRadius: '50%', filter: 'blur(50px)', opacity: 0.07 }} />
+                  <div style={{ position: 'relative' }}>
+                    <h4 style={{ fontSize: 16, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8, lineHeight: 1.3 }}>Start Your Transformation</h4>
+                    <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 20, fontWeight: 300 }}>Most clients see measurable change within 3–5 sessions. Discovery calls are recommended.</p>
+                    <button className="btn-gradient hf-btn-accent" style={{ width: '100%', padding: '12px', borderRadius: 12, border: 'none', color: '#fff', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
+                      Schedule Free Call
+                    </button>
                   </div>
                 </div>
-              )}
-
+              </aside>
             </div>
-
-            {/* Right Column: Sidebar */}
-            <aside className="lg:col-span-4 space-y-8">
-
-              {/* Contact Card */}
-              <div className="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/40 p-10 border border-gray-50 flex flex-col gap-8">
-                <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400">Practice Details</h3>
-
-                <div className="space-y-8">
-                  <div className="flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-indigo-50 rounded-xl group-hover:bg-indigo-600 transition-colors">
-                        <Languages className="h-4 w-4 text-indigo-600 group-hover:text-white" />
-                      </div>
-                      <span className="text-sm font-bold text-gray-500">Languages</span>
-                    </div>
-                    <span className="text-sm font-extrabold text-gray-900">English, Spanish</span>
-                  </div>
-
-                  <div className="flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-teal-50 rounded-xl group-hover:bg-teal-600 transition-colors">
-                        <Video className="h-4 w-4 text-teal-600 group-hover:text-white" />
-                      </div>
-                      <span className="text-sm font-bold text-gray-500">Sessions</span>
-                    </div>
-                    <span className="text-sm font-extrabold text-gray-900">Virtual & In-Person</span>
-                  </div>
-
-                  <div className="flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-amber-50 rounded-xl group-hover:bg-amber-600 transition-colors">
-                        <DollarSign className="h-4 w-4 text-amber-600 group-hover:text-white" />
-                      </div>
-                      <span className="text-sm font-bold text-gray-500">Rate</span>
-                    </div>
-                    <span className="text-sm font-extrabold text-gray-900">${practitioner.session_price || '150'} - $220</span>
-                  </div>
-                </div>
-
-                <div className="pt-8 border-t border-gray-50 space-y-4">
-                  {practitioner.phone && (
-                    <a href={`tel:${practitioner.phone}`} className="flex items-center gap-4 text-gray-700 hover:text-indigo-700 transition-colors group">
-                      <div className="size-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-indigo-50 transition-colors">
-                        <Phone className="h-4 w-4" />
-                      </div>
-                      <span className="font-bold text-sm tracking-tight">{practitioner.phone}</span>
-                    </a>
-                  )}
-                  {websiteUrl && (
-                    <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-gray-700 hover:text-indigo-700 transition-colors group">
-                      <div className="size-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-indigo-50 transition-colors">
-                        <Globe className="h-4 w-4" />
-                      </div>
-                      <span className="font-bold text-sm tracking-tight truncate">Official Website</span>
-                    </a>
-                  )}
-                  {practitioner.email && (
-                    <a href={`mailto:${practitioner.email}`} className="flex items-center gap-4 text-gray-700 hover:text-indigo-700 transition-colors group">
-                      <div className="size-10 rounded-xl bg-gray-50 flex items-center justify-center group-hover:bg-indigo-50 transition-colors">
-                        <Mail className="h-4 w-4" />
-                      </div>
-                      <span className="font-bold text-sm tracking-tight truncate">{practitioner.email}</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* Verified Badge */}
-              {practitioner.verified === true && practitioner.claim_status === 'claimed' && (
-                <div className="bg-green-50 rounded-[2.5rem] p-8 border border-green-100 shadow-sm">
-                  <h4 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-green-700 mb-4">Verified Practitioner</h4>
-                  <div className="flex justify-center mb-4">
-                    <a href={`https://hypnotherapy-finder.com/practitioner/${practitioner.slug}`}>
-                      <img
-                        src={`/api/badge/${practitioner.slug}`}
-                        alt="Verified Practitioner - Hypnotherapy Finder"
-                        width={200}
-                        height={56}
-                        className="rounded"
-                      />
-                    </a>
-                  </div>
-                  <p className="text-xs text-green-700 text-center font-medium">
-                    Identity and credentials verified by Hypnotherapy Finder
-                  </p>
-                </div>
-              )}
-
-              {/* Benefits CTA */}
-              <div className="bg-gradient-to-br from-indigo-50 to-white rounded-[2.5rem] p-10 border border-indigo-100/50 shadow-sm relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full blur-3xl opacity-40 group-hover:scale-150 transition-transform duration-1000"></div>
-                <h4 className="font-extrabold text-gray-900 text-lg leading-tight mb-4">Start Your Transformation</h4>
-                <p className="text-sm text-gray-600 font-medium leading-relaxed mb-8">Most clients see measurable change within 3-5 sessions. Discovery calls are recommended.</p>
-                <Button className="w-full h-14 rounded-2xl bg-indigo-700 text-white font-extrabold hover:bg-indigo-800 transition-all shadow-lg shadow-indigo-100">
-                  Schedule Free Call
-                </Button>
-              </div>
-
-            </aside>
           </div>
         </div>
       </main>

@@ -7,9 +7,7 @@ export const metadata: Metadata = {
   title: 'Free Stress Quiz — How Stressed Am I? | Hypnotherapy Finder',
   description: 'Take our free online stress quiz to find out how stressed you are. Get a personalised stress score in under 2 minutes and discover if hypnotherapy could help.',
   keywords: 'stress quiz, how stressed am I, stress level test, online stress test, stress score calculator, am I stressed quiz',
-  alternates: {
-    canonical: 'https://hypnotherapy-finder.com/stress-level-calculator',
-  },
+  alternates: { canonical: 'https://hypnotherapy-finder.com/stress-level-calculator' },
   openGraph: {
     title: 'Free Stress Quiz — How Stressed Am I?',
     description: 'Answer 5 quick questions to get your personalised stress score and find out if hypnotherapy could help.',
@@ -20,25 +18,20 @@ export const metadata: Metadata = {
 
 export default function StressLevelCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <main className="flex-1 pt-20">
-        {/* Hero */}
-        <section className="relative pt-16 pb-12 overflow-hidden bg-gradient-to-br from-purple-100 via-blue-100 to-teal-100">
-          <div className="absolute inset-0 overflow-hidden -z-10">
-            <div className="absolute top-[-10%] left-[-10%] w-80 h-80 bg-purple-400 rounded-full filter blur-3xl opacity-40 animate-blob"></div>
-            <div className="absolute top-[-10%] right-[-10%] w-80 h-80 bg-teal-400 rounded-full filter blur-3xl opacity-40 animate-blob" style={{ animationDelay: '3s' }}></div>
-          </div>
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+      <main style={{ flex: 1, paddingTop: 80 }}>
+        <section style={{ background: 'var(--hf-bg-mid)', padding: '64px 24px 48px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ maxWidth: 700, margin: '0 auto' }}>
+            <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Free · Anonymous · 2 Minutes</span>
+            <h1 className="font-serif-display" style={{ fontSize: 'clamp(26px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 16 }}>
               How Stressed Am I? Free Stress Quiz
             </h1>
-            <p className="text-xl text-gray-700 font-medium max-w-2xl mx-auto">
+            <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.65, maxWidth: 560, margin: '0 auto' }}>
               Answer 5 quick questions to get your personalised stress score and find out if hypnotherapy could help you feel calmer and more in control.
             </p>
           </div>
         </section>
-
         <StressCalculator />
       </main>
       <Footer />

@@ -2,7 +2,6 @@
 import { ShareResult } from '@/components/quiz/ShareResult';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { AlertTriangle, CheckCircle, Activity, ChevronRight } from 'lucide-react';
 
@@ -31,6 +30,15 @@ const options = [
 
 type Result = { headline: string; body: string; severity: 'low' | 'moderate' | 'high' };
 
+const severityBorderColor = { low: 'oklch(0.7 0.15 145)', moderate: 'oklch(0.75 0.15 60)', high: 'oklch(0.65 0.2 20)' };
+const severityTextColor = { low: 'oklch(0.7 0.15 145)', moderate: 'oklch(0.75 0.15 60)', high: 'oklch(0.65 0.2 20)' };
+
+const SeverityIcon = ({ s }: { s: string }) => {
+  if (s === 'low') return <CheckCircle style={{ width: 28, height: 28, color: severityTextColor.low, flexShrink: 0 }} />;
+  if (s === 'moderate') return <Activity style={{ width: 28, height: 28, color: severityTextColor.moderate, flexShrink: 0 }} />;
+  return <AlertTriangle style={{ width: 28, height: 28, color: severityTextColor.high, flexShrink: 0 }} />;
+};
+
 export default function AgoraphobiaTest() {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<Result | null>(null);
@@ -52,71 +60,87 @@ export default function AgoraphobiaTest() {
     }
   };
 
-  const color = (s: string) => s === 'low' ? 'text-green-700' : s === 'moderate' ? 'text-amber-600' : 'text-red-600';
-  const bg = (s: string) => s === 'low' ? 'bg-green-50 border-green-200' : s === 'moderate' ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200';
-  const icon = (s: string) => s === 'low' ? <CheckCircle className="h-7 w-7 text-green-600 flex-shrink-0" /> : s === 'moderate' ? <Activity className="h-7 w-7 text-amber-500 flex-shrink-0" /> : <AlertTriangle className="h-7 w-7 text-red-500 flex-shrink-0" />;
   const categories = [...new Set(questions.map((q) => q.category))];
 
+  const optBtnStyle = (selected: boolean): React.CSSProperties => ({
+    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+    padding: '10px 4px', borderRadius: 12, border: `2px solid ${selected ? 'var(--hf-accent)' : 'rgba(255,255,255,0.08)'}`,
+    background: selected ? 'oklch(0.72 0.12 185 / 0.2)' : 'rgba(255,255,255,0.03)',
+    color: selected ? 'var(--hf-fg)' : 'var(--hf-fg-dim)', fontSize: 11, fontWeight: 500, cursor: 'pointer', transition: 'all 0.15s',
+  });
+
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
+    <div style={{ maxWidth: 672, margin: '0 auto', padding: '48px 16px' }}>
       {!result ? (
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 md:p-12">
-          <div className="mb-8 flex items-center justify-between">
-            <p className="text-sm text-gray-500 font-medium">{answered} of {questions.length} answered</p>
-            <div className="w-48 h-2 bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full transition-all duration-300" style={{ width: `${(answered / questions.length) * 100}%` }} />
+        <div style={{ background: 'var(--hf-bg-mid)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '32px' }}>
+          <div style={{ marginBottom: 32, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', fontWeight: 500 }}>{answered} of {questions.length} answered</p>
+            <div style={{ width: 180, height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 9999, overflow: 'hidden' }}>
+              <div style={{ height: '100%', background: 'var(--hf-accent)', borderRadius: 9999, width: `${(answered / questions.length) * 100}%`, transition: 'width 0.3s' }} />
             </div>
           </div>
+
           {categories.map((cat) => (
-            <div key={cat} className="mb-10">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-600 mb-5">{cat}</h2>
+            <div key={cat} style={{ marginBottom: 40 }}>
+              <h2 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 20 }}>{cat}</h2>
               {questions.filter((q) => q.category === cat).map((q) => (
-                <div key={q.id} className="mb-8">
-                  <p className="text-gray-800 font-semibold mb-3 leading-relaxed">{q.text}</p>
-                  <div className="grid grid-cols-5 gap-2">
+                <div key={q.id} style={{ marginBottom: 28 }}>
+                  <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 12, lineHeight: 1.5 }}>{q.text}</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
                     {options.map((opt) => (
-                      <button key={opt.value} type="button" onClick={() => setAnswer(q.id, opt.value)}
-                        className={`flex flex-col items-center gap-1 p-2 rounded-xl border-2 text-xs font-medium transition-all ${answers[q.id] === opt.value ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-white border-gray-200 text-gray-600 hover:border-emerald-300'}`}>
-                        <span className="text-base font-bold">{opt.value}</span>
-                        <span className="text-center leading-tight hidden sm:block">{opt.label}</span>
+                      <button key={opt.value} type="button" onClick={() => setAnswer(q.id, opt.value)} style={optBtnStyle(answers[q.id] === opt.value)}>
+                        <span style={{ fontSize: 15, fontWeight: 700 }}>{opt.value}</span>
+                        <span style={{ textAlign: 'center', lineHeight: 1.2, display: 'none' }} className="sm:block">{opt.label}</span>
                       </button>
                     ))}
                   </div>
-                  <div className="flex justify-between text-xs text-gray-400 mt-1 px-1 sm:hidden"><span>Never</span><span>Always</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--hf-fg-dim)', marginTop: 4, padding: '0 2px' }}>
+                    <span>Never</span><span>Always</span>
+                  </div>
                 </div>
               ))}
             </div>
           ))}
-          <Button type="button" onClick={calculate} disabled={!allAnswered}
-            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-4 text-lg rounded-xl shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+
+          <button type="button" onClick={calculate} disabled={!allAnswered} className={allAnswered ? 'btn-gradient hf-btn-accent' : ''} style={{ width: '100%', padding: '14px', borderRadius: 12, border: 'none', color: allAnswered ? '#fff' : 'var(--hf-fg-dim)', background: allAnswered ? undefined : 'rgba(255,255,255,0.05)', fontWeight: 700, fontSize: 16, cursor: allAnswered ? 'pointer' : 'not-allowed', opacity: allAnswered ? 1 : 0.5 }}>
             {allAnswered ? 'See My Results' : `Answer all questions to continue (${questions.length - answered} remaining)`}
-          </Button>
+          </button>
         </div>
       ) : (
-        <div className="space-y-6">
-          <div className={`p-8 rounded-3xl border-2 shadow-xl ${bg(result.severity)}`}>
-            <div className="flex items-start gap-4 mb-4">{icon(result.severity)}
-              <h2 className={`text-2xl font-extrabold leading-tight ${color(result.severity)}`}>{result.headline}</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          <div className="glass-card" style={{ padding: 32, borderLeft: `4px solid ${severityBorderColor[result.severity]}` }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 16 }}>
+              <SeverityIcon s={result.severity} />
+              <h2 style={{ fontSize: 24, fontWeight: 800, color: severityTextColor[result.severity], lineHeight: 1.2 }}>{result.headline}</h2>
             </div>
-            <p className="text-gray-700 leading-relaxed mb-6">{result.body}</p>
+            <p style={{ color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 20 }}>{result.body}</p>
             {result.severity !== 'low' && (
-              <Button asChild className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow transition-all">
-                <Link href="/search">Find a Hypnotherapist <ChevronRight className="h-4 w-4 ml-1 inline" /></Link>
-              </Button>
+              <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
+                Find a Hypnotherapist <ChevronRight style={{ width: 16, height: 16 }} />
+              </Link>
             )}
           </div>
+
           {result.severity !== 'low' && (
-            <div className="bg-emerald-50 border-2 border-emerald-100 p-6 rounded-2xl">
-              <h3 className="font-bold text-emerald-800 mb-2">How Hypnotherapy Helps Agoraphobia</h3>
-              <p className="text-emerald-900 text-sm leading-relaxed">Agoraphobia is maintained by a cycle of anxiety and avoidance — the more you avoid, the more threatening the world feels. Hypnotherapy helps break this cycle by calming the fear response at its root, using gradual exposure techniques under hypnosis, and rebuilding your confidence in your ability to cope. Many people experience significant improvement within a handful of sessions.</p>
+            <div className="glass-card" style={{ padding: 24, borderLeft: '3px solid var(--hf-accent)' }}>
+              <h3 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>How Hypnotherapy Helps Agoraphobia</h3>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7 }}>
+                Agoraphobia is maintained by a cycle of anxiety and avoidance — the more you avoid, the more threatening the world feels. Hypnotherapy helps break this cycle by calming the fear response at its root, using gradual exposure techniques under hypnosis, and rebuilding your confidence in your ability to cope. Many people experience significant improvement within a handful of sessions.
+              </p>
             </div>
           )}
+
           <ShareResult quizName="Agoraphobia Test" resultHeadline={result.headline} url="https://hypnotherapy-finder.com/agoraphobia-test" />
 
-          <button onClick={() => { setAnswers({}); setResult(null); }} className="w-full text-gray-500 hover:text-gray-700 text-sm underline underline-offset-2 transition-colors">Retake the test</button>
+          <button onClick={() => { setAnswers({}); setResult(null); }} style={{ width: '100%', background: 'none', border: 'none', color: 'var(--hf-fg-dim)', fontSize: 13, textDecoration: 'underline', cursor: 'pointer', padding: '8px 0' }}>
+            Retake the test
+          </button>
         </div>
       )}
-      <p className="text-center text-xs text-gray-400 mt-8 px-4">This test is for informational purposes only and does not constitute a clinical diagnosis. If agoraphobia is significantly affecting your life, please speak with a qualified professional.</p>
+
+      <p style={{ textAlign: 'center', fontSize: 11, color: 'oklch(0.45 0 0)', marginTop: 32, lineHeight: 1.5 }}>
+        This test is for informational purposes only and does not constitute a clinical diagnosis. If agoraphobia is significantly affecting your life, please speak with a qualified professional.
+      </p>
     </div>
   );
 }

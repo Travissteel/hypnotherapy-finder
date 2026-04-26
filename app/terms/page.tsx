@@ -21,57 +21,56 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   const lastUpdated = 'December 10, 2025';
 
+  const h2Style = { fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 };
+  const h3Style = { fontSize: 17, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 12, marginTop: 24 };
+  const pStyle = { fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 16 };
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
       <Header />
 
-      <main className="flex-1 py-16 pt-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
-            <p className="text-gray-600 mb-8">Last updated: {lastUpdated}</p>
+      <main style={{ flex: 1, paddingTop: 80 }}>
+        <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ maxWidth: 600, margin: '0 auto' }}>
+            <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Legal</span>
+            <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 12 }}>Terms of Service</h1>
+            <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)' }}>Last updated: {lastUpdated}</p>
+          </div>
+        </section>
 
-            <div className="prose prose-lg max-w-none">
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Agreement to Terms</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+        <section style={{ padding: '56px 24px 80px' }}>
+          <div style={{ maxWidth: 800, margin: '0 auto' }}>
+            <div className="glass-card" style={{ padding: '48px' }}>
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Agreement to Terms</h2>
+                <p style={pStyle}>
                   By accessing or using Hypnotherapy Finder ("the Service"), you agree to be bound by
                   these Terms of Service ("Terms"). If you do not agree to these Terms, you may not
                   access or use the Service.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p style={pStyle}>
                   These Terms apply to all visitors, users, and others who access or use the Service,
                   including practitioners who list their services on our directory.
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Description of Service</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Hypnotherapy Finder is an online directory that connects individuals seeking
-                  hypnotherapy services with certified hypnotherapists. Our Service includes:
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Description of Service</h2>
+                <p style={pStyle}>Hypnotherapy Finder is an online directory that connects individuals seeking hypnotherapy services with certified hypnotherapists. Our Service includes:</p>
+                <ul style={{ paddingLeft: 24, marginBottom: 16, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
                   <li>A searchable directory of hypnotherapy practitioners</li>
                   <li>Practitioner profile pages with contact information</li>
                   <li>Educational resources about hypnotherapy</li>
                   <li>Tools for practitioners to manage their listings</li>
                 </ul>
-                <p className="text-gray-700 leading-relaxed">
-                  We do not provide hypnotherapy services directly. We serve only as a platform to
-                  connect clients with practitioners.
-                </p>
+                <p style={pStyle}>We do not provide hypnotherapy services directly. We serve only as a platform to connect clients with practitioners.</p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">User Accounts</h2>
-
-                <h3 className="text-xl font-semibold mb-3">Account Creation</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  To access certain features of the Service, you may need to create an account.
-                  When you create an account, you agree to:
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>User Accounts</h2>
+                <h3 style={h3Style}>Account Creation</h3>
+                <p style={pStyle}>To access certain features of the Service, you may need to create an account. When you create an account, you agree to:</p>
+                <ul style={{ paddingLeft: 24, marginBottom: 16, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
                   <li>Provide accurate, current, and complete information</li>
                   <li>Maintain and update your information to keep it accurate</li>
                   <li>Keep your login credentials secure and confidential</li>
@@ -79,22 +78,19 @@ export default function TermsPage() {
                   <li>Notify us immediately of any unauthorized use of your account</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3">Account Termination</h3>
-                <p className="text-gray-700 leading-relaxed">
+                <h3 style={h3Style}>Account Termination</h3>
+                <p style={pStyle}>
                   We reserve the right to suspend or terminate your account at any time, without
                   notice, for conduct that we believe violates these Terms or is harmful to other
                   users, practitioners, or the Service.
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Practitioner Listings</h2>
-
-                <h3 className="text-xl font-semibold mb-3">Listing Requirements</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Practitioners who create or claim listings on our directory agree to:
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Practitioner Listings</h2>
+                <h3 style={h3Style}>Listing Requirements</h3>
+                <p style={pStyle}>Practitioners who create or claim listings on our directory agree to:</p>
+                <ul style={{ paddingLeft: 24, marginBottom: 16, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
                   <li>Provide truthful and accurate information about their qualifications</li>
                   <li>Hold valid certifications and licenses as claimed</li>
                   <li>Maintain professional liability insurance (where required by law)</li>
@@ -102,46 +98,43 @@ export default function TermsPage() {
                   <li>Keep their listing information current and up-to-date</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3">Verification</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <h3 style={h3Style}>Verification</h3>
+                <p style={pStyle}>
                   While we may verify certain information provided by practitioners, we do not
                   guarantee the accuracy of any listing. Users should independently verify
                   credentials and qualifications before engaging any practitioner's services.
                 </p>
 
-                <h3 className="text-xl font-semibold mb-3">Removal of Listings</h3>
-                <p className="text-gray-700 leading-relaxed">
+                <h3 style={h3Style}>Removal of Listings</h3>
+                <p style={pStyle}>
                   We reserve the right to remove any listing that violates these Terms, contains
                   inaccurate information, or is the subject of complaints or legal action.
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Disclaimer of Medical Advice</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Disclaimer of Medical Advice</h2>
+                <p style={pStyle}>
                   The information provided on Hypnotherapy Finder is for informational purposes only
                   and is not intended as a substitute for professional medical advice, diagnosis,
                   or treatment.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p style={pStyle}>
                   Always seek the advice of your physician or other qualified health provider with
                   any questions you may have regarding a medical condition. Never disregard
                   professional medical advice or delay in seeking it because of something you have
                   read on this website.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p style={pStyle}>
                   Hypnotherapy is a complementary therapy and should not be used as a replacement
                   for conventional medical treatment.
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Limitation of Liability</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  To the maximum extent permitted by law, Hypnotherapy Finder and its owners,
-                  officers, directors, employees, and agents shall not be liable for:
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Limitation of Liability</h2>
+                <p style={pStyle}>To the maximum extent permitted by law, Hypnotherapy Finder and its owners, officers, directors, employees, and agents shall not be liable for:</p>
+                <ul style={{ paddingLeft: 24, marginBottom: 16, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
                   <li>Any indirect, incidental, special, consequential, or punitive damages</li>
                   <li>Loss of profits, data, use, goodwill, or other intangible losses</li>
                   <li>Damages resulting from your use or inability to use the Service</li>
@@ -152,9 +145,9 @@ export default function TermsPage() {
                 </ul>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Indemnification</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Indemnification</h2>
+                <p style={pStyle}>
                   You agree to defend, indemnify, and hold harmless Hypnotherapy Finder and its
                   officers, directors, employees, and agents from any claims, damages, obligations,
                   losses, liabilities, costs, or debt, and expenses (including attorney's fees)
@@ -165,25 +158,20 @@ export default function TermsPage() {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Intellectual Property</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Intellectual Property</h2>
+                <p style={pStyle}>
                   The Service and its original content, features, and functionality are and will
                   remain the exclusive property of Hypnotherapy Finder. The Service is protected
                   by copyright, trademark, and other laws.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Our trademarks may not be used in connection with any product or service without
-                  our prior written consent.
-                </p>
+                <p style={pStyle}>Our trademarks may not be used in connection with any product or service without our prior written consent.</p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Prohibited Uses</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  You agree not to use the Service:
-                </p>
-                <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Prohibited Uses</h2>
+                <p style={pStyle}>You agree not to use the Service:</p>
+                <ul style={{ paddingLeft: 24, marginBottom: 16, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
                   <li>For any unlawful purpose or in violation of any laws</li>
                   <li>To harass, abuse, or harm another person</li>
                   <li>To impersonate any person or entity</li>
@@ -195,9 +183,9 @@ export default function TermsPage() {
                 </ul>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Third-Party Links</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Third-Party Links</h2>
+                <p style={pStyle}>
                   The Service may contain links to third-party websites or services that are not
                   owned or controlled by Hypnotherapy Finder. We have no control over, and assume
                   no responsibility for, the content, privacy policies, or practices of any
@@ -207,9 +195,9 @@ export default function TermsPage() {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Changes to Terms</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Changes to Terms</h2>
+                <p style={pStyle}>
                   We reserve the right to modify or replace these Terms at any time. If a revision
                   is material, we will provide at least 30 days' notice prior to any new terms
                   taking effect. What constitutes a material change will be determined at our
@@ -218,9 +206,9 @@ export default function TermsPage() {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Governing Law</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Governing Law</h2>
+                <p style={pStyle}>
                   These Terms shall be governed by and construed in accordance with the laws of
                   the United States, without regard to its conflict of law provisions. Any legal
                   action or proceeding arising under these Terms will be brought exclusively in
@@ -228,9 +216,9 @@ export default function TermsPage() {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Severability</h2>
-                <p className="text-gray-700 leading-relaxed">
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Severability</h2>
+                <p style={pStyle}>
                   If any provision of these Terms is held to be invalid or unenforceable, the
                   remaining provisions will remain in full force and effect. The invalid or
                   unenforceable provision will be modified to reflect the parties' intention
@@ -238,27 +226,25 @@ export default function TermsPage() {
                 </p>
               </section>
 
-              <section className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  If you have any questions about these Terms, please contact us:
-                </p>
-                <ul className="text-gray-700 space-y-2">
-                  <li><strong>Email:</strong> <a href="mailto:legal@hypnotherapy-finder.com" className="text-blue-600 hover:underline">legal@hypnotherapy-finder.com</a></li>
-                  <li><strong>Website:</strong> <a href="/contact" className="text-blue-600 hover:underline">Contact Form</a></li>
+              <section style={{ marginBottom: 40 }}>
+                <h2 style={h2Style}>Contact Us</h2>
+                <p style={pStyle}>If you have any questions about these Terms, please contact us:</p>
+                <ul style={{ listStyle: 'none', padding: 0, color: 'var(--hf-fg-dim)', lineHeight: 2 }}>
+                  <li><strong style={{ color: 'var(--hf-fg)' }}>Email:</strong>{' '}<a href="mailto:legal@hypnotherapy-finder.com" style={{ color: 'var(--hf-accent)', textDecoration: 'none' }}>legal@hypnotherapy-finder.com</a></li>
+                  <li><strong style={{ color: 'var(--hf-fg)' }}>Website:</strong>{' '}<a href="/contact" style={{ color: 'var(--hf-accent)', textDecoration: 'none' }}>Contact Form</a></li>
                 </ul>
               </section>
 
-              <div className="bg-gray-50 border-l-4 border-blue-600 p-6 rounded mt-8">
-                <p className="text-sm text-gray-700">
-                  <strong>Note:</strong> This terms of service document is provided as a template
+              <div style={{ padding: '20px 24px', borderRadius: 10, borderLeft: '3px solid var(--hf-accent)', background: 'rgba(255,255,255,0.03)' }}>
+                <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.6, margin: 0 }}>
+                  <strong style={{ color: 'var(--hf-fg)' }}>Note:</strong> This terms of service document is provided as a template
                   and should be reviewed by legal counsel to ensure compliance with applicable laws
                   in your jurisdiction.
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </main>
 
       <Footer />

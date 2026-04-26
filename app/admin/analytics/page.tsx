@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/contexts/AuthContext';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -30,7 +29,6 @@ export default function AnalyticsDashboard() {
 
   const fetchAnalytics = async () => {
     try {
-      // Fetch various analytics
       const [
         { data: dailyViews },
         { data: popularPages },
@@ -61,194 +59,136 @@ export default function AnalyticsDashboard() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg">Loading analytics...</p>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--hf-bg)' }}>
+        <p style={{ color: 'var(--hf-fg-dim)', fontSize: 16 }}>Loading analytics...</p>
       </div>
     );
   }
 
-  if (!profile?.is_admin) {
-    return null;
-  }
+  if (!profile?.is_admin) return null;
 
   const totalViews = stats?.dailyViews.reduce((sum: number, day: any) => sum + (day.total_views || 0), 0) || 0;
   const totalUsers = stats?.dailyViews[0]?.unique_users || 0;
   const totalSearches = stats?.topSearches.reduce((sum: number, search: any) => sum + (search.search_count || 0), 0) || 0;
   const totalClaims = stats?.claimFunnel[0]?.claims_created || 0;
 
+  const cardStyle: React.CSSProperties = {
+    background: 'var(--hf-bg-mid)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: 16,
+    padding: 20,
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
-          <p className="text-gray-600 mt-2">Track engagement, searches, and user behavior</p>
+    <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', padding: '32px 16px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--hf-fg)' }}>Analytics Dashboard</h1>
+          <p style={{ color: 'var(--hf-fg-dim)', marginTop: 6 }}>Track engagement, searches, and user behavior</p>
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Page Views</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">{totalViews.toLocaleString()}</p>
-              <p className="text-sm text-gray-500 mt-1">Last 30 days</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600">Unique Users</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">{totalUsers.toLocaleString()}</p>
-              <p className="text-sm text-gray-500 mt-1">Today</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Searches</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">{totalSearches.toLocaleString()}</p>
-              <p className="text-sm text-gray-500 mt-1">All time</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-gray-600">Claims Created</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-bold">{totalClaims.toLocaleString()}</p>
-              <p className="text-sm text-gray-500 mt-1">Today</p>
-            </CardContent>
-          </Card>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
+          {[
+            { label: 'Total Page Views', value: totalViews.toLocaleString(), sub: 'Last 30 days' },
+            { label: 'Unique Users', value: totalUsers.toLocaleString(), sub: 'Today' },
+            { label: 'Total Searches', value: totalSearches.toLocaleString(), sub: 'All time' },
+            { label: 'Claims Created', value: totalClaims.toLocaleString(), sub: 'Today' },
+          ].map(({ label, value, sub }) => (
+            <div key={label} style={cardStyle}>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>{label}</p>
+              <p style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)' }}>{value}</p>
+              <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', marginTop: 4 }}>{sub}</p>
+            </div>
+          ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: 24 }}>
           {/* Popular Pages */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Popular Pages</CardTitle>
-              <CardDescription>Most visited pages in the last 30 days</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {stats?.popularPages.map((page: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{page.page_path}</p>
-                      <p className="text-xs text-gray-500">
-                        {page.unique_viewers.toLocaleString()} unique viewers
-                      </p>
-                    </div>
-                    <div className="ml-4 text-right">
-                      <p className="text-sm font-semibold text-gray-900">
-                        {page.view_count.toLocaleString()}
-                      </p>
-                      <p className="text-xs text-gray-500">views</p>
-                    </div>
+          <div style={cardStyle}>
+            <h2 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>Popular Pages</h2>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Most visited pages in the last 30 days</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {stats?.popularPages.map((page: any, index: number) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{page.page_path}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{page.unique_viewers.toLocaleString()} unique viewers</p>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <div style={{ marginLeft: 16, textAlign: 'right' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--hf-fg)' }}>{page.view_count.toLocaleString()}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>views</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Top Searches */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Top Search Queries</CardTitle>
-              <CardDescription>Most common search terms</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {stats?.topSearches.map((search: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{search.query_text}</p>
-                      <p className="text-xs text-gray-500">
-                        {search.avg_results.toFixed(0)} avg results
-                      </p>
-                    </div>
-                    <div className="ml-4 text-right">
-                      <p className="text-sm font-semibold text-gray-900">
-                        {search.search_count.toLocaleString()}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {search.click_through_rate}% CTR
-                      </p>
-                    </div>
+          <div style={cardStyle}>
+            <h2 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>Top Search Queries</h2>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Most common search terms</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {stats?.topSearches.map((search: any, index: number) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{search.query_text}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{search.avg_results.toFixed(0)} avg results</p>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <div style={{ marginLeft: 16, textAlign: 'right' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--hf-fg)' }}>{search.search_count.toLocaleString()}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{search.click_through_rate}% CTR</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Most Viewed Practitioners */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Most Viewed Practitioners</CardTitle>
-              <CardDescription>Practitioners with the most profile views</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {stats?.topPractitioners.map((practitioner: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {practitioner.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {practitioner.city}, {practitioner.state}
-                      </p>
-                    </div>
-                    <div className="ml-4 text-right">
-                      <p className="text-sm font-semibold text-gray-900">
-                        {practitioner.view_count.toLocaleString()}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {practitioner.phone_clicks + practitioner.email_clicks + practitioner.website_clicks} contacts
-                      </p>
-                    </div>
+          <div style={cardStyle}>
+            <h2 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>Most Viewed Practitioners</h2>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Practitioners with the most profile views</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {stats?.topPractitioners.map((practitioner: any, index: number) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{practitioner.name}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{practitioner.city}, {practitioner.state}</p>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <div style={{ marginLeft: 16, textAlign: 'right' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--hf-fg)' }}>{practitioner.view_count.toLocaleString()}</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{practitioner.phone_clicks + practitioner.email_clicks + practitioner.website_clicks} contacts</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Claim Funnel */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Claim Conversion Funnel</CardTitle>
-              <CardDescription>Claim approval rates over the last 30 days</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {stats?.claimFunnel.slice(0, 10).map((day: any, index: number) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        {new Date(day.date).toLocaleDateString()}
-                      </p>
-                      <div className="flex gap-4 text-xs text-gray-500 mt-1">
-                        <span>{day.claims_created} created</span>
-                        <span className="text-green-600">{day.claims_approved} approved</span>
-                        <span className="text-red-600">{day.claims_rejected} rejected</span>
-                      </div>
-                    </div>
-                    <div className="ml-4 text-right">
-                      <p className="text-sm font-semibold text-gray-900">
-                        {day.approval_rate || 0}%
-                      </p>
-                      <p className="text-xs text-gray-500">approval</p>
+          <div style={cardStyle}>
+            <h2 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>Claim Conversion Funnel</h2>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Claim approval rates over the last 30 days</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {stats?.claimFunnel.slice(0, 10).map((day: any, index: number) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)' }}>
+                      {new Date(day.date).toLocaleDateString()}
+                    </p>
+                    <div style={{ display: 'flex', gap: 12, fontSize: 11, marginTop: 2 }}>
+                      <span style={{ color: 'var(--hf-fg-dim)' }}>{day.claims_created} created</span>
+                      <span style={{ color: 'oklch(0.7 0.15 145)' }}>{day.claims_approved} approved</span>
+                      <span style={{ color: 'oklch(0.65 0.2 20)' }}>{day.claims_rejected} rejected</span>
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  <div style={{ marginLeft: 16, textAlign: 'right' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--hf-fg)' }}>{day.approval_rate || 0}%</p>
+                    <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>approval</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
