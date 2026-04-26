@@ -26,11 +26,30 @@ source/
 │   ├── hypnotherapy-for-anxiety/
 │   ├── weight-loss-hypnotherapy/
 │   ├── quit-smoking-hypnotherapy/
+│   ├── free-quizzes/      # Hub page listing all 17 quizzes
+│   ├── stress-level-calculator/
+│   ├── ptsd-quiz/
+│   ├── anxiety-quiz/
+│   ├── social-anxiety-test/
+│   ├── ocd-test/
+│   ├── phobia-test/
+│   ├── thalassophobia-test/
+│   ├── burnout-quiz/
+│   ├── caregiver-burnout-quiz/
+│   ├── agoraphobia-test/
+│   ├── claustrophobia-test/
+│   ├── emetophobia-test/
+│   ├── insomnia-test/
+│   ├── anger-test/
+│   ├── people-pleaser-quiz/
+│   ├── self-esteem-test/
+│   ├── codependency-quiz/
 │   ├── admin/             # Admin dashboard
 │   ├── dashboard/         # Practitioner dashboard
 │   └── claim-listing/     # Claim flow
 ├── components/
 │   ├── layout/           # Header, Footer
+│   ├── quiz/             # ShareResult.tsx — viral share buttons for quiz results
 │   ├── search/           # SearchBar, PractitionerCard
 │   └── ui/               # shadcn components
 ├── lib/
@@ -49,9 +68,21 @@ source/
 1. **Search & Filter**: Location, specialty, session type, insurance
 2. **31 City Pages**: SEO-optimized location landing pages
 3. **Specialty Pages**: Anxiety, weight loss, quit smoking
-4. **Claim System**: Practitioners can claim listings via Supabase
-5. **Badge System**: Verified practitioner badges for backlinks
-6. **Email System**: Claim approved/rejected, welcome emails via Resend
+4. **17 Free Quizzes**: SEO traffic magnets targeting ~62k+ US searches/month (see memory for full keyword data)
+5. **Claim System**: Practitioners can claim listings via Supabase
+6. **Badge System**: Verified practitioner badges for backlinks
+7. **Email System**: Claim approved/rejected, welcome emails via Resend
+
+## Quiz Page Architecture
+Each quiz uses a server/client split — **required** because `'use client'` and `export const metadata` cannot coexist:
+- `page.tsx` — server component, exports SEO metadata + wraps layout
+- `QuizName.tsx` — `'use client'` component with all useState logic
+
+ShareResult component: `components/quiz/ShareResult.tsx`
+- Props: `quizName`, `resultHeadline`, `url`
+- StressCalculator uses `result.level` (not `result.headline`) — special case
+- PhobiaTest has a 3-stage flow (phobia select → impact → result) — special case
+- Self-esteem test has inverted scoring on Q1-3 and Q7-9 (positively worded questions)
 
 ## SEO Implementation
 - FAQ schema on all major pages
@@ -68,6 +99,16 @@ source/
 - nofollow on claim-listing links
 
 ## Recent Work
+
+### Apr 2026 - 17 Quiz Pages + Viral Share Buttons ✅
+- Built 17 quiz/test pages targeting ~62k+ US monthly searches (low-KD keywords from Ahrefs)
+- Each quiz: server `page.tsx` (SEO metadata) + client `QuizName.tsx` (logic)
+- Smart detection: OCD Pure O pattern, PTSD C-PTSD, anger suppressor, self-esteem inverted scoring
+- Created `components/quiz/ShareResult.tsx` — Twitter/X, WhatsApp, Facebook, copy-link share buttons
+- Added share buttons to all 17 quiz result pages
+- Created `/free-quizzes` hub page; linked from homepage Resources section
+- Added ~35 keyword variant 301 redirects in `next.config.ts`
+- **Pending**: Submit `/free-quizzes` and `/emetophobia-test` to Google Search Console (daily quota hit)
 
 ### Feb 2026 - Ahrefs SEO Issues Analysis ✅
 - **Status**: All critical issues already fixed in code, needs redeploy

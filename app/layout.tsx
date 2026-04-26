@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Instrument_Serif, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/lib/contexts/AuthContext';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -74,7 +85,7 @@ export default function RootLayout({
         <script src="https://analytics.ahrefs.com/analytics.js" data-key="hf3Bguy0ovGEzuCoUnDQMw" async></script>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${dmSans.variable} ${instrumentSerif.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
           {children}

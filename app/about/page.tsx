@@ -3,19 +3,58 @@ import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Award, BookOpen, History, Users, Linkedin, Shield, Heart, MapPin, CheckCircle, PlayCircle, Focus, Eye, Accessibility } from 'lucide-react';
+import Script from 'next/script';
 
 export const metadata = {
-  title: 'About Hypnotherapy | History, Science, and Professional Standards',
+  title: 'About Hypnotherapy | History & Science',
   description: 'Learn about the history of hypnotherapy, from ancient practices to modern clinical applications. Discover professional certifications and what makes a qualified hypnotherapist.',
   keywords: 'hypnotherapy history, clinical hypnosis, hypnotherapy certification, professional hypnotherapist',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/about',
+  },
+  openGraph: {
+    title: 'About Hypnotherapy | History & Science',
+    description: 'Learn about the history of hypnotherapy, from ancient practices to modern clinical applications. Discover professional certifications and what makes a qualified hypnotherapist.',
+    url: 'https://hypnotherapy-finder.com/about',
+    siteName: 'Hypnotherapy Finder',
+    images: [{ url: 'https://hypnotherapy-finder.com/og-image.jpg', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Hypnotherapy | History & Science',
+    description: 'Learn about the history of hypnotherapy, from ancient practices to modern clinical applications. Discover professional certifications and what makes a qualified hypnotherapist.',
+    images: ['https://hypnotherapy-finder.com/og-image.jpg'],
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Hypnotherapy Finder',
+  url: 'https://hypnotherapy-finder.com',
+  logo: 'https://hypnotherapy-finder.com/og-image.jpg',
+  description: 'A directory of verified certified hypnotherapists across the United States, helping people find qualified practitioners for anxiety, stress, smoking cessation, weight loss, and more.',
+  foundingDate: '2024',
+  knowsAbout: ['Hypnotherapy', 'Clinical Hypnosis', 'Hypnosis for Anxiety', 'Hypnosis for Weight Loss', 'Smoking Cessation Hypnotherapy'],
+  sameAs: [
+    'https://www.linkedin.com/company/hypnotherapy-finder',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    url: 'https://hypnotherapy-finder.com/contact',
   },
 };
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <Script
+        id="organization-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <Header />
 
       <main className="flex-1 pt-20">

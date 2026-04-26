@@ -3,6 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { HelpCircle } from 'lucide-react';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Hypnotherapy FAQs | Common Questions About Hypnosis Answered',
@@ -10,6 +11,20 @@ export const metadata = {
   keywords: 'hypnotherapy questions, is hypnotherapy safe, how much does hypnotherapy cost, hypnosis FAQ',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/faq',
+  },
+  openGraph: {
+    title: 'Hypnotherapy FAQs | Common Questions Answered',
+    description: 'Get answers to common questions about hypnotherapy, including safety, effectiveness, what to expect, costs, and how to choose a hypnotherapist.',
+    url: 'https://hypnotherapy-finder.com/faq',
+    siteName: 'Hypnotherapy Finder',
+    images: [{ url: 'https://hypnotherapy-finder.com/og-image.jpg', width: 1200, height: 630 }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Hypnotherapy FAQs | Common Questions Answered',
+    description: 'Get answers to common questions about hypnotherapy, including safety, effectiveness, what to expect, costs, and how to choose a hypnotherapist.',
+    images: ['https://hypnotherapy-finder.com/og-image.jpg'],
   },
 };
 
@@ -135,8 +150,28 @@ export default function FAQPage() {
     },
   ];
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.flatMap((category) =>
+      category.questions.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.a,
+        },
+      }))
+    ),
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Header />
 
       <main className="flex-1 pt-20">

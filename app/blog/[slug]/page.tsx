@@ -7,17 +7,37 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Script from 'next/script';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const post = getPostBySlug(slug);
     if (!post) return { title: 'Post Not Found' };
 
+    const title = `${post.title} | Hypnotherapy Directory`;
+    const description = post.summary || `Read about ${post.title}`;
+    const image = post.image || 'https://hypnotherapy-finder.com/og-image.jpg';
+
     return {
-        title: `${post.title} | Hypnotherapy Directory`,
-        description: post.summary || `Read about ${post.title}`,
+        title,
+        description,
         alternates: {
             canonical: `https://hypnotherapy-finder.com/blog/${slug}`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `https://hypnotherapy-finder.com/blog/${slug}`,
+            siteName: 'Hypnotherapy Finder',
+            images: [{ url: image.startsWith('http') ? image : `https://hypnotherapy-finder.com${image}`, width: 1200, height: 630, alt: post.title }],
+            type: 'article',
+            publishedTime: post.date,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: [image.startsWith('http') ? image : `https://hypnotherapy-finder.com${image}`],
         },
     };
 }
@@ -37,8 +57,44 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         notFound();
     }
 
+    const image = post.image || 'https://hypnotherapy-finder.com/og-image.jpg';
+    const absoluteImage = image.startsWith('http') ? image : `https://hypnotherapy-finder.com${image}`;
+
+    const articleSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.summary || '',
+        image: absoluteImage,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: {
+            '@type': 'Organization',
+            name: 'Hypnotherapy Finder',
+            url: 'https://hypnotherapy-finder.com',
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Hypnotherapy Finder',
+            url: 'https://hypnotherapy-finder.com',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://hypnotherapy-finder.com/og-image.jpg',
+            },
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://hypnotherapy-finder.com/blog/${slug}`,
+        },
+    };
+
     return (
         <div className="min-h-screen flex flex-col bg-white">
+            <Script
+                id="article-schema"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
             <Header />
 
             <main className="flex-1 pt-24 pb-20">
