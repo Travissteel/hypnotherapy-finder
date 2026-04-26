@@ -7,79 +7,29 @@ const VIDEO_URL =
 
 export function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const fadingOutRef = useRef(false);
-  const rafRef = useRef<number | null>(null);
-
-  const cancelRaf = () => {
-    if (rafRef.current != null) {
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-    }
-  };
-
-  const fadeIn = (video: HTMLVideoElement) => {
-    cancelRaf();
-    fadingOutRef.current = false;
-    const start = performance.now();
-    const from = video.style.opacity ? parseFloat(video.style.opacity) : 0;
-    const step = (now: number) => {
-      const t = Math.min((now - start) / 600, 1);
-      video.style.opacity = String(from + (1 - from) * t);
-      if (t < 1) rafRef.current = requestAnimationFrame(step);
-    };
-    rafRef.current = requestAnimationFrame(step);
-  };
-
-  const fadeOut = (video: HTMLVideoElement) => {
-    if (fadingOutRef.current) return;
-    fadingOutRef.current = true;
-    cancelRaf();
-    const start = performance.now();
-    const from = parseFloat(video.style.opacity || '1');
-    const step = (now: number) => {
-      const t = Math.min((now - start) / 500, 1);
-      video.style.opacity = String(from * (1 - t));
-      if (t < 1) rafRef.current = requestAnimationFrame(step);
-    };
-    rafRef.current = requestAnimationFrame(step);
-  };
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.style.opacity = '0';
+    const show = () => {
+      video.style.opacity = '1';
+    };
 
-    const onCanPlay = () => {
+    // Handle already-loaded case (cached video fires canplay before listener)
+    if (video.readyState >= 2) {
+      show();
       video.play().catch(() => {});
-      fadeIn(video);
-    };
+      return;
+    }
 
-    const onTimeUpdate = () => {
-      if (!video.duration) return;
-      const remaining = video.duration - video.currentTime;
-      if (remaining <= 0.55 && !fadingOutRef.current) fadeOut(video);
-    };
-
-    const onEnded = () => {
-      video.style.opacity = '0';
-      setTimeout(() => {
-        fadingOutRef.current = false;
-        video.currentTime = 0;
-        video.play().catch(() => {});
-        fadeIn(video);
-      }, 120);
-    };
-
-    video.addEventListener('canplay', onCanPlay);
-    video.addEventListener('timeupdate', onTimeUpdate);
-    video.addEventListener('ended', onEnded);
+    video.addEventListener('canplay', show, { once: true });
+    video.addEventListener('canplaythrough', show, { once: true });
+    video.load();
 
     return () => {
-      cancelRaf();
-      video.removeEventListener('canplay', onCanPlay);
-      video.removeEventListener('timeupdate', onTimeUpdate);
-      video.removeEventListener('ended', onEnded);
+      video.removeEventListener('canplay', show);
+      video.removeEventListener('canplaythrough', show);
     };
   }, []);
 
@@ -87,9 +37,10 @@ export function HeroVideo() {
     <video
       ref={videoRef}
       src={VIDEO_URL}
+      autoPlay
       muted
       playsInline
-      loop={false}
+      loop
       style={{
         position: 'absolute',
         inset: 0,
@@ -98,6 +49,7 @@ export function HeroVideo() {
         objectFit: 'cover',
         transform: 'translateY(15%)',
         opacity: 0,
+        transition: 'opacity 0.8s ease',
         willChange: 'opacity',
         zIndex: 0,
       }}

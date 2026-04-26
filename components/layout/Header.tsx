@@ -9,14 +9,14 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '18px 20px' }}>
+    <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '20px 24px' }}>
       {/* Pill nav */}
       <nav
         className="glass"
         style={{
           borderRadius: 9999,
-          padding: '10px 20px',
-          maxWidth: 980,
+          padding: '14px 28px',
+          maxWidth: 1020,
           margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
@@ -24,17 +24,17 @@ export function Header() {
         }}
       >
         {/* Logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'var(--hf-fg)' }}>
-          <div style={{ width: 34, height: 34, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
-            <Image src="/logo.png" alt="Hypnotherapy Finder" width={34} height={34} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'var(--hf-fg)' }}>
+          <div style={{ width: 40, height: 40, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+            <Image src="/logo.png" alt="Hypnotherapy Finder" width={40} height={40} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
-          <span className="font-serif-display" style={{ fontSize: 16, letterSpacing: '-0.01em', color: 'var(--hf-fg)' }}>
+          <span className="font-serif-display" style={{ fontSize: 19, letterSpacing: '-0.01em', color: 'var(--hf-fg)' }}>
             Hypnotherapy Finder
           </span>
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 24 }}>
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 28 }}>
           {[
             ['Find a Therapist', '/search'],
             ['How it Works', '/how-it-works'],
@@ -44,7 +44,7 @@ export function Header() {
             <Link
               key={label}
               href={href}
-              style={{ color: 'rgba(255,255,255,0.62)', fontSize: 13, fontWeight: 500, textDecoration: 'none', transition: 'color .2s', letterSpacing: '0.01em' }}
+              style={{ color: 'rgba(255,255,255,0.62)', fontSize: 14, fontWeight: 500, textDecoration: 'none', transition: 'color .2s', letterSpacing: '0.01em' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
               onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.62)')}
             >
@@ -56,9 +56,9 @@ export function Header() {
             className="glass"
             style={{
               borderRadius: 9999,
-              padding: '7px 18px',
+              padding: '9px 22px',
               color: 'var(--hf-accent)',
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
               textDecoration: 'none',
               letterSpacing: '0.01em',
