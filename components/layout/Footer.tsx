@@ -48,6 +48,7 @@ const FOOTER_COLS = [
     title: 'Resources',
     links: [
       ['What is Hypnotherapy?', '/what-is-hypnotherapy'],
+      ['Find a Hypnotherapist', '/find-a-hypnotherapist'],
       ['How it Works', '/how-it-works'],
       ['Blog', '/blog'],
       ['FAQ', '/faq'],

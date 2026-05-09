@@ -2,6 +2,16 @@ import { MetadataRoute } from 'next';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 import { getAllPosts } from '@/lib/blog';
 
+// Slugs that have permanent redirects in next.config.ts — exclude from sitemap
+const REDIRECTED_PRACTITIONER_SLUGS = new Set([
+  'you-austin-1',
+  'victoria-lee-denver-33',
+  'technologies-of-the-self-victoria-bresee-denver-35',
+  'hypnosis-network-fort-worth-3',
+  'john-bentz-master-hypnotherapist-houston-20',
+  'dr-jane-smith',
+]);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://hypnotherapy-finder.com';
 
@@ -148,13 +158,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // Practitioner pages
-  const practitionerPages: MetadataRoute.Sitemap = practitioners.map((practitioner) => ({
-    url: `${baseUrl}/practitioner/${practitioner.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.6,
-  }));
+  // Practitioner pages (exclude slugs with permanent redirects)
+  const practitionerPages: MetadataRoute.Sitemap = practitioners
+    .filter((p) => p.slug && !REDIRECTED_PRACTITIONER_SLUGS.has(p.slug))
+    .map((practitioner) => ({
+      url: `${baseUrl}/practitioner/${practitioner.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }));
 
   // Blog pages
   const blogPages: MetadataRoute.Sitemap = [
