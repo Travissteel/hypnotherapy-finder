@@ -252,3 +252,6 @@ html { scroll-behavior: smooth; }
 
 .hf-accent-border-hover { transition: background .2s; }
 .hf-accent-border-hover:hover { background: oklch(0.72 0.12 185 / 0.1) !important; }
+
+.hf-link-hover { transition: color .15s; }
+.hf-link-hover:hover { color: var(--hf-fg) !important; }

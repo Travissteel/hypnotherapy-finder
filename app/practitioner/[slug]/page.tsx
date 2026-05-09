@@ -279,9 +279,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
 
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {practitioner.phone && (
-                      <a href={`tel:${practitioner.phone}`} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                      <a href={`tel:${practitioner.phone}`} className="hf-link-hover" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}>
                         <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <Phone style={{ width: 13, height: 13 }} />
                         </div>
@@ -289,9 +287,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       </a>
                     )}
                     {websiteUrl && (
-                      <a href={websiteUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                      <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="hf-link-hover" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13 }}>
                         <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                           <Globe style={{ width: 13, height: 13 }} />
                         </div>
@@ -299,9 +295,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       </a>
                     )}
                     {practitioner.email && (
-                      <a href={`mailto:${practitioner.email}`} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13, overflow: 'hidden' }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--hf-fg)')}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--hf-fg-dim)')}>
+                      <a href={`mailto:${practitioner.email}`} className="hf-link-hover" style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--hf-fg-dim)', textDecoration: 'none', fontSize: 13, overflow: 'hidden' }}>
                         <div style={{ width: 32, height: 32, borderRadius: 9, background: 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                           <Mail style={{ width: 13, height: 13 }} />
                         </div>
