@@ -1,10 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 
-// Create a Supabase client with service role for server-side operations
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabaseAdmin() {
+  if (_supabaseAdmin) return _supabaseAdmin;
+
+  // Lazy-init so Next.js build-time module evaluation doesn't crash
+  // when env vars aren't present in local/CI environments.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl) throw new Error('supabaseUrl is required.');
+  if (!supabaseServiceKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required.');
+
+  _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+  return _supabaseAdmin;
+}
 
 export const STORAGE_BUCKETS = {
   CLAIM_DOCUMENTS: 'claim-documents',
@@ -21,7 +32,7 @@ export async function uploadFile(
   contentType?: string
 ): Promise<{ url: string; path: string } | { error: string }> {
   try {
-    const { data, error } = await supabaseAdmin.storage
+    const { data, error } = await getSupabaseAdmin().storage
       .from(bucket)
       .upload(path, file, {
         contentType: contentType,
@@ -33,7 +44,7 @@ export async function uploadFile(
       return { error: error.message };
     }
 
-    const { data: urlData } = supabaseAdmin.storage
+    const { data: urlData } = getSupabaseAdmin().storage
       .from(bucket)
       .getPublicUrl(data.path);
 
@@ -55,7 +66,7 @@ export async function deleteFile(
   path: string
 ): Promise<{ success: boolean } | { error: string }> {
   try {
-    const { error } = await supabaseAdmin.storage
+    const { error } = await getSupabaseAdmin().storage
       .from(bucket)
       .remove([path]);
 
@@ -75,7 +86,7 @@ export async function deleteFile(
  * Get public URL for a file
  */
 export function getPublicUrl(bucket: string, path: string): string {
-  const { data } = supabaseAdmin.storage
+  const { data } = getSupabaseAdmin().storage
     .from(bucket)
     .getPublicUrl(path);
 
@@ -90,7 +101,7 @@ export async function listFiles(
   path: string = ''
 ): Promise<{ files: any[] } | { error: string }> {
   try {
-    const { data, error } = await supabaseAdmin.storage
+    const { data, error } = await getSupabaseAdmin().storage
       .from(bucket)
       .list(path);
 

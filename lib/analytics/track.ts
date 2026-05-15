@@ -1,9 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+let _supabase: ReturnType<typeof createClient> | null = null;
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+function getSupabase() {
+  // Don't init Supabase during SSR/build.
+  if (typeof window === 'undefined') return null;
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // If env vars aren't present (local build / CI), analytics should no-op.
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+
+  if (_supabase) return _supabase;
+  _supabase = createClient(supabaseUrl, supabaseAnonKey);
+  return _supabase;
+}
 
 // Get or create session ID
 function getSessionId(): string {
@@ -19,9 +31,13 @@ function getSessionId(): string {
 
 // Get user ID if authenticated
 async function getUserId(): Promise<string | null> {
-  if (typeof window === 'undefined') return null;
+  const supabase = getSupabase();
+  if (!supabase) return null;
 
-  const { data: { session } } = await supabase.auth.getSession();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   return session?.user?.id || null;
 }
 
@@ -36,10 +52,13 @@ interface TrackPageViewParams {
  */
 export async function trackPageView(params: TrackPageViewParams) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     const userId = await getUserId();
     const sessionId = getSessionId();
 
-    await supabase.rpc('track_page_view', {
+    await (supabase as any).rpc('track_page_view', {
       p_page_path: params.path,
       p_page_title: params.title || document.title,
       p_referrer: params.referrer || document.referrer,
@@ -64,10 +83,13 @@ interface TrackSearchParams {
  */
 export async function trackSearch(params: TrackSearchParams) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     const userId = await getUserId();
     const sessionId = getSessionId();
 
-    await supabase.rpc('track_search_query', {
+    await (supabase as any).rpc('track_search_query', {
       p_query_text: params.query,
       p_filters: params.filters ? JSON.stringify(params.filters) : null,
       p_results_count: params.resultsCount || 0,
@@ -91,10 +113,13 @@ interface TrackPractitionerViewParams {
  */
 export async function trackPractitionerView(params: TrackPractitionerViewParams) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     const userId = await getUserId();
     const sessionId = getSessionId();
 
-    await supabase.rpc('track_practitioner_view', {
+    await (supabase as any).rpc('track_practitioner_view', {
       p_practitioner_id: params.practitionerId,
       p_user_id: userId,
       p_session_id: sessionId,
@@ -117,6 +142,9 @@ interface TrackContactClickParams {
  */
 export async function trackContactClick(params: TrackContactClickParams) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     const sessionId = getSessionId();
 
     // Find the most recent practitioner view for this session
@@ -155,6 +183,9 @@ interface TrackClaimEventParams {
  */
 export async function trackClaimEvent(params: TrackClaimEventParams) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     const userId = await getUserId();
 
     await supabase.from('claim_events').insert({
@@ -175,6 +206,9 @@ export async function trackClaimEvent(params: TrackClaimEventParams) {
  */
 export async function trackSearchResultClick(searchId: string, practitionerId: string) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) return;
+
     await supabase
       .from('search_queries')
       .update({

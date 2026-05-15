@@ -51,8 +51,3 @@ export const createServiceClient = () => {
   });
 };
 
-// Regular client (anon key) - for server-side use
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);

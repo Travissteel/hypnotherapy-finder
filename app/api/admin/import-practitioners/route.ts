@@ -2,11 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import practitionersData from '@/data/practitioners.json';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 
-// Use service role for bulk insert
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabaseAdmin() {
+  if (_supabaseAdmin) return _supabaseAdmin;
+
+  // Lazy-init so build-time module evaluation doesn't crash when env vars
+  // aren't present in local/CI environments.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl) throw new Error('supabaseUrl is required.');
+  if (!supabaseServiceKey) throw new Error('SUPABASE_SERVICE_ROLE_KEY is required.');
+
+  _supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+  return _supabaseAdmin;
+}
 
 // POST /api/admin/import-practitioners - Import static JSON practitioners to database
 export async function POST(request: NextRequest) {
@@ -57,11 +68,11 @@ export async function POST(request: NextRequest) {
             }));
 
             // Use upsert to handle duplicates (based on slug)
-            const { data, error } = await supabase
+            const { data, error } = await (getSupabaseAdmin() as any)
                 .from('practitioners')
-                .upsert(mappedBatch, {
+                .upsert(mappedBatch as any, {
                     onConflict: 'slug',
-                    ignoreDuplicates: true
+                    ignoreDuplicates: true,
                 });
 
             if (error) {
