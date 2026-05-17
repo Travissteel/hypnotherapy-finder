@@ -30,25 +30,26 @@ export async function generateStaticParams() {
 }
 
 async function createSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
   const cookieStore = await cookies();
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get(name: string) { return cookieStore.get(name)?.value; } } }
-  );
+  return createServerClient(url, key, { cookies: { get(name: string) { return cookieStore.get(name)?.value; } } });
 }
 
 async function getPractitioner(slugOrId: string) {
   const supabase = await createSupabaseClient();
   const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(slugOrId);
 
-  if (isUUID) {
-    const { data, error } = await supabase.from('practitioners').select('*').eq('id', slugOrId).maybeSingle();
-    if (!error && data) return data;
-  }
+  if (supabase) {
+    if (isUUID) {
+      const { data, error } = await supabase.from('practitioners').select('*').eq('id', slugOrId).maybeSingle();
+      if (!error && data) return data;
+    }
 
-  const { data: dataBySlug, error: errorBySlug } = await supabase.from('practitioners').select('*').eq('slug', slugOrId).maybeSingle();
-  if (!errorBySlug && dataBySlug) return dataBySlug;
+    const { data: dataBySlug, error: errorBySlug } = await supabase.from('practitioners').select('*').eq('slug', slugOrId).maybeSingle();
+    if (!errorBySlug && dataBySlug) return dataBySlug;
+  }
 
   try {
     const { getPractitionerBySlug } = await import('@/lib/data/practitioners');

@@ -148,7 +148,7 @@ export async function trackContactClick(params: TrackContactClickParams) {
     const sessionId = getSessionId();
 
     // Find the most recent practitioner view for this session
-    const { data: recentView } = await supabase
+    const { data: recentView } = await (supabase as any)
       .from('practitioner_views')
       .select('id')
       .eq('practitioner_id', params.practitionerId)
@@ -160,8 +160,9 @@ export async function trackContactClick(params: TrackContactClickParams) {
     if (recentView) {
       // Update the view with the click event
       const updateField = `clicked_${params.contactType}`;
-      await supabase
+      await (supabase as any)
         .from('practitioner_views')
+        // Supabase generated types can be overly strict for dynamic column updates.
         .update({ [updateField]: true })
         .eq('id', recentView.id);
     }
@@ -188,7 +189,7 @@ export async function trackClaimEvent(params: TrackClaimEventParams) {
 
     const userId = await getUserId();
 
-    await supabase.from('claim_events').insert({
+    await (supabase as any).from('claim_events').insert({
       claim_id: params.claimId,
       practitioner_id: params.practitionerId,
       user_id: userId,
@@ -209,7 +210,7 @@ export async function trackSearchResultClick(searchId: string, practitionerId: s
     const supabase = getSupabase();
     if (!supabase) return;
 
-    await supabase
+    await (supabase as any)
       .from('search_queries')
       .update({
         result_clicked: true,
