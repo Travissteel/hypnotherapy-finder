@@ -31,13 +31,15 @@ export async function generateStaticParams() {
 async function getPractitioner(slugOrId: string) {
   const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(slugOrId);
 
-  if (isUUID) {
-    const { data, error } = await supabase.from('practitioners').select('*').eq('id', slugOrId).maybeSingle();
-    if (!error && data) return data;
-  }
+  if (supabase) {
+    if (isUUID) {
+      const { data, error } = await supabase.from('practitioners').select('*').eq('id', slugOrId).maybeSingle();
+      if (!error && data) return data;
+    }
 
-  const { data: dataBySlug, error: errorBySlug } = await supabase.from('practitioners').select('*').eq('slug', slugOrId).maybeSingle();
-  if (!errorBySlug && dataBySlug) return dataBySlug;
+    const { data: dataBySlug, error: errorBySlug } = await supabase.from('practitioners').select('*').eq('slug', slugOrId).maybeSingle();
+    if (!errorBySlug && dataBySlug) return dataBySlug;
+  }
 
   try {
     const { getPractitionerBySlug } = await import('@/lib/data/practitioners');
