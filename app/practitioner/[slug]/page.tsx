@@ -2,8 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { supabase } from '@/lib/supabase/client';
 import {
   MapPin, Phone, Globe, Mail, CheckCircle, Star, User, Award, Video,
   ChevronRight, ShieldCheck, Languages, DollarSign, BrainCircuit
@@ -29,17 +28,7 @@ export async function generateStaticParams() {
   return practitioners.map((practitioner) => ({ slug: practitioner.slug }));
 }
 
-async function createSupabaseClient() {
-  const cookieStore = await cookies();
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get(name: string) { return cookieStore.get(name)?.value; } } }
-  );
-}
-
 async function getPractitioner(slugOrId: string) {
-  const supabase = await createSupabaseClient();
   const isUUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(slugOrId);
 
   if (isUUID) {
