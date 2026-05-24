@@ -106,7 +106,11 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
             <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
             <Link href="/search" style={breadcrumbLinkStyle}>Find a Therapist</Link>
             <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
-            <Link href={`/search?location=${practitioner.city}`} style={breadcrumbLinkStyle}>{practitioner.city}</Link>
+            {practitioner.citySlug || practitioner.city_slug ? (
+              <Link href={`/location/${practitioner.citySlug || practitioner.city_slug}`} style={breadcrumbLinkStyle}>{practitioner.city}</Link>
+            ) : (
+              <Link href={`/search?location=${practitioner.city}`} style={breadcrumbLinkStyle}>{practitioner.city}</Link>
+            )}
             <ChevronRight style={{ width: 10, height: 10, color: 'var(--hf-fg-dim)' }} />
             <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--hf-accent)' }}>{practitioner.name}</span>
           </div>
@@ -155,7 +159,14 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                     </p>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
-                        <MapPin style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.city}, {practitioner.state}
+                        <MapPin style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} />{' '}
+                        {practitioner.citySlug || practitioner.city_slug ? (
+                          <Link href={`/location/${practitioner.citySlug || practitioner.city_slug}`} className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>
+                            {practitioner.city}, {practitioner.state}
+                          </Link>
+                        ) : (
+                          `${practitioner.city}, ${practitioner.state}`
+                        )}
                       </span>
                       <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
                         <Award style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.years_experience || '10'}+ Years Exp.

@@ -25,19 +25,22 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let title = `Hypnotherapists in ${city.name}, ${city.state} | Find ${city.practitionerCount} Certified Practitioners`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
-  else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Quit Smoking & More`;
+  else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Anxiety Hypnosis & More`;
+  else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Certified Hypnotherapists`;
 
   let description = `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
   if (slug === 'los-angeles') description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`;
   else if (slug === 'chicago') description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists for anxiety, weight loss, quit smoking. Downtown, Lincoln Park, Oak Park & suburbs.`;
-  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, weight loss, anxiety. South Austin, Downtown, North Austin & surrounding areas.`;
+  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for anxiety hypnosis, clinical hypnotherapy, quit smoking, and weight loss. South Austin, Downtown, and surrounding areas.`;
+  else if (slug === 'fort-worth') description = `Find the best clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} certified Fort Worth hypnotherapists and hypnotists specializing in anxiety, stress, habits, and clinical hypnosis sessions.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
   return {
     title, description,
     keywords: slug === 'los-angeles' ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
       : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
-      : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
+      : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
+      : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
     alternates: { canonical: url },
     openGraph: { url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website' },
@@ -94,11 +97,13 @@ export default async function LocationPage({ params }: LocationPageProps) {
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
     : slug === 'chicago' ? 'Chicago Hypnotherapy & Hypnotherapists'
     : slug === 'austin' ? 'Austin Hypnotherapy & Hypnotherapists'
+    : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : `Hypnotherapists in ${city.name}`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} certified LA hypnotherapists and hypnotists in Los Angeles, California`
     : slug === 'chicago' ? `Connect with ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists in Chicago, Illinois`
-    : slug === 'austin' ? `Connect with ${city.practitionerCount} certified Austin hypnotherapists for quit smoking, anxiety & more`
+    : slug === 'austin' ? `Connect with ${city.practitionerCount} certified Austin hypnotherapists for anxiety hypnosis, clinical hypnotherapy, and habit change`
+    : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} certified Fort Worth hypnotherapists for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : `Connect with ${city.practitionerCount} certified hypnotherapy practitioners in ${city.name}, ${city.state}`;
 
   return (
@@ -132,6 +137,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   {slug === 'los-angeles' ? 'Find the Best Hypnotherapy in Los Angeles, CA'
                     : slug === 'chicago' ? 'Find the Best Hypnotherapy in Chicago, IL'
                     : slug === 'austin' ? 'Find the Best Hypnotherapy in Austin, TX'
+                    : slug === 'fort-worth' ? 'Find Clinical Hypnotherapy in Fort Worth, TX'
                     : `Find Qualified Hypnotherapists in ${city.name}, ${city.state}`}
                 </h2>
 
@@ -145,7 +151,11 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   </p>
                 ) : slug === 'austin' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
-                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} certified Austin hypnotherapists across all Austin areas including <strong style={{ color: 'var(--hf-fg)' }}>South Austin, Downtown, North Austin, Round Rock, Cedar Park, and the greater Austin metro</strong>. Especially popular: <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapy to quit smoking</strong> in South Austin.
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} certified Austin hypnotherapists specializing in <strong style={{ color: 'var(--hf-fg)' }}>anxiety hypnosis and clinical hypnotherapy in Austin</strong>. We list practitioners across South Austin, Downtown, North Austin, Round Rock, Cedar Park, and the surrounding areas. Whether you are looking for stop smoking hypnosis or stress management, locate certified professionals near you.
+                  </p>
+                ) : slug === 'fort-worth' ? (
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for clinical hypnotherapy in Fort Worth?</strong> Our directory features {city.practitionerCount} certified Fort Worth hypnotherapists offering professional clinical hypnosis sessions. Find qualified experts across <strong style={{ color: 'var(--hf-fg)' }}>Downtown Fort Worth, the Cultural District, Near Southside, Tanglewood, TCU area, and the greater Fort Worth-Arlington metroplex</strong>. Specialized hypnotherapists are available to assist with anxiety, stress relief, weight management, and smoking cessation.
                   </p>
                 ) : (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
@@ -205,6 +215,29 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   ))}
                 </div>
               )}
+            </div>
+          </section>
+
+          {/* Interactive Quizzes & Assessments */}
+          <section style={{ padding: '0 24px 48px' }}>
+            <div style={{ maxWidth: 860, margin: '0 auto' }}>
+              <div className="glass-card" style={{ padding: '32px', textAlign: 'center', background: 'linear-gradient(135deg, rgba(var(--hf-accent-rgb), 0.05) 0%, rgba(0,0,0,0) 100%)' }}>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Free Hypnotherapy Quizzes & Self-Assessments</h3>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Take our scientifically-informed quick tests to evaluate your symptoms and see how clinical hypnotherapy can help.</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+                  {[
+                    { href: '/caregiver-burnout-quiz', title: 'Caregiver Burnout Quiz', desc: 'Measure your caregiver fatigue levels' },
+                    { href: '/claustrophobia-test', title: 'Claustrophobia Test', desc: 'Assess your fear of enclosed spaces' },
+                    { href: '/anxiety-quiz', title: 'Anxiety & Stress Quiz', desc: 'Evaluate daily stress and anxiety' },
+                    { href: '/agoraphobia-test', title: 'Agoraphobia Test', desc: 'Evaluate fear of open or crowded places' }
+                  ].map((quiz) => (
+                    <Link key={quiz.href} href={quiz.href} className="hf-card-hover" style={{ display: 'block', padding: '16px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', textDecoration: 'none', textAlign: 'left' }}>
+                      <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-accent)', marginBottom: 4 }}>{quiz.title}</h4>
+                      <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{quiz.desc}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
 
