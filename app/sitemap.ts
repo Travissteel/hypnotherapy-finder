@@ -12,6 +12,11 @@ const REDIRECTED_PRACTITIONER_SLUGS = new Set([
   'dr-jane-smith',
 ]);
 
+// Slugs removed at practitioner request (410 Gone in middleware) — exclude from sitemap
+const REMOVED_PRACTITIONER_SLUGS = new Set([
+  'jq-new-york-67',
+]);
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://hypnotherapy-finder.com';
 
@@ -130,6 +135,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     // Quiz & test pages (keyword-targeted tools)
+    // Compare pages
+    { url: `${baseUrl}/compare/hypnotherapy-finder-vs-psychology-today`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    // Quiz & test pages (keyword-targeted tools)
     { url: `${baseUrl}/free-quizzes`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
     { url: `${baseUrl}/anxiety-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/social-anxiety-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
@@ -158,9 +166,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // Practitioner pages (exclude slugs with permanent redirects)
+  // Practitioner pages (exclude redirected and removed slugs)
   const practitionerPages: MetadataRoute.Sitemap = practitioners
-    .filter((p) => p.slug && !REDIRECTED_PRACTITIONER_SLUGS.has(p.slug))
+    .filter((p) => p.slug && !REDIRECTED_PRACTITIONER_SLUGS.has(p.slug) && !REMOVED_PRACTITIONER_SLUGS.has(p.slug))
     .map((practitioner) => ({
       url: `${baseUrl}/practitioner/${practitioner.slug}`,
       lastModified: new Date(),

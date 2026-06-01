@@ -100,6 +100,19 @@ ShareResult component: `components/quiz/ShareResult.tsx`
 
 ## Recent Work
 
+### Jun 2026 - Comparison Page + Practitioner Removal System ✅
+- Built `/compare/hypnotherapy-finder-vs-psychology-today` — conversion-focused SEO comparison page
+  - FAQPage + BreadcrumbList JSON-LD schemas
+  - 10-row comparison table, best-for split cards, why-specialist grid, proof/filter section
+  - 14 specialty filters called out explicitly, session type / insurance / price range highlighted
+  - Internal links to anxiety, weight loss, quit smoking pages
+  - 5 FAQs, stats band, CTA band — matches existing page patterns
+- Removed practitioner `jq-new-york-67` (JQ Hypnosis, New York) from `data/practitioners.json` at practitioner request
+- Added 410 Gone middleware pattern for opted-out practitioners:
+  - `REMOVED_PRACTITIONER_SLUGS` set in `middleware.ts` — add slug here for any future removal requests
+  - Removed slugs also excluded from `sitemap.ts`
+- Practitioner count: **1,152**
+
 ### Apr 2026 - 17 Quiz Pages + Viral Share Buttons ✅
 - Built 17 quiz/test pages targeting ~62k+ US monthly searches (low-KD keywords from Ahrefs)
 - Each quiz: server `page.tsx` (SEO metadata) + client `QuizName.tsx` (logic)
