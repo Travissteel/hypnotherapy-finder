@@ -2,7 +2,21 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Practitioners who requested removal — return 410 Gone so Google de-indexes quickly
+const REMOVED_PRACTITIONER_SLUGS = new Set([
+  'jq-new-york-67',
+]);
+
 export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith('/practitioner/')) {
+    const slug = pathname.split('/practitioner/')[1]?.split('/')[0];
+    if (slug && REMOVED_PRACTITIONER_SLUGS.has(slug)) {
+      return new NextResponse(null, { status: 410 });
+    }
+  }
+
   const hostname = req.headers.get('host') || '';
 
   // Redirect www to non-www (canonical domain standardization)
