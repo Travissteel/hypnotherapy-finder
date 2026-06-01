@@ -22500,41 +22500,6 @@
     "acceptingNewClients": true
   },
   {
-    "id": "jq-new-york-67",
-    "title": "JQ Hypnosis",
-    "name": "JQ",
-    "street": "41 Union Square W #720",
-    "city": "New York",
-    "state": "New York",
-    "website": "https://jqhypnosis.com/",
-    "phone": "(646) 643-6573",
-    "categoryname": "Hypnotherapy service",
-    "specialties": [
-      "General Hypnotherapy"
-    ],
-    "slug": "jq-new-york-67",
-    "citySlug": "new-york",
-    "sessionType": "virtual",
-    "acceptsInsurance": true,
-    "insuranceProviders": [
-      "Blue Cross Blue Shield",
-      "Aetna",
-      "Cigna"
-    ],
-    "priceRange": "moderate",
-    "sessionPrice": 148,
-    "yearsExperience": 5,
-    "certifications": [
-      "Clinical Hypnotherapist (CHt)"
-    ],
-    "gender": "female",
-    "languages": [
-      "English",
-      "Mandarin"
-    ],
-    "acceptingNewClients": true
-  },
-  {
     "id": "drucker-new-york-68",
     "title": "Drucker Hypnosis Center",
     "name": "Drucker",
