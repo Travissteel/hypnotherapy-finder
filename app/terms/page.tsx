@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Hypnotherapy Finder',
+  title: 'Terms of Service',
   description: 'Terms of service for Hypnotherapy Finder directory. Read our terms and conditions for using the hypnotherapist directory.',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/terms',

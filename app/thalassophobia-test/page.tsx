@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import ThalassophobiaTest from './ThalassophobiaTest';
 
 export const metadata: Metadata = {
-  title: 'Thalassophobia Test — Do I Have Thalassophobia? | Hypnotherapy Finder',
+  title: 'Thalassophobia Test — Do I Have Thalassophobia?',
   description: 'Take our free thalassophobia test to find out if you have a fear of deep water. Answer 12 questions about your response to the ocean, lakes, and deep water. Free and anonymous.',
   keywords: 'thalassophobia test, thalassophobia quiz, do I have thalassophobia, fear of deep water test, fear of the ocean quiz, thalassophobia self assessment',
   alternates: { canonical: 'https://hypnotherapy-finder.com/thalassophobia-test' },

@@ -311,8 +311,20 @@ function PractitionerSignupForm() {
 export default function PractitionerSignupPage() {
   return (
     <Suspense fallback={
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--hf-bg)' }}>
-        <div style={{ color: 'var(--hf-fg-dim)' }}>Loading…</div>
+      // Rendered into the initial HTML while useSearchParams suspends — must
+      // carry the H1, copy, and site chrome so crawlers see a real page.
+      <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
+        <Header />
+        <main style={{ flex: 1, paddingTop: 80 }}>
+          <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ maxWidth: 1020, margin: '0 auto', textAlign: 'center' }}>
+              <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 14 }}>Join Our Directory</h1>
+              <p style={{ fontSize: 16, color: 'var(--hf-fg-dim)' }}>List your hypnotherapy practice, reach more clients, and grow with Hypnotherapy Finder.</p>
+            </div>
+          </section>
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 24px', color: 'var(--hf-fg-dim)' }}>Loading…</div>
+        </main>
+        <Footer />
       </div>
     }>
       <PractitionerSignupForm />

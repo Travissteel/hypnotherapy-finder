@@ -302,8 +302,25 @@ function SearchContent() {
 export default function SearchPage() {
   return (
     <Suspense fallback={
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--hf-bg)' }}>
-        <Loader2 style={{ width: 40, height: 40, color: 'var(--hf-accent)' }} className="animate-spin" />
+      // Rendered into the initial HTML while useSearchParams suspends — must
+      // carry the H1, copy, and site chrome so crawlers see a real page.
+      <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
+        <Header />
+        <main style={{ flex: 1, paddingTop: 80 }}>
+          <section style={{ background: 'var(--hf-bg-mid)', padding: '56px 24px 48px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <div style={{ maxWidth: 1020, margin: '0 auto', textAlign: 'center' }}>
+              <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Directory Search</span>
+              <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 10 }}>
+                Find Your Perfect <span style={{ color: 'var(--hf-accent)' }}>Practitioner</span>
+              </h1>
+              <p style={{ fontSize: 16, color: 'var(--hf-fg-dim)' }}>Connect with certified hypnotherapists dedicated to your wellbeing.</p>
+            </div>
+          </section>
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 24px' }}>
+            <Loader2 style={{ width: 40, height: 40, color: 'var(--hf-accent)' }} className="animate-spin" />
+          </div>
+        </main>
+        <Footer />
       </div>
     }>
       <SearchContent />

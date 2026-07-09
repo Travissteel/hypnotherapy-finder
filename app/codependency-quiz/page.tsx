@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import CodependencyQuiz from './CodependencyQuiz';
 
 export const metadata: Metadata = {
-  title: 'Codependency Quiz — Am I Codependent? Free Test | Hypnotherapy Finder',
+  title: 'Codependency Quiz — Am I Codependent? Free Test',
   description: 'Take our free codependency quiz to find out if you are codependent. Answer 12 questions covering caretaking, control, loss of self, fear of abandonment, and resentment.',
   keywords: 'codependency quiz, codependency test, am I codependent, codependency self assessment, codependent relationship quiz, signs of codependency quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/codependency-quiz' },

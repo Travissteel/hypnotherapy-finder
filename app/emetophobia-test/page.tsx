@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import EmetophobiaTest from './EmetophobiaTest';
 
 export const metadata: Metadata = {
-  title: 'Emetophobia Test — Do I Have Emetophobia? | Hypnotherapy Finder',
+  title: 'Emetophobia Test — Do I Have Emetophobia?',
   description: 'Take our free emetophobia test to check for fear of vomiting. Answer 12 questions covering anxiety about nausea, others being sick, food avoidance, and daily impact.',
   keywords: 'emetophobia test, emetophobia quiz, do I have emetophobia, fear of vomiting test, emetophobia self assessment, fear of being sick quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/emetophobia-test' },

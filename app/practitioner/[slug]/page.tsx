@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
+import { stateAbbr } from '@/lib/seo';
 
 function normalizeWebsiteUrl(url: string | null | undefined): string | null {
   if (!url) return null;
@@ -62,11 +63,12 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   let description = `Connect with ${practitioner.name}, a certified hypnotherapist in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Specializing in ${specialties.slice(0, 3).join(', ')}.` : ''}`;
   if (description.length > 155) description = description.substring(0, 152) + '...';
 
-  const ogTitle = `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${practitioner.state}`;
+  const ogTitle = `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${stateAbbr(practitioner.state)}`;
   const ogImage = practitioner.photo_url || 'https://hypnotherapy-finder.com/og-image.jpg';
 
   return {
-    title: ogTitle, description,
+    // absolute: skip the "| Hypnotherapy Finder" template — practitioner titles already run to the 60-char limit
+    title: { absolute: ogTitle }, description,
     alternates: { canonical: `https://hypnotherapy-finder.com/practitioner/${slug}` },
     openGraph: { title: ogTitle, description, url: `https://hypnotherapy-finder.com/practitioner/${slug}`, siteName: 'Hypnotherapy Finder', images: [{ url: ogImage, width: 1200, height: 630, alt: practitioner.name }], type: 'profile' },
     twitter: { card: 'summary_large_image', title: ogTitle, description, images: [ogImage] },

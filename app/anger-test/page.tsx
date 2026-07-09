@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import AngerTest from './AngerTest';
 
 export const metadata: Metadata = {
-  title: 'Anger Test — Do I Have Anger Issues? Free Self-Assessment | Hypnotherapy Finder',
+  title: 'Anger Test — Do I Have Anger Issues? Free Self-Assessment',
   description: 'Take our free anger test to find out if you have anger issues. Covers anger frequency, intensity, duration, suppression, hostility, and impact. Get your result in 2 minutes.',
   keywords: 'anger test, anger issues test, anger issues quiz, multidimensional anger test, do I have anger issues, anger self assessment, anger management test',
   alternates: { canonical: 'https://hypnotherapy-finder.com/anger-test' },

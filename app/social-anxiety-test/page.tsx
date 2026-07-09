@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import SocialAnxietyTest from './SocialAnxietyTest';
 
 export const metadata: Metadata = {
-  title: 'Social Anxiety Test — Free Online Self-Assessment | Hypnotherapy Finder',
+  title: 'Social Anxiety Test — Free Online Self-Assessment',
   description: 'Take our free social anxiety test to check for social anxiety disorder symptoms. Answer 12 questions and find out if hypnotherapy could help you feel more confident.',
   keywords: 'social anxiety test, social anxiety disorder test, do I have social anxiety, social anxiety quiz, social anxiety self assessment, social phobia test',
   alternates: { canonical: 'https://hypnotherapy-finder.com/social-anxiety-test' },

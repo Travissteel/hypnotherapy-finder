@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import ClaustrophobiaTest from './ClaustrophobiaTest';
 
 export const metadata: Metadata = {
-  title: 'Claustrophobia Test — Do I Have Claustrophobia? | Hypnotherapy Finder',
+  title: 'Claustrophobia Test — Do I Have Claustrophobia?',
   description: 'Take our free claustrophobia test to check for fear of enclosed spaces. Answer 11 questions covering lifts, tunnels, crowds, and small rooms. Get your result in under 2 minutes.',
   keywords: 'claustrophobia test, claustrophobia quiz, do I have claustrophobia, fear of enclosed spaces test, fear of small spaces quiz, claustrophobia self assessment',
   alternates: { canonical: 'https://hypnotherapy-finder.com/claustrophobia-test' },

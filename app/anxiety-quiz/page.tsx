@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import AnxietyQuiz from './AnxietyQuiz';
 
 export const metadata: Metadata = {
-  title: 'Do I Have Anxiety? Free Anxiety Quiz | Hypnotherapy Finder',
+  title: 'Do I Have Anxiety? Free Anxiety Quiz',
   description: 'Take our free anxiety quiz to find out if you have anxiety. Answer 12 questions covering worry, physical symptoms, and daily impact. Get your result in under 2 minutes.',
   keywords: 'do i have anxiety quiz, anxiety quiz, anxiety test online, am I anxious, anxiety self assessment, anxiety symptoms quiz, hypnotherapy for anxiety',
   alternates: { canonical: 'https://hypnotherapy-finder.com/anxiety-quiz' },

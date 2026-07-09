@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import PeoplePleaserQuiz from './PeoplePleaserQuiz';
 
 export const metadata: Metadata = {
-  title: 'Am I a People Pleaser? Free Quiz | Hypnotherapy Finder',
+  title: 'Am I a People Pleaser? Free Quiz',
   description: 'Take our free people pleaser quiz to find out if you are a people pleaser. Answer 12 questions about saying no, approval seeking, putting others first, and resentment.',
   keywords: 'am I a people pleaser quiz, people pleaser quiz, people pleaser test, people pleasing self assessment, do I people please, am I a people pleaser',
   alternates: { canonical: 'https://hypnotherapy-finder.com/people-pleaser-quiz' },

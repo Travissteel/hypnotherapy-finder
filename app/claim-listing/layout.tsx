@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Claim Your Listing | Hypnotherapy Finder',
+  title: 'Claim Your Listing',
   robots: {
     index: false,
     follow: false,

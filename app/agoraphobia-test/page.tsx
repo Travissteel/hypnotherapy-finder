@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import AgoraphobiaTest from './AgoraphobiaTest';
 
 export const metadata: Metadata = {
-  title: 'Agoraphobia Test — Do I Have Agoraphobia? Free Quiz | Hypnotherapy Finder',
+  title: 'Agoraphobia Test — Do I Have Agoraphobia? Free Quiz',
   description: 'Take our free agoraphobia test to check for symptoms of fear of public places, open spaces, and crowds. Answer 12 questions and get your personalised result in 2 minutes.',
   keywords: 'agoraphobia test, agoraphobia quiz, do I have agoraphobia, fear of open spaces test, fear of public places quiz, agoraphobia self assessment',
   alternates: { canonical: 'https://hypnotherapy-finder.com/agoraphobia-test' },

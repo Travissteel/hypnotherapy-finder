@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import SelfEsteemTest from './SelfEsteemTest';
 
 export const metadata: Metadata = {
-  title: 'Self-Esteem Test — Do I Have Low Self-Esteem? Free Quiz | Hypnotherapy Finder',
+  title: 'Self-Esteem Test — Do I Have Low Self-Esteem? Free Quiz',
   description: 'Take our free self-esteem test to find out if you have low self-esteem. Answer 12 questions covering self-worth, self-criticism, confidence, and shame. Get your result in 2 minutes.',
   keywords: 'self esteem test, self esteem quiz, low self esteem test, do I have low self esteem, self esteem self assessment, self worth quiz, confidence test',
   alternates: { canonical: 'https://hypnotherapy-finder.com/self-esteem-test' },

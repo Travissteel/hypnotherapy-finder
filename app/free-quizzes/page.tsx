@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Free Mental Health Quizzes & Tests | Hypnotherapy Finder',
+  title: 'Free Mental Health Quizzes & Tests',
   description: 'Free online mental health quizzes and phobia tests. Check for anxiety, stress, PTSD, OCD, burnout, social anxiety, and specific phobias. All anonymous, results in minutes.',
   keywords: 'free mental health quiz, anxiety quiz, stress test, ptsd quiz, ocd test, phobia test, burnout quiz, social anxiety test, free psychological tests online',
   alternates: { canonical: 'https://hypnotherapy-finder.com/free-quizzes' },

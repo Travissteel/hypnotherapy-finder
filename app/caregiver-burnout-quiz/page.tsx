@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import CaregiverBurnoutQuiz from './CaregiverBurnoutQuiz';
 
 export const metadata: Metadata = {
-  title: 'Caregiver Burnout Quiz — Free Self-Assessment | Hypnotherapy Finder',
+  title: 'Caregiver Burnout Quiz — Free Self-Assessment',
   description: 'Take our free caregiver burnout quiz to find out if you are experiencing caregiver burnout. Answer 12 questions about exhaustion, guilt, isolation, and self-neglect. Anonymous and takes 2 minutes.',
   keywords: 'caregiver burnout quiz, caregiver burnout test, caregiver stress quiz, carer burnout assessment, caregiver exhaustion quiz, am I a burned out caregiver',
   alternates: { canonical: 'https://hypnotherapy-finder.com/caregiver-burnout-quiz' },

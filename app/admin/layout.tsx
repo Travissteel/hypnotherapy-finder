@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin | Hypnotherapy Finder',
+  title: 'Admin',
   robots: {
     index: false,
     follow: false,

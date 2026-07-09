@@ -7,6 +7,7 @@ import { getAllCities, getCityBySlug, getPractitionersByCity } from '@/lib/data/
 import Link from 'next/link';
 import Script from 'next/script';
 import { MapPin } from 'lucide-react';
+import { stateAbbr } from '@/lib/seo';
 
 interface LocationPageProps {
   params: Promise<{ slug: string }>;
@@ -22,28 +23,32 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   const city = getCityBySlug(slug);
   if (!city) return { title: 'Location Not Found' };
 
-  let title = `Hypnotherapists in ${city.name}, ${city.state} | Find ${city.practitionerCount} Certified Practitioners`;
+  let title = `Hypnotherapists in ${city.name}, ${stateAbbr(city.state)} | ${city.practitionerCount} Certified Practitioners`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
   else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Anxiety Hypnosis & More`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Certified Hypnotherapists`;
 
   let description = `Find qualified hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} certified practitioners specializing in anxiety, weight loss, smoking cessation, and more.`;
-  if (slug === 'los-angeles') description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists and hypnotists specializing in anxiety, weight loss, smoking cessation. Santa Monica, Beverly Hills, Pasadena & more.`;
-  else if (slug === 'chicago') description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified Chicago hypnotherapists and hypnotists for anxiety, weight loss, quit smoking. Downtown, Lincoln Park, Oak Park & suburbs.`;
-  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified Austin hypnotherapists for anxiety hypnosis, clinical hypnotherapy, quit smoking, and weight loss. South Austin, Downtown, and surrounding areas.`;
-  else if (slug === 'fort-worth') description = `Find the best clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} certified Fort Worth hypnotherapists and hypnotists specializing in anxiety, stress, habits, and clinical hypnosis sessions.`;
+  if (slug === 'los-angeles') description = `Find the best hypnotherapy in Los Angeles. Browse ${city.practitionerCount} certified LA hypnotherapists for anxiety, weight loss & quit smoking — Santa Monica to Pasadena.`;
+  else if (slug === 'chicago') description = `Find the best hypnotherapy in Chicago. Browse ${city.practitionerCount} certified hypnotherapists for anxiety, weight loss & quit smoking — Downtown, Lincoln Park & suburbs.`;
+  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} certified hypnotherapists for anxiety hypnosis, quit smoking & weight loss — Downtown & South Austin.`;
+  else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} certified hypnotherapists for anxiety, stress, habits & clinical hypnosis sessions.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
   return {
-    title, description,
+    // absolute: skip the "| Hypnotherapy Finder" template — location titles are keyword-tuned and already ~60 chars
+    title: { absolute: title }, description,
     keywords: slug === 'los-angeles' ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
       : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
       : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
     alternates: { canonical: url },
-    openGraph: { url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website' },
+    openGraph: {
+      url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website',
+      images: [{ url: '/logo.png', width: 1200, height: 630, alt: `Hypnotherapists in ${city.name}, ${city.state}` }],
+    },
   };
 }
 

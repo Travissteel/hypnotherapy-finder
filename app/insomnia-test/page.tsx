@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import InsomniaTest from './InsomniaTest';
 
 export const metadata: Metadata = {
-  title: 'Insomnia Test — Do I Have Insomnia? Free Quiz | Hypnotherapy Finder',
+  title: 'Insomnia Test — Do I Have Insomnia? Free Quiz',
   description: 'Take our free insomnia test to find out if you have insomnia. Answer 13 questions covering sleep onset, sleep quality, racing thoughts, and daytime impact. Results in 2 minutes.',
   keywords: "insomnia test, insomnia quiz, do I have insomnia quiz, insomnia self assessment, sleep problems test, can't sleep quiz, chronic insomnia test",
   alternates: { canonical: 'https://hypnotherapy-finder.com/insomnia-test' },

@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import BurnoutQuiz from './BurnoutQuiz';
 
 export const metadata: Metadata = {
-  title: 'Burnout Quiz — Am I Burned Out? Free Test | Hypnotherapy Finder',
+  title: 'Burnout Quiz — Am I Burned Out? Free Test',
   description: 'Take our free burnout quiz to find out if you are experiencing burnout. Answer 13 questions covering emotional exhaustion, cynicism, and reduced effectiveness. Get your result in 2 minutes.',
   keywords: 'burnout quiz, burnout test, am I burned out, burnout self assessment, work burnout quiz, burnout symptoms test, job burnout quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/burnout-quiz' },

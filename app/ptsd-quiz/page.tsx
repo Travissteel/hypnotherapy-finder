@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import PTSDQuiz from './PTSDQuiz';
 
 export const metadata: Metadata = {
-  title: 'PTSD Quiz — Do I Have PTSD? Free Self-Assessment | Hypnotherapy Finder',
+  title: 'PTSD Quiz — Do I Have PTSD? Free Self-Assessment',
   description: 'Take our free PTSD quiz to check for symptoms of PTSD and Complex PTSD. Answer 13 questions and get a personalised result. Not a diagnosis — for guidance only.',
   keywords: 'ptsd quiz, do I have ptsd quiz, complex ptsd quiz, ptsd self assessment, ptsd test online, ptsd symptoms checklist, c-ptsd quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/ptsd-quiz' },

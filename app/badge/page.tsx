@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { CheckCircle, ExternalLink } from 'lucide-react';
 
 export const metadata = {
-  title: 'Verified Practitioner Badge | Hypnotherapy Finder',
+  title: 'Verified Practitioner Badge',
   description: 'Display your Hypnotherapy Finder verified badge on your website to build trust with potential clients and link back to your listing.',
   alternates: {
     canonical: 'https://hypnotherapy-finder.com/badge',

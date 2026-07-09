@@ -55,32 +55,6 @@ const nextConfig: NextConfig = {
         destination: '/search',
         permanent: true,
       },
-      // Old practitioner slugs with city suffixes (from 404 report)
-      {
-        source: '/practitioner/technologies-of-the-self-victoria-bresee-denver-35',
-        destination: '/search',
-        permanent: true,
-      },
-      {
-        source: '/practitioner/hypnosis-network-fort-worth-3',
-        destination: '/search',
-        permanent: true,
-      },
-      {
-        source: '/practitioner/victoria-lee-denver-33',
-        destination: '/search',
-        permanent: true,
-      },
-      {
-        source: '/practitioner/john-bentz-master-hypnotherapist-houston-20',
-        destination: '/search',
-        permanent: true,
-      },
-      {
-        source: '/practitioner/you-austin-1',
-        destination: '/search',
-        permanent: true,
-      },
 
       // ============================================
       // Malformed location URLs

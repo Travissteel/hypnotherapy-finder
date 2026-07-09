@@ -3,6 +3,18 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'app/blog/posts');
+const publicDirectory = path.join(process.cwd(), 'public');
+const DEFAULT_POST_IMAGE = '/therapy-session.png';
+
+// Blog posts may reference header images that were never added to /public.
+// Serving those paths returns a 400 from the Next image optimizer, so fall
+// back to a real file whenever the referenced image doesn't exist on disk.
+function resolvePostImage(image?: string): string {
+    if (image && fs.existsSync(path.join(publicDirectory, image))) {
+        return image;
+    }
+    return DEFAULT_POST_IMAGE;
+}
 
 export interface BlogPost {
     slug: string;
@@ -41,7 +53,7 @@ export function getAllPosts(): BlogPost[] {
             category: data.category || 'General',
             readingTime: data.readingTime || '5 min read',
             summary: data.summary || '',
-            image: data.image || '/blog/images/placeholder.jpg',
+            image: resolvePostImage(data.image),
             content,
         };
     });
@@ -69,7 +81,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
             category: data.category || 'General',
             readingTime: data.readingTime || '5 min read',
             summary: data.summary || '',
-            image: data.image || '/blog/images/placeholder.jpg',
+            image: resolvePostImage(data.image),
             content,
         };
     } catch (err) {

@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import PhobiaTest from './PhobiaTest';
 
 export const metadata: Metadata = {
-  title: 'Phobia Test — Do I Have a Phobia? Free Online Quiz | Hypnotherapy Finder',
+  title: 'Phobia Test — Do I Have a Phobia? Free Online Quiz',
   description: 'Take our free phobia test to find out if you have a phobia. Covers 16 common phobias including spiders, heights, flying, enclosed spaces, and more. Get your result in 2 minutes.',
   keywords: 'phobia test, phobia quiz, do I have a phobia, phobia self assessment, specific phobia test, list of phobias test, phobia symptoms quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/phobia-test' },

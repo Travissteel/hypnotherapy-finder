@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import StressCalculator from './StressCalculator';
 
 export const metadata: Metadata = {
-  title: 'Free Stress Quiz — How Stressed Am I? | Hypnotherapy Finder',
+  title: 'Free Stress Quiz — How Stressed Am I?',
   description: 'Take our free online stress quiz to find out how stressed you are. Get a personalised stress score in under 2 minutes and discover if hypnotherapy could help.',
   keywords: 'stress quiz, how stressed am I, stress level test, online stress test, stress score calculator, am I stressed quiz',
   alternates: { canonical: 'https://hypnotherapy-finder.com/stress-level-calculator' },

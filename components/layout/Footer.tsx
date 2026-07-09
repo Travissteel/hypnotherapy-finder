@@ -51,6 +51,7 @@ const FOOTER_COLS = [
       ['Find a Hypnotherapist', '/find-a-hypnotherapist'],
       ['How it Works', '/how-it-works'],
       ['Blog', '/blog'],
+      ['Us vs Psychology Today', '/compare/hypnotherapy-finder-vs-psychology-today'],
       ['FAQ', '/faq'],
       ['About', '/about'],
     ],
