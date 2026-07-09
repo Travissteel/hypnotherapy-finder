@@ -12,10 +12,10 @@ export async function GET(
     const { id } = await params;
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -35,10 +35,10 @@ export async function GET(
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('is_admin')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single();
 
-    if (claim.user_id !== session.user.id && !profile?.is_admin) {
+    if (claim.user_id !== user.id && !profile?.is_admin) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -62,10 +62,10 @@ export async function PATCH(
     const { id } = await params;
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -73,7 +73,7 @@ export async function PATCH(
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('is_admin')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single();
 
     if (!profile?.is_admin) {
@@ -113,7 +113,7 @@ export async function PATCH(
         status,
         admin_notes,
         rejection_reason: status === 'rejected' ? rejection_reason : null,
-        reviewed_by: session.user.id,
+        reviewed_by: user.id,
         reviewed_at: new Date().toISOString(),
       })
       .eq('id', id)
@@ -124,7 +124,7 @@ export async function PATCH(
 
     // Create audit log
     await supabase.from('audit_logs').insert({
-      admin_id: session.user.id,
+      admin_id: user.id,
       action: status === 'approved' ? 'approved_claim' : 'rejected_claim',
       resource_type: 'claim',
       resource_id: id,
@@ -138,7 +138,7 @@ export async function PATCH(
     // Send email notification
     try {
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-      const userEmail = claim.verification_email || session.user.email;
+      const userEmail = claim.verification_email || user.email;
       const practitionerName = claim.practitioner?.name || 'Unknown';
       const claimantName = claim.user?.full_name || 'User';
       const city = claim.practitioner?.city || '';

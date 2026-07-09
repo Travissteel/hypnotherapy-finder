@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { timingSafeEqual } from 'crypto';
 import practitionersData from '@/data/practitioners.json';
+
+// Constant-time comparison so the API key can't be guessed byte-by-byte via timing
+function safeKeyCompare(provided: string, expected: string): boolean {
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
 
 let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 
@@ -26,7 +35,7 @@ export async function POST(request: NextRequest) {
         const authHeader = request.headers.get('authorization');
         const expectedKey = process.env.ADMIN_API_KEY;
 
-        if (!expectedKey || authHeader !== `Bearer ${expectedKey}`) {
+        if (!expectedKey || !authHeader || !safeKeyCompare(authHeader, `Bearer ${expectedKey}`)) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 

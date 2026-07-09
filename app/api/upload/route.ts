@@ -12,10 +12,10 @@ export async function POST(request: NextRequest) {
     const supabase = await createRouteHandlerClient();
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -87,10 +87,10 @@ export async function POST(request: NextRequest) {
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('is_admin')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
-      if (claim.user_id !== session.user.id && !profile?.is_admin) {
+      if (claim.user_id !== user.id && !profile?.is_admin) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
       }
     } else if (type === 'practitioner-photo') {
@@ -114,10 +114,10 @@ export async function POST(request: NextRequest) {
       const { data: profile } = await supabase
         .from('user_profiles')
         .select('is_admin')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single();
 
-      if (practitioner.claimed_by !== session.user.id && !profile?.is_admin) {
+      if (practitioner.claimed_by !== user.id && !profile?.is_admin) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
       }
     } else {

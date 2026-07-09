@@ -9,13 +9,13 @@ export async function POST(request: NextRequest) {
 
     // Check authentication
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    console.log('[API] Session exists:', !!session);
-    console.log('[API] User ID:', session?.user?.id);
+    console.log('[API] Session exists:', !!user);
+    console.log('[API] User ID:', user?.id);
 
-    if (!session) {
+    if (!user) {
       console.error('[API] No session found - Unauthorized');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       insurance_accepted: body.acceptsInsurance ? ['Insurance accepted'] : [],
       certifications: body.credentials ? [body.credentials] : [],
       claim_status: 'claimed',
-      claimed_by: session.user.id,
+      claimed_by: user.id,
       claim_date: new Date().toISOString(),
       verified: true,
       verification_date: new Date().toISOString(),

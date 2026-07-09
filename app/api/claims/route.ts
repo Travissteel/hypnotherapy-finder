@@ -8,10 +8,10 @@ export async function GET(request: NextRequest) {
 
     // Check authentication
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('is_admin')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single();
 
     // Fetch claims with practitioner data
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     // If not admin, only show user's own claims
     if (!profile?.is_admin) {
-      claimsQuery = claimsQuery.eq('user_id', session.user.id);
+      claimsQuery = claimsQuery.eq('user_id', user.id);
     }
 
     const { data: claims, error: claimsError } = await claimsQuery;
@@ -74,10 +74,10 @@ export async function POST(request: NextRequest) {
 
     // Check authentication
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -92,11 +92,11 @@ export async function POST(request: NextRequest) {
     const { data: existingProfile, error: profileCheckError } = await supabase
       .from('user_profiles')
       .select('id')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .maybeSingle();
 
     console.log('[Claims API] Profile check:', {
-      userId: session.user.id,
+      userId: user.id,
       existingProfile,
       profileCheckError
     });
@@ -105,15 +105,15 @@ export async function POST(request: NextRequest) {
       // Create a minimal user profile if it doesn't exist
       // Use admin client to bypass RLS policies
       // Note: user_profiles table has: id, user_type, full_name, phone, is_practitioner, is_admin, etc.
-      console.log('[Claims API] Creating user profile for:', session.user.id);
+      console.log('[Claims API] Creating user profile for:', user.id);
 
       try {
         const adminClient = createAdminClient();
         const { error: profileError } = await adminClient
           .from('user_profiles')
           .insert({
-            id: session.user.id,
-            full_name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'User',
+            id: user.id,
+            full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
             user_type: 'practitioner',
             is_practitioner: false,
             is_admin: false,
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
       .from('claims')
       .select('id, status')
       .eq('practitioner_id', practitioner_id)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .single();
 
     if (existingClaim) {
@@ -176,9 +176,9 @@ export async function POST(request: NextRequest) {
       .from('claims')
       .insert({
         practitioner_id,
-        user_id: session.user.id,
+        user_id: user.id,
         claim_method: claim_method || 'email',
-        verification_email: verification_email || session.user.email,
+        verification_email: verification_email || user.email,
         verification_phone,
         license_number,
         status: 'pending',
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
     // Create verification log
     await supabase.from('verification_logs').insert({
       claim_id: claim.id,
-      user_id: session.user.id,
+      user_id: user.id,
       verification_type: claim_method || 'email',
       status: 'sent',
     });
