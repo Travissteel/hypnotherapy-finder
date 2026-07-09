@@ -1,0 +1,34 @@
+# Hypnotherapy Finder
+
+> Hypnotherapy Finder (https://hypnotherapy-finder.com) is a US directory of 1,150+ certified hypnotherapy practitioners across 31 major cities. Users can search by location, specialty (anxiety, weight loss, smoking cessation, PTSD, phobias, sleep, pain management, and more), session type (in-person or online), insurance acceptance, and price range. Practitioners can claim and verify their listings.
+
+## Find a practitioner
+
+- [Search the directory](https://hypnotherapy-finder.com/search): filter 1,150+ certified hypnotherapists by specialty, location, session type, and insurance
+- [Browse by city](https://hypnotherapy-finder.com/locations): dedicated pages for 31 US cities with local practitioner listings
+- [Hypnotherapy near me](https://hypnotherapy-finder.com/hypnotherapy-near-me): guide to finding local hypnotherapy
+
+## Learn about hypnotherapy
+
+- [What is hypnotherapy?](https://hypnotherapy-finder.com/what-is-hypnotherapy): overview of clinical hypnotherapy, history, and science
+- [Does hypnotherapy work?](https://hypnotherapy-finder.com/does-hypnotherapy-work): evidence and research summary
+- [Hypnotherapy cost guide](https://hypnotherapy-finder.com/hypnotherapy-cost): typical session pricing in the US
+- [Hypnotherapy for anxiety](https://hypnotherapy-finder.com/hypnotherapy-for-anxiety)
+- [Weight loss hypnotherapy](https://hypnotherapy-finder.com/weight-loss-hypnotherapy)
+- [Quit smoking hypnotherapy](https://hypnotherapy-finder.com/quit-smoking-hypnotherapy)
+- [Blog](https://hypnotherapy-finder.com/blog): guides on hypnotherapy for specific conditions and cities
+- [FAQ](https://hypnotherapy-finder.com/faq)
+
+## Free self-assessment quizzes
+
+- [All free quizzes](https://hypnotherapy-finder.com/free-quizzes): 17 free, anonymous mental-health self-assessments including anxiety, PTSD, OCD, burnout, insomnia, phobias, self-esteem, and stress
+
+## For practitioners
+
+- [List your practice](https://hypnotherapy-finder.com/practitioner-signup): join the directory
+- [How it works](https://hypnotherapy-finder.com/how-it-works)
+
+## Notes
+
+- Quizzes are educational self-assessments, not medical diagnoses.
+- Practitioner listings include certifications, specialties, session types, and contact details; verified practitioners display a verification badge.

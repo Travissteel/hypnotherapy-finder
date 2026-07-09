@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/lib/contexts/AuthContext';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -70,7 +72,12 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://hypnotherapy-finder.com',
+    // No canonical here: metadata is inherited, so a root canonical would mark
+    // every page without its own as a duplicate of the homepage. Each indexable
+    // page sets its own canonical (homepage's lives in app/page.tsx).
+    types: {
+      'application/rss+xml': 'https://hypnotherapy-finder.com/rss.xml',
+    },
   },
 };
 
@@ -90,6 +97,8 @@ export default function RootLayout({
         <AuthProvider>
           {children}
         </AuthProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -4,13 +4,13 @@ import { getAllPosts } from '@/lib/blog';
 
 // Slugs that have permanent redirects in next.config.ts — exclude from sitemap
 const REDIRECTED_PRACTITIONER_SLUGS = new Set([
-  'you-austin-1',
-  'victoria-lee-denver-33',
-  'technologies-of-the-self-victoria-bresee-denver-35',
-  'hypnosis-network-fort-worth-3',
-  'john-bentz-master-hypnotherapist-houston-20',
   'dr-jane-smith',
 ]);
+
+// Stable content-update stamp for pages without per-page tracking. Bump when
+// site content meaningfully changes; emitting new Date() on every build tells
+// crawlers everything changed daily, which erodes trust in lastmod entirely.
+const SITE_LAST_UPDATED = new Date('2026-07-09');
 
 // Slugs removed at practitioner request (410 Gone in middleware) — exclude from sitemap
 const REMOVED_PRACTITIONER_SLUGS = new Set([
@@ -28,140 +28,140 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'daily',
       priority: 1,
     },
     {
       url: `${baseUrl}/weight-loss-hypnotherapy`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/what-is-hypnotherapy`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/hypnotherapy-near-me`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/find-a-hypnotherapist`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/quit-smoking-hypnotherapy`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/hypnotherapy-for-anxiety`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/does-hypnotherapy-work`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/how-it-works`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/hypnotherapy-cost`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/faq`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.5,
     },
     {
       url: `${baseUrl}/terms`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'yearly',
       priority: 0.5,
     },
     {
       url: `${baseUrl}/locations`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/search`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/practitioner-signup`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     // Quiz & test pages (keyword-targeted tools)
     // Compare pages
-    { url: `${baseUrl}/compare/hypnotherapy-finder-vs-psychology-today`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/compare/hypnotherapy-finder-vs-psychology-today`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     // Quiz & test pages (keyword-targeted tools)
-    { url: `${baseUrl}/free-quizzes`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
-    { url: `${baseUrl}/anxiety-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/social-anxiety-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/ptsd-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/stress-level-calculator`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/ocd-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/burnout-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/caregiver-burnout-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/people-pleaser-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/anger-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/codependency-quiz`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/insomnia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/self-esteem-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/phobia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/agoraphobia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/claustrophobia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/emetophobia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
-    { url: `${baseUrl}/thalassophobia-test`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/free-quizzes`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/anxiety-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/social-anxiety-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/ptsd-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/stress-level-calculator`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/ocd-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/burnout-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/caregiver-burnout-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/people-pleaser-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/anger-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/codependency-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/insomnia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/self-esteem-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/phobia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/agoraphobia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/claustrophobia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/emetophobia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/thalassophobia-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
   ];
 
   // Location pages
   const locationPages: MetadataRoute.Sitemap = cities.map((city) => ({
     url: `${baseUrl}/location/${city.slug}`,
-    lastModified: new Date(),
+    lastModified: SITE_LAST_UPDATED,
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));
@@ -171,7 +171,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((p) => p.slug && !REDIRECTED_PRACTITIONER_SLUGS.has(p.slug) && !REMOVED_PRACTITIONER_SLUGS.has(p.slug))
     .map((practitioner) => ({
       url: `${baseUrl}/practitioner/${practitioner.slug}`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }));
@@ -180,7 +180,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogPages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
