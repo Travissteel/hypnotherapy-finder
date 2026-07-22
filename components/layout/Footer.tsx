@@ -49,6 +49,7 @@ const FOOTER_COLS = [
     links: [
       ['What is Hypnotherapy?', '/what-is-hypnotherapy'],
       ['Find a Hypnotherapist', '/find-a-hypnotherapist'],
+      ['Confidence Hypnotherapy', '/hypnotherapy-for-confidence'],
       ['How it Works', '/how-it-works'],
       ['Blog', '/blog'],
       ['Us vs Psychology Today', '/compare/hypnotherapy-finder-vs-psychology-today'],

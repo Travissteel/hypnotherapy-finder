@@ -10,7 +10,7 @@ const REDIRECTED_PRACTITIONER_SLUGS = new Set([
 // Stable content-update stamp for pages without per-page tracking. Bump when
 // site content meaningfully changes; emitting new Date() on every build tells
 // crawlers everything changed daily, which erodes trust in lastmod entirely.
-const SITE_LAST_UPDATED = new Date('2026-07-22');
+const SITE_LAST_UPDATED = new Date('2026-07-23');
 
 // Slugs removed at practitioner request (410 Gone in middleware) — exclude from sitemap
 const REMOVED_PRACTITIONER_SLUGS = new Set([
@@ -64,6 +64,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/hypnotherapy-for-anxiety`,
+      lastModified: SITE_LAST_UPDATED,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/hypnotherapy-for-confidence`,
       lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'weekly',
       priority: 0.8,
