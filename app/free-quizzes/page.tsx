@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2 } from 'lucide-react';
+import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2, CloudRain } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free Mental Health Quizzes & Tests',
@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 const quizzes = [
+  { href: '/depression-quiz', icon: CloudRain, hue: 250, title: 'Depression Quiz', desc: 'Check low mood, motivation, sleep, self-talk, and daily impact.', volume: 'high-intent searches/month' },
   { href: '/ocd-test', icon: Repeat2, hue: 20, title: 'OCD Test', desc: 'Check for obsessions, compulsions, and Pure O symptoms.', volume: '27k+ searches/month' },
   { href: '/social-anxiety-test', icon: Users2, hue: 300, title: 'Social Anxiety Test', desc: 'Do you have social anxiety disorder? Find out in 2 minutes.', volume: '5.7k searches/month' },
   { href: '/ptsd-quiz', icon: Brain, hue: 270, title: 'PTSD Quiz', desc: 'Check for PTSD and Complex PTSD symptoms.', volume: '4.1k searches/month' },
