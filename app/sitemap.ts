@@ -189,6 +189,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/burnout-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/caregiver-burnout-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/depression-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
+    { url: `${baseUrl}/health-anxiety-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/people-pleaser-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/anger-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/codependency-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
