@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 const quizzes = [
   { href: '/depression-quiz', icon: CloudRain, hue: 250, title: 'Depression Quiz', desc: 'Check low mood, motivation, sleep, self-talk, and daily impact.', volume: 'high-intent searches/month' },
+  { href: '/grief-quiz', icon: Heart, hue: 340, title: 'Grief Quiz', desc: 'Check grief waves, sleep, guilt, triggers, connection, and support needs.', volume: 'high-intent searches/month' },
   { href: '/health-anxiety-test', icon: HeartPulse, hue: 185, title: 'Health Anxiety Test', desc: 'Check symptom worry, body scanning, reassurance loops, and appointment anxiety.', volume: 'high-intent searches/month' },
   { href: '/ocd-test', icon: Repeat2, hue: 20, title: 'OCD Test', desc: 'Check for obsessions, compulsions, and Pure O symptoms.', volume: '27k+ searches/month' },
   { href: '/social-anxiety-test', icon: Users2, hue: 300, title: 'Social Anxiety Test', desc: 'Do you have social anxiety disorder? Find out in 2 minutes.', volume: '5.7k searches/month' },
