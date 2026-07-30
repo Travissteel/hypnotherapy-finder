@@ -10,7 +10,7 @@ const REDIRECTED_PRACTITIONER_SLUGS = new Set([
 // Stable content-update stamp for pages without per-page tracking. Bump when
 // site content meaningfully changes; emitting new Date() on every build tells
 // crawlers everything changed daily, which erodes trust in lastmod entirely.
-const SITE_LAST_UPDATED = new Date('2026-07-28');
+const SITE_LAST_UPDATED = new Date('2026-07-31');
 
 // Slugs removed at practitioner request (410 Gone in middleware) — exclude from sitemap
 const REMOVED_PRACTITIONER_SLUGS = new Set([
@@ -181,6 +181,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/compare/hypnotherapy-finder-vs-psychology-today`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     // Quiz & test pages (keyword-targeted tools)
     { url: `${baseUrl}/free-quizzes`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/hypnosis-suitability-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/anxiety-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/social-anxiety-test`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },
     { url: `${baseUrl}/ptsd-quiz`, lastModified: SITE_LAST_UPDATED, changeFrequency: 'monthly' as const, priority: 0.7 },

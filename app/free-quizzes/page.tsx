@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2, CloudRain } from 'lucide-react';
+import { Activity, Brain, HeartPulse, Users2, Repeat2, Zap, Waves, Flame, Heart, TreePine, Box, Leaf, Moon, Angry, Smile, Star, Link2, CloudRain, Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free Mental Health Quizzes & Tests',
@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 const quizzes = [
+  { href: '/hypnosis-suitability-quiz', icon: Sparkles, hue: 185, title: 'Hypnosis Suitability Quiz', desc: 'Is hypnosis right for you? Check fit, expectations, goals, and readiness.', volume: 'high-intent searches/month' },
   { href: '/depression-quiz', icon: CloudRain, hue: 250, title: 'Depression Quiz', desc: 'Check low mood, motivation, sleep, self-talk, and daily impact.', volume: 'high-intent searches/month' },
   { href: '/grief-quiz', icon: Heart, hue: 340, title: 'Grief Quiz', desc: 'Check grief waves, sleep, guilt, triggers, connection, and support needs.', volume: 'high-intent searches/month' },
   { href: '/perfectionism-quiz', icon: Star, hue: 55, title: 'Perfectionism Quiz', desc: 'Check fear of mistakes, over-preparing, procrastination, reassurance, and self-criticism.', volume: 'high-intent searches/month' },
