@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import Script from 'next/script';
 import { stateAbbr } from '@/lib/seo';
+import { buildFallbackBio } from '@/lib/practitioner-bio';
 
 function normalizeWebsiteUrl(url: string | null | undefined): string | null {
   if (!url) return null;
@@ -86,7 +87,8 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
   const jsonLd = {
     '@context': 'https://schema.org', '@type': 'MedicalBusiness',
     name: practitioner.name,
-    description: `Certified hypnotherapist specializing in ${specialties.join(', ')}`,
+    // Do not assert certification here — it is not verified for unclaimed listings.
+    description: `Hypnotherapy practice listed in ${practitioner.city}, ${practitioner.state}`,
     address: { '@type': 'PostalAddress', streetAddress: practitioner.address, addressLocality: practitioner.city, addressRegion: practitioner.state, addressCountry: 'US' },
     ...(practitioner.phone && { telephone: practitioner.phone }),
     ...(websiteUrl && { url: websiteUrl }),
@@ -170,12 +172,25 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                           `${practitioner.city}, ${practitioner.state}`
                         )}
                       </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
-                        <Award style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.years_experience || '10'}+ Years Exp.
-                      </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
-                        <Star style={{ width: 14, height: 14, color: 'oklch(0.8 0.15 75)', fill: 'oklch(0.8 0.15 75)' }} /> 4.9 (82 reviews)
-                      </span>
+                      {/* Only render experience when the practitioner has actually
+                          supplied it (i.e. claimed the listing). Previously this
+                          fell back to a fabricated "10+". */}
+                      {practitioner.years_experience ? (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <Award style={{ width: 14, height: 14, color: 'var(--hf-accent)' }} /> {practitioner.years_experience}+ Years Exp.
+                        </span>
+                      ) : null}
+                      {/* Ratings render only from real submitted reviews. This used to
+                          be a hardcoded "4.9 (82 reviews)" on every profile. */}
+                      {typeof practitioner.rating === 'number' && practitioner.review_count > 0 ? (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <Star style={{ width: 14, height: 14, color: 'oklch(0.8 0.15 75)', fill: 'oklch(0.8 0.15 75)' }} /> {practitioner.rating.toFixed(1)} ({practitioner.review_count} {practitioner.review_count === 1 ? 'review' : 'reviews'})
+                        </span>
+                      ) : (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <Star style={{ width: 14, height: 14, color: 'var(--hf-fg-dim)' }} /> No reviews yet
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -215,8 +230,14 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                         <p>{practitioner.bio}</p>
                       ) : (
                         <>
-                          <p style={{ marginBottom: 12 }}>Welcome. I'm {practitioner.name}, a certified hypnotherapist dedicated to helping individuals unlock their potential and overcome personal challenges in {practitioner.city}. My practice is built on a deep fascination for the subconscious mind and its profound ability to influence our behaviors, emotions, and well-being.</p>
-                          <p>I believe that every person holds the key to their own healing. My role is to provide a safe, supportive, and non-judgmental space where you can explore the depths of your mind, identify the root causes of your concerns, and create lasting, positive change.</p>
+                          {buildFallbackBio(practitioner, slug).map((para, i, arr) => (
+                            <p key={i} style={{ marginBottom: i < arr.length - 1 ? 12 : 0 }}>{para}</p>
+                          ))}
+                          <p style={{ marginTop: 12 }}>
+                            <Link href="/claim-listing" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>
+                              Claim this listing →
+                            </Link>
+                          </p>
                         </>
                       )}
                     </div>
@@ -264,11 +285,26 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                 <div className="glass-card" style={{ padding: '28px' }}>
                   <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 20 }}>Practice Details</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 20 }}>
-                    {[
-                      { icon: Languages, label: 'Languages', value: 'English, Spanish' },
-                      { icon: Video, label: 'Sessions', value: 'Virtual & In-Person' },
-                      { icon: DollarSign, label: 'Rate', value: `$${practitioner.session_price || '150'} – $220` },
-                    ].map(({ icon: Icon, label, value }) => (
+                    {/* These rows previously rendered hardcoded values ("English,
+                        Spanish", "Virtual & In-Person", "$150 – $220") on every
+                        profile regardless of the record. Only show a row when the
+                        practitioner has actually supplied that detail. */}
+                    {(() => {
+                      const isClaimed = practitioner.claim_status === 'claimed';
+                      const langs = Array.isArray(practitioner.languages) ? practitioner.languages : [];
+                      const sessions = Array.isArray(practitioner.session_types) ? practitioner.session_types : [];
+                      const rows = [];
+                      if (isClaimed && langs.length) {
+                        rows.push({ icon: Languages, label: 'Languages', value: langs.join(', ') });
+                      }
+                      if (isClaimed && sessions.length) {
+                        rows.push({ icon: Video, label: 'Sessions', value: sessions.join(' & ') });
+                      }
+                      if (isClaimed && practitioner.price_range) {
+                        rows.push({ icon: DollarSign, label: 'Rate', value: practitioner.price_range });
+                      }
+                      return rows;
+                    })().map(({ icon: Icon, label, value }) => (
                       <div key={label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <div style={{ padding: 7, background: 'rgba(255,255,255,0.05)', borderRadius: 8 }}>
