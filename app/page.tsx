@@ -9,13 +9,17 @@ import Script from 'next/script';
 import { MapPin, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Find a Certified Hypnotherapist Near You',
-  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
+  // No `title` override here on purpose. This page previously set a plain
+  // 'Find a Certified Hypnotherapist Near You', which shipped a homepage <title>
+  // with no brand name in it at all — the site ranked position 14 for its own
+  // brand query "hypnotherapy finder", losing to /location/baltimore. Falling
+  // through to the root layout's title.default keeps the brand in the tag.
+  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Browse 1,150+ hypnotherapists nationwide.',
   keywords: 'hypnotherapy near me, hypnotherapist, hypnosis therapy, anxiety treatment, weight loss hypnotherapy, quit smoking',
   alternates: { canonical: 'https://hypnotherapy-finder.com' },
   openGraph: {
     title: 'Find a Certified Hypnotherapist Near You | Hypnotherapy Finder',
-    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
+    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Browse 1,150+ hypnotherapists nationwide.',
     url: 'https://hypnotherapy-finder.com',
     type: 'website',
     images: [{ url: '/therapy-session.png', width: 1200, height: 630, alt: 'Hypnotherapy Session' }],
@@ -35,16 +39,20 @@ const QUIZZES = [
   { title: 'See All 17 Free Quizzes', desc: 'Anger, insomnia, burnout, phobias, self-esteem, codependency and more.', href: '/free-quizzes', hue: 220 },
 ];
 
+// Copy here must describe what the directory actually does. It previously
+// claimed every practitioner was vetted and that the site carried genuine
+// client reviews — neither is true. Most listings are compiled from public
+// business data and are unclaimed, and no review system is live yet.
 const HOW_IT_WORKS = [
-  { n: '01', title: 'Search', desc: 'Enter your location and needs to browse certified hypnotherapists near you.' },
-  { n: '02', title: 'Compare', desc: 'Review detailed profiles, verified credentials, and genuine client reviews.' },
+  { n: '01', title: 'Search', desc: 'Enter your location to browse hypnotherapists listed in your area.' },
+  { n: '02', title: 'Compare', desc: 'Review profiles, listed services and contact details side by side.' },
   { n: '03', title: 'Connect', desc: 'Contact practitioners directly to schedule your first consultation.' },
 ];
 
 const TRUST_PILLARS = [
-  { title: 'Verified Credentials', desc: 'All practitioners are vetted with verified certifications from recognised hypnotherapy organisations.' },
-  { title: 'Authentic Reviews', desc: 'Read genuine client experiences to find the perfect practitioner for your specific needs.' },
-  { title: 'Expert Specialists', desc: 'From anxiety to weight loss, find practitioners specialised in your exact concerns.' },
+  { title: 'Practitioner-Claimed Profiles', desc: 'Practitioners can claim their listing to confirm their details, training and current availability.' },
+  { title: 'Nationwide Coverage', desc: 'Over 1,150 hypnotherapy practices listed across 31 US metro areas.' },
+  { title: 'Search by Concern', desc: 'From anxiety to weight loss, narrow your search to practitioners listing your specific concern.' },
 ];
 
 export default function Home() {
@@ -106,7 +114,7 @@ export default function Home() {
               </h1>
 
               <p className="fade-up delay-2" style={{ fontSize: 17, color: 'rgba(255,255,255,0.6)', marginBottom: 40, maxWidth: 440, lineHeight: 1.65, fontWeight: 300 }}>
-                Connect with certified, verified hypnotherapists. Start your journey towards a healthier, happier mind.
+                Connect with hypnotherapists across the US. Start your journey towards a healthier, happier mind.
               </p>
 
               <div className="glass fade-up delay-3" style={{ borderRadius: 20, padding: 24, width: '100%', maxWidth: 580 }}>
@@ -114,7 +122,7 @@ export default function Home() {
               </div>
 
               <div className="fade-up delay-4" style={{ display: 'flex', gap: 10, marginTop: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {['1,150+ Certified', '31 Cities', '100% Verified', 'Online & In-Person'].map(t => (
+                {['1,150+ Listed', '31 Cities', 'Free to Search', 'Online & In-Person'].map(t => (
                   <span key={t} className="glass" style={{ borderRadius: 9999, padding: '6px 14px', fontSize: 12, color: 'rgba(255,255,255,0.6)', fontWeight: 400 }}>{t}</span>
                 ))}
               </div>

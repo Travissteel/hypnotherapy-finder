@@ -168,14 +168,46 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   </p>
                 )}
 
+                {/*
+                  Cannibalization fix. Search Console showed non-local, directory-intent
+                  queries resolving to arbitrary city pages instead of the national
+                  pages built for them — "hypnotherapist near me" ranked /location/detroit
+                  at 9.5 and /location/baltimore at 11, while /hypnotherapy-near-me sat
+                  at 36.6. Google was splitting the signal across ~30 city pages.
+                  These links point the national terms at the pages that should own them,
+                  using the query wording as anchor text.
+                */}
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 20, fontWeight: 300 }}>
+                  Not based in {city.name}? Search for a{' '}
+                  <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist near me</Link>
+                  {' '}nationwide, or{' '}
+                  <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>find a hypnotherapist</Link>
+                  {' '}by concern and session type. You can also{' '}
+                  <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>
+                  {' '}we cover.
+                </p>
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28, marginTop: 28 }}>
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>What Can {city.name} Hypnotherapists Help With?</h3>
+                    {/* These were plain text. Location pages carry the bulk of the
+                        site's impressions but linked out only to /locations and
+                        /search, so no authority reached the specialty money pages.
+                        Each concern now links to the page that should rank for it. */}
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      {['Anxiety and stress management', 'Weight loss and healthy habits', 'Smoking cessation', 'Phobia treatment', 'Sleep disorders and insomnia', 'Chronic pain management', 'PTSD and trauma therapy', 'Confidence and performance'].map((item) => (
+                      {[
+                        ['Anxiety and stress management', '/hypnotherapy-for-anxiety'],
+                        ['Weight loss and healthy habits', '/weight-loss-hypnotherapy'],
+                        ['Smoking cessation', '/quit-smoking-hypnotherapy'],
+                        ['Phobia treatment', '/hypnotherapy-for-phobias'],
+                        ['Sleep disorders and insomnia', '/hypnotherapy-for-sleep'],
+                        ['Chronic pain management', '/hypnotherapy-for-pain'],
+                        ['PTSD and trauma therapy', '/hypnotherapy-for-ptsd'],
+                        ['Confidence and performance', '/hypnotherapy-for-confidence'],
+                      ].map(([item, href]) => (
                         <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.5 }}>
                           <span style={{ color: 'var(--hf-accent)', flexShrink: 0 }}>✓</span>
-                          {item}
+                          <Link href={href} className="hf-link-hover" style={{ color: 'var(--hf-fg-dim)', textDecoration: 'none' }}>{item}</Link>
                         </li>
                       ))}
                     </ul>

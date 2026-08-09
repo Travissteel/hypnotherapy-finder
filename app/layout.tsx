@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     default: 'Find a Certified Hypnotherapist Near You | Hypnotherapy Finder',
     template: '%s | Hypnotherapy Finder'
   },
-  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
+  description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Browse 1,150+ hypnotherapists nationwide.',
   keywords: ['hypnotherapy', 'hypnotherapist', 'hypnosis therapy', 'anxiety treatment', 'weight loss hypnotherapy', 'quit smoking', 'certified hypnotherapist'],
   authors: [{ name: 'Hypnotherapy Finder' }],
   creator: 'Hypnotherapy Finder',
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     siteName: 'Hypnotherapy Finder',
     title: 'Find a Certified Hypnotherapist Near You | Hypnotherapy Finder',
-    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Search 1,150+ verified hypnotherapists nationwide.',
+    description: 'Connect with qualified hypnotherapy practitioners specializing in anxiety, weight loss, smoking cessation, and more. Browse 1,150+ hypnotherapists nationwide.',
     images: [
       {
         url: '/logo.png',

@@ -11,7 +11,7 @@ export const metadata = {
   description: 'Find a qualified hypnotherapist near me. Search 1,150+ certified hypnotherapy professionals by location and specialty.',
   keywords: 'hypnotherapy near me, hypnotherapist near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapy Near Me | 1,150+ Certified Hypnotherapists', description: 'Find a qualified hypnotherapist near you. Search 1,150+ verified practitioners by location and specialty.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find certified hypnotherapists near me' }] },
+  openGraph: { title: 'Hypnotherapy Near Me | 1,150+ Certified Hypnotherapists', description: 'Find a qualified hypnotherapist near you. Browse 1,150+ practitioners by location and specialty.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find certified hypnotherapists near me' }] },
   twitter: { card: 'summary_large_image', title: 'Hypnotherapy Near Me | 1,150+ Certified Hypnotherapists', description: 'Find a qualified hypnotherapist near you.', images: ['/hypnotherapy-near-me.png'] },
 };
 
@@ -43,7 +43,7 @@ export default async function HypnotherapyNearMePage() {
                 Find Hypnotherapy Near Me &amp; Connect with Local Hypnotherapists
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
-                Looking for a hypnotherapist near me? Search 1,150+ certified hypnotherapy professionals in your area. Find verified practitioners specializing in anxiety, weight loss, smoking cessation, and more.
+                Looking for a hypnotherapist near me? Search 1,150+ certified hypnotherapy professionals in your area. Find practitioners specializing in anxiety, weight loss, smoking cessation, and more.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
