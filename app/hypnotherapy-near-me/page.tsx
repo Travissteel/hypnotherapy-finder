@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Certified Hypnotherapist Near Me | Local Directory',
-  description: 'Looking for a certified hypnotherapist near me? Search 1,150+ hypnotherapy practitioner profiles by location, concern, and session type.',
+  title: 'How to Find a Certified Hypnotherapist Near Me',
+  description: 'Looking for a certified hypnotherapist near me? Search 1,150+ profiles, compare basics, and ask practitioners directly about credentials.',
   keywords: 'hypnotherapy near me, hypnotherapist near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Certified Hypnotherapist Near Me | Local Directory', description: 'Search hypnotherapy practitioner profiles by location, concern, and session type.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Certified Hypnotherapist Near Me | Local Directory', description: 'Search hypnotherapy practitioner profiles near you.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'How to Find a Certified Hypnotherapist Near Me', description: 'Search hypnotherapy practitioner profiles by location, concern, and session type, then verify credentials directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'How to Find a Certified Hypnotherapist Near Me', description: 'Search hypnotherapy practitioner profiles near you, then confirm credentials directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -40,10 +40,10 @@ export default async function HypnotherapyNearMePage() {
             <div style={{ maxWidth: 720, margin: '0 auto' }}>
               <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Find Local Practitioners</span>
               <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 20 }}>
-                Find Hypnotherapy Near Me &amp; Connect with Local Hypnotherapists
+                How to Find a Certified Hypnotherapist Near Me
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
-                Looking for a certified hypnotherapist near me? Search 1,150+ hypnotherapy practitioner profiles in your area. Compare listed services, locations, websites, and contact details before you reach out.
+                Looking for a certified hypnotherapist near me? Search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
@@ -94,6 +94,33 @@ export default async function HypnotherapyNearMePage() {
                 <p style={{ marginBottom: 16 }}>When you search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapy near me</strong>, you're usually looking for a local practitioner you can compare before booking. A directory helps you narrow the search by city, contact details, website, and the type of support you want to discuss.</p>
                 <p style={{ marginBottom: 16 }}>Finding a local hypnotherapist can make practical questions easier: travel time, in-person session options, neighbourhood access, and whether online sessions are available if you prefer not to commute. Many people searching for hypnotherapy near me want a short list they can contact directly, not another generic wellness article.</p>
                 <p>Our hypnotherapy directory makes it easier to find hypnotherapists near you. Whether you're researching hypnotherapy for anxiety, weight loss hypnotherapy, smoking cessation, or other support, use each profile as a starting point and confirm certification, scope, fees, and availability with the practitioner directly.</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Certified Search Intent */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <div className="glass-card" style={{ padding: '36px' }}>
+                <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>How to Find a Certified Hypnotherapist Near Me</h2>
+                <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
+                  Search results often make every practitioner sound interchangeable. They are not. If your real question is <strong style={{ color: 'var(--hf-fg)' }}>how to find a certified hypnotherapist near me</strong>, use this page to build a shortlist, then verify the details directly before booking.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
+                  {[
+                    { title: 'Confirm credentials directly', body: 'Ask where they trained, what certification they hold, whether they belong to any professional associations, and how they stay within scope.' },
+                    { title: 'Match method to your concern', body: 'Ask whether they use direct suggestion, Ericksonian hypnotherapy, parts work, regression-informed work, NLP, or another approach — and why that fits your goal.' },
+                    { title: 'Check practical fit', body: 'Compare location, online session options, first-contact process, and whether they can explain session structure clearly before you book.' },
+                  ].map((item) => (
+                    <div key={item.title} style={{ padding: '20px', borderRadius: 12, background: 'rgba(255,255,255,0.03)' }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h3>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.6, margin: 0 }}>{item.body}</p>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 18, marginBottom: 0 }}>
+                  Hypnotherapy Finder lists practitioner profiles and contact details. It does not verify credentials, pricing, insurance, experience, or availability, so the safest next step is always a direct conversation with the practitioner.
+                </p>
               </div>
             </div>
           </section>
