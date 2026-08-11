@@ -22,7 +22,7 @@ export default async function HypnotherapyNearMePage() {
   const popularCities = cities.slice(0, 12);
 
   const jsonLd = { '@context': 'https://schema.org', '@type': 'MedicalWebPage', name: 'Certified Hypnotherapist Near Me - Local Hypnotherapy Directory', description: 'Directory to help people search for hypnotherapy near me.', mainEntity: { '@type': 'ItemList', name: 'How to Find Hypnotherapy Near Me', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Search by Location', description: 'Enter your city or zip code to find hypnotherapy near me' }, { '@type': 'ListItem', position: 2, name: 'Compare Relevant Services', description: 'Look for practitioners whose listed services match your concern' }, { '@type': 'ListItem', position: 3, name: 'Ask About Training', description: 'Contact practitioners directly to ask about certification, training, supervision, and approach' }, { '@type': 'ListItem', position: 4, name: 'Contact Directly', description: 'Reach out to discuss fit, session format, and next steps' }] }, provider: { '@type': 'Organization', name: 'Hypnotherapy Finder' } };
-  const faqJsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'How do I find a certified hypnotherapist near me?', acceptedAnswer: { '@type': 'Answer', text: 'Use the directory to search hypnotherapy practitioner profiles by city, location, concern, and session type. Then contact practitioners directly to ask about their certification, training, and fit for your goals.' } }, { '@type': 'Question', name: 'What should I look for in hypnotherapy near me?', acceptedAnswer: { '@type': 'Answer', text: 'When searching for hypnotherapy near me, ask about certification, training background, supervision, relevant experience, session format, and whether their approach fits your concern.' } }, { '@type': 'Question', name: 'How much does hypnotherapy near me cost?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy fees vary by practitioner, location, format, and session length. Contact practitioners directly for current pricing and package information.' } }, { '@type': 'Question', name: 'Is virtual hypnotherapy useful compared with in-person?', acceptedAnswer: { '@type': 'Answer', text: 'Many people use virtual hypnotherapy successfully when they have a private space, a stable connection, and a practitioner whose style suits online sessions.' } }] };
+  const faqJsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'How do I find a certified hypnotherapist near me?', acceptedAnswer: { '@type': 'Answer', text: 'Use the directory to search hypnotherapy practitioner profiles by city, location, concern, and session type. Then contact practitioners directly to ask about their certification, training, and fit for your goals.' } }, { '@type': 'Question', name: 'What should I look for in hypnotherapy near me?', acceptedAnswer: { '@type': 'Answer', text: 'When searching for hypnotherapy near me, ask about certification, training background, supervision, relevant experience, session format, and whether their approach fits your concern.' } }, { '@type': 'Question', name: 'How much does hypnotherapy near me cost?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy fees vary by practitioner, location, format, and session length. Contact practitioners directly for current pricing and package information.' } }, { '@type': 'Question', name: 'Are all listed hypnotherapists certified?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy Finder lists practitioner profiles and contact details, but does not verify credentials, pricing, insurance, experience, or availability. Ask each practitioner directly about certification, training, scope, and professional memberships before booking.' } }, { '@type': 'Question', name: 'Is virtual hypnotherapy useful compared with in-person?', acceptedAnswer: { '@type': 'Answer', text: 'Many people use virtual hypnotherapy successfully when they have a private space, a stable connection, and a practitioner whose style suits online sessions.' } }] };
 
   const numBox = { width: 40, height: 40, borderRadius: 10, background: 'oklch(0.72 0.12 185 / 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 16, fontWeight: 700, color: 'var(--hf-accent)' };
 
@@ -122,6 +122,32 @@ export default async function HypnotherapyNearMePage() {
                   Hypnotherapy Finder lists practitioner profiles and contact details. It does not verify credentials, pricing, insurance, experience, or availability, so the safest next step is always a direct conversation with the practitioner.
                 </p>
               </div>
+            </div>
+          </section>
+
+          {/* Certification Checklist */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Certified Hypnotherapist Near Me: What to Verify Before Booking</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
+                A search for <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> is really a search for confidence. The directory can help you find local names, websites, phone numbers, and service categories. Certification itself should be confirmed with the practitioner, because training standards, professional memberships, supervision, and legal scope vary by location.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {[
+                  { title: 'Ask for the certification name', body: 'Request the full training organisation or credential name, not just “certified.” A credible practitioner should be able to explain where they trained and what that credential covers.' },
+                  { title: 'Check scope and referral boundaries', body: 'Ask when they would refer you to a physician, psychologist, psychiatrist, or another licensed healthcare provider. Clear boundaries are a strength, not a red flag.' },
+                  { title: 'Match training to your concern', body: 'If you are asking about anxiety, smoking cessation, phobias, sleep, pain support, or trauma history, ask how their training applies to that concern and what they do not work with.' },
+                  { title: 'Confirm the practical details', body: 'Before booking, confirm session format, location, online options, fees, package structure, cancellation policy, and availability directly with the practitioner.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 24, marginBottom: 0 }}>
+                If you are experiencing significant symptoms, hypnotherapy should be treated as a complementary approach. Speak with a qualified healthcare provider about medical or mental-health concerns, and use hypnotherapy as part of a wider support plan when appropriate.
+              </p>
             </div>
           </section>
 
@@ -228,6 +254,7 @@ export default async function HypnotherapyNearMePage() {
                   { q: 'How much does hypnotherapy near me cost?', a: 'Hypnotherapy costs vary by location, session length, format, and practitioner. Contact practitioners directly through the directory for current rates and package information.' },
                   { q: 'Is online hypnotherapy useful compared with in-person?', a: 'Many people prefer online sessions for convenience, while others prefer the structure of in-person appointments. Ask each practitioner how they run online sessions and what setup they recommend.' },
                   { q: 'How many sessions will I need?', a: 'The number of sessions depends on your goals, history, and the practitioner’s approach. Ask about the expected process, review points, and when they would recommend medical or mental-health support instead.' },
+                  { q: 'Are all listed hypnotherapists certified?', a: 'No directory profile should be treated as proof of certification. Hypnotherapy Finder helps you find names, locations, phone numbers, websites, and service categories; certification, training, insurance, fees, experience, and availability should be confirmed directly with the practitioner.' },
                   { q: 'What should I look for when choosing a hypnotherapist near me?', a: "Look for clear training information, sensible boundaries, relevant experience, transparent communication, and someone you feel comfortable speaking with. Do not assume credentials, price, or availability from a directory profile — confirm directly." },
                 ].map((item) => (
                   <div key={item.q} className="glass-card" style={{ padding: '24px' }}>
