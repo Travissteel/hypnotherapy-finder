@@ -43,7 +43,7 @@ export default async function HypnotherapyNearMePage() {
                 How to Find a Certified Hypnotherapist Near Me
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
-                Looking for a certified hypnotherapist near me? Search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability.
+                Looking for a certified hypnotherapist near me? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
@@ -241,6 +241,31 @@ export default async function HypnotherapyNearMePage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* Local vs Certified Search Intent */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 18 }}>Certified Hypnotherapist Near Me: Local Search Without Guesswork</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
+                Search engines often send “certified hypnotherapist near me” queries to individual city pages because the query has local intent. That can be useful if you are already searching in Detroit, Columbus, Atlanta, or another listed city — but the safer starting point is a national directory page that explains how to compare local profiles without assuming credentials from a listing.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {[
+                  { title: 'Start with location', body: 'Search by city or area first so you are comparing practitioners who are actually practical to contact. Then narrow by the concern you want to discuss.' },
+                  { title: 'Verify certification yourself', body: 'A profile can show name, location, phone, website, and category. It cannot prove training quality. Ask the practitioner for the certification name, training organisation, and scope directly.' },
+                  { title: 'Compare fit, not just distance', body: 'The nearest practitioner is not automatically the right one. Ask how they structure sessions, whether they work online, and how they handle referral boundaries when healthcare support is more appropriate.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 20, marginBottom: 0 }}>
+                If you are comparing city pages first, use them as local entry points, then return here for the broader checklist on how to find a certified hypnotherapist near me safely and what to ask before booking.
+              </p>
             </div>
           </section>
 
