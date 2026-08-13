@@ -25,6 +25,11 @@ export default async function HypnotherapyNearMePage() {
   const faqJsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'How do I find a certified hypnotherapist near me?', acceptedAnswer: { '@type': 'Answer', text: 'Use the directory to search hypnotherapy practitioner profiles by city, location, concern, and session type. Then contact practitioners directly to ask about their certification, training, and fit for your goals.' } }, { '@type': 'Question', name: 'What should I look for in hypnotherapy near me?', acceptedAnswer: { '@type': 'Answer', text: 'When searching for hypnotherapy near me, ask about certification, training background, supervision, relevant experience, session format, and whether their approach fits your concern.' } }, { '@type': 'Question', name: 'How much does hypnotherapy near me cost?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy fees vary by practitioner, location, format, and session length. Contact practitioners directly for current pricing and package information.' } }, { '@type': 'Question', name: 'Are all listed hypnotherapists certified?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy Finder lists practitioner profiles and contact details, but does not verify credentials, pricing, insurance, experience, or availability. Ask each practitioner directly about certification, training, scope, and professional memberships before booking.' } }, { '@type': 'Question', name: 'Is virtual hypnotherapy useful compared with in-person?', acceptedAnswer: { '@type': 'Answer', text: 'Many people use virtual hypnotherapy successfully when they have a private space, a stable connection, and a practitioner whose style suits online sessions.' } }] };
 
   const numBox = { width: 40, height: 40, borderRadius: 10, background: 'oklch(0.72 0.12 185 / 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 16, fontWeight: 700, color: 'var(--hf-accent)' };
+  const certifiedSearchCities = [
+    { href: '/location/detroit', city: 'Detroit', note: 'Use the Detroit page for local profiles, then come back here for the national certification checklist.' },
+    { href: '/location/columbus', city: 'Columbus', note: 'Compare Columbus profiles locally, then verify training, scope, pricing, and availability directly.' },
+    { href: '/location/atlanta', city: 'Atlanta', note: 'Browse Atlanta profiles if the search is local, but do not treat a directory listing as credential proof.' },
+  ];
 
   return (
     <>
@@ -251,6 +256,14 @@ export default async function HypnotherapyNearMePage() {
               <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
                 Search engines often send “certified hypnotherapist near me” queries to individual city pages because the query has local intent. That can be useful if you are already searching in Detroit, Columbus, Atlanta, or another listed city — but the safer starting point is a national directory page that explains how to compare local profiles without assuming credentials from a listing.
               </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18, marginBottom: 22 }}>
+                {certifiedSearchCities.map((item) => (
+                  <Link key={item.href} href={item.href} className="glass-card hf-card-hover" style={{ display: 'block', padding: '22px', textDecoration: 'none' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>Certified hypnotherapist near me in {item.city}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.note}</p>
+                  </Link>
+                ))}
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
                 {[
                   { title: 'Start with location', body: 'Search by city or area first so you are comparing practitioners who are actually practical to contact. Then narrow by the concern you want to discuss.' },
