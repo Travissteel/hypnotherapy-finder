@@ -150,6 +150,15 @@ export default async function HypnotherapyNearMePage() {
                   </div>
                 ))}
               </div>
+              <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>Use the directory first, then verify the word “certified”</h3>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 14 }}>
+                  City pages can help when you already know where you want to search. This page is the better starting point when the query is broader: <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong>, <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong>, or <strong style={{ color: 'var(--hf-fg)' }}>hypnosis therapy near me</strong>. It keeps the task in the right order: find local profiles, compare the basics, then verify training directly.
+                </p>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, margin: 0 }}>
+                  Treat “near me” as a location filter, not a quality signal. The closest practitioner is not automatically the right fit, and the word “certified” should never be assumed from a directory listing alone.
+                </p>
+              </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 24, marginBottom: 0 }}>
                 If you are experiencing significant symptoms, hypnotherapy should be treated as a complementary approach. Speak with a qualified healthcare provider about medical or mental-health concerns, and use hypnotherapy as part of a wider support plan when appropriate.
               </p>
