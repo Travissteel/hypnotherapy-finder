@@ -188,6 +188,12 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>.
                 </p>
 
+                {certifiedNearMeCannibalizationCities.has(slug) && (
+                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>
+                    If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>certified hypnotherapist near me</Link>, use that national checklist to verify certification, training, scope, fees, and availability directly instead of assuming those details from a city listing.
+                  </p>
+                )}
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28, marginTop: 28 }}>
                   <div>
                     <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>What Can {city.name} Hypnotherapists Help With?</h3>

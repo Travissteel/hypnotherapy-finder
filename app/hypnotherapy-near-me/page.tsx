@@ -130,8 +130,34 @@ export default async function HypnotherapyNearMePage() {
             </div>
           </section>
 
-          {/* Certification Checklist */}
+          {/* Search Path */}
           <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Certified Hypnotherapist Near Me: The Search Path That Avoids Bad Assumptions</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 22 }}>
+                The phrase <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> combines two separate jobs. “Near me” means finding local options. “Certified” means confirming training, scope, and professional boundaries. A directory can help with the first job; the second requires direct questions before you book.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18 }}>
+                {[
+                  { step: '1', title: 'Search the local area', body: 'Start with city or ZIP-level options so the shortlist is practical. Open profiles for name, address, phone, website, and category.' },
+                  { step: '2', title: 'Separate listing from credential', body: 'Do not assume the word “certified” from a directory profile. Ask the practitioner which certification they hold and what training it involved.' },
+                  { step: '3', title: 'Check fit for the concern', body: 'Ask whether they work with your goal — anxiety, smoking cessation, sleep, phobias, habits, or confidence — and when they would refer to healthcare support.' },
+                  { step: '4', title: 'Confirm the booking details', body: 'Fees, insurance, session format, availability, and package structure can change. Confirm them directly instead of relying on old web listings.' },
+                ].map((item) => (
+                  <div key={item.step} className="glass-card" style={{ padding: '22px', display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={numBox}>{item.step}</div>
+                    <div>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h3>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Certification Checklist */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
             <div style={{ maxWidth: 880, margin: '0 auto' }}>
               <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Certified Hypnotherapist Near Me: What to Verify Before Booking</h2>
               <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
