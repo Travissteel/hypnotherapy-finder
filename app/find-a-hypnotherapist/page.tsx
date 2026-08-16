@@ -83,7 +83,7 @@ export default async function FindAHypnotherapistPage() {
     ];
 
     const faqs = [
-        { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by specialty, and browse profiles to find a qualified practitioner. All hypnotherapists in our directory are verified and certified.' },
+        { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by specialty, and browse profiles to find a qualified practitioner. Use each directory listing as a starting point, then confirm certification, training, scope, fees, and availability directly with the practitioner.' },
         { q: 'What qualifications should I look for?', a: 'When you find a hypnotherapist, look for certifications from recognized organizations like NGH (National Guild of Hypnotists), IACT, or ABH. Consider their experience, specialties, and whether they\'ve worked with your specific concern before.' },
         { q: 'How much does a hypnotherapist cost?', a: 'Hypnotherapy sessions typically cost $75-$250 per hour, with most practitioners charging $125-$175. Many offer package deals for multiple sessions. Some hypnotherapists accept insurance when they\'re also licensed healthcare providers.' },
     ];

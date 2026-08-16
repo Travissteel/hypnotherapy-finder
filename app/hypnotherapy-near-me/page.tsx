@@ -191,6 +191,32 @@ export default async function HypnotherapyNearMePage() {
             </div>
           </section>
 
+          {/* Near Me Qualification Matrix */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Certified Hypnotherapist Near Me: Questions That Actually Sort the Shortlist</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 22 }}>
+                The fastest way to waste a “near me” search is to compare profiles by distance alone. Use the local listing to find names, websites, and phone numbers, then ask the questions that a search result cannot answer for you.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {[
+                  { title: 'Certification and training', body: '“Which certification or training program did you complete, and what did it cover?” Good answers are specific. Vague claims should slow you down.' },
+                  { title: 'Scope and referral boundaries', body: '“What do you work with, and when would you refer me to a licensed healthcare provider?” Clear limits are safer than big promises.' },
+                  { title: 'Method and session structure', body: '“Do you use direct suggestion, Ericksonian hypnotherapy, parts work, regression-informed work, NLP, or another approach?” Ask how a first session is usually structured.' },
+                  { title: 'Practical booking details', body: '“Do you offer in-person or online sessions, what are current fees, and what availability do you have?” Confirm these directly because directory records can lag.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
+                This is why the national <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> page should own broad “near me” searches. City pages are useful when the city matters; this page is useful when the real job is comparing local options without assuming credentials from a listing.
+              </p>
+            </div>
+          </section>
+
           {/* How to Find */}
           <section id="how-to-find" style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
