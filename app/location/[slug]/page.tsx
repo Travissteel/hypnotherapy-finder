@@ -110,8 +110,8 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
+  const nearMeCannibalizationCities = new Set(['detroit', 'baltimore', 'columbus', 'charlotte', 'boston']);
   const certifiedNearMeCannibalizationCities = new Set(['detroit', 'columbus', 'atlanta']);
-  const nationalNearMeAnchor = certifiedNearMeCannibalizationCities.has(slug) ? 'certified hypnotherapist near me' : 'hypnotherapist near me';
 
   return (
     <>
@@ -181,12 +181,18 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 */}
                 <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 20, fontWeight: 300 }}>
                   Not based in {city.name}? Search for a{' '}
-                  <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>{nationalNearMeAnchor}</Link>
+                  <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist near me</Link>
                   {' '}nationwide, or{' '}
                   <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>find a hypnotherapist</Link>
                   {' '}by concern and session type. You can also{' '}
                   <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>.
                 </p>
+
+                {nearMeCannibalizationCities.has(slug) && (
+                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>
+                    If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist near me</Link>, use that national page to compare local profiles, ask credential questions, and avoid treating a city listing as the whole search.
+                  </p>
+                )}
 
                 {certifiedNearMeCannibalizationCities.has(slug) && (
                   <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>

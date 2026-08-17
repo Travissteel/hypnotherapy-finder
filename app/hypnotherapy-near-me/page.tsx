@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'How to Find a Certified Hypnotherapist Near Me',
-  description: 'Looking for a certified hypnotherapist near me? Search 1,150+ profiles, compare basics, and ask practitioners directly about credentials.',
-  keywords: 'hypnotherapy near me, hypnotherapist near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
+  title: 'Hypnotherapist Near Me: Certified Search Checklist',
+  description: 'Searching hypnotherapist near me? Compare 1,150+ profiles, shortlist local options, and verify certification, scope, fees, and fit directly.',
+  keywords: 'hypnotherapist near me, hypnotherapy near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'How to Find a Certified Hypnotherapist Near Me', description: 'Search hypnotherapy practitioner profiles by location, concern, and session type, then verify credentials directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'How to Find a Certified Hypnotherapist Near Me', description: 'Search hypnotherapy practitioner profiles near you, then confirm credentials directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Hypnotherapist Near Me: Certified Search Checklist', description: 'Search hypnotherapy practitioner profiles near you, compare basics, then verify credentials directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me: Certified Search Checklist', description: 'Search hypnotherapy practitioner profiles near you, then confirm credentials directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -45,10 +45,10 @@ export default async function HypnotherapyNearMePage() {
             <div style={{ maxWidth: 720, margin: '0 auto' }}>
               <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Find Local Practitioners</span>
               <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 20 }}>
-                How to Find a Certified Hypnotherapist Near Me
+                Hypnotherapist Near Me: How to Search Without Guessing
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
-                Looking for a certified hypnotherapist near me? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
+                Searching <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong>? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
