@@ -31,6 +31,14 @@ export default async function HypnotherapyNearMePage() {
     { href: '/location/atlanta', city: 'Atlanta', note: 'Browse Atlanta profiles if the search is local, but do not treat a directory listing as credential proof.' },
   ];
 
+  const nearMeSignalCities = [
+    { href: '/location/detroit', city: 'Detroit', cue: 'Detroit can help if the search is local, but the broader “near me” checklist belongs here.' },
+    { href: '/location/baltimore', city: 'Baltimore', cue: 'Baltimore profiles are useful after you know the city; this page explains the first screening pass.' },
+    { href: '/location/columbus', city: 'Columbus', cue: 'Columbus listings can narrow distance, but they do not replace credential and fit questions.' },
+    { href: '/location/charlotte', city: 'Charlotte', cue: 'Charlotte is a city shortlist. Use this page when the search is still “near me,” not city-specific.' },
+    { href: '/location/boston', city: 'Boston', cue: 'Boston profiles should support local comparison, while this page owns the national near-me process.' },
+  ];
+
   return (
     <>
       <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
@@ -99,6 +107,29 @@ export default async function HypnotherapyNearMePage() {
                 <p style={{ marginBottom: 16 }}>When you search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapy near me</strong>, you're usually looking for a local practitioner you can compare before booking. A directory helps you narrow the search by city, contact details, website, and the type of support you want to discuss.</p>
                 <p style={{ marginBottom: 16 }}>Finding a local hypnotherapist can make practical questions easier: travel time, in-person session options, neighbourhood access, and whether online sessions are available if you prefer not to commute. Many people searching for hypnotherapy near me want a short list they can contact directly, not another generic wellness article.</p>
                 <p>Our hypnotherapy directory makes it easier to find hypnotherapists near you. Whether you're researching hypnotherapy for anxiety, weight loss hypnotherapy, smoking cessation, or other support, use each profile as a starting point and confirm certification, scope, fees, and availability with the practitioner directly.</p>
+              </div>
+            </div>
+          </section>
+
+          {/* Near Me Search Intent */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <div className="glass-card" style={{ padding: '36px' }}>
+                <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: When to Use the National Page Instead of a City Page</h2>
+                <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
+                  A search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> is usually not asking for a single city article. It is asking for a safe way to move from “who is nearby?” to “who should I contact first?” City pages help once you know the location. This page should own the broader search because it explains the comparison process before you start booking calls.
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
+                  {nearMeSignalCities.map((item) => (
+                    <Link key={item.href} href={item.href} className="glass-card hf-card-hover" style={{ display: 'block', padding: '20px', textDecoration: 'none' }}>
+                      <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.city} local profiles</h3>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.6, margin: 0 }}>{item.cue}</p>
+                    </Link>
+                  ))}
+                </div>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 18, marginBottom: 0 }}>
+                  Use local pages for geography. Use this <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> page for the shortlist logic: check location, confirm contact details, ask about certification and training directly, compare session format, and only then decide who is worth contacting.
+                </p>
               </div>
             </div>
           </section>
