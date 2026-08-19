@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
       : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
-      : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, hypnotherapy near me ${city.state}`,
+      : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, ${city.name} hypnotherapy directory`,
     alternates: { canonical: url },
     openGraph: {
       url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website',

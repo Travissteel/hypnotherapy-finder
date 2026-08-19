@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me: Certified Search Checklist',
-  description: 'Searching hypnotherapist near me? Compare 1,150+ profiles, shortlist local options, and verify certification, scope, fees, and fit directly.',
-  keywords: 'hypnotherapist near me, hypnotherapy near me, find a hypnotherapist, local hypnotherapy, certified hypnotherapist near me, hypnosis near me',
+  title: 'Hypnotherapist Near Me | Search Local Profiles',
+  description: 'Searching hypnotherapist near me? Compare 1,150+ local profiles, shortlist nearby options, then confirm training, fees and fit directly.',
+  keywords: 'hypnotherapist near me, hypnotherapy near me, local hypnotherapist near me, certified hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me: Certified Search Checklist', description: 'Search hypnotherapy practitioner profiles near you, compare basics, then verify credentials directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me: Certified Search Checklist', description: 'Search hypnotherapy practitioner profiles near you, then confirm credentials directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Hypnotherapist Near Me | Search Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, compare basics, then verify credentials directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Search Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, then confirm credentials directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
