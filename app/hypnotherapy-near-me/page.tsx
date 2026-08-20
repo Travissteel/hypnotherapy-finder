@@ -39,6 +39,15 @@ export default async function HypnotherapyNearMePage() {
     { href: '/location/boston', city: 'Boston', cue: 'Boston profiles should support local comparison, while this page owns the national near-me process.' },
   ];
 
+  const comparisonChecklist = [
+    { title: 'Start with a local radius', body: 'Search nearby profiles first so the shortlist is practical. Distance matters for in-person sessions, but it should not be the only filter.' },
+    { title: 'Confirm the contact path', body: 'Open the practitioner website or phone details and check how they prefer to be contacted. Do not assume a profile means current availability.' },
+    { title: 'Ask the certification question', body: 'Ask which certification or training they completed, what it covered, and whether they belong to any professional organisation.' },
+    { title: 'Match the work to your goal', body: 'Explain whether you are asking about anxiety, smoking cessation, sleep, phobias, habits, confidence, or another concern, then ask how they would approach it.' },
+    { title: 'Check boundaries', body: 'A safe practitioner can explain what hypnotherapy may support and when medical or mental-health care is the better next step.' },
+    { title: 'Compare practical fit', body: 'Before booking, confirm fees, session format, location, online options, package structure, and cancellation terms directly with the practitioner.' },
+  ];
+
   return (
     <>
       <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
@@ -248,8 +257,35 @@ export default async function HypnotherapyNearMePage() {
             </div>
           </section>
 
+          {/* Comparison Framework */}
+          <section id="near-me-comparison" style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+            <div style={{ maxWidth: 900, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: The Comparison Framework</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
+                The best use of a <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> search is not to pick the first nearby result. It is to build a shortlist, remove bad assumptions, and contact the practitioners who look relevant enough to verify directly.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {comparisonChecklist.map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <h3 style={{ fontSize: 17, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 12 }}>Use city pages as supporting pages, not the whole decision</h3>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 14 }}>
+                  Detroit, Baltimore, Columbus, Charlotte, and Boston pages are useful once you know the city. This page is the better match when the search is broad — <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> — because it explains how to compare local options across the directory before you book.
+                </p>
+                <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, margin: 0 }}>
+                  Start with the <Link href="/search" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>search tool</Link>, browse <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>city pages</Link> only when geography matters, and use the broader <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist directory</Link> when you want to compare by concern and session type.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* How to Find */}
-          <section id="how-to-find" style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+          <section id="how-to-find" style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>
               <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 32 }}>How to Find the Best Hypnotherapist Near Me</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
