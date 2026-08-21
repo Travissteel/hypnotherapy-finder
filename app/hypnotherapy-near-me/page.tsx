@@ -48,6 +48,13 @@ export default async function HypnotherapyNearMePage() {
     { title: 'Compare practical fit', body: 'Before booking, confirm fees, session format, location, online options, package structure, and cancellation terms directly with the practitioner.' },
   ];
 
+  const nearMeMistakes = [
+    { title: 'Treating “near me” as proof of quality', body: 'A nearby practitioner may be convenient, but distance does not verify certification, training, scope, pricing, or fit. Use proximity to build the first shortlist, then verify the important details directly.' },
+    { title: 'Stopping at the first city page', body: 'A Detroit, Baltimore, Columbus, Charlotte, or Boston listing can be useful once the city is clear. A broad hypnotherapist near me search needs a comparison process first, not just one local page.' },
+    { title: 'Assuming the directory has checked credentials', body: 'Hypnotherapy Finder helps people discover practitioner profiles and contact details. It is not a credential-verification service, so certification and professional boundaries should be confirmed before booking.' },
+    { title: 'Ignoring online session options', body: 'If in-person choices are thin in your area, ask whether online hypnotherapy is appropriate for your goal, privacy setup, and comfort level. Many people compare both before deciding.' },
+  ];
+
   return (
     <>
       <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
@@ -254,6 +261,24 @@ export default async function HypnotherapyNearMePage() {
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
                 This is why the national <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> page should own broad “near me” searches. City pages are useful when the city matters; this page is useful when the real job is comparing local options without assuming credentials from a listing.
               </p>
+            </div>
+          </section>
+
+          {/* Near Me Mistakes */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 900, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: Common Search Mistakes</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
+                Search Console shows broad <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> searches can land on city pages even when the person has not chosen a city yet. Use this page when the job is comparing local options safely; use a city page only after geography is the deciding filter.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {nearMeMistakes.map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
