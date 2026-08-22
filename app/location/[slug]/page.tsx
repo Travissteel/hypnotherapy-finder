@@ -145,7 +145,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                     : slug === 'chicago' ? 'Find the Best Hypnotherapy in Chicago, IL'
                     : slug === 'austin' ? 'Find the Best Hypnotherapy in Austin, TX'
                     : slug === 'fort-worth' ? 'Find Clinical Hypnotherapy in Fort Worth, TX'
-                    : `Find Qualified Hypnotherapists in ${city.name}, ${city.state}`}
+                    : `Find Hypnotherapist Profiles in ${city.name}, ${city.state}`}
                 </h2>
 
                 {slug === 'los-angeles' ? (
