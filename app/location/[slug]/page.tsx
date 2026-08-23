@@ -189,9 +189,12 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 </p>
 
                 {nearMeCannibalizationCities.has(slug) && (
-                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>
-                    If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist near me</Link>, use that national page to compare local profiles, ask credential questions, and avoid treating a city listing as the whole search.
-                  </p>
+                  <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Broad near-me search?</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+                      If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapist near me</Link>, use that national checklist to compare local profiles, ask credential questions, and avoid treating a {city.name} listing as the whole search.
+                    </p>
+                  </div>
                 )}
 
                 {certifiedNearMeCannibalizationCities.has(slug) && (
