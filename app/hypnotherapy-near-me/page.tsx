@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me | Local Directory Checklist',
-  description: 'Searching hypnotherapist near me? Use the national directory checklist to compare local profiles, ask credential questions and verify fit directly.',
-  keywords: 'hypnotherapist near me, hypnotherapy near me, local hypnotherapist near me, certified hypnotherapist near me, hypnosis therapy near me',
+  title: 'Certified Hypnotherapist Near Me | Directory Checklist',
+  description: 'Searching certified hypnotherapist near me? Compare local profiles, ask credential questions and verify training, scope and fit directly.',
+  keywords: 'certified hypnotherapist near me, hypnotherapist near me, hypnotherapy near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me | Local Directory Checklist', description: 'Build a local hypnotherapist shortlist, ask the right credential questions, then verify training and fit directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Local Directory Checklist', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Certified Hypnotherapist Near Me | Directory Checklist', description: 'Build a local hypnotherapist shortlist, ask the right credential questions, then verify training and fit directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Certified Hypnotherapist Near Me | Directory Checklist', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -69,10 +69,10 @@ export default async function HypnotherapyNearMePage() {
             <div style={{ maxWidth: 720, margin: '0 auto' }}>
               <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Find Local Practitioners</span>
               <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 20 }}>
-                Hypnotherapist Near Me: How to Search Without Guessing
+                Certified Hypnotherapist Near Me: How to Search Without Guessing
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
-                Searching <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong>? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
+                Searching <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong>? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'center' }}>
                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 10, color: '#fff', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}>
