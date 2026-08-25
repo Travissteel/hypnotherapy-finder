@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Certified Hypnotherapist Near Me | Directory Checklist',
-  description: 'Searching certified hypnotherapist near me? Compare local profiles, ask credential questions and verify training, scope and fit directly.',
+  title: 'Certified Hypnotherapist Near Me | Find Local Profiles',
+  description: 'Find certified hypnotherapist near me results safely: search local profiles, compare contact details and verify credentials directly.',
   keywords: 'certified hypnotherapist near me, hypnotherapist near me, hypnotherapy near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Certified Hypnotherapist Near Me | Directory Checklist', description: 'Build a local hypnotherapist shortlist, ask the right credential questions, then verify training and fit directly.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Certified Hypnotherapist Near Me | Directory Checklist', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Certified Hypnotherapist Near Me | Find Local Profiles', description: 'Search local hypnotherapist profiles, compare contact details, and verify certification questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Certified Hypnotherapist Near Me | Find Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -200,6 +200,31 @@ export default async function HypnotherapyNearMePage() {
                   Hypnotherapy Finder lists practitioner profiles and contact details. It does not verify credentials, pricing, insurance, experience, or availability, so the safest next step is always a direct conversation with the practitioner.
                 </p>
               </div>
+            </div>
+          </section>
+
+          {/* City Result Decision */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>If Google Shows a City Page for “Certified Hypnotherapist Near Me”</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 22 }}>
+                Detroit, Columbus, and Atlanta pages can help when you are definitely searching in that city. But the broad query <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> needs a different job done first: compare local profiles, then verify certification, training, scope, fees, and availability directly.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 18 }}>
+                {[
+                  { title: 'Use the city page for geography', body: 'A city page narrows the map. It should not be treated as proof that a practitioner is certified, available, insured, or the right fit for your concern.' },
+                  { title: 'Use this page for verification', body: 'This page keeps the broad “near me” intent pointed at the checklist: how to ask credential questions, compare approaches, and confirm practical details.' },
+                  { title: 'Use search when you are ready to shortlist', body: 'Open local profiles for name, address, phone, website, and category, then contact the practitioner directly before booking.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
+                Start with the <Link href="/search" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist search tool</Link> when you want profiles near you, or use <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>city pages</Link> only after the location is clear.
+              </p>
             </div>
           </section>
 
