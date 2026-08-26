@@ -33,10 +33,11 @@ export default async function HypnotherapyNearMePage() {
 
   const nearMeSignalCities = [
     { href: '/location/detroit', city: 'Detroit', cue: 'Detroit can help if the search is local, but the broader “near me” checklist belongs here.' },
-    { href: '/location/baltimore', city: 'Baltimore', cue: 'Baltimore profiles are useful after you know the city; this page explains the first screening pass.' },
+    { href: '/location/fort-worth', city: 'Fort Worth', cue: 'Fort Worth profiles narrow the city; this page owns the broader “hypnotherapist near me” screening process.' },
     { href: '/location/columbus', city: 'Columbus', cue: 'Columbus listings can narrow distance, but they do not replace credential and fit questions.' },
     { href: '/location/charlotte', city: 'Charlotte', cue: 'Charlotte is a city shortlist. Use this page when the search is still “near me,” not city-specific.' },
     { href: '/location/boston', city: 'Boston', cue: 'Boston profiles should support local comparison, while this page owns the national near-me process.' },
+    { href: '/location/baltimore', city: 'Baltimore', cue: 'Baltimore profiles are useful after you know the city; this page explains the first screening pass.' },
   ];
 
   const comparisonChecklist = [
@@ -159,7 +160,7 @@ export default async function HypnotherapyNearMePage() {
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
                 {[
-                  { title: 'If the result is a city page', body: 'Use it for geography only. Detroit, Baltimore, Columbus, Charlotte, and Boston pages can show local profiles, but the broader near-me decision belongs on this checklist.' },
+                  { title: 'If the result is a city page', body: 'Use it for geography only. Detroit, Fort Worth, Columbus, Charlotte, and Boston pages can show local profiles, but the broader near-me decision belongs on this checklist.' },
                   { title: 'If you need someone close by', body: 'Start with location, then confirm whether the practitioner offers in-person sessions, online sessions, or both. Do not assume availability from a directory record.' },
                   { title: 'If the listing says “hypnotherapist”', body: 'Open the website or call directly. Ask about training, certification, scope, and referral boundaries before sharing sensitive details or booking.' },
                   { title: 'If several profiles look similar', body: 'Compare method, session structure, comfort level, and how clearly the practitioner explains what hypnotherapy may support — not just distance from home.' },

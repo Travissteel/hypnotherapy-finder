@@ -110,7 +110,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
-  const nearMeCannibalizationCities = new Set(['detroit', 'baltimore', 'columbus', 'charlotte', 'boston']);
+  const nearMeCannibalizationCities = new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']);
   const certifiedNearMeCannibalizationCities = new Set(['detroit', 'columbus', 'atlanta']);
 
   return (
