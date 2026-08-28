@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me | Compare Local Profiles',
-  description: 'Find hypnotherapist near me results safely: search local profiles, compare contact details, then verify training and fit directly.',
+  title: 'Hypnotherapist Near Me Directory | Compare Local Profiles',
+  description: 'Search hypnotherapist near me results by area, compare local profiles, then verify certification, fees and fit directly before booking.',
   keywords: 'hypnotherapist near me, hypnotherapy near me, certified hypnotherapist near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me | Compare Local Profiles', description: 'Search local hypnotherapist profiles, compare contact details, and verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Compare Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Hypnotherapist Near Me Directory | Compare Local Profiles', description: 'Search local hypnotherapist profiles by area, compare contact details, and verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me Directory | Compare Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -225,6 +225,31 @@ export default async function HypnotherapyNearMePage() {
               </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
                 Start with the <Link href="/search" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist search tool</Link> when you want profiles near you, or use <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>city pages</Link> only after the location is clear.
+              </p>
+            </div>
+          </section>
+
+          {/* Canonical Near Me Route */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Why This Page Should Own “Hypnotherapist Near Me”</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 22 }}>
+                A city page answers one question: “Who is listed in this city?” A <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> search is broader. It needs a way to search nearby profiles, compare direct contact details, and decide what to verify before making contact.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {[
+                  { title: 'City pages narrow the map', body: 'Detroit, Fort Worth, Columbus, Charlotte, and Boston pages are useful after geography is clear. They should support this page for broad near-me searches, not replace it.' },
+                  { title: 'This page explains the decision process', body: 'Use it when you still need to compare several nearby options, ask about certification, confirm session format, and check whether the practitioner works with your concern.' },
+                  { title: 'The search tool creates the shortlist', body: 'Move from the national checklist to the search tool when you are ready to compare names, addresses, phone numbers, websites, and listed categories.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
+                That is the clean internal-link signal: local pages point here with the exact anchor text <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong>, and this page sends people onward to search or city pages only after the intent is clear.
               </p>
             </div>
           </section>
