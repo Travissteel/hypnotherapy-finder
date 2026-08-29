@@ -190,9 +190,12 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
                 {nearMeCannibalizationCities.has(slug) && (
                   <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Broad near-me search?</h3>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Hypnotherapist near me is the broader checklist</h3>
                     <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
-                      If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapist near me</Link>, use that national checklist to compare local profiles, ask credential questions, and avoid treating a {city.name} listing as the whole search.
+                      If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapist near me</Link>, use that national checklist to compare local profiles, ask credential questions, check session format, and avoid treating a {city.name} listing as the whole search.
+                    </p>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 10, marginBottom: 0, fontWeight: 300 }}>
+                      This {city.name} page is best when you specifically want {city.name} profiles. The near-me guide is better when you are still deciding how to compare nearby options across cities before contacting anyone.
                     </p>
                   </div>
                 )}
