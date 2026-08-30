@@ -6,22 +6,22 @@ import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-    title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
-    description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified hypnotherapy practitioners. Compare credentials, specialties, and contact hypnotherapists directly.',
-    keywords: 'find a hypnotherapist, find hypnotherapist, hypnotherapist finder, search hypnotherapist, hypnotherapist directory, certified hypnotherapist',
+    title: 'Hypnotherapists Directory | Find a Hypnotherapist',
+    description: 'Browse a US directory of 1,150+ hypnotherapist profiles. Compare location, focus areas, session format, and contact details before reaching out directly.',
+    keywords: 'hypnotherapists, hypnotherapist directory, find a hypnotherapist, find hypnotherapist, hypnotherapist finder, search hypnotherapist',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
     },
     openGraph: {
-        title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
-        description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified hypnotherapy practitioners.',
+        title: 'Hypnotherapists Directory | Find a Hypnotherapist',
+        description: 'Browse a US directory of 1,150+ hypnotherapist profiles and compare practical details before contacting practitioners directly.',
         url: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Find a Hypnotherapist | Search 1,150+ Verified Practitioners',
-        description: 'Find a hypnotherapist near you. Search our directory of 1,150+ certified practitioners.',
+        title: 'Hypnotherapists Directory | Find a Hypnotherapist',
+        description: 'Browse 1,150+ hypnotherapist profiles and compare practical details before contacting practitioners directly.',
     },
 };
 
@@ -41,7 +41,7 @@ export default async function FindAHypnotherapistPage() {
             itemListElement: [
                 { '@type': 'ListItem', position: 1, name: 'Search by Location', description: 'Enter your city or zip code to find hypnotherapists near you' },
                 { '@type': 'ListItem', position: 2, name: 'Filter by Specialty', description: 'Choose from anxiety, weight loss, smoking cessation, and more' },
-                { '@type': 'ListItem', position: 3, name: 'Compare Practitioners', description: 'Review credentials, experience, and specialties' },
+                { '@type': 'ListItem', position: 3, name: 'Compare Practitioners', description: 'Review listed details, focus areas, and contact information, then confirm credentials directly' },
                 { '@type': 'ListItem', position: 4, name: 'Contact Directly', description: 'Reach out to schedule your consultation' },
             ],
         },
@@ -55,7 +55,7 @@ export default async function FindAHypnotherapistPage() {
             {
                 '@type': 'Question',
                 name: 'How do I find a hypnotherapist near me?',
-                acceptedAnswer: { '@type': 'Answer', text: 'To find a hypnotherapist, use our free directory search. Enter your location to browse certified practitioners in your area. You can filter by specialty, credentials, and session type (in-person or virtual) to find the perfect match.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'To find a hypnotherapist, use our free directory search. Enter your location to browse hypnotherapist profiles in your area. You can filter by focus area and session type, then confirm certification, training, fees, and availability directly with the practitioner before booking.' },
             },
             {
                 '@type': 'Question',
@@ -73,18 +73,18 @@ export default async function FindAHypnotherapistPage() {
     const howToSteps = [
         { icon: Search, title: '1. Search by Location', desc: `Enter your city or zip code to find hypnotherapists in your area. Our directory covers ${cities.length}+ cities across the United States.` },
         { icon: Star, title: '2. Filter by Specialty', desc: 'Find a hypnotherapist who specializes in your specific concern—anxiety, weight loss, smoking cessation, phobias, or pain management.' },
-        { icon: Award, title: '3. Check Credentials', desc: 'Review each hypnotherapist\'s certifications, experience, and specialties. Look for NGH, IACT, or ABH certified practitioners.' },
+        { icon: Award, title: '3. Confirm Training', desc: 'Use each profile as a starting point. Ask the practitioner directly about certification, professional training, supervision, focus areas, and whether their approach fits your concern.' },
         { icon: CheckCircle, title: '4. Contact Directly', desc: 'Once you find a hypnotherapist you like, contact them directly through their profile to schedule an initial consultation.' },
     ];
 
     const treatmentAreas = [
-        { title: 'Mental Health & Wellness', items: ['Anxiety and stress relief', 'Depression support', 'PTSD and trauma processing', 'Phobia treatment'] },
-        { title: 'Behavioral Change', items: ['Smoking cessation', 'Weight loss and healthy eating', 'Breaking bad habits', 'Sleep improvement'] },
+        { title: 'Mental Health & Wellness', items: ['Anxiety and stress support', 'Depression support', 'PTSD and trauma-informed support', 'Phobia support'] },
+        { title: 'Behavioral Change', items: ['Smoking cessation support', 'Weight loss and healthy eating support', 'Changing unwanted habits', 'Sleep improvement'] },
     ];
 
     const faqs = [
         { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by specialty, and browse profiles to find a qualified practitioner. Use each directory listing as a starting point, then confirm certification, training, scope, fees, and availability directly with the practitioner.' },
-        { q: 'What qualifications should I look for?', a: 'When you find a hypnotherapist, look for certifications from recognized organizations like NGH (National Guild of Hypnotists), IACT, or ABH. Consider their experience, specialties, and whether they\'ve worked with your specific concern before.' },
+        { q: 'What qualifications should I look for?', a: 'When comparing hypnotherapists, ask directly about certifications from recognized organizations such as NGH (National Guild of Hypnotists), IACT, or ABH. Also ask about training background, supervision, professional scope, and whether they regularly support the concern you want help with.' },
         { q: 'How much does a hypnotherapist cost?', a: 'Hypnotherapy sessions typically cost $75-$250 per hour, with most practitioners charging $125-$175. Many offer package deals for multiple sessions. Some hypnotherapists accept insurance when they\'re also licensed healthcare providers.' },
     ];
 
@@ -104,7 +104,7 @@ export default async function FindAHypnotherapistPage() {
                                 Find a Hypnotherapist
                             </h1>
                             <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7, maxWidth: 640, margin: '0 auto 32px' }}>
-                                Search {allPractitioners.length.toLocaleString()}+ certified hypnotherapists. Find a qualified practitioner near you specialising in anxiety, weight loss, smoking cessation, and more.
+                                Search {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles. Compare location, focus areas, session format, and contact details before reaching out directly.
                             </p>
                             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
@@ -123,7 +123,7 @@ export default async function FindAHypnotherapistPage() {
                         <div style={{ maxWidth: 1024, margin: '0 auto', padding: '0 16px' }}>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 40, textAlign: 'center' }}>
                                 {[
-                                    { Icon: Users, value: `${allPractitioners.length.toLocaleString()}+`, label: 'Verified Hypnotherapists' },
+                                    { Icon: Users, value: `${allPractitioners.length.toLocaleString()}+`, label: 'Hypnotherapist Profiles' },
                                     { Icon: MapPin, value: `${cities.length}+`, label: 'Cities Covered' },
                                     { Icon: Shield, value: '100%', label: 'Free to Search' },
                                 ].map(({ Icon, value, label }) => (
@@ -166,12 +166,37 @@ export default async function FindAHypnotherapistPage() {
                         </div>
                     </section>
 
+                    {/* Hypnotherapists Directory Guidance */}
+                    <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Compare Hypnotherapists Before You Book</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                A hypnotherapists directory should help you build a practical shortlist, not make claims the listing cannot verify. Use Hypnotherapy Finder to compare location, focus areas, website, phone number, and session format, then confirm the important details directly with the practitioner.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {[
+                                    { title: 'Start with fit', body: 'Choose hypnotherapists who mention the concern you want support with, such as anxiety, smoking cessation, sleep, habits, confidence, pain, or phobias.' },
+                                    { title: 'Verify credentials directly', body: 'Ask about certification, training organisation, professional scope, supervision, and whether they are also a licensed healthcare provider where that matters.' },
+                                    { title: 'Check the session logistics', body: 'Confirm in-person or online availability, current fees, consultation process, package structure, and how many sessions they commonly suggest for your concern.' },
+                                ].map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
+                                Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
+                            </p>
+                        </div>
+                    </section>
+
                     {/* Browse by City */}
                     <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)' }}>
                         <div style={{ maxWidth: 1024, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Find a Hypnotherapist by City</h2>
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 32 }}>
-                                Browse certified hypnotherapists in major cities across the United States
+                                Browse hypnotherapist profiles in major cities across the United States
                             </p>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 12 }}>
                                 {topCities.map((city) => (
@@ -237,7 +262,7 @@ export default async function FindAHypnotherapistPage() {
                         <div style={{ maxWidth: 672, margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 16 }}>Ready to Find a Hypnotherapist?</h2>
                             <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7 }}>
-                                Search our directory of {allPractitioners.length.toLocaleString()}+ certified practitioners and find the right hypnotherapist for you today.
+                                Search our directory of {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles and find the right practitioner shortlist for you today.
                             </p>
                             <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none' }}>
                                 <Search style={{ width: 20, height: 20 }} />

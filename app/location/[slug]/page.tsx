@@ -112,6 +112,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const nearMeCannibalizationCities = new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']);
   const certifiedNearMeCannibalizationCities = new Set(['detroit', 'columbus', 'atlanta']);
+  const hypnotherapistsDirectoryCannibalizationCities = new Set(['chicago', 'atlanta', 'boston', 'memphis', 'baltimore']);
 
   return (
     <>
@@ -204,6 +205,15 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>
                     If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>certified hypnotherapist near me</Link>, use that national checklist to verify certification, training, scope, fees, and availability directly instead of assuming those details from a city listing.
                   </p>
+                )}
+
+                {hypnotherapistsDirectoryCannibalizationCities.has(slug) && (
+                  <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Searching for hypnotherapists nationally?</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+                      If your search was for <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapists</Link> in general, use the national directory page to compare profiles by location, focus area, contact details, and session format. This {city.name} page is for people specifically comparing local {city.name} profiles.
+                    </p>
+                  </div>
                 )}
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 28, marginTop: 28 }}>
