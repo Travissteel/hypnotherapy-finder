@@ -34,7 +34,7 @@ export default async function FindAHypnotherapistPage() {
         '@context': 'https://schema.org',
         '@type': 'WebPage',
         name: 'Find a Hypnotherapist',
-        description: 'Directory to find a qualified hypnotherapist near you. Search by location, specialty, and credentials.',
+        description: 'Directory to find hypnotherapist profiles near you. Search by location, focus area, and contact details, then confirm credentials directly.',
         mainEntity: {
             '@type': 'ItemList',
             name: 'Steps to Find a Hypnotherapist',
@@ -67,6 +67,11 @@ export default async function FindAHypnotherapistPage() {
                 name: 'How much does a hypnotherapist charge?',
                 acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapist fees typically range from $75-$250 per session, with most charging $125-$175. Initial consultations may cost more. Many offer package deals for multiple sessions, and some accept insurance when provided by a licensed healthcare professional.' },
             },
+            {
+                '@type': 'Question',
+                name: 'What should a hypnotherapists directory show?',
+                acceptedAnswer: { '@type': 'Answer', text: 'A hypnotherapists directory should help you compare location, focus areas, session format, website, phone number, and basic profile details. It should also make clear which details need to be confirmed directly, including certification, fees, insurance, availability, and professional scope.' },
+            },
         ],
     };
 
@@ -83,9 +88,16 @@ export default async function FindAHypnotherapistPage() {
     ];
 
     const faqs = [
-        { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by specialty, and browse profiles to find a qualified practitioner. Use each directory listing as a starting point, then confirm certification, training, scope, fees, and availability directly with the practitioner.' },
+        { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by focus area, and browse profiles to build a shortlist. Use each directory listing as a starting point, then confirm certification, training, scope, fees, and availability directly with the practitioner.' },
         { q: 'What qualifications should I look for?', a: 'When comparing hypnotherapists, ask directly about certifications from recognized organizations such as NGH (National Guild of Hypnotists), IACT, or ABH. Also ask about training background, supervision, professional scope, and whether they regularly support the concern you want help with.' },
         { q: 'How much does a hypnotherapist cost?', a: 'Hypnotherapy sessions typically cost $75-$250 per hour, with most practitioners charging $125-$175. Many offer package deals for multiple sessions. Some hypnotherapists accept insurance when they\'re also licensed healthcare providers.' },
+    ];
+
+    const comparisonQuestions = [
+        { title: 'Training and scope', body: 'Ask where they trained, whether they hold current certification, whether they are also a licensed healthcare provider, and what types of concerns sit inside or outside their professional scope.' },
+        { title: 'Concern fit', body: 'Ask how they usually work with your goal — anxiety support, smoking cessation, sleep, habits, confidence, phobias, pain-related stress, or another concern — without expecting a guaranteed outcome.' },
+        { title: 'Session format', body: 'Confirm whether sessions are in person, online, or both; how long the first appointment lasts; whether recordings or between-session practice are used; and what preparation is helpful.' },
+        { title: 'Fees and booking details', body: 'Ask about current session fees, packages, cancellation rules, insurance or HSA/FSA questions, availability, and whether an initial call is available before booking.' },
     ];
 
     return (
@@ -146,7 +158,7 @@ export default async function FindAHypnotherapistPage() {
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>How to Find a Hypnotherapist</h2>
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 48, maxWidth: 520, margin: '0 auto 48px' }}>
-                                Finding the right hypnotherapist is easy with our comprehensive directory. Follow these steps to find a qualified practitioner near you.
+                                Use the directory to compare hypnotherapist profiles, then contact practitioners directly to confirm training, scope, session format, fees, and fit.
                             </p>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
                                 {howToSteps.map(({ icon: Icon, title, desc }) => (
@@ -187,6 +199,27 @@ export default async function FindAHypnotherapistPage() {
                             </div>
                             <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
                                 Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* Directory Comparison Questions */}
+                    <section style={{ padding: '64px 0' }}>
+                        <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>How to Compare Hypnotherapists in a Directory</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                The useful part of a hypnotherapists directory is not a generic ranking. It is having enough information to ask better questions before you book. Use each profile to build a shortlist, then verify these details directly.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {comparisonQuestions.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
+                                A directory can show names, locations, phone numbers, websites, and categories. It cannot replace a direct conversation about qualifications, professional boundaries, fees, or whether the practitioner is the right fit for you.
                             </p>
                         </div>
                     </section>
