@@ -6,22 +6,22 @@ import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 
 export const metadata = {
-    title: 'Hypnotherapists Directory | Find a Hypnotherapist',
-    description: 'Browse a US directory of 1,150+ hypnotherapist profiles. Compare location, focus areas, session format, and contact details before reaching out directly.',
+    title: 'Hypnotherapists Directory | Find Hypnotherapists',
+    description: 'Browse a US hypnotherapists directory with 1,150+ profiles. Compare location, focus areas, session format, and contact details before reaching out directly.',
     keywords: 'hypnotherapists, hypnotherapist directory, find a hypnotherapist, find hypnotherapist, hypnotherapist finder, search hypnotherapist',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
     },
     openGraph: {
-        title: 'Hypnotherapists Directory | Find a Hypnotherapist',
-        description: 'Browse a US directory of 1,150+ hypnotherapist profiles and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Find Hypnotherapists',
+        description: 'Browse a US hypnotherapists directory with 1,150+ profiles and compare practical details before contacting practitioners directly.',
         url: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Hypnotherapists Directory | Find a Hypnotherapist',
-        description: 'Browse 1,150+ hypnotherapist profiles and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Find Hypnotherapists',
+        description: 'Browse 1,150+ hypnotherapist profiles in a US hypnotherapists directory and compare practical details before contacting practitioners directly.',
     },
 };
 
@@ -100,6 +100,12 @@ export default async function FindAHypnotherapistPage() {
         { title: 'Fees and booking details', body: 'Ask about current session fees, packages, cancellation rules, insurance or HSA/FSA questions, availability, and whether an initial call is available before booking.' },
     ];
 
+    const directorySignals = [
+        { title: 'Use profiles as a shortlist, not a verdict', body: 'A directory can help you narrow the field quickly. It should not ask you to assume credentials, prices, insurance coverage, or availability from a listing alone.' },
+        { title: 'Compare the practical details first', body: 'Start with location, phone number, website, category, session format, and stated focus areas. Those details tell you who is worth contacting before you spend time on consultation calls.' },
+        { title: 'Then verify decision-making details directly', body: 'Before booking, ask each practitioner about current certification, training background, professional scope, fees, session length, and whether their approach fits the concern you want support with.' },
+    ];
+
     return (
         <>
             <Script id="schema-webpage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
@@ -113,10 +119,10 @@ export default async function FindAHypnotherapistPage() {
                     <section style={{ background: 'linear-gradient(to bottom, oklch(0.22 0.06 185), var(--hf-bg))', padding: '80px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
                             <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 24, lineHeight: 1.15 }}>
-                                Find a Hypnotherapist
+                                Find Hypnotherapists
                             </h1>
                             <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7, maxWidth: 640, margin: '0 auto 32px' }}>
-                                Search {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles. Compare location, focus areas, session format, and contact details before reaching out directly.
+                                Search {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles in a US hypnotherapists directory. Compare location, focus areas, session format, and contact details before reaching out directly.
                             </p>
                             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
@@ -221,6 +227,24 @@ export default async function FindAHypnotherapistPage() {
                             <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
                                 A directory can show names, locations, phone numbers, websites, and categories. It cannot replace a direct conversation about qualifications, professional boundaries, fees, or whether the practitioner is the right fit for you.
                             </p>
+                        </div>
+                    </section>
+
+                    {/* Hypnotherapists Directory Intent */}
+                    <section style={{ padding: '64px 0' }}>
+                        <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>What to Look for in a Hypnotherapists Directory</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                If you searched for hypnotherapists in general, the goal is not to pick the first profile you see. The goal is to compare enough real-world details to build a sensible shortlist, then confirm anything important directly with the practitioner.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {directorySignals.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </section>
 
