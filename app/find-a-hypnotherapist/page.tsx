@@ -106,6 +106,12 @@ export default async function FindAHypnotherapistPage() {
         { title: 'Then verify decision-making details directly', body: 'Before booking, ask each practitioner about current certification, training background, professional scope, fees, session length, and whether their approach fits the concern you want support with.' },
     ];
 
+    const nationalDirectoryUseCases = [
+        { title: 'You are comparing hypnotherapists across cities', body: 'Start here when you are not locked into one neighborhood yet. A national directory lets you compare nearby city pages, online options, and practitioner websites without treating one local page as the whole market.' },
+        { title: 'You want practical contact details first', body: 'Use the directory to collect names, locations, websites, phone numbers, and stated categories before making calls. Then ask each practitioner to confirm current training, professional scope, fees, and availability directly.' },
+        { title: 'You need a safer shortlist', body: 'For concerns such as anxiety, smoking cessation, sleep, habits, confidence, pain-related stress, or phobias, use profiles to find possible fit — then choose based on the answers you get from the practitioner, not assumptions from a listing.' },
+    ];
+
     return (
         <>
             <Script id="schema-webpage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
@@ -245,6 +251,27 @@ export default async function FindAHypnotherapistPage() {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                    </section>
+
+                    {/* National Hypnotherapists Directory Fit */}
+                    <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>When to Use a National Hypnotherapists Directory</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 700, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                If your search is simply “hypnotherapists,” a single city page is probably too narrow. This national directory is the better starting point: compare hypnotherapists across cities, then narrow by location, concern, session format, and direct contact details.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {nationalDirectoryUseCases.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
+                                If you already know the city you want, jump to the location page. If you are still choosing between hypnotherapists, start with the national directory and build the shortlist there.
+                            </p>
                         </div>
                     </section>
 
