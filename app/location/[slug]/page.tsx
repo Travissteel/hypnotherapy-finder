@@ -225,13 +225,13 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         Each concern now links to the page that should rank for it. */}
                     <ul style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {[
-                        ['Anxiety and stress management', '/hypnotherapy-for-anxiety'],
+                        ['Anxiety and stress support', '/hypnotherapy-for-anxiety'],
                         ['Weight loss and healthy habits', '/weight-loss-hypnotherapy'],
-                        ['Smoking cessation', '/quit-smoking-hypnotherapy'],
-                        ['Phobia treatment', '/hypnotherapy-for-phobias'],
-                        ['Sleep disorders and insomnia', '/hypnotherapy-for-sleep'],
-                        ['Chronic pain management', '/hypnotherapy-for-pain'],
-                        ['PTSD and trauma therapy', '/hypnotherapy-for-ptsd'],
+                        ['Smoking cessation support', '/quit-smoking-hypnotherapy'],
+                        ['Phobia support', '/hypnotherapy-for-phobias'],
+                        ['Sleep and insomnia support', '/hypnotherapy-for-sleep'],
+                        ['Chronic pain support', '/hypnotherapy-for-pain'],
+                        ['PTSD and trauma-informed support', '/hypnotherapy-for-ptsd'],
                         ['Confidence and performance', '/hypnotherapy-for-confidence'],
                       ].map(([item, href]) => (
                         <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.5 }}>

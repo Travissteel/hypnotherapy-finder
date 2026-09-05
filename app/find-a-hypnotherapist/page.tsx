@@ -91,6 +91,7 @@ export default async function FindAHypnotherapistPage() {
         { q: 'How do I find a hypnotherapist near me?', a: 'Use our free search tool to find hypnotherapists in your area. Enter your location, filter by focus area, and browse profiles to build a shortlist. Use each directory listing as a starting point, then confirm certification, training, scope, fees, and availability directly with the practitioner.' },
         { q: 'What qualifications should I look for?', a: 'When comparing hypnotherapists, ask directly about certifications from recognized organizations such as NGH (National Guild of Hypnotists), IACT, or ABH. Also ask about training background, supervision, professional scope, and whether they regularly support the concern you want help with.' },
         { q: 'How much does a hypnotherapist cost?', a: 'Hypnotherapy sessions typically cost $75-$250 per hour, with most practitioners charging $125-$175. Many offer package deals for multiple sessions. Some hypnotherapists accept insurance when they\'re also licensed healthcare providers.' },
+        { q: 'What should I compare before contacting hypnotherapists?', a: 'Compare location, session format, stated focus areas, website, phone number, and basic profile details first. Then contact each practitioner directly to confirm certification, training, fees, insurance questions, availability, and whether their approach fits your goal.' },
     ];
 
     const comparisonQuestions = [
@@ -190,8 +191,36 @@ export default async function FindAHypnotherapistPage() {
                         </div>
                     </section>
 
-                    {/* Hypnotherapists Directory Guidance */}
+                    {/* Hypnotherapists Search Intent */}
                     <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Hypnotherapists: How to Compare Profiles Without Guessing</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                If you searched for “hypnotherapists,” you are probably not looking for one random city page. You need a practical way to compare options across locations, shortlist the profiles that appear relevant, and verify the decision-making details directly before you book.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {[
+                                    { title: 'Start broad, then narrow', body: 'Use this national directory when you are comparing hypnotherapists across cities or online options. Once you know the location that matters, move into the city page or contact a practitioner directly.' },
+                                    { title: 'Separate listed facts from claims', body: 'Directory profiles can show names, addresses, phone numbers, websites, and categories. They should not make you assume certification, insurance, pricing, availability, or results.' },
+                                    { title: 'Ask better first-contact questions', body: 'Before booking, ask about training, professional scope, session format, fees, and experience supporting your concern. The directory gets you to the shortlist; the conversation confirms fit.' },
+                                ].map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <div style={{ textAlign: 'center', marginTop: 32 }}>
+                                <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+                                    <Search style={{ width: 18, height: 18 }} />
+                                    Search Hypnotherapists
+                                </Link>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Hypnotherapists Directory Guidance */}
+                    <section style={{ padding: '64px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Compare Hypnotherapists Before You Book</h2>
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
@@ -304,10 +333,10 @@ export default async function FindAHypnotherapistPage() {
                         </div>
                     </section>
 
-                    {/* What Hypnotherapists Treat */}
+                    {/* What Hypnotherapists Can Support */}
                     <section style={{ padding: '64px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
-                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 48 }}>What Can a Hypnotherapist Help With?</h2>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 48 }}>What Can a Hypnotherapist Support?</h2>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20 }}>
                                 {treatmentAreas.map(({ title, items }) => (
                                     <div key={title} className="glass-card" style={{ padding: 24 }}>
