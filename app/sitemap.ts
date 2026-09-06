@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
 import { getSpanishCities } from '@/lib/data/spanish';
+import { getModalities } from '@/lib/data/modalities';
 import { getAllPosts } from '@/lib/blog';
 
 // Slugs that have permanent redirects in next.config.ts — exclude from sitemap
@@ -214,6 +215,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Modality pages (QHHT, past-life regression, fertility/birth).
+  const modalityPages: MetadataRoute.Sitemap = getModalities().map((m) => ({
+    url: `${baseUrl}/${m.slug}`,
+    lastModified: SITE_LAST_UPDATED,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
   // Spanish section — national hub plus one page per launched city.
   const spanishPages: MetadataRoute.Sitemap = [
     {
@@ -256,5 +265,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...locationPages, ...spanishPages, ...practitionerPages, ...blogPages];
+  return [...staticPages, ...locationPages, ...modalityPages, ...spanishPages, ...practitionerPages, ...blogPages];
 }

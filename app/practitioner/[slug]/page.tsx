@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { stateAbbr } from '@/lib/seo';
 import { buildFallbackBio } from '@/lib/practitioner-bio';
+import { getModalitiesForPractitioner } from '@/lib/data/modalities';
 
 function normalizeWebsiteUrl(url: string | null | undefined): string | null {
   if (!url) return null;
@@ -374,6 +375,33 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                     </button>
                   </div>
                 </div>
+
+                {/* Cross-link into the modality pages this practice appears on. Membership
+                    comes from the practice's own business listing (see lib/data/modalities.ts),
+                    so this asserts nothing we have not already shown on the profile — and it
+                    gives the modality pages internal links from the layer that ranks best. */}
+                {(() => {
+                  const mods = getModalitiesForPractitioner(slug);
+                  if (!mods.length) return null;
+                  return (
+                    <div className="glass-card" style={{ padding: '28px' }}>
+                      <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 16 }}>
+                        Also Listed Under
+                      </h3>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {mods.map(m => (
+                          <Link
+                            key={m.slug}
+                            href={`/${m.slug}`}
+                            style={{ fontSize: 13, color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}
+                          >
+                            {m.shortLabel} →
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </aside>
             </div>
           </div>

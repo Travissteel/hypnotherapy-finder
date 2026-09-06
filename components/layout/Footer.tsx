@@ -54,6 +54,12 @@ const FOOTER_COLS = [
     links: [
       ['What is Hypnotherapy?', '/what-is-hypnotherapy'],
       ['Find a Hypnotherapist', '/find-a-hypnotherapist'],
+      // Modality pages. Sitewide footer links for the same reason as /es: these
+      // target queries the site already ranks top-10 for, and must not end up
+      // orphaned like the 19 city hubs did.
+      ['QHHT & Quantum Healing', '/qhht-quantum-healing'],
+      ['Past Life Regression', '/past-life-regression'],
+      ['Fertility & Hypnobirthing', '/hypnotherapy-for-fertility'],
       ['Confidence Hypnotherapy', '/hypnotherapy-for-confidence'],
       ['How it Works', '/how-it-works'],
       ['Blog', '/blog'],
