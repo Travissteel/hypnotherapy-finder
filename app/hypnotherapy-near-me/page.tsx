@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Script from 'next/script';
 import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
-import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
+import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
   title: 'Hypnotherapist Near Me Directory | Compare Local Profiles',
@@ -17,9 +17,8 @@ export const metadata = {
 
 export default async function HypnotherapyNearMePage() {
   const allPractitioners = getAllPractitioners();
-  const cities = getAllCities();
   const featuredPractitioners = allPractitioners.filter(p => p.featured).slice(0, 6);
-  const popularCities = cities.slice(0, 12);
+  const popularCities = getCitiesByInventory();
 
   const jsonLd = { '@context': 'https://schema.org', '@type': 'MedicalWebPage', name: 'Hypnotherapist Near Me - Local Hypnotherapy Directory', description: 'Directory to help people search for hypnotherapist near me and compare local hypnotherapy profiles safely.', mainEntity: { '@type': 'ItemList', name: 'How to Find a Hypnotherapist Near Me', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Search by Location', description: 'Enter your city or zip code to find hypnotherapist profiles near you' }, { '@type': 'ListItem', position: 2, name: 'Compare Relevant Services', description: 'Look for practitioners whose listed services match your concern' }, { '@type': 'ListItem', position: 3, name: 'Ask About Training', description: 'Contact practitioners directly to ask about certification, training, supervision, and approach' }, { '@type': 'ListItem', position: 4, name: 'Contact Directly', description: 'Reach out to discuss fit, session format, and next steps' }] }, provider: { '@type': 'Organization', name: 'Hypnotherapy Finder' } };
   const faqJsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [{ '@type': 'Question', name: 'How do I find a certified hypnotherapist near me?', acceptedAnswer: { '@type': 'Answer', text: 'Use the directory to search hypnotherapy practitioner profiles by city, location, concern, and session type. Then contact practitioners directly to ask about their certification, training, and fit for your goals.' } }, { '@type': 'Question', name: 'Why did a city page appear when I searched hypnotherapist near me?', acceptedAnswer: { '@type': 'Answer', text: 'Search engines often treat near me queries as local intent and may show a city page first. Use city pages for geography, then use this national page to compare local options and verify training, scope, fees, and fit directly.' } }, { '@type': 'Question', name: 'What should I look for in hypnotherapy near me?', acceptedAnswer: { '@type': 'Answer', text: 'When searching for hypnotherapy near me, ask about certification, training background, supervision, relevant experience, session format, and whether their approach fits your concern.' } }, { '@type': 'Question', name: 'How much does hypnotherapy near me cost?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy fees vary by practitioner, location, format, and session length. Contact practitioners directly for current pricing and package information.' } }, { '@type': 'Question', name: 'Are all listed hypnotherapists certified?', acceptedAnswer: { '@type': 'Answer', text: 'Hypnotherapy Finder lists practitioner profiles and contact details, but does not verify credentials, pricing, insurance, experience, or availability. Ask each practitioner directly about certification, training, scope, and professional memberships before booking.' } }, { '@type': 'Question', name: 'Is virtual hypnotherapy useful compared with in-person?', acceptedAnswer: { '@type': 'Answer', text: 'Many people use virtual hypnotherapy successfully when they have a private space, a stable connection, and a practitioner whose style suits online sessions.' } }] };
@@ -101,7 +100,7 @@ export default async function HypnotherapyNearMePage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, textAlign: 'center' }}>
                 {[
                   { icon: Users, value: `${allPractitioners.length.toLocaleString()}+`, label: 'Listed Hypnotherapy Profiles' },
-                  { icon: MapPin, value: `${cities.length}+`, label: 'Cities Across the US' },
+                  { icon: MapPin, value: `${popularCities.length}+`, label: 'Cities Across the US' },
                   { icon: Star, value: '100%', label: 'Free to Use' },
                 ].map((s) => (
                   <div key={s.label}>

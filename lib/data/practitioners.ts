@@ -127,6 +127,18 @@ export function getAllCities(): City[] {
   return cities;
 }
 
+// cities.json is stored alphabetically. Any hub grid that slices this list
+// therefore truncates on the alphabet, which orphaned every city from
+// Indianapolis onward — 19 of 31 hubs, including our deepest inventory
+// (Los Angeles 125, San Diego 86, Portland 77). Those hubs came back
+// "URL is unknown to Google" in Search Console. Grids should link every city
+// and lead with real inventory, not the letter A.
+export function getCitiesByInventory(): City[] {
+  return [...cities].sort(
+    (a, b) => b.practitionerCount - a.practitionerCount || a.name.localeCompare(b.name)
+  );
+}
+
 export function getCityBySlug(slug: string): City | undefined {
   return cities.find(c => c.slug === slug);
 }

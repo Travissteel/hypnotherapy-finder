@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
 import Script from 'next/script';
 import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-react';
-import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
+import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
     title: 'Hypnotherapists Directory | Find Hypnotherapists',
@@ -27,8 +27,7 @@ export const metadata = {
 
 export default async function FindAHypnotherapistPage() {
     const allPractitioners = getAllPractitioners();
-    const cities = getAllCities();
-    const topCities = cities.slice(0, 8);
+    const topCities = getCitiesByInventory();
 
     const jsonLd = {
         '@context': 'https://schema.org',
@@ -76,7 +75,7 @@ export default async function FindAHypnotherapistPage() {
     };
 
     const howToSteps = [
-        { icon: Search, title: '1. Search by Location', desc: `Enter your city or zip code to find hypnotherapists in your area. Our directory covers ${cities.length}+ cities across the United States.` },
+        { icon: Search, title: '1. Search by Location', desc: `Enter your city or zip code to find hypnotherapists in your area. Our directory covers ${topCities.length}+ cities across the United States.` },
         { icon: Star, title: '2. Filter by Specialty', desc: 'Find a hypnotherapist who specializes in your specific concern—anxiety, weight loss, smoking cessation, phobias, or pain management.' },
         { icon: Award, title: '3. Confirm Training', desc: 'Use each profile as a starting point. Ask the practitioner directly about certification, professional training, supervision, focus areas, and whether their approach fits your concern.' },
         { icon: CheckCircle, title: '4. Contact Directly', desc: 'Once you find a hypnotherapist you like, contact them directly through their profile to schedule an initial consultation.' },
@@ -149,7 +148,7 @@ export default async function FindAHypnotherapistPage() {
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 40, textAlign: 'center' }}>
                                 {[
                                     { Icon: Users, value: `${allPractitioners.length.toLocaleString()}+`, label: 'Hypnotherapist Profiles' },
-                                    { Icon: MapPin, value: `${cities.length}+`, label: 'Cities Covered' },
+                                    { Icon: MapPin, value: `${topCities.length}+`, label: 'Cities Covered' },
                                     { Icon: Shield, value: '100%', label: 'Free to Search' },
                                 ].map(({ Icon, value, label }) => (
                                     <div key={label}>

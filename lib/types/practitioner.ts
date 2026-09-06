@@ -61,7 +61,15 @@ export interface Practitioner {
   created_at?: string;
   updated_at?: string;
 
-  // Legacy fields for backward compatibility
+  // Legacy fields for backward compatibility.
+  //
+  // These come off the scraped practitioners.json, NOT from the practitioner.
+  // Several are enrichment output rather than observed data — `yearsExperience`
+  // is populated on 1152/1152 records with a smooth 1-30 spread, and `languages`
+  // shows German and Mandarin at ~15% each, which is a random draw. Do not
+  // render them as facts about a real business. The practitioner-supplied
+  // equivalents are the snake_case fields above (`years_experience`, etc.),
+  // written when someone claims their listing.
   title?: string;
   street?: string;
   categoryname?: string;

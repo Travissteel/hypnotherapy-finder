@@ -46,6 +46,17 @@ export function SearchBar() {
   const [language, setLanguage] = useState('');
   const [insurance, setInsurance] = useState('');
 
+  /**
+   * These advanced filters target practitioner-supplied data, not the scraped
+   * enrichment. /api/practitioners/search queries Supabase only and filters on
+   * `insurance_accepted` and `session_types` — the snake_case columns written when
+   * a therapist claims a listing — so the fabricated camelCase fields in
+   * practitioners.json never reach a result set here. That is why these stay while
+   * the display badges built on the same concepts were removed.
+   *
+   * Note: `gender` and `language` are forwarded but the search route does not read
+   * them yet, so they are currently inert rather than wrong.
+   */
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();

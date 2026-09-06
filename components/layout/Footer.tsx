@@ -42,6 +42,11 @@ const FOOTER_COLS = [
       ['Popular Locations', '/locations'],
       ['Free Quizzes', '/free-quizzes'],
       ['For Practitioners', '/practitioner-signup'],
+      // Sitewide entry point for the Spanish section. Footer placement is
+      // deliberate: /es and its city pages must be reachable from every page,
+      // or they end up like the 19 city hubs that sat unlinked and came back
+      // "URL is unknown to Google" in Search Console.
+      ['Hipnoterapia en Español', '/es'],
     ],
   },
   {

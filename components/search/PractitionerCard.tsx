@@ -100,52 +100,54 @@ export const PractitionerCard: React.FC<PractitionerCardProps> = ({ practitioner
           </div>
         </div>
 
-        {practitioner.acceptingNewClients && (
-          <span style={{
-            fontSize: 10,
-            color: 'var(--hf-accent)',
-            background: 'oklch(0.72 0.12 185 / 0.1)',
-            padding: '3px 8px',
-            borderRadius: 9999,
-            fontWeight: 600,
-            whiteSpace: 'nowrap',
-            flexShrink: 0,
-          }}>
-            Accepting ✓
+        {/* "Accepting ✓" removed: `acceptingNewClients` is set on 1152/1152 scraped
+            records, so it was a generated flag, not observed availability. Whether a
+            practice is taking new clients changes week to week and can only come from
+            the practitioner. Restore this once claimed listings supply it. */}
+      </div>
+
+      {/* Ratings render only from reviews the practitioner has actually received.
+          This used to be a hardcoded five-star "4.9 / 5.0" on every card, shown
+          against the names of real businesses. `rating` is also unusable as a
+          number in the scraped data — it holds free text like "Top Rated" and
+          "Awarded Best Hypnotherapist LA 2024" — so it is type-checked here
+          rather than trusted. Matches the gate on the practitioner detail page. */}
+      {typeof practitioner.rating === 'number' && (practitioner.review_count ?? 0) > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
+          <Star size={13} style={{ color: 'oklch(0.8 0.12 75)' }} fill="currentColor" />
+          <span style={{ fontSize: 13, color: 'var(--hf-fg)', fontWeight: 600 }}>
+            {practitioner.rating.toFixed(1)}
           </span>
-        )}
-      </div>
-
-      {/* Stars */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
-        <div style={{ display: 'flex', gap: 2, color: 'oklch(0.8 0.12 75)' }}>
-          {[1, 2, 3, 4, 5].map(i => (
-            <Star key={i} size={13} fill={i <= 5 ? 'currentColor' : 'none'} />
-          ))}
+          <span style={{ fontSize: 12, color: 'var(--hf-fg-dim)' }}>
+            ({practitioner.review_count} {practitioner.review_count === 1 ? 'review' : 'reviews'})
+          </span>
         </div>
-        <span style={{ fontSize: 13, color: 'var(--hf-fg)', fontWeight: 600 }}>4.9</span>
-        <span style={{ fontSize: 12, color: 'var(--hf-fg-dim)' }}>/ 5.0</span>
-      </div>
+      )}
 
-      {/* Stats row */}
+      {/* Stats row. Every value here must be practitioner-supplied (snake_case).
+          The camelCase equivalents on scraped records are enrichment output:
+          `sessionType` is set on 1152/1152, and `sessionPrice` on 1098/1152 with
+          214 distinct values — hypnotherapists do not publish hourly rates at a
+          93% rate, so that figure was invented per business. */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'var(--hf-fg-dim)' }}>
-          <Video size={12} style={{ color: 'var(--hf-accent)' }} />
-          {practitioner.session_types?.includes('online') || practitioner.sessionType === 'virtual' || practitioner.sessionType === 'both' ? 'Online' : 'In-Person'}
-        </div>
-        <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'var(--hf-fg-dim)' }}>
-          <Award size={12} style={{ color: 'var(--hf-accent)' }} />
-          {practitioner.yearsExperience ?? 10}+ yrs exp
-        </div>
-        {practitioner.sessionPrice && (
+        {practitioner.session_types?.length ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'var(--hf-fg-dim)' }}>
+            <Video size={12} style={{ color: 'var(--hf-accent)' }} />
+            {practitioner.session_types.includes('online') ? 'Online' : 'In-Person'}
+          </div>
+        ) : null}
+        {/* Experience comes only from `years_experience`, which the practitioner
+            supplies when claiming the listing. The previous `?? 10` invented a
+            decade of experience for every unclaimed profile. */}
+        {practitioner.years_experience ? (
           <>
-            <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
-            <div style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>
-              ${practitioner.sessionPrice}/hr
+            {practitioner.session_types?.length ? <span style={{ color: 'rgba(255,255,255,0.15)' }}>·</span> : null}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: 'var(--hf-fg-dim)' }}>
+              <Award size={12} style={{ color: 'var(--hf-accent)' }} />
+              {practitioner.years_experience}+ yrs exp
             </div>
           </>
-        )}
+        ) : null}
       </div>
 
       {/* Specialties */}

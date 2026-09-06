@@ -5,7 +5,7 @@ import { Footer } from '@/components/layout/Footer';
 import { supabase } from '@/lib/supabase/client';
 import {
   MapPin, Phone, Globe, Mail, CheckCircle, Star, User, Award, Video,
-  ChevronRight, ShieldCheck, Languages, DollarSign, BrainCircuit
+  ChevronRight, Languages, DollarSign, BrainCircuit
 } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
@@ -47,7 +47,13 @@ async function getPractitioner(slugOrId: string) {
     const { getPractitionerBySlug } = await import('@/lib/data/practitioners');
     const staticPractitioner = getPractitionerBySlug(slugOrId);
     if (staticPractitioner) {
-      return { ...staticPractitioner, id: staticPractitioner.id, years_experience: (staticPractitioner as any).yearsExperience || null, address: (staticPractitioner as any).street || null, claim_status: 'unclaimed' };
+      // years_experience is left null for static (unclaimed) listings. It used to
+      // be populated from the scraped `yearsExperience`, which defeated the
+      // "only show what the practitioner supplied" gate below: that field is
+      // present on 1152/1152 scraped records with a smooth 1-30 spread, i.e. it
+      // is enrichment output, not something observed per business. A claimed
+      // listing gets a real value from Supabase above and renders normally.
+      return { ...staticPractitioner, id: staticPractitioner.id, years_experience: null, address: (staticPractitioner as any).street || null, claim_status: 'unclaimed' };
     }
   } catch (e) {
     console.error('Error loading static data:', e);
@@ -140,11 +146,10 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                         <User style={{ width: 48, height: 48, color: 'var(--hf-fg-dim)' }} />
                       )}
                     </div>
-                    {practitioner.acceptingNewClients && (
-                      <div style={{ position: 'absolute', bottom: -4, right: -4, background: 'oklch(0.6 0.15 145)', padding: 6, borderRadius: '50%', border: '2px solid var(--hf-bg)' }}>
-                        <ShieldCheck style={{ width: 14, height: 14, color: '#fff' }} />
-                      </div>
-                    )}
+                    {/* The green "accepting new clients" badge is gone: the flag it
+                        read is present on 1152/1152 scraped records, so it asserted
+                        current availability for practices that never told us.
+                        Restore when claimed listings supply it. */}
                   </div>
 
                   {/* Name & Details */}

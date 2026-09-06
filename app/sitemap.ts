@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllPractitioners, getAllCities } from '@/lib/data/practitioners';
+import { getSpanishCities } from '@/lib/data/spanish';
 import { getAllPosts } from '@/lib/blog';
 
 // Slugs that have permanent redirects in next.config.ts — exclude from sitemap
@@ -213,6 +214,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Spanish section — national hub plus one page per launched city.
+  const spanishPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/es`,
+      lastModified: SITE_LAST_UPDATED,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    },
+    ...getSpanishCities().map((city) => ({
+      url: `${baseUrl}/es/${city.slug}`,
+      lastModified: SITE_LAST_UPDATED,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })),
+  ];
+
   // Practitioner pages (exclude redirected and removed slugs)
   const practitionerPages: MetadataRoute.Sitemap = practitioners
     .filter((p) => p.slug && !REDIRECTED_PRACTITIONER_SLUGS.has(p.slug) && !REMOVED_PRACTITIONER_SLUGS.has(p.slug))
@@ -239,5 +256,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...locationPages, ...practitionerPages, ...blogPages];
+  return [...staticPages, ...locationPages, ...spanishPages, ...practitionerPages, ...blogPages];
 }

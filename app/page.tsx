@@ -3,7 +3,7 @@ import { Footer } from '@/components/layout/Footer';
 import { SearchBar } from '@/components/home/SearchBar';
 import { PractitionerCard } from '@/components/search/PractitionerCard';
 import { HeroVideo } from '@/app/components/HeroVideo';
-import { getFeaturedPractitioners, getAllCities } from '@/lib/data/practitioners';
+import { getFeaturedPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 import Link from 'next/link';
 import Script from 'next/script';
 import { MapPin, ArrowRight } from 'lucide-react';
@@ -57,7 +57,7 @@ const TRUST_PILLARS = [
 
 export default function Home() {
   const featured = getFeaturedPractitioners();
-  const cities = getAllCities().slice(0, 12);
+  const cities = getCitiesByInventory();
 
   const organizationSchema = {
     '@context': 'https://schema.org',

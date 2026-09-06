@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PractitionerCard } from '@/components/search/PractitionerCard';
 import { getAllCities, getCityBySlug, getPractitionersByCity } from '@/lib/data/practitioners';
+import { getSpanishCityBySlug } from '@/lib/data/spanish';
 import Link from 'next/link';
 import Script from 'next/script';
 import { MapPin } from 'lucide-react';
@@ -36,6 +37,14 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
+
+  // hreflang must be reciprocal — Google discards one-way annotations, so a city
+  // with a Spanish page at /es/<slug> has to point back at it from here.
+  const hasSpanish = Boolean(getSpanishCityBySlug(slug));
+  const languages = hasSpanish
+    ? { 'en-US': url, 'es-US': `https://hypnotherapy-finder.com/es/${slug}` }
+    : undefined;
+
   return {
     // absolute: skip the "| Hypnotherapy Finder" template — location titles are keyword-tuned and already ~60 chars
     title: { absolute: title }, description,
@@ -44,7 +53,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, ${city.name} hypnotherapy directory`,
-    alternates: { canonical: url },
+    alternates: { canonical: url, ...(languages && { languages }) },
     openGraph: {
       url, title, description, siteName: 'Hypnotherapy Finder', locale: 'en_US', type: 'website',
       images: [{ url: '/logo.png', width: 1200, height: 630, alt: `Hypnotherapists in ${city.name}, ${city.state}` }],
