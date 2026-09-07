@@ -118,6 +118,13 @@ export default async function FindAHypnotherapistPage() {
         { href: '/locations', title: 'Browse city directories', body: 'Use location pages when you already know the city you want and need a faster way to scan local names, addresses, websites, and phone numbers.' },
     ];
 
+    const hypnotherapistComparisonChecks = [
+        { title: 'Location and contact route', body: 'Confirm whether the practitioner is reachable from your area, whether the listed website and phone number are current, and whether online sessions are an option if travel is awkward.' },
+        { title: 'Focus area fit', body: 'Look for profiles that mention the concern you want support with, then ask directly how they usually structure sessions for that concern. The profile is the start of the comparison, not the final answer.' },
+        { title: 'Training and professional scope', body: 'Ask where they trained, whether they hold current certification, whether they are also licensed in another healthcare field, and what they would refer out rather than support themselves.' },
+        { title: 'Booking details you must verify', body: 'Before booking, confirm current fees, appointment length, cancellation rules, availability, package structure, and whether the first session includes intake, goal-setting, hypnosis work, or all three.' },
+    ];
+
     const highInventoryCities = topCities.slice(0, 8);
 
     return (
@@ -230,8 +237,11 @@ export default async function FindAHypnotherapistPage() {
                     <section style={{ padding: '64px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Compare Hypnotherapists Before You Book</h2>
-                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 24, maxWidth: 680, margin: '0 auto 24px', lineHeight: 1.7 }}>
                                 A hypnotherapists directory should help you build a practical shortlist, not make claims the listing cannot verify. Use Hypnotherapy Finder to compare location, focus areas, website, phone number, and session format, then confirm the important details directly with the practitioner.
+                            </p>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                Broad searches for “hypnotherapists” often get split across city pages because Google sees a local pattern. Start here when you need the national comparison view; use a city page only after geography is the deciding factor.
                             </p>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
                                 {[
@@ -329,6 +339,24 @@ export default async function FindAHypnotherapistPage() {
                             <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
                                 The directory gives you a cleaner shortlist. Certification, training, fees, insurance, availability, and clinical scope still need to be confirmed directly with each practitioner.
                             </p>
+                        </div>
+                    </section>
+
+                    {/* Choosing Among Hypnotherapists */}
+                    <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>How to Choose Between Hypnotherapists</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                Once you have a shortlist of hypnotherapists, compare the details that change the booking decision. The safest process is simple: use the directory for discovery, then verify anything important directly with the practitioner before paying for a session.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {hypnotherapistComparisonChecks.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </section>
 
