@@ -71,6 +71,11 @@ export default async function FindAHypnotherapistPage() {
                 name: 'What should a hypnotherapists directory show?',
                 acceptedAnswer: { '@type': 'Answer', text: 'A hypnotherapists directory should help you compare location, focus areas, session format, website, phone number, and basic profile details. It should also make clear which details need to be confirmed directly, including certification, fees, insurance, availability, and professional scope.' },
             },
+            {
+                '@type': 'Question',
+                name: 'Where should I start if I searched just hypnotherapists?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Start with a national hypnotherapists directory when your query is broad. Use it to compare profiles across cities and online options, then narrow to a city page or individual practitioner only after location, focus area, and session format are clear.' },
+            },
         ],
     };
 
@@ -91,6 +96,7 @@ export default async function FindAHypnotherapistPage() {
         { q: 'What qualifications should I look for?', a: 'When comparing hypnotherapists, ask directly about certifications from recognized organizations such as NGH (National Guild of Hypnotists), IACT, or ABH. Also ask about training background, supervision, professional scope, and whether they regularly support the concern you want help with.' },
         { q: 'How much does a hypnotherapist cost?', a: 'Hypnotherapy sessions typically cost $75-$250 per hour, with most practitioners charging $125-$175. Many offer package deals for multiple sessions. Some hypnotherapists accept insurance when they\'re also licensed healthcare providers.' },
         { q: 'What should I compare before contacting hypnotherapists?', a: 'Compare location, session format, stated focus areas, website, phone number, and basic profile details first. Then contact each practitioner directly to confirm certification, training, fees, insurance questions, availability, and whether their approach fits your goal.' },
+        { q: 'Where should I start if I only searched “hypnotherapists”?', a: 'Start with the national directory instead of a single city page. A broad hypnotherapists search usually means you need to compare options across cities, online sessions, focus areas, and contact routes before narrowing the shortlist.' },
     ];
 
     const comparisonQuestions = [
@@ -123,6 +129,12 @@ export default async function FindAHypnotherapistPage() {
         { title: 'Focus area fit', body: 'Look for profiles that mention the concern you want support with, then ask directly how they usually structure sessions for that concern. The profile is the start of the comparison, not the final answer.' },
         { title: 'Training and professional scope', body: 'Ask where they trained, whether they hold current certification, whether they are also licensed in another healthcare field, and what they would refer out rather than support themselves.' },
         { title: 'Booking details you must verify', body: 'Before booking, confirm current fees, appointment length, cancellation rules, availability, package structure, and whether the first session includes intake, goal-setting, hypnosis work, or all three.' },
+    ];
+
+    const broadSearchChecks = [
+        { title: 'Use the broad page for broad intent', body: 'If the search is simply “hypnotherapists,” start with this directory. It keeps the comparison national instead of pushing you into Chicago, Atlanta, Boston, Memphis, or another city before you know geography is the deciding factor.' },
+        { title: 'Move local only when local is explicit', body: 'City pages are useful when the query names a city or neighborhood. For general hypnotherapists searches, compare several locations, online session options, phone numbers, websites, and focus areas first.' },
+        { title: 'Verify what the directory cannot know', body: 'Profiles can get you to the right conversation. Certification, insurance, pricing, availability, and whether the practitioner is appropriate for your concern still need to be confirmed directly before booking.' },
     ];
 
     const highInventoryCities = topCities.slice(0, 8);
@@ -347,7 +359,7 @@ export default async function FindAHypnotherapistPage() {
                         <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>How to Choose Between Hypnotherapists</h2>
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
-                                Once you have a shortlist of hypnotherapists, compare the details that change the booking decision. The safest process is simple: use the directory for discovery, then verify anything important directly with the practitioner before paying for a session.
+                                Once your shortlist is ready, compare the details that change the booking decision. The safest process is simple: use the directory for discovery, then verify anything important directly with the practitioner before paying for a session.
                             </p>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
                                 {hypnotherapistComparisonChecks.map((item) => (
@@ -357,6 +369,27 @@ export default async function FindAHypnotherapistPage() {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                    </section>
+
+                    {/* Broad Hypnotherapists Query Routing */}
+                    <section style={{ padding: '64px 0' }}>
+                        <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>If You Searched “Hypnotherapists,” Start Here</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                Google sometimes sends broad hypnotherapists searches to whichever city page happens to rank. That is not always what you need. This page is the canonical starting point for comparing hypnotherapists across the directory before narrowing by city, concern, or session format.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {broadSearchChecks.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p style={{ color: 'var(--hf-fg-dim)', fontSize: 14, lineHeight: 1.7, marginTop: 28, textAlign: 'center' }}>
+                                Need a city result instead? Use the links below for local pages. Need the widest pool first? <Link href="/search" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>Search all hypnotherapists</Link> and shortlist from there.
+                            </p>
                         </div>
                     </section>
 
