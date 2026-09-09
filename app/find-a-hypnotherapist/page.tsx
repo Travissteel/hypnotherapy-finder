@@ -6,22 +6,22 @@ import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
-    title: 'Hypnotherapists Directory | Find Hypnotherapists',
-    description: 'Browse a US hypnotherapists directory with 1,150+ profiles. Compare location, focus areas, session format, and contact details before reaching out directly.',
-    keywords: 'hypnotherapists, hypnotherapist directory, find a hypnotherapist, find hypnotherapist, hypnotherapist finder, search hypnotherapist',
+    title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
+    description: 'Search a US hypnotherapists directory with 1,150+ profiles. Compare location, focus areas, session format, website and phone details.',
+    keywords: 'hypnotherapists, hypnotherapists directory, hypnotherapist directory, find hypnotherapists, find a hypnotherapist, hypnotherapist finder, search hypnotherapists',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
     },
     openGraph: {
-        title: 'Hypnotherapists Directory | Find Hypnotherapists',
-        description: 'Browse a US hypnotherapists directory with 1,150+ profiles and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
+        description: 'Search a US hypnotherapists directory with 1,150+ profiles and compare practical details before contacting practitioners directly.',
         url: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Hypnotherapists Directory | Find Hypnotherapists',
-        description: 'Browse 1,150+ hypnotherapist profiles in a US hypnotherapists directory and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
+        description: 'Search 1,150+ hypnotherapist profiles in a US hypnotherapists directory and compare practical details before contacting practitioners directly.',
     },
 };
 
@@ -137,6 +137,12 @@ export default async function FindAHypnotherapistPage() {
         { title: 'Verify what the directory cannot know', body: 'Profiles can get you to the right conversation. Certification, insurance, pricing, availability, and whether the practitioner is appropriate for your concern still need to be confirmed directly before booking.' },
     ];
 
+    const broadQueryRouting = [
+        { title: 'Broad “hypnotherapists” search', body: 'Use this page when you searched for hypnotherapists without naming a city. It is built to keep broad directory intent on one national page instead of splitting it across Chicago, Atlanta, Boston, Memphis, and other local results.' },
+        { title: 'City search', body: 'Use a city page when the query includes a place, such as “hypnotherapists in Atlanta” or “Chicago hypnotherapy.” Local pages are for local comparison, not general directory discovery.' },
+        { title: 'Near-me search', body: 'Use the near-me guide when distance and practical booking questions matter most. It helps you compare nearby profiles, online session options, and what to ask before choosing who to contact.' },
+    ];
+
     const highInventoryCities = topCities.slice(0, 8);
 
     return (
@@ -224,6 +230,14 @@ export default async function FindAHypnotherapistPage() {
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
                                 If you searched for “hypnotherapists,” you are probably not looking for one random city page. You need a practical way to compare options across locations, shortlist the profiles that appear relevant, and verify the decision-making details directly before you book.
                             </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20, marginBottom: 20 }}>
+                                {broadQueryRouting.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24, background: 'rgba(var(--hf-accent-rgb), 0.05)' }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </div>
+                                ))}
+                            </div>
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
                                 {[
                                     { title: 'Start broad, then narrow', body: 'Use this national directory when you are comparing hypnotherapists across cities or online options. Once you know the location that matters, move into the city page or contact a practitioner directly.' },
