@@ -121,7 +121,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const nearMeCannibalizationCities = new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']);
   const certifiedNearMeCannibalizationCities = new Set(['detroit', 'columbus', 'atlanta']);
-  const hypnotherapistsDirectoryCannibalizationCities = new Set(['chicago', 'atlanta', 'boston', 'memphis', 'baltimore']);
+  const hypnotherapistsDirectoryCannibalizationCities = new Set(['chicago', 'dallas', 'atlanta', 'boston', 'memphis', 'baltimore']);
 
   return (
     <>
