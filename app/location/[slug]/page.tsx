@@ -222,6 +222,9 @@ export default async function LocationPage({ params }: LocationPageProps) {
                     <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
                       If your search was for <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapists</Link> in general, use the national directory page to compare profiles by location, focus area, contact details, and session format. This {city.name} page is for people specifically comparing local {city.name} profiles.
                     </p>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 10, marginBottom: 0, fontWeight: 300 }}>
+                      The broader <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapists directory</Link> is the better starting point when you have not chosen a city yet; use this page only after {city.name} is clearly the location you want.
+                    </p>
                   </div>
                 )}
 

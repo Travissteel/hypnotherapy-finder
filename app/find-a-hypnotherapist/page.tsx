@@ -143,6 +143,13 @@ export default async function FindAHypnotherapistPage() {
         { title: 'Near-me search', body: 'Use the near-me guide when distance and practical booking questions matter most. It helps you compare nearby profiles, online session options, and what to ask before choosing who to contact.' },
     ];
 
+    const broadSearchWorkflow = [
+        { title: '1. Start with the national pool', body: 'Open the full directory first when the query is only “hypnotherapists.” That keeps broad intent on one page instead of forcing the search into Chicago, Dallas, Atlanta, Boston, Memphis, or another city too early.' },
+        { title: '2. Filter by practical fit', body: 'Shortlist by city, online availability signals, stated focus area, website, and phone number. These are the details a directory can show without pretending to know current credentials, pricing, insurance, or appointment availability.' },
+        { title: '3. Check the concern match', body: 'Compare whether profiles mention the support you are researching — anxiety, smoking cessation, sleep, habits, confidence, phobias, or pain-related stress — then ask each practitioner how they usually structure sessions for that concern.' },
+        { title: '4. Verify before booking', body: 'Before paying for a session, contact the practitioner directly to confirm certification, training, professional scope, fees, session length, availability, and whether their approach fits what you want support with.' },
+    ];
+
     const highInventoryCities = topCities.slice(0, 8);
 
     return (
@@ -249,6 +256,17 @@ export default async function FindAHypnotherapistPage() {
                                         <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
                                     </div>
                                 ))}
+                            </div>
+                            <div style={{ marginTop: 32 }}>
+                                <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 20 }}>A safer workflow for broad hypnotherapists searches</h3>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                    {broadSearchWorkflow.map((item) => (
+                                        <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                            <h4 style={{ fontWeight: 700, fontSize: 15, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h4>
+                                            <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <div style={{ textAlign: 'center', marginTop: 32 }}>
                                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
