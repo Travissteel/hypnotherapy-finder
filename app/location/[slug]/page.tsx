@@ -24,7 +24,13 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   const city = getCityBySlug(slug);
   if (!city) return { title: 'Location Not Found' };
 
-  let title = `Hypnotherapists in ${city.name}, ${stateAbbr(city.state)} | ${city.practitionerCount} Practitioner Profiles`;
+  // Leads with "<City> Hypnotherapy", not "Hypnotherapists in <City>". The bare
+  // plural is the exact query /find-a-hypnotherapist is trying to own, and 27 of
+  // the 31 city pages fall through to this default — so the template itself, not
+  // any individual page, was the thing competing with the national directory.
+  // Eight nightly runs added body copy and links to fix this and moved nothing,
+  // because the title and H1 kept asserting the term the links disclaimed.
+  let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
   else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Anxiety Hypnosis & More`;
@@ -70,7 +76,8 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const itemListSchema = {
     '@context': 'https://schema.org', '@type': 'ItemList',
-    name: `Hypnotherapists in ${city.name}, ${city.state}`,
+    '@id': `https://hypnotherapy-finder.com/location/${slug}#listing`,
+    name: `${city.name} Hypnotherapy`,
     description: `Directory of hypnotherapist profiles in ${city.name}`,
     numberOfItems: practitioners.length,
     itemListElement: practitioners.slice(0, 10).map((p, index) => ({
@@ -97,21 +104,28 @@ export default async function LocationPage({ params }: LocationPageProps) {
     ],
   };
 
-  const localBusinessSchema = {
-    '@context': 'https://schema.org', '@type': 'LocalBusiness',
-    '@id': `https://hypnotherapy-finder.com/location/${slug}#business`,
-    name: `Hypnotherapy in ${city.name}`,
+  // Was a LocalBusiness named "Hypnotherapy in <City>" with a city-level
+  // PostalAddress. No such business exists — this is a directory listing, and
+  // cities.json carries only name/state/slug/count, so there was never a street
+  // address, phone or opening hours to give it. That markup asserted a fake
+  // entity, could not earn a LocalBusiness rich result while incomplete, and
+  // conflicted with the site's no-fabricated-business-data rule. CollectionPage
+  // is what the page actually is.
+  const collectionPageSchema = {
+    '@context': 'https://schema.org', '@type': 'CollectionPage',
+    '@id': `https://hypnotherapy-finder.com/location/${slug}#page`,
+    name: `${city.name} Hypnotherapy`,
     description: `Directory of ${city.practitionerCount} hypnotherapist profiles in ${city.name}, ${city.state}`,
-    address: { '@type': 'PostalAddress', addressLocality: city.name, addressRegion: city.state, addressCountry: 'US' },
-    areaServed: { '@type': 'City', name: city.name },
     url: `https://hypnotherapy-finder.com/location/${slug}`,
+    about: { '@type': 'Thing', name: `Hypnotherapy in ${city.name}, ${city.state}` },
+    mainEntity: { '@id': `https://hypnotherapy-finder.com/location/${slug}#listing` },
   };
 
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
     : slug === 'chicago' ? 'Chicago Hypnotherapy & Hypnotherapists'
     : slug === 'austin' ? 'Austin Hypnotherapy & Hypnotherapists'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
-    : `Hypnotherapists in ${city.name}`;
+    : `${city.name} Hypnotherapy`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
     : slug === 'chicago' ? `Connect with ${city.practitionerCount} Chicago hypnotherapist and hypnotist profiles in Chicago, Illinois`
@@ -119,16 +133,45 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
-  const nearMeCannibalizationCities = new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']);
-  const certifiedNearMeCannibalizationCities = new Set(['detroit', 'columbus', 'atlanta']);
-  const hypnotherapistsDirectoryCannibalizationCities = new Set(['chicago', 'dallas', 'atlanta', 'boston', 'memphis', 'baltimore']);
+  // These were three independently-gated blocks. Cities sat in more than one set
+  // (Atlanta, Boston, Baltimore, Detroit, Columbus all in two), so those pages
+  // rendered two or three stacked cards each pointing somewhere different — noise
+  // to a reader and a muddled signal to a crawler. Now: one list, ordered by how
+  // much traffic the destination is trying to reclaim, deduped by destination.
+  const consolidationTargets = [
+    {
+      cities: new Set(['chicago', 'dallas', 'atlanta', 'boston', 'memphis', 'baltimore']),
+      href: '/find-a-hypnotherapist',
+      anchor: 'hypnotherapists',
+      note: `in general, use the national directory to compare profiles by location, focus area, contact details, and session format. This ${city.name} page is for people who already know they want ${city.name} profiles.`,
+    },
+    {
+      cities: new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']),
+      href: '/hypnotherapy-near-me',
+      anchor: 'hypnotherapist near me',
+      note: 'That national checklist is the better fit for comparing nearby options across cities, asking credential questions, and checking session format before you contact anyone.',
+    },
+    {
+      cities: new Set(['detroit', 'columbus', 'atlanta']),
+      href: '/hypnotherapy-near-me',
+      anchor: 'certified hypnotherapist near me',
+      note: 'Use the national checklist to verify certification, training, scope, fees, and availability directly rather than inferring them from a city listing.',
+    },
+  ].filter((target) => target.cities.has(slug));
+
+  const seenConsolidationHrefs = new Set<string>();
+  const consolidationLinks = consolidationTargets.filter((target) => {
+    if (seenConsolidationHrefs.has(target.href)) return false;
+    seenConsolidationHrefs.add(target.href);
+    return true;
+  });
 
   return (
     <>
       <Script id="schema-itemlist" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} strategy="beforeInteractive" />
       <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} strategy="beforeInteractive" />
       <Script id="schema-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} strategy="beforeInteractive" />
-      <Script id="schema-local-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} strategy="beforeInteractive" />
+      <Script id="schema-collection-page" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }} strategy="beforeInteractive" />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
@@ -198,33 +241,16 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>.
                 </p>
 
-                {nearMeCannibalizationCities.has(slug) && (
+                {consolidationLinks.length > 0 && (
                   <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Hypnotherapist near me is the broader checklist</h3>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
-                      If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapist near me</Link>, use that national checklist to compare local profiles, ask credential questions, check session format, and avoid treating a {city.name} listing as the whole search.
-                    </p>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 10, marginBottom: 0, fontWeight: 300 }}>
-                      This {city.name} page is best when you specifically want {city.name} profiles. The near-me guide is better when you are still deciding how to compare nearby options across cities before contacting anyone.
-                    </p>
-                  </div>
-                )}
-
-                {certifiedNearMeCannibalizationCities.has(slug) && (
-                  <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 12, fontWeight: 300 }}>
-                    If your search was <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>certified hypnotherapist near me</Link>, use that national checklist to verify certification, training, scope, fees, and availability directly instead of assuming those details from a city listing.
-                  </p>
-                )}
-
-                {hypnotherapistsDirectoryCannibalizationCities.has(slug) && (
-                  <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Searching for hypnotherapists nationally?</h3>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
-                      If your search was for <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapists</Link> in general, use the national directory page to compare profiles by location, focus area, contact details, and session format. This {city.name} page is for people specifically comparing local {city.name} profiles.
-                    </p>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 10, marginBottom: 0, fontWeight: 300 }}>
-                      The broader <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>hypnotherapists directory</Link> is the better starting point when you have not chosen a city yet; use this page only after {city.name} is clearly the location you want.
-                    </p>
+                    <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Searching more broadly than {city.name}?</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      {consolidationLinks.map((target) => (
+                        <p key={target.anchor} style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>
+                          If your search was <Link href={target.href} className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>{target.anchor}</Link>, {target.note}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 )}
 
