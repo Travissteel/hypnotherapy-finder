@@ -122,6 +122,7 @@ export default async function FindAHypnotherapistPage() {
         { href: '/search', title: 'Search all hypnotherapists', body: 'Use the full search page when location is flexible or when you want to compare several cities, session formats, and focus areas before making contact.' },
         { href: '/hypnotherapy-near-me', title: 'Use the near-me checklist', body: 'Use the near-me guide when your search is local but you still need a practical checklist for comparing profiles, asking credential questions, and checking logistics.' },
         { href: '/locations', title: 'Browse city directories', body: 'Use location pages when you already know the city you want and need a faster way to scan local names, addresses, websites, and phone numbers.' },
+        { href: '/location/austin', title: 'How to choose a hypnotherapist Austin', body: 'Use the Austin page when the search is specifically about choosing among local Austin profiles rather than comparing hypnotherapists nationally.' },
     ];
 
     const hypnotherapistComparisonChecks = [

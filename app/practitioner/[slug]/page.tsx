@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   if (!practitioner) return { title: 'Practitioner Not Found' };
 
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
-  let description = `Connect with ${practitioner.name}, a certified hypnotherapist in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Specializing in ${specialties.slice(0, 3).join(', ')}.` : ''}`;
+  let description = `Connect with ${practitioner.name}, a hypnotherapy practice listed in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Focus areas listed include ${specialties.slice(0, 3).join(', ')}.` : ''}`;
   if (description.length > 155) description = description.substring(0, 152) + '...';
 
   const ogTitle = `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${stateAbbr(practitioner.state)}`;
@@ -360,7 +360,19 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                         <img src={`/api/badge/${practitioner.slug}`} alt="Verified Practitioner - Hypnotherapy Finder" width={200} height={56} style={{ borderRadius: 8 }} />
                       </a>
                     </div>
-                    <p style={{ fontSize: 11, color: 'oklch(0.7 0.15 145)', fontWeight: 300 }}>Identity and credentials verified by Hypnotherapy Finder</p>
+                    <p style={{ fontSize: 11, color: 'oklch(0.7 0.15 145)', fontWeight: 300 }}>Claimed listing with practitioner-supplied details</p>
+                  </div>
+                )}
+
+                {slug === 'higher-austin-5' && (
+                  <div className="glass-card" style={{ padding: '24px' }}>
+                    <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 12 }}>Austin comparison guide</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 12 }}>
+                      Comparing local options before contacting this practice? Use the city page for the broader shortlist.
+                    </p>
+                    <Link href="/location/austin" className="hf-link-hover" style={{ fontSize: 13, color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 700 }}>
+                      how to choose a hypnotherapist Austin →
+                    </Link>
                   </div>
                 )}
 
@@ -369,7 +381,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                   <div style={{ position: 'absolute', top: -30, right: -30, width: 120, height: 120, background: 'var(--hf-accent)', borderRadius: '50%', filter: 'blur(50px)', opacity: 0.07 }} />
                   <div style={{ position: 'relative' }}>
                     <h4 style={{ fontSize: 16, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8, lineHeight: 1.3 }}>Start Your Transformation</h4>
-                    <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 20, fontWeight: 300 }}>Most clients see measurable change within 3–5 sessions. Discovery calls are recommended.</p>
+                    <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 20, fontWeight: 300 }}>Ask about session format, professional scope, fees, availability, and whether the approach fits what you want support with.</p>
                     <button className="btn-gradient hf-btn-accent" style={{ width: '100%', padding: '12px', borderRadius: 12, border: 'none', color: '#fff', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
                       Schedule Free Call
                     </button>

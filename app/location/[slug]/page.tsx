@@ -33,13 +33,13 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
-  else if (slug === 'austin') title = `Austin Hypnotherapy | ${city.practitionerCount} Hypnotherapists in Austin, TX | Anxiety Hypnosis & More`;
+  else if (slug === 'austin') title = `Austin Hypnotherapy | How to Choose a Hypnotherapist in Austin`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
 
   let description = `Find hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
   else if (slug === 'chicago') description = `Find hypnotherapy in Chicago. Browse ${city.practitionerCount} hypnotherapist profiles — Downtown, Lincoln Park & suburbs.`;
-  else if (slug === 'austin') description = `Find hypnotherapy in Austin, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety hypnosis, quit smoking & weight loss — Downtown & South Austin.`;
+  else if (slug === 'austin') description = `How to choose a hypnotherapist in Austin, TX: compare location, focus area, contact details, session format and questions to confirm directly.`;
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
@@ -123,13 +123,13 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
     : slug === 'chicago' ? 'Chicago Hypnotherapy & Hypnotherapists'
-    : slug === 'austin' ? 'Austin Hypnotherapy & Hypnotherapists'
+    : slug === 'austin' ? 'Austin Hypnotherapy: How to Choose a Hypnotherapist'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : `${city.name} Hypnotherapy`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
     : slug === 'chicago' ? `Connect with ${city.practitionerCount} Chicago hypnotherapist and hypnotist profiles in Chicago, Illinois`
-    : slug === 'austin' ? `Connect with ${city.practitionerCount} Austin hypnotherapist profiles for anxiety hypnosis, clinical hypnotherapy, and habit change`
+    : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, focus area, contact details, and the questions to ask before booking`
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
@@ -211,7 +211,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   </p>
                 ) : slug === 'austin' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
-                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} Austin hypnotherapist profiles for <strong style={{ color: 'var(--hf-fg)' }}>anxiety hypnosis and clinical hypnotherapy in Austin</strong>. We list practitioners across South Austin, Downtown, North Austin, Round Rock, Cedar Park, and the surrounding areas. Whether you are looking for stop smoking hypnosis or stress management, locate profiles near you and confirm fit directly.
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Austin?</strong> Our directory features {city.practitionerCount} Austin hypnotherapist profiles across <strong style={{ color: 'var(--hf-fg)' }}>South Austin, Downtown, North Austin, Round Rock, Cedar Park, and the surrounding areas</strong>. Use this page to compare practical details first, then ask each practitioner directly about training, session format, current fees, availability, and whether their approach fits your concern.
                   </p>
                 ) : slug === 'fort-worth' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
@@ -251,6 +251,31 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </p>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {slug === 'austin' && (
+                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>How to choose a hypnotherapist Austin</h3>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      Austin searches are often specific: South Austin smoking support, anxiety hypnosis, stress sessions, or a general question about choosing the right person. Start by deciding whether location, concern fit, or session format matters most, then use the profiles below to build a shortlist instead of treating the first result as the answer.
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {[
+                        { title: 'For South Austin quit-smoking searches', body: 'If you searched for “hypnotherapy to quit smoking South Austin” or “stop smoking hypnotherapy Austin TX,” shortlist nearby profiles first, then ask how they usually structure smoking-cessation support, whether follow-up sessions are common, and what between-session practice they suggest.' },
+                        { title: 'For stress hypnotherapy Austin', body: 'For stress-focused sessions, ask whether the practitioner works with body calming, habit triggers, self-talk, future rehearsal, or another method. Hypnotherapy may help some people practise calmer responses, but it should not replace medical or mental-health care when symptoms are significant.' },
+                        { title: 'For anxiety hypnosis Austin', body: 'For anxiety-related searches, ask about intake, professional scope, referral boundaries, online versus in-person fit, and what a first session usually includes. The useful question is not whether a profile sounds impressive; it is whether the practitioner can explain their process clearly and safely.' },
+                        { title: 'For Austin hypnotherapy solutions', body: 'If your query was broader, compare names, addresses, websites, phone numbers, categories, and session format. Then contact practitioners directly to confirm certification, training background, current fees, availability, and fit for your concern.' },
+                      ].map((item) => (
+                        <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
+                          <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
+                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
+                    </p>
                   </div>
                 )}
 
