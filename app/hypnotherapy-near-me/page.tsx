@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me Directory | Compare Local Profiles',
-  description: 'Search hypnotherapist near me results by area, compare local profiles, then verify certification, fees and fit directly before booking.',
+  title: 'Hypnotherapist Near Me | Search Local Profiles Safely',
+  description: 'Search hypnotherapist near me results, compare local profiles, then verify training, fees, fit and availability directly before booking.',
   keywords: 'hypnotherapist near me, hypnotherapy near me, certified hypnotherapist near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me Directory | Compare Local Profiles', description: 'Search local hypnotherapist profiles by area, compare contact details, and verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me Directory | Compare Local Profiles', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Hypnotherapist Near Me | Search Local Profiles Safely', description: 'Search local hypnotherapist profiles by area, compare contact details, and verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Search Local Profiles Safely', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -133,7 +133,7 @@ export default async function HypnotherapyNearMePage() {
               <div className="glass-card" style={{ padding: '36px' }}>
                 <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: When to Use the National Page Instead of a City Page</h2>
                 <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
-                  A search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> is usually not asking for a single city article. It is asking for a safe way to move from “who is nearby?” to “who should I contact first?” City pages help once you know the location. This page should own the broader search because it explains the comparison process before you start booking calls.
+                  A search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> is usually not asking for one city article. Search Console currently shows Fort Worth, Detroit, Columbus, Boston, and Charlotte pages competing for that broad query, which splits the signal. City pages help once you know the location. This page should own the broader search because it explains the comparison process before you start booking calls.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
                   {nearMeSignalCities.map((item) => (
@@ -144,7 +144,7 @@ export default async function HypnotherapyNearMePage() {
                   ))}
                 </div>
                 <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 18, marginBottom: 0 }}>
-                  Use local pages for geography. Use this <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> page for the shortlist logic: check location, confirm contact details, ask about certification and training directly, compare session format, and only then decide who is worth contacting.
+                  Use Fort Worth, Detroit, Columbus, Boston, Charlotte, or any other local page for geography. Use this <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> page for the shortlist logic: check location, confirm contact details, ask about certification and training directly, compare session format, and only then decide who is worth contacting.
                 </p>
               </div>
             </div>
