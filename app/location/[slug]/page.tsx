@@ -92,6 +92,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
       { '@type': 'Question', name: `How many hypnotherapists are in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `There are ${city.practitionerCount} hypnotherapist profiles in ${city.name}, ${city.state} listed in our directory.` } },
       { '@type': 'Question', name: `What does hypnotherapy cost in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Hypnotherapy fees in ${city.name}, ${city.state} vary by practitioner, session format, and session length. Contact practitioners directly for current pricing.` } },
       { '@type': 'Question', name: `How do I choose a hypnotherapist in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `When choosing a hypnotherapist in ${city.name}, ask about certification, training background, experience with your concern, session format, and whether you feel comfortable with their approach.` } },
+      ...(slug === 'fort-worth' ? [
+        { '@type': 'Question', name: 'Where can I find clinical hypnotherapy sessions in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: `Use the Fort Worth directory to compare ${city.practitionerCount} local hypnotherapist profiles by location, phone, website, and category, then contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
+        { '@type': 'Question', name: 'What should I ask a clinical hypnotherapist in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: 'Ask about certification, training background, professional scope, experience with your concern, intake process, referral boundaries, and whether sessions are online, in-person, or both. Do not infer credentials or clinical scope from a directory listing alone.' } },
+      ] : []),
     ],
   };
 
@@ -266,6 +270,31 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         { title: 'For stress hypnotherapy Austin', body: 'For stress-focused sessions, ask whether the practitioner works with body calming, habit triggers, self-talk, future rehearsal, or another method. Hypnotherapy may help some people practise calmer responses, but it should not replace medical or mental-health care when symptoms are significant.' },
                         { title: 'For anxiety hypnosis Austin', body: 'For anxiety-related searches, ask about intake, professional scope, referral boundaries, online versus in-person fit, and what a first session usually includes. The useful question is not whether a profile sounds impressive; it is whether the practitioner can explain their process clearly and safely.' },
                         { title: 'For Austin hypnotherapy solutions', body: 'If your query was broader, compare names, addresses, websites, phone numbers, categories, and session format. Then contact practitioners directly to confirm certification, training background, current fees, availability, and fit for your concern.' },
+                      ].map((item) => (
+                        <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
+                          <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
+                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
+                    </p>
+                  </div>
+                )}
+
+                {slug === 'fort-worth' && (
+                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Clinical hypnotherapy sessions Fort Worth TX</h3>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      Fort Worth searchers are not all asking the same thing. Some want a local clinical hypnotherapist, some want hypnosis in Fort Worth more broadly, and some are still comparing nearby options. Use this page to move from a vague search result to a safer shortlist: location, phone, website, category, and the questions to confirm directly before booking.
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {[
+                        { title: 'Clinical hypnotherapist Fort Worth TX', body: 'For this search, do not assume a profile has clinical training just because it appears in a directory. Ask the practitioner directly about certification, training background, supervision, professional scope, and whether they commonly work with your concern.' },
+                        { title: 'Hypnotherapy Fort Worth', body: 'If your query was simply “hypnotherapy Fort Worth,” start with geography and fit. Compare profiles near Downtown Fort Worth, Near Southside, TCU, Arlington, and nearby areas, then confirm session format, current fees, availability, and referral boundaries directly.' },
+                        { title: 'Hypnosis Fort Worth', body: '“Hypnosis” can mean stage entertainment, self-hypnosis, coaching, or therapeutic support. For personal concerns, ask whether the practitioner offers hypnotherapy, what the intake process includes, and how they explain their method in plain language.' },
+                        { title: 'Hypnotherapist near me', body: 'If you are still in “near me” mode, use the national near-me checklist first, then come back to the Fort Worth listings once you know what to ask. Distance matters, but clear scope, safe language, and direct answers matter more.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
