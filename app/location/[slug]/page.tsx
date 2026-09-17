@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
   else if (slug === 'columbus') title = `Columbus Hypnotherapy | Hypnosis Therapy & Clinical Hypnosis in Ohio`;
+  else if (slug === 'detroit') title = `Detroit Hypnotherapy | Smoking Cessation Hypnosis & Local Profiles`;
 
   let description = `Find hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
@@ -45,6 +46,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
   else if (slug === 'atlanta') description = `Find hypnotherapy in Atlanta, GA. Browse ${city.practitionerCount} local hypnotherapist profiles and use a safer checklist before contacting practitioners.`;
   else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for hypnosis therapy, clinical hypnosis, and nearby hypnotherapist searches.`;
+  else if (slug === 'detroit') description = `Find Detroit hypnotherapy and smoking cessation hypnosis profiles. Compare ${city.practitionerCount} local listings, then confirm services and session fit directly.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
 
@@ -64,6 +66,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : slug === 'atlanta' ? 'atlanta hypnotherapy, hypnotherapists atlanta, hypnotherapists directory atlanta, hypnosis therapy near me atlanta, hypnotherapist near me atlanta'
       : slug === 'columbus' ? 'hypnotherapy columbus ohio, columbus hypnotherapy, hypnosis therapy near me columbus, clinical hypnosis near me columbus, hypnotherapist near me columbus'
+      : slug === 'detroit' ? 'detroit hypnosis, detroit hypnotherapy, smoking cessation hypnosis detroit, smoking cessation hypnotherapy detroit, hypnotherapist near me detroit'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, ${city.name} hypnotherapy directory`,
     alternates: { canonical: url, ...(languages && { languages }) },
     openGraph: {
@@ -110,6 +113,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
         { '@type': 'Question', name: 'Where can I find hypnotherapy in Columbus, Ohio?', acceptedAnswer: { '@type': 'Answer', text: `Use the Columbus directory to compare ${city.practitionerCount} local hypnotherapist profiles by name, location, phone, website, and category. Contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'What is the difference between hypnosis therapy and clinical hypnosis near me?', acceptedAnswer: { '@type': 'Answer', text: 'Searchers use these phrases in different ways. When contacting a practitioner, ask whether they offer hypnotherapy, what their intake process includes, what training or certification they hold, and when they would refer a client to a licensed healthcare provider instead.' } },
       ] : []),
+      ...(slug === 'detroit' ? [
+        { '@type': 'Question', name: 'Where can I find Detroit hypnotherapy?', acceptedAnswer: { '@type': 'Answer', text: `Use the Detroit directory to compare ${city.practitionerCount} local hypnotherapist profiles by name, address, phone, website, and category. Contact practitioners directly to confirm services, training, session format, current fees, and availability.` } },
+        { '@type': 'Question', name: 'How should I compare smoking cessation hypnosis in Detroit?', acceptedAnswer: { '@type': 'Answer', text: 'For smoking cessation hypnosis or hypnotherapy in Detroit, ask each practitioner how they structure habit-change sessions, whether follow-up sessions are common, what between-session practice they suggest, and when they would refer someone to a qualified healthcare provider.' } },
+      ] : []),
     ],
   };
 
@@ -145,6 +152,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : slug === 'atlanta' ? 'Atlanta Hypnotherapy Directory'
     : slug === 'columbus' ? 'Columbus Hypnotherapy in Ohio'
+    : slug === 'detroit' ? 'Detroit Hypnotherapy and Smoking Cessation Hypnosis'
     : `${city.name} Hypnotherapy`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
@@ -153,6 +161,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : slug === 'atlanta' ? `Compare ${city.practitionerCount} Atlanta hypnotherapist profiles by location, contact details, category, and the questions to confirm directly`
     : slug === 'columbus' ? `Compare ${city.practitionerCount} Columbus hypnotherapist profiles for local hypnotherapy, hypnosis therapy, and clinical hypnosis searches`
+    : slug === 'detroit' ? `Compare ${city.practitionerCount} Detroit hypnotherapist profiles for local hypnotherapy, Detroit hypnosis, and smoking cessation hypnosis searches`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
   // These were three independently-gated blocks. Cities sat in more than one set
@@ -221,6 +230,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                     : slug === 'austin' ? 'Find the Best Hypnotherapy in Austin, TX'
                     : slug === 'fort-worth' ? 'Find Clinical Hypnotherapy in Fort Worth, TX'
                     : slug === 'columbus' ? 'Find Hypnotherapy in Columbus, Ohio'
+                    : slug === 'detroit' ? 'Find Detroit Hypnotherapy and Hypnosis Profiles'
                     : `Find Hypnotherapist Profiles in ${city.name}, ${city.state}`}
                 </h2>
 
@@ -247,6 +257,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 ) : slug === 'columbus' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
                     <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Columbus, Ohio?</strong> Our directory features {city.practitionerCount} Columbus hypnotherapist profiles across <strong style={{ color: 'var(--hf-fg)' }}>Downtown Columbus, Short North, German Village, Clintonville, Dublin, Westerville, and the wider central Ohio area</strong>. Use the listings to compare practical contact details first, then confirm training, session format, current fees, availability, and fit directly with each practitioner.
+                  </p>
+                ) : slug === 'detroit' ? (
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for Detroit hypnotherapy or Detroit hypnosis?</strong> Our directory features {city.practitionerCount} Detroit hypnotherapist profiles across the local area. Use the listings to compare names, addresses, phone numbers, websites, and categories first, then confirm smoking cessation support, session format, current fees, availability, and fit directly with each practitioner.
                   </p>
                 ) : (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
@@ -376,6 +390,33 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         { title: 'Clinical hypnosis near me', body: 'Do not assume clinical scope from a directory listing. Ask directly about certification, training background, professional boundaries, experience with your concern, and whether their work is complementary to medical or mental-health care.' },
                         { title: 'Revitalize You Columbus searches', body: 'If a named Columbus practice prompted your search, treat this directory as a comparison tool rather than an endorsement. Check the practice website directly, then compare location, contact options, and practitioner fit alongside other local profiles.' },
                         { title: 'Hypnotherapist near me', body: 'Near-me searches can mix city pages, national directories, and individual profiles. If you want Columbus options, stay here; if you are still comparing nearby choices across cities, use the national near-me checklist linked above.' },
+                      ].map((item) => (
+                        <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
+                          <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
+                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
+                    </p>
+                  </div>
+                )}
+
+                {slug === 'detroit' && (
+                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Detroit hypnosis, smoking cessation, and near-me searches</h3>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      Search Console shows this Detroit page appearing for “hypnotherapist near me,” “smoking cessation hypnosis near me,” “Detroit hypnosis,” “Detroit hypnotherapy,” “smoking cessation hypnosis Detroit,” and “smoking cessation hypnotherapy Detroit.” Those searches have different jobs. Use this page when you want Detroit-area profiles, and use the broader near-me checklist when your search is not tied to Detroit.
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {[
+                        { title: 'Hypnotherapist near me', body: 'Near-me searches can mix national directories, city pages, and individual profiles. If you want Detroit options, compare the local listings here; if you are still choosing across nearby cities, use the national near-me checklist linked above.' },
+                        { title: 'Smoking cessation hypnosis near me', body: 'For a nearby smoking-cessation search, shortlist practical options first, then ask each practitioner how they structure habit-change sessions, whether follow-up sessions are common, and what practice they suggest between sessions.' },
+                        { title: 'Detroit hypnosis', body: '“Hypnosis” can mean stage work, self-hypnosis, coaching, or therapeutic hypnotherapy. Before booking, ask whether the practitioner offers hypnotherapy, what the intake process includes, and how they explain their method in plain language.' },
+                        { title: 'Detroit hypnotherapy', body: 'For Detroit-specific hypnotherapy searches, compare name, address, phone, website, category, and session format. Then confirm training, professional scope, current fees, availability, and fit directly with the practitioner.' },
+                        { title: 'Smoking cessation hypnosis Detroit', body: 'If smoking or vaping is the concern, ask whether the practitioner focuses on triggers, routines, stress cues, identity rehearsal, future pacing, or another habit-change method. Hypnotherapy may support behaviour change, but no listing should be treated as a guarantee.' },
+                        { title: 'Smoking cessation hypnotherapy Detroit', body: 'For this exact query, look for a clear explanation of session structure rather than vague promises. Ask what happens in the first session, whether they use recorded reinforcement or home practice, and when medical advice or licensed care should be involved.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
