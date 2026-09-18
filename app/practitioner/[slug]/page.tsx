@@ -25,6 +25,13 @@ interface PractitionerPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const practitionerSnippetOverrides: Record<string, { title: string; description: string }> = {
+  'mind-gym-by-marco-nashville-17': {
+    title: 'Mind Gym By Marco Nashville, TN | Hypnotherapy Finder',
+    description: 'Find Mind Gym By Marco in Nashville: address, phone, website, map details, and profile information on Hypnotherapy Finder.',
+  },
+};
+
 export async function generateStaticParams() {
   const { getAllPractitioners } = await import('@/lib/data/practitioners');
   const practitioners = getAllPractitioners();
@@ -67,11 +74,12 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   const practitioner = await getPractitioner(slug);
   if (!practitioner) return { title: 'Practitioner Not Found' };
 
+  const snippetOverride = practitionerSnippetOverrides[slug];
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
-  let description = `Connect with ${practitioner.name}, a hypnotherapy practice listed in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Focus areas listed include ${specialties.slice(0, 3).join(', ')}.` : ''}`;
+  let description = snippetOverride?.description || `Connect with ${practitioner.name}, a hypnotherapy practice listed in ${practitioner.city}, ${practitioner.state}. ${specialties.length > 0 ? `Focus areas listed include ${specialties.slice(0, 3).join(', ')}.` : ''}`;
   if (description.length > 155) description = description.substring(0, 152) + '...';
 
-  const ogTitle = `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${stateAbbr(practitioner.state)}`;
+  const ogTitle = snippetOverride?.title || `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${stateAbbr(practitioner.state)}`;
   const ogImage = practitioner.photo_url || 'https://hypnotherapy-finder.com/og-image.jpg';
 
   return {
