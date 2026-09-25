@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   // because the title and H1 kept asserting the term the links disclaimed.
   let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
-  else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in Chicago, IL`;
+  else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Local Profiles in Chicago, IL`;
   else if (slug === 'austin') title = `Austin Hypnotherapy | How to Choose a Hypnotherapist in Austin`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'detroit') title = `Detroit Hypnotherapy | Smoking Cessation Hypnosis & Local Profiles`;
   else if (slug === 'baltimore') title = `Baltimore Hypnotherapy | Hypnosis Baltimore & Local Profiles`;
 
-  let description = `Find hypnotherapists in ${city.name}, ${city.state}. Browse ${city.practitionerCount} practitioner profiles by location and contact details.`;
+  let description = `Find hypnotherapy in ${city.name}, ${city.state}. Browse ${city.practitionerCount} local practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
   else if (slug === 'chicago') description = `Find hypnotherapy in Chicago. Browse ${city.practitionerCount} hypnotherapist profiles — Downtown, Lincoln Park & suburbs.`;
   else if (slug === 'austin') description = `How to choose a hypnotherapist in Austin, TX: compare location, focus area, contact details, session format and questions to confirm directly.`;
@@ -154,7 +154,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
   };
 
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
-    : slug === 'chicago' ? 'Chicago Hypnotherapy & Hypnotherapists'
+    : slug === 'chicago' ? 'Chicago Hypnotherapy Profiles'
     : slug === 'austin' ? 'Austin Hypnotherapy: How to Choose a Hypnotherapist'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : slug === 'atlanta' ? 'Atlanta Hypnotherapy Directory'
@@ -164,7 +164,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : `${city.name} Hypnotherapy`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
-    : slug === 'chicago' ? `Connect with ${city.practitionerCount} Chicago hypnotherapist and hypnotist profiles in Chicago, Illinois`
+    : slug === 'chicago' ? `Compare ${city.practitionerCount} Chicago hypnotherapy profiles by location, contact details, category, and questions to confirm directly`
     : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, focus area, contact details, and the questions to ask before booking`
     : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
     : slug === 'atlanta' ? `Compare ${city.practitionerCount} Atlanta hypnotherapist profiles by location, contact details, category, and the questions to confirm directly`

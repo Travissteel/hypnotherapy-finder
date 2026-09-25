@@ -6,22 +6,22 @@ import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
-    title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
-    description: 'Search a US hypnotherapists directory with 1,150+ profiles. Compare location, focus areas, session format, website and phone details.',
+    title: 'Hypnotherapists Directory | Compare Profiles Before Booking',
+    description: 'Compare 1,150+ US hypnotherapist profiles by city, focus area, session format, website and phone details before contacting practitioners directly.',
     keywords: 'hypnotherapists, hypnotherapists directory, hypnotherapist directory, find hypnotherapists, find a hypnotherapist, hypnotherapist finder, search hypnotherapists',
     alternates: {
         canonical: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
     },
     openGraph: {
-        title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
-        description: 'Search a US hypnotherapists directory with 1,150+ profiles and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Compare Profiles Before Booking',
+        description: 'Compare US hypnotherapist profiles by city, focus area, session format, website and phone details before contacting practitioners directly.',
         url: 'https://hypnotherapy-finder.com/find-a-hypnotherapist',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Hypnotherapists Directory | Compare 1,150+ US Profiles',
-        description: 'Search 1,150+ hypnotherapist profiles in a US hypnotherapists directory and compare practical details before contacting practitioners directly.',
+        title: 'Hypnotherapists Directory | Compare Profiles Before Booking',
+        description: 'Compare 1,150+ hypnotherapist profiles in a US directory before contacting practitioners directly.',
     },
 };
 
@@ -151,6 +151,12 @@ export default async function FindAHypnotherapistPage() {
         { title: '4. Verify before booking', body: 'Before paying for a session, contact the practitioner directly to confirm certification, training, professional scope, fees, session length, availability, and whether their approach fits what you want support with.' },
     ];
 
+    const directoryDecisionPoints = [
+        { title: 'The query is broad', body: 'A search for “hypnotherapists” usually means you are still comparing, not that you have chosen Chicago, Atlanta, Dallas, Boston, Memphis, or any other specific city yet.' },
+        { title: 'The useful facts are practical', body: 'Start with location, website, phone number, session format signals, and stated focus areas. Those are the facts a directory can show without pretending to know current certification, insurance, fees, or availability.' },
+        { title: 'The final check is direct', body: 'Once a profile looks relevant, contact the practitioner and ask about training, scope, fees, booking process, and whether their approach fits your concern. Do not treat the directory listing as an endorsement.' },
+    ];
+
     const highInventoryCities = topCities.slice(0, 8);
 
     return (
@@ -166,10 +172,10 @@ export default async function FindAHypnotherapistPage() {
                     <section style={{ background: 'linear-gradient(to bottom, oklch(0.22 0.06 185), var(--hf-bg))', padding: '80px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px', textAlign: 'center' }}>
                             <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 24, lineHeight: 1.15 }}>
-                                Find Hypnotherapists
+                                Hypnotherapists Directory
                             </h1>
                             <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7, maxWidth: 640, margin: '0 auto 32px' }}>
-                                Search {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles in a US hypnotherapists directory. Compare location, focus areas, session format, and contact details before reaching out directly.
+                                Compare {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles across the United States before you choose who to contact. Start broad, shortlist by practical fit, then confirm credentials, fees, availability, and scope directly with the practitioner.
                             </p>
                             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
@@ -225,6 +231,24 @@ export default async function FindAHypnotherapistPage() {
                                                 <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{desc}</p>
                                             </div>
                                         </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Broad Directory Decision Points */}
+                    <section style={{ padding: '64px 0' }}>
+                        <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>When “Hypnotherapists” Means the Directory, Not a City Page</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                Google can surface local pages for broad searches because many people eventually choose by distance. But the first job of a broad “hypnotherapists” search is comparison: work out the right city, session format, focus area, and contact route before you narrow to one local page.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {directoryDecisionPoints.map((item) => (
+                                    <div key={item.title} className="glass-card" style={{ padding: 24 }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)', marginBottom: 10 }}>{item.title}</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
                                     </div>
                                 ))}
                             </div>
