@@ -385,6 +385,32 @@ export default async function HypnotherapyNearMePage() {
             </div>
           </section>
 
+          {/* First Contact Script */}
+          <section style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
+            <div style={{ maxWidth: 880, margin: '0 auto' }}>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: What to Ask Before You Book</h2>
+              <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
+                Once a <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> search gives you a few nearby names, the next job is not booking the closest option. It is asking a clean set of questions so distance, credentials, method, and session format are all checked before you share personal details.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
+                {[
+                  { title: '“Are you currently taking new clients?”', body: 'Availability changes faster than directory records. Confirm whether they are accepting enquiries, whether there is a waitlist, and whether the first contact is by phone, form, or email.' },
+                  { title: '“What training or certification should I know about?”', body: 'Ask for the actual organisation or course name. A directory listing should never be treated as proof of certification, insurance, experience, or clinical scope.' },
+                  { title: '“How would you approach my concern?”', body: 'Briefly name the issue you want support with — stress, smoking, anxiety, sleep, phobias, habits, confidence, or another goal — and ask how a first session would usually be structured.' },
+                  { title: '“When would you refer me elsewhere?”', body: 'Safe practitioners can explain boundaries. If symptoms are significant, complex, medical, or crisis-related, hypnotherapy should be complementary to qualified healthcare support, not a substitute.' },
+                ].map((item) => (
+                  <div key={item.title} className="glass-card" style={{ padding: '22px' }}>
+                    <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--hf-accent)', marginBottom: 8 }}>{item.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0 }}>{item.body}</p>
+                  </div>
+                ))}
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
+                This is why broad city results should point back here: a city page can show local options, but this page answers the searcher’s real question — how to choose a hypnotherapist near me without assuming the listing has already done the verification.
+              </p>
+            </div>
+          </section>
+
           {/* How to Find */}
           <section id="how-to-find" style={{ padding: '64px 24px', background: 'var(--hf-bg)' }}>
             <div style={{ maxWidth: 800, margin: '0 auto' }}>

@@ -186,7 +186,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
       note: `in general, use the national directory to compare profiles by location, focus area, contact details, and session format. This ${city.name} page is for people who already know they want ${city.name} profiles.`,
     },
     {
-      cities: new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'boston', 'baltimore']),
+      cities: new Set(['detroit', 'fort-worth', 'columbus', 'charlotte', 'atlanta', 'boston', 'baltimore']),
       href: '/hypnotherapy-near-me',
       anchor: 'hypnotherapist near me',
       note: 'That national checklist is the better fit for comparing nearby options across cities, asking credential questions, and checking session format before you contact anyone.',
