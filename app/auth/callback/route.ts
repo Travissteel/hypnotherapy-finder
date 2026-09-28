@@ -1,6 +1,58 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
-import { type EmailOtpType } from '@supabase/supabase-js';
+import { type EmailOtpType, type SupabaseClient, type User } from '@supabase/supabase-js';
+import { createPractitionerFromSignup } from '@/lib/practitioners/create-from-signup';
+
+// If the user signed up via the practitioner form, their profile fields were
+// stashed in user_metadata at signUp time (see AuthContext.signUp) so they
+// survive confirming their email on a different device/tab than the one
+// they signed up on. Finish creating the listing here, server-side, instead
+// of sending the user back to the signup form to re-enter everything.
+async function completePractitionerSignupIfNeeded(supabase: SupabaseClient, user: User) {
+  const { data: practitioner, error: practitionerError } = await supabase
+    .from('practitioners')
+    .select('id')
+    .eq('claimed_by', user.id)
+    .maybeSingle();
+
+  if (practitionerError) {
+    console.error('[Auth Callback] Error checking practitioner:', practitionerError);
+    return true; // don't block on a check failure; treat as "already has one"
+  }
+
+  if (practitioner) return true;
+
+  const metadata = user.user_metadata || {};
+  if (metadata.user_type !== 'practitioner' || !metadata.street) {
+    // Not a practitioner signup (or metadata is missing for some other
+    // reason) — nothing for us to create.
+    return true;
+  }
+
+  try {
+    await createPractitionerFromSignup(supabase, user.id, {
+      firstName: metadata.firstName,
+      lastName: metadata.lastName,
+      credentials: metadata.certifications,
+      email: user.email!,
+      phone: metadata.phone,
+      website: metadata.website,
+      street: metadata.street,
+      city: metadata.city,
+      state: metadata.state,
+      zipCode: metadata.zipCode,
+      bio: metadata.bio,
+      specialties: metadata.specialties,
+      yearsExperience: metadata.yearsExperience,
+      acceptsInsurance: metadata.acceptsInsurance,
+      offersOnline: metadata.offersOnline,
+    });
+    return true;
+  } catch (err) {
+    console.error('[Auth Callback] Failed to create practitioner profile from signup metadata:', err);
+    return false;
+  }
+}
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
@@ -67,25 +119,11 @@ export async function GET(request: NextRequest) {
       if (data?.session) {
         console.log('[Auth Callback] Email verified, session created for user:', data.session.user.id);
 
-        // Check if user has a practitioner profile
-        const { data: practitioner, error: practitionerError } = await supabase
-          .from('practitioners')
-          .select('id')
-          .eq('claimed_by', data.session.user.id)
-          .maybeSingle();
+        const ok = await completePractitionerSignupIfNeeded(supabase, data.session.user);
 
-        if (practitionerError) {
-          console.error('[Auth Callback] Error checking practitioner:', practitionerError);
-        }
-
-        // Set redirect URL based on whether practitioner profile exists
-        if (!practitioner) {
-          console.log('[Auth Callback] No practitioner profile found, redirecting to complete signup');
-          redirectUrl = new URL('/practitioner-signup?step=complete&confirmed=true', requestUrl);
-        } else {
-          console.log('[Auth Callback] Practitioner profile exists, redirecting to dashboard');
-          redirectUrl = new URL(next, requestUrl);
-        }
+        redirectUrl = ok
+          ? new URL(next, requestUrl)
+          : new URL('/practitioner-signup?setup_error=true', requestUrl);
 
         // Return response with updated redirect URL and cookies
         return NextResponse.redirect(redirectUrl, {
@@ -112,25 +150,11 @@ export async function GET(request: NextRequest) {
     if (data?.session) {
       console.log('[Auth Callback] OAuth session created for user:', data.session.user.id);
 
-      // Check if user has a practitioner profile
-      const { data: practitioner, error: practitionerError } = await supabase
-        .from('practitioners')
-        .select('id')
-        .eq('claimed_by', data.session.user.id)
-        .maybeSingle();
+      const ok = await completePractitionerSignupIfNeeded(supabase, data.session.user);
 
-      if (practitionerError) {
-        console.error('[Auth Callback] Error checking practitioner:', practitionerError);
-      }
-
-      // Set redirect URL based on whether practitioner profile exists
-      if (!practitioner) {
-        console.log('[Auth Callback] No practitioner profile found, redirecting to complete signup');
-        redirectUrl = new URL('/practitioner-signup?step=complete&confirmed=true', requestUrl);
-      } else {
-        console.log('[Auth Callback] Practitioner profile exists, redirecting to dashboard');
-        redirectUrl = new URL(next, requestUrl);
-      }
+      redirectUrl = ok
+        ? new URL(next, requestUrl)
+        : new URL('/practitioner-signup?setup_error=true', requestUrl);
 
       // Return response with updated redirect URL and cookies
       return NextResponse.redirect(redirectUrl, {

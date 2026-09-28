@@ -14,7 +14,6 @@ function PractitionerSignupForm() {
   const { signUp } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '', password: '',
@@ -24,20 +23,12 @@ function PractitionerSignupForm() {
   });
 
   useEffect(() => {
-    const confirmed = searchParams.get('confirmed');
-    const stepParam = searchParams.get('step');
-    if (confirmed === 'true' && stepParam === 'complete') {
-      setIsEmailConfirmed(true);
-      const savedData = localStorage.getItem('pendingSignupData');
-      if (savedData) {
-        try {
-          const parsed = JSON.parse(savedData);
-          setFormData(parsed);
-          createPractitionerProfileAfterConfirmation(parsed);
-        } catch (err) {
-          setError('Failed to load your signup data. Please sign up again.');
-        }
-      }
+    // The confirmation callback (app/auth/callback) creates the practitioner
+    // profile itself and redirects straight to /dashboard on success, so
+    // landing back here only happens if that step failed — surface why
+    // instead of silently asking the user to fill out the form again.
+    if (searchParams.get('setup_error') === 'true') {
+      setError("We couldn't finish setting up your profile automatically. Please fill out the form below and we'll get you set up.");
     }
   }, [searchParams]);
 
@@ -49,24 +40,6 @@ function PractitionerSignupForm() {
       setFormData({ ...formData, [name]: value });
     }
     setError('');
-  };
-
-  const createPractitionerProfileAfterConfirmation = async (data: typeof formData) => {
-    setLoading(true);
-    try {
-      const fullName = `${data.firstName} ${data.lastName}`.trim();
-      const response = await fetch('/api/practitioners', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: fullName, credentials: data.certifications, email: data.email, phone: data.phone, street: data.street, city: data.city, state: data.state, zipCode: data.zipCode, website: data.website, bio: data.bio, specialties: data.specialties, yearsExperience: data.yearsExperience, acceptsInsurance: data.acceptsInsurance, offersOnline: data.offersOnline }),
-      });
-      if (!response.ok) { const errorData = await response.json(); throw new Error(errorData.error || 'Failed to create profile'); }
-      localStorage.removeItem('pendingSignupData');
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to create practitioner profile');
-    } finally {
-      setLoading(false);
-    }
   };
 
   const createPractitionerProfile = async (fullName: string, data: typeof formData) => {
@@ -85,8 +58,11 @@ function PractitionerSignupForm() {
     setError('');
     try {
       const fullName = `${formData.firstName} ${formData.lastName}`.trim();
-      localStorage.setItem('pendingSignupData', JSON.stringify(formData));
-      const { error } = await signUp(formData.email, formData.password, fullName);
+      // Everything except the password rides along as user_metadata, so
+      // app/auth/callback can finish creating the profile server-side once
+      // the email is confirmed — even on a different device/tab than this one.
+      const { password: _password, email: _email, ...profileData } = formData;
+      const { error } = await signUp(formData.email, formData.password, fullName, profileData);
       if (error) {
         setError(error.message || 'Failed to create account');
         setLoading(false);
@@ -96,7 +72,6 @@ function PractitionerSignupForm() {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           await createPractitionerProfile(fullName, formData);
-          localStorage.removeItem('pendingSignupData');
           await new Promise(resolve => setTimeout(resolve, 500));
           router.push('/dashboard');
         } else {

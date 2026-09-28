@@ -11,7 +11,12 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
+  signUp: (
+    email: string,
+    password: string,
+    fullName: string,
+    profileData?: Record<string, unknown>
+  ) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -81,7 +86,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    fullName: string,
+    profileData?: Record<string, unknown>
+  ) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -89,6 +99,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         data: {
           full_name: fullName,
           user_type: 'practitioner',
+          // Stored server-side on the auth user (not localStorage), so it
+          // survives the user confirming their email on a different
+          // device/browser/tab than the one they signed up on. Read back by
+          // app/auth/callback to finish creating the practitioner profile.
+          ...profileData,
         },
         // Set the redirect URL for email confirmation
         emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
