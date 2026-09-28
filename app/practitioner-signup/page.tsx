@@ -152,7 +152,13 @@ function PractitionerSignupForm() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   <div className="glass" style={{ padding: '16px 20px', borderRadius: 12, textAlign: 'left' }}>
                     <h3 style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 10 }}>What happens next?</h3>
-                    {['Click the confirmation link in your email', "You'll be redirected back to complete your profile", 'Your profile will be live and searchable'].map((item) => (
+                    {[
+                      'Click the confirmation link in your email',
+                      "You'll land straight in your dashboard — no need to fill anything out again",
+                      "To prevent spam listings, you'll need to verify you own the business: we'll show you a small code (a \"pixel\") to add to your website",
+                      "Once we detect it live on your site, an admin does a final review and approves your listing",
+                      'Your profile then goes live and searchable, with your full Verified Practitioner badge',
+                    ].map((item) => (
                       <div key={item} style={{ display: 'flex', gap: 8, fontSize: 12, color: 'var(--hf-fg-dim)', marginBottom: 6, alignItems: 'flex-start' }}>
                         <CheckCircle style={{ width: 13, height: 13, color: 'var(--hf-accent)', flexShrink: 0, marginTop: 1 }} />
                         {item}

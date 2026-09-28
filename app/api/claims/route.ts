@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient, createAdminClient } from '@/lib/supabase/server';
 import { hostnamesMatch } from '@/lib/verification/domain-match';
+import { sendClaimSubmittedEmail } from '@/lib/email/send-emails';
 
 // GET /api/claims - Get user's claims or all claims (admin)
 export async function GET(request: NextRequest) {
@@ -171,7 +172,7 @@ export async function POST(request: NextRequest) {
     // Check if practitioner exists and is unclaimed
     const { data: practitioner, error: practitionerError } = await supabase
       .from('practitioners')
-      .select('id, name, claim_status, email, phone')
+      .select('id, name, claim_status, email, phone, city, state, website')
       .eq('id', practitioner_id)
       .single();
 
@@ -231,6 +232,28 @@ export async function POST(request: NextRequest) {
       verification_type: claim_method || 'email',
       status: 'sent',
     });
+
+    // Best-effort: tell the claimant what happens next (the ownership
+    // pixel) right away, rather than leaving them to discover it only on
+    // /dashboard.
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const claimantEmail = verification_email || user.email;
+      if (claimantEmail) {
+        await sendClaimSubmittedEmail({
+          to: claimantEmail,
+          practitionerName: practitioner.name,
+          claimantName: user.user_metadata?.full_name || claimantEmail.split('@')[0] || 'there',
+          city: practitioner.city,
+          state: practitioner.state,
+          website: practitioner.website,
+          pixelUrl: `${baseUrl}/api/verify-pixel/${practitioner.id}`,
+          dashboardUrl: `${baseUrl}/dashboard`,
+        });
+      }
+    } catch (emailError) {
+      console.error('[Claims API] Failed to send claim-submitted email:', emailError);
+    }
 
     return NextResponse.json({ claim }, { status: 201 });
   } catch (error: any) {

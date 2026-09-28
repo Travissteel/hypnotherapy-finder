@@ -1,7 +1,50 @@
 import { resend, EMAIL_FROM, EMAIL_REPLY_TO } from './resend';
+import ClaimSubmittedEmail from '@/emails/templates/claim-submitted';
 import ClaimApprovedEmail from '@/emails/templates/claim-approved';
 import ClaimRejectedEmail from '@/emails/templates/claim-rejected';
 import WelcomeEmail from '@/emails/templates/welcome';
+
+interface SendClaimSubmittedEmailParams {
+  to: string;
+  practitionerName: string;
+  claimantName: string;
+  city: string;
+  state: string;
+  website?: string;
+  pixelUrl: string;
+  dashboardUrl: string;
+}
+
+export async function sendClaimSubmittedEmail(params: SendClaimSubmittedEmailParams) {
+  try {
+    const { data, error } = await resend.emails.send({
+      from: EMAIL_FROM,
+      replyTo: EMAIL_REPLY_TO,
+      to: params.to,
+      subject: `One more step to verify ${params.practitionerName}`,
+      react: ClaimSubmittedEmail({
+        practitionerName: params.practitionerName,
+        claimantName: params.claimantName,
+        city: params.city,
+        state: params.state,
+        website: params.website,
+        pixelUrl: params.pixelUrl,
+        dashboardUrl: params.dashboardUrl,
+      }),
+    });
+
+    if (error) {
+      console.error('Error sending claim submitted email:', error);
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
+
+    console.log('✅ Claim submitted email sent:', data?.id);
+    return { success: true, id: data?.id };
+  } catch (error: any) {
+    console.error('Error in sendClaimSubmittedEmail:', error);
+    throw error;
+  }
+}
 
 interface SendClaimApprovedEmailParams {
   to: string;

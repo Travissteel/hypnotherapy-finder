@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createAdminClient } from '@/lib/supabase/server';
+import { sendClaimSubmittedEmail } from '@/lib/email/send-emails';
 
 export interface SignupProfileData {
   name?: string;
@@ -120,6 +121,25 @@ export async function createPractitionerFromSignup(
     .single();
 
   if (updateError) throw updateError;
+
+  // Best-effort: the practitioner already has a pending listing regardless
+  // of whether this email goes out, and they'll see the same instructions
+  // on /dashboard either way.
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    await sendClaimSubmittedEmail({
+      to: data.email,
+      practitionerName: name,
+      claimantName: name,
+      city: pendingPractitioner.city,
+      state: pendingPractitioner.state,
+      website: pendingPractitioner.website,
+      pixelUrl: `${baseUrl}/api/verify-pixel/${pendingPractitioner.id}`,
+      dashboardUrl: `${baseUrl}/dashboard`,
+    });
+  } catch (emailError) {
+    console.error('[createPractitionerFromSignup] Failed to send claim-submitted email:', emailError);
+  }
 
   return pendingPractitioner;
 }
