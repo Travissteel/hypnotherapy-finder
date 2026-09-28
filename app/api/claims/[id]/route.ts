@@ -150,7 +150,11 @@ export async function PATCH(
       },
     });
 
-    // Send email notification
+    // Send email notification. The claim update above already succeeded and
+    // must not be rolled back by an email failure, so this is best-effort —
+    // but unlike before, the failure is reported back in the response instead
+    // of only going to server logs, so the admin UI can surface it.
+    let emailWarning: string | null = null;
     try {
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
       const userEmail = claim.verification_email || user.email;
@@ -183,11 +187,11 @@ export async function PATCH(
         });
       }
     } catch (emailError: any) {
-      // Log email error but don't fail the request
       console.error('Failed to send email notification:', emailError);
+      emailWarning = `Claim was ${status}, but the notification email failed to send: ${emailError.message || 'Unknown error'}`;
     }
 
-    return NextResponse.json({ claim: updatedClaim });
+    return NextResponse.json({ claim: updatedClaim, emailWarning });
   } catch (error: any) {
     console.error('Error updating claim:', error);
     return NextResponse.json(

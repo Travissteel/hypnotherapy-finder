@@ -52,6 +52,7 @@ export default function AdminClaimsPage() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to approve claim');
+      if (data.emailWarning) setError(data.emailWarning);
       await fetchClaims();
       setSelectedClaim(null);
       setAdminNotes('');
@@ -74,6 +75,7 @@ export default function AdminClaimsPage() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Failed to reject claim');
+      if (data.emailWarning) setError(data.emailWarning);
       await fetchClaims();
       setSelectedClaim(null);
       setAdminNotes('');
