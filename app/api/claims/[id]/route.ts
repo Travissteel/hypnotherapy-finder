@@ -23,8 +23,7 @@ export async function GET(
       .from('claims')
       .select(`
         *,
-        practitioner:practitioners(*),
-        user:user_profiles(full_name, phone)
+        practitioner:practitioners(*)
       `)
       .eq('id', id)
       .single();
@@ -42,7 +41,15 @@ export async function GET(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    return NextResponse.json({ claim });
+    // claims.user_id references auth.users, not user_profiles, so there's no
+    // FK for Supabase to embed user_profiles directly — fetch it separately.
+    const { data: claimantProfile } = await supabase
+      .from('user_profiles')
+      .select('full_name, phone')
+      .eq('id', claim.user_id)
+      .maybeSingle();
+
+    return NextResponse.json({ claim: { ...claim, user: claimantProfile } });
   } catch (error: any) {
     console.error('Error fetching claim:', error);
     return NextResponse.json(
@@ -96,8 +103,7 @@ export async function PATCH(
       .from('claims')
       .select(`
         *,
-        practitioner:practitioners(name, city, state, slug),
-        user:user_profiles(full_name)
+        practitioner:practitioners(name, city, state, slug)
       `)
       .eq('id', id)
       .single();
@@ -105,6 +111,15 @@ export async function PATCH(
     if (!claim) {
       return NextResponse.json({ error: 'Claim not found' }, { status: 404 });
     }
+
+    // claims.user_id references auth.users, not user_profiles, so there's no
+    // FK for Supabase to embed user_profiles directly — fetch it separately.
+    const { data: claimantProfile } = await supabase
+      .from('user_profiles')
+      .select('full_name')
+      .eq('id', claim.user_id)
+      .maybeSingle();
+    claim.user = claimantProfile;
 
     // Update claim
     const { data: updatedClaim, error: updateError } = await supabase
