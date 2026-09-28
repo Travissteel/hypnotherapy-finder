@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createRouteHandlerClient, createAdminClient } from '@/lib/supabase/server';
+import { hostnamesMatch } from '@/lib/verification/domain-match';
 
 // GET /api/claims - Get user's claims or all claims (admin)
 export async function GET(request: NextRequest) {
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       .from('claims')
       .select(`
         *,
-        practitioner:practitioners(id, name, email, city, state, phone)
+        practitioner:practitioners(id, name, email, city, state, phone, website)
       `)
       .order('created_at', { ascending: false });
 
@@ -47,15 +48,44 @@ export async function GET(request: NextRequest) {
       .select('id, full_name, phone')
       .in('id', userIds);
 
-    // Merge user profile data into claims
+    // For pending claims, check whether the ownership-verification pixel
+    // (app/api/verify-pixel/[id]) has ever been hit from the practitioner's
+    // own listed website — strong automatic evidence for the admin, not a
+    // full bypass of review (see lib/verification/domain-match.ts). Reads
+    // via the admin client since practitioner_views is admin-only under
+    // RLS, but a non-admin only ever gets back a derived boolean here.
+    const pendingPractitionerIds = [
+      ...new Set((claims || []).filter(c => c.status === 'pending').map(c => c.practitioner_id)),
+    ];
+
+    let pixelHitsByPractitioner = new Map<string, string[]>();
+    if (pendingPractitionerIds.length > 0) {
+      const adminClient = createAdminClient();
+      const { data: pixelHits } = await adminClient
+        .from('practitioner_views')
+        .select('practitioner_id, referrer')
+        .eq('source', 'ownership_pixel')
+        .in('practitioner_id', pendingPractitionerIds);
+
+      for (const hit of pixelHits || []) {
+        if (!hit.referrer) continue;
+        const list = pixelHitsByPractitioner.get(hit.practitioner_id) || [];
+        list.push(hit.referrer);
+        pixelHitsByPractitioner.set(hit.practitioner_id, list);
+      }
+    }
+
+    // Merge user profile data and domain-match status into claims
     const claimsWithUsers = claims?.map(claim => ({
       ...claim,
-      user: userProfiles?.find(u => u.id === claim.user_id) || null
+      user: userProfiles?.find(u => u.id === claim.user_id) || null,
+      domainVerified:
+        claim.status === 'pending'
+          ? (pixelHitsByPractitioner.get(claim.practitioner_id) || []).some((referrer) =>
+              hostnamesMatch(referrer, claim.practitioner?.website)
+            )
+          : false,
     }));
-
-    const error = claimsError;
-
-    if (error) throw error;
 
     return NextResponse.json({ claims: claimsWithUsers });
   } catch (error: any) {

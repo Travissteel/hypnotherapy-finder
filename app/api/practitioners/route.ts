@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const claimedPractitioner = await createPractitionerFromSignup(supabase, user.id, {
+    const pendingPractitioner = await createPractitionerFromSignup(supabase, user.id, {
       name: body.name,
       credentials: body.credentials,
       email: body.email,
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       offersOnline: body.offersOnline,
     });
 
-    return NextResponse.json({ practitioner: claimedPractitioner }, { status: 201 });
+    return NextResponse.json({ practitioner: pendingPractitioner }, { status: 201 });
   } catch (error: any) {
     console.error('[API] Error creating practitioner:', error);
     return NextResponse.json(

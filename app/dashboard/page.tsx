@@ -45,6 +45,8 @@ export default function DashboardPage() {
   const [verified, setVerified] = useState(false);
   const [actualSlug, setActualSlug] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [pendingClaim, setPendingClaim] = useState(false);
+  const [pixelDomainVerified, setPixelDomainVerified] = useState(false);
 
   const [profileData, setProfileData] = useState({
     name: '', credentials: '', email: '', phone: '',
@@ -69,11 +71,23 @@ export default function DashboardPage() {
       setLoading(true);
       setError(null);
       const supabase = createBrowserClient();
-      const { data, error: fetchError } = await supabase
-        .from('practitioners')
-        .select('*')
-        .eq('claimed_by', user!.id)
-        .single();
+
+      // A practitioner with a claim still under review has no claimed_by
+      // yet (that's only set once an admin approves — see
+      // lib/practitioners/create-from-signup.ts / supabase/schema.sql
+      // on_claim_approved trigger), so look up via their most recent claim
+      // first; fall back to claimed_by for the already-approved case.
+      const { data: claimRow } = await supabase
+        .from('claims')
+        .select('id, practitioner_id, status')
+        .eq('user_id', user!.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const { data, error: fetchError } = claimRow
+        ? await supabase.from('practitioners').select('*').eq('id', claimRow.practitioner_id).single()
+        : await supabase.from('practitioners').select('*').eq('claimed_by', user!.id).single();
 
       if (fetchError) {
         if (fetchError.code === 'PGRST116') {
@@ -97,6 +111,18 @@ export default function DashboardPage() {
       setPractitionerSlug(data.id);
       setActualSlug(data.slug || null);
       setVerified(data.verified === true && data.claim_status === 'claimed');
+      setPendingClaim(claimRow?.status === 'pending' && data.claim_status === 'pending');
+
+      if (claimRow?.status === 'pending') {
+        try {
+          const claimsResponse = await fetch('/api/claims');
+          const claimsData = await claimsResponse.json();
+          const ownClaim = claimsData.claims?.find((c: any) => c.id === claimRow.id);
+          setPixelDomainVerified(!!ownClaim?.domainVerified);
+        } catch (err) {
+          console.error('Failed to check pixel verification status:', err);
+        }
+      }
 
       setProfileData({
         name: data.name || '',
@@ -503,6 +529,56 @@ export default function DashboardPage() {
               ))}
             </ul>
           </div>
+
+          {/* Ownership Verification (pending claims) */}
+          {pendingClaim && practitionerId && (
+            <div style={{ ...cardStyle, marginTop: 20, borderLeft: '3px solid oklch(0.75 0.15 60)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                <AlertCircle style={{ width: 20, height: 20, color: 'oklch(0.75 0.15 60)' }} />
+                <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-fg)' }}>Verify You Own This Listing</h3>
+              </div>
+              <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 16, lineHeight: 1.6 }}>
+                To keep spam and fake profiles off Hypnotherapy Finder, we verify that you actually control the
+                business website on this listing ({profileData.website || 'no website on file'}) before approving
+                your claim. Add the pixel below to that website — once we detect it loading from there, your claim
+                will be fast-tracked for approval.
+              </p>
+
+              {pixelDomainVerified ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, padding: '10px 14px', borderRadius: 8, background: 'oklch(0.3 0.12 145 / 0.2)' }}>
+                  <CheckCircle style={{ width: 16, height: 16, color: 'oklch(0.75 0.15 145)' }} />
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'oklch(0.8 0.1 145)' }}>Detected on your website — awaiting final admin approval.</span>
+                </div>
+              ) : (
+                <div style={{ marginBottom: 16, padding: '10px 14px', borderRadius: 8, background: 'rgba(255,255,255,0.04)' }}>
+                  <span style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>Not detected yet — add the pixel below, then check back here.</span>
+                </div>
+              )}
+
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 10 }}>Pixel preview:</p>
+                <img src={`/api/verify-pixel/${practitionerId}`} alt="Hypnotherapy Finder listing pending verification" width={220} height={56} style={{ borderRadius: 8 }} />
+              </div>
+
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg-dim)', marginBottom: 10 }}>Embed code for your website:</p>
+                <div style={{ position: 'relative' }}>
+                  <pre style={{ background: 'oklch(0.12 0 0)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '12px 16px', fontSize: 12, color: 'oklch(0.8 0.12 60)', overflowX: 'auto', paddingRight: 80, lineHeight: 1.6 }}>
+{`<img src="https://hypnotherapy-finder.com/api/verify-pixel/${practitionerId}" alt="Hypnotherapy Finder listing pending verification" width="220" height="56" />`}
+                  </pre>
+                  <button
+                    style={{ position: 'absolute', top: 8, right: 8, padding: '5px 10px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.06)', color: 'var(--hf-fg-dim)', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                    onClick={() => handleCopy(`<img src="https://hypnotherapy-finder.com/api/verify-pixel/${practitionerId}" alt="Hypnotherapy Finder listing pending verification" width="220" height="56" />`)}
+                  >
+                    {copied ? '✓ Copied!' : 'Copy'}
+                  </button>
+                </div>
+                <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)', marginTop: 8, opacity: 0.7 }}>
+                  Place this on any page of {profileData.website || 'your website'} — your homepage footer works well. It's automatically replaced with your full "Verified Practitioner" badge once approved.
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Verified Badge */}
           {verified && actualSlug && (

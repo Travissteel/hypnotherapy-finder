@@ -21,12 +21,16 @@ export interface SignupProfileData {
 }
 
 /**
- * Creates a practitioner listing for a newly-confirmed user and fast-tracks
- * it through the claims-approval pipeline (see on_claim_approved trigger in
- * supabase/schema.sql), which is what actually sets claim_status='claimed',
- * verified, and increments user_profiles.claimed_listings_count. Shared by
- * POST /api/practitioners (same-session signup, no email confirmation
- * required) and app/auth/callback (post email-confirmation signup).
+ * Creates a practitioner listing for a newly-confirmed user and files a
+ * pending claim on it — the same claims-review pipeline used to claim an
+ * existing scraped listing (see app/api/claims POST), rather than
+ * auto-approving. An admin approves via /admin/claims once the ownership
+ * pixel (app/api/verify-pixel/[id]) confirms the practitioner controls the
+ * website they listed, or on manual review otherwise. This is what keeps
+ * spam/fake signups from instantly becoming "Verified Practitioner" listings.
+ * Shared by POST /api/practitioners (same-session signup, no email
+ * confirmation required) and app/auth/callback (post email-confirmation
+ * signup).
  */
 export async function createPractitionerFromSignup(
   supabase: SupabaseClient,
@@ -62,9 +66,9 @@ export async function createPractitionerFromSignup(
 
   if (error) throw error;
 
-  // Claims can only be approved by an admin (RLS), so use the admin client
-  // for the auto-approval step below — a self-registered practitioner has
-  // no pre-existing listing to dispute, so their own claim is fast-tracked.
+  // user_profiles/claims inserts and the practitioners status update below
+  // need to happen regardless of what RLS would otherwise allow this
+  // brand-new, not-yet-linked user to do, so use the admin client.
   const adminClient = createAdminClient();
 
   const { data: existingProfile } = await adminClient
@@ -97,26 +101,25 @@ export async function createPractitionerFromSignup(
 
   if (claimError) throw claimError;
 
-  const { error: approveError } = await adminClient
-    .from('claims')
-    .update({
-      status: 'approved',
-      reviewed_at: new Date().toISOString(),
-      admin_notes: 'Auto-approved: self-registered listing',
-    })
-    .eq('id', claim.id);
+  await adminClient.from('verification_logs').insert({
+    claim_id: claim.id,
+    user_id: userId,
+    verification_type: 'email',
+    status: 'sent',
+  });
 
-  if (approveError) throw approveError;
-
-  // Re-fetch so the caller sees the claim_status/verified fields the
-  // on_claim_approved trigger just set.
-  const { data: claimedPractitioner, error: refetchError } = await supabase
+  // Mark the listing as pending review — mirrors what POST /api/claims does
+  // for claiming an existing scraped listing. claim_status stays 'unclaimed'
+  // until now so the practitioner insert above never had a moment of
+  // looking claimed before a claim actually existed.
+  const { data: pendingPractitioner, error: updateError } = await adminClient
     .from('practitioners')
-    .select()
+    .update({ claim_status: 'pending' })
     .eq('id', practitioner.id)
+    .select()
     .single();
 
-  if (refetchError) throw refetchError;
+  if (updateError) throw updateError;
 
-  return claimedPractitioner;
+  return pendingPractitioner;
 }

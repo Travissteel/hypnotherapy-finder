@@ -166,6 +166,15 @@ export default function AdminClaimsPage() {
                         Pending
                       </span>
                     </div>
+                    {claim.domainVerified ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, padding: '6px 10px', borderRadius: 8, background: 'oklch(0.3 0.12 145 / 0.2)' }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: 'oklch(0.75 0.15 145)' }}>✓ Ownership pixel detected on {claim.practitioner?.website || 'their site'}</span>
+                      </div>
+                    ) : (
+                      <div style={{ marginBottom: 12, padding: '6px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.04)' }}>
+                        <span style={{ fontSize: 12, color: 'var(--hf-fg-dim)' }}>⏳ Ownership pixel not yet seen on their website</span>
+                      </div>
+                    )}
                     <div style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 14 }}>
                       <p><strong style={{ color: 'var(--hf-fg)' }}>Claimed by:</strong> {claim.user?.full_name || 'Unknown'}</p>
                       <p><strong style={{ color: 'var(--hf-fg)' }}>Email:</strong> {claim.verification_email}</p>
