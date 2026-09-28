@@ -124,6 +124,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
         { '@type': 'Question', name: 'Where can I find hypnosis Baltimore profiles?', acceptedAnswer: { '@type': 'Answer', text: `Use the Baltimore directory to compare ${city.practitionerCount} local hypnotherapist and hypnosis-related profiles by name, address, phone, website, and category. Contact practitioners directly to confirm services, training, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'How should I use Hypnotherapy Finder for Baltimore?', acceptedAnswer: { '@type': 'Answer', text: 'Use Hypnotherapy Finder as a shortlist tool, not an endorsement engine. Compare local profile details, then verify credentials, scope, pricing, availability, and fit directly with each practitioner before booking.' } },
       ] : []),
+      ...(slug === 'austin' ? [
+        { '@type': 'Question', name: 'How to choose a hypnotherapist Austin?', acceptedAnswer: { '@type': 'Answer', text: `Use the Austin directory to compare ${city.practitionerCount} local hypnotherapist profiles by address, phone, website, category, and practical fit. Then contact practitioners directly to confirm training, certification, professional scope, current fees, availability, and whether their session format fits your concern.` } },
+        { '@type': 'Question', name: 'What should I ask before booking hypnotherapy in Austin?', acceptedAnswer: { '@type': 'Answer', text: 'Ask how the practitioner structures sessions for your concern, whether they work online, in person, or both, what a first session includes, what between-session practice is expected, and when they would refer someone to a qualified healthcare provider.' } },
+      ] : []),
     ],
   };
 
@@ -319,6 +323,18 @@ export default async function LocationPage({ params }: LocationPageProps) {
                     <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
                       Austin searches are often specific: South Austin smoking support, anxiety hypnosis, stress sessions, or a general question about choosing the right person. Start by deciding whether location, concern fit, or session format matters most, then use the profiles below to build a shortlist instead of treating the first result as the answer.
                     </p>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      A useful Austin shortlist starts with facts this directory can safely show: name, address, phone, website, category, and whether the profile is actually in the part of the metro you want. The decision-making details — training, certification, insurance questions, pricing, availability, session length, and fit for your concern — still need to be confirmed directly with the practitioner before booking.
+                    </p>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Austin hypnotherapist comparison checklist</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Confirm whether the location works for South Austin, Downtown, North Austin, Round Rock, Cedar Park, or online sessions.</li>
+                        <li>Ask what the first session includes: intake, goal-setting, hypnosis work, practice instructions, or a separate consultation.</li>
+                        <li>Ask how they explain their approach for smoking cessation, stress, anxiety-related searches, sleep, habits, or confidence without promising outcomes.</li>
+                        <li>Verify certification, training background, current fees, availability, cancellation rules, and referral boundaries directly.</li>
+                      </ul>
+                    </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
                       {[
                         { title: 'For South Austin quit-smoking searches', body: 'If you searched for “hypnotherapy to quit smoking South Austin” or “stop smoking hypnotherapy Austin TX,” shortlist nearby profiles first, then ask how they usually structure smoking-cessation support, whether follow-up sessions are common, and what between-session practice they suggest.' },
