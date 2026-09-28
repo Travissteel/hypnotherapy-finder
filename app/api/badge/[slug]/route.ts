@@ -48,6 +48,23 @@ export async function GET(
       );
     }
 
+    // Log the embed so we can tell which practitioners actually have the
+    // badge live on an external site (referrer = the embedding page's domain).
+    // Best-effort: never let a logging failure break badge rendering.
+    try {
+      await supabase.from('practitioner_views').insert({
+        practitioner_id: practitioner.id,
+        source: 'badge_embed',
+        referrer: request.headers.get('referer'),
+        ip_address:
+          request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+          request.headers.get('x-real-ip') ||
+          null,
+      });
+    } catch (trackError) {
+      console.error('[API] Failed to log badge view:', trackError);
+    }
+
     return new NextResponse(BADGE_SVG, {
       status: 200,
       headers: {
