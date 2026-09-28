@@ -35,12 +35,14 @@ export default function AnalyticsDashboard() {
         { data: topSearches },
         { data: topPractitioners },
         { data: claimFunnel },
+        { data: badgeInstalls },
       ] = await Promise.all([
         supabase.from('daily_page_views').select('*').limit(30),
         supabase.from('popular_pages').select('*').limit(10),
         supabase.from('top_searches').select('*').limit(10),
         supabase.from('most_viewed_practitioners').select('*').limit(10),
         supabase.from('claim_funnel').select('*').limit(30),
+        supabase.from('badge_installs').select('*'),
       ]);
 
       setStats({
@@ -49,6 +51,7 @@ export default function AnalyticsDashboard() {
         topSearches: topSearches || [],
         topPractitioners: topPractitioners || [],
         claimFunnel: claimFunnel || [],
+        badgeInstalls: badgeInstalls || [],
       });
     } catch (error) {
       console.error('Failed to fetch analytics:', error);
@@ -71,6 +74,8 @@ export default function AnalyticsDashboard() {
   const totalUsers = stats?.dailyViews[0]?.unique_users || 0;
   const totalSearches = stats?.topSearches.reduce((sum: number, search: any) => sum + (search.search_count || 0), 0) || 0;
   const totalClaims = stats?.claimFunnel[0]?.claims_created || 0;
+  const badgeEligible = stats?.badgeInstalls.length || 0;
+  const badgeInstalled = stats?.badgeInstalls.filter((b: any) => b.embed_hits > 0).length || 0;
 
   const cardStyle: React.CSSProperties = {
     background: 'var(--hf-bg-mid)',
@@ -94,6 +99,7 @@ export default function AnalyticsDashboard() {
             { label: 'Unique Users', value: totalUsers.toLocaleString(), sub: 'Today' },
             { label: 'Total Searches', value: totalSearches.toLocaleString(), sub: 'All time' },
             { label: 'Claims Created', value: totalClaims.toLocaleString(), sub: 'Today' },
+            { label: 'Badge Installs', value: `${badgeInstalled}/${badgeEligible}`, sub: 'Practitioners with badge live' },
           ].map(({ label, value, sub }) => (
             <div key={label} style={cardStyle}>
               <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--hf-fg-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>{label}</p>
@@ -161,6 +167,36 @@ export default function AnalyticsDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Badge Installs */}
+          <div style={cardStyle}>
+            <h2 style={{ fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 4 }}>Badge Installs</h2>
+            <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', marginBottom: 20 }}>
+              Verified practitioners, by whether the embed badge has been seen loading on an external site
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {stats?.badgeInstalls.length === 0 ? (
+                <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)' }}>No verified practitioners yet</p>
+              ) : (
+                stats?.badgeInstalls.map((b: any, index: number) => (
+                  <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--hf-fg)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{b.name}</p>
+                      <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>{b.city}, {b.state}{!b.slug ? ' · no slug (badge URL unavailable)' : ''}</p>
+                    </div>
+                    <div style={{ marginLeft: 16, textAlign: 'right' }}>
+                      <p style={{ fontSize: 13, fontWeight: 700, color: b.embed_hits > 0 ? 'oklch(0.7 0.15 145)' : 'var(--hf-fg-dim)' }}>
+                        {b.embed_hits > 0 ? 'Installed' : 'Not seen'}
+                      </p>
+                      <p style={{ fontSize: 11, color: 'var(--hf-fg-dim)' }}>
+                        {b.embed_hits > 0 ? `${b.distinct_referrers} site${b.distinct_referrers === 1 ? '' : 's'}` : '—'}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
