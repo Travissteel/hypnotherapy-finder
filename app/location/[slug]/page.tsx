@@ -107,6 +107,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
       ...(slug === 'fort-worth' ? [
         { '@type': 'Question', name: 'Where can I find clinical hypnotherapy sessions in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: `Use the Fort Worth directory to compare ${city.practitionerCount} local hypnotherapist profiles by location, phone, website, and category, then contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'What should I ask a clinical hypnotherapist in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: 'Ask about certification, training background, professional scope, experience with your concern, intake process, referral boundaries, and whether sessions are online, in-person, or both. Do not infer credentials or clinical scope from a directory listing alone.' } },
+        { '@type': 'Question', name: 'Is hypnosis near me the same as hypnotherapy in Fort Worth?', acceptedAnswer: { '@type': 'Answer', text: 'Not always. Hypnosis can refer to entertainment, self-hypnosis, coaching, or hypnotherapy support. If you are looking for practitioner support in Fort Worth, ask directly whether the practitioner offers hypnotherapy, what their session structure includes, and what training or certification they hold.' } },
       ] : []),
       ...(slug === 'atlanta' ? [
         { '@type': 'Question', name: 'Where can I find hypnotherapists in Atlanta?', acceptedAnswer: { '@type': 'Answer', text: `Use the Atlanta directory to compare ${city.practitionerCount} local hypnotherapist profiles by name, location, phone, website, and category. Contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
@@ -170,7 +171,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
     : slug === 'chicago' ? `Compare ${city.practitionerCount} Chicago hypnotherapy profiles by location, contact details, category, and questions to confirm directly`
     : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, focus area, contact details, and the questions to ask before booking`
-    : slug === 'fort-worth' ? `Connect with ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions, anxiety, stress, and behavioral change`
+    : slug === 'fort-worth' ? `Compare ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnotherapy, local hypnosis searches, and the questions to confirm directly before booking`
     : slug === 'atlanta' ? `Compare ${city.practitionerCount} Atlanta hypnotherapist profiles by location, contact details, category, and the questions to confirm directly`
     : slug === 'columbus' ? `Compare ${city.practitionerCount} Columbus hypnotherapist profiles for local hypnotherapy, hypnosis therapy, and clinical hypnosis searches`
     : slug === 'detroit' ? `Compare ${city.practitionerCount} Detroit hypnotherapist profiles for local hypnotherapy, Detroit hypnosis, and smoking cessation hypnosis searches`
@@ -262,7 +263,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   </p>
                 ) : slug === 'fort-worth' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
-                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for clinical hypnotherapy in Fort Worth?</strong> Our directory features {city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnosis sessions. Browse practitioners across <strong style={{ color: 'var(--hf-fg)' }}>Downtown Fort Worth, the Cultural District, Near Southside, Tanglewood, TCU area, and the greater Fort Worth-Arlington metroplex</strong>, then contact them directly to confirm training, services, pricing, and availability.
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for clinical hypnotherapy in Fort Worth?</strong> Our directory features {city.practitionerCount} Fort Worth hypnotherapist profiles. Browse practitioners across <strong style={{ color: 'var(--hf-fg)' }}>Downtown Fort Worth, the Cultural District, Near Southside, Tanglewood, the TCU area, and the greater Fort Worth-Arlington metroplex</strong>, then contact them directly to confirm training, services, session format, current fees, and availability.
                   </p>
                 ) : slug === 'atlanta' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
@@ -358,14 +359,27 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Clinical hypnotherapy sessions Fort Worth TX</h3>
                     <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
-                      Fort Worth searchers are not all asking the same thing. Some want a local clinical hypnotherapist, some want hypnosis in Fort Worth more broadly, and some are still comparing nearby options. Use this page to move from a vague search result to a safer shortlist: location, phone, website, category, and the questions to confirm directly before booking.
+                      Fort Worth searchers are not all asking the same thing. Some want a local clinical hypnotherapist, some want hypnosis in Fort Worth more broadly, and some are still comparing nearby options. Use this page to move from a vague search result to a safer shortlist: location, phone, website, category, session format questions, and the details to confirm directly before booking.
                     </p>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      A useful shortlist separates what this directory can show from what only the practitioner can confirm. The profile can show a name, address, phone number, website, and listed category. The call or website check should confirm training, certification, current fees, availability, online versus in-person sessions, cancellation rules, and whether the practitioner works within an appropriate professional scope for your concern.
+                    </p>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Before booking clinical hypnotherapy sessions in Fort Worth, TX</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Ask whether the first appointment includes intake, goal-setting, hypnosis work, home practice, or a separate consultation.</li>
+                        <li>Ask how the practitioner explains their method in plain language, especially for anxiety-related searches, habits, smoking, sleep, confidence, or stress.</li>
+                        <li>Confirm whether sessions are offered near Downtown Fort Worth, the Cultural District, Near Southside, TCU, Arlington, online, or in a hybrid format.</li>
+                        <li>Ask when they would refer someone to a qualified healthcare provider instead of continuing with hypnotherapy alone.</li>
+                      </ul>
+                    </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
                       {[
-                        { title: 'Clinical hypnotherapist Fort Worth TX', body: 'For this search, do not assume a profile has clinical training just because it appears in a directory. Ask the practitioner directly about certification, training background, supervision, professional scope, and whether they commonly work with your concern.' },
-                        { title: 'Hypnotherapy Fort Worth', body: 'If your query was simply “hypnotherapy Fort Worth,” start with geography and fit. Compare profiles near Downtown Fort Worth, Near Southside, TCU, Arlington, and nearby areas, then confirm session format, current fees, availability, and referral boundaries directly.' },
-                        { title: 'Hypnosis Fort Worth', body: '“Hypnosis” can mean stage entertainment, self-hypnosis, coaching, or therapeutic support. For personal concerns, ask whether the practitioner offers hypnotherapy, what the intake process includes, and how they explain their method in plain language.' },
+                        { title: 'Clinical hypnotherapist Fort Worth TX', body: 'For this search, do not assume a profile has clinical training just because it appears in a directory. Ask the practitioner directly about certification, training background, supervision, professional scope, intake process, and whether they commonly work with your specific concern.' },
+                        { title: 'Hypnotherapy Fort Worth', body: 'If your query was simply “hypnotherapy Fort Worth,” start with geography and fit. Compare profiles near Downtown Fort Worth, Near Southside, TCU, Arlington, the Cultural District, and nearby areas, then confirm session format, current fees, availability, and referral boundaries directly.' },
+                        { title: 'Hypnosis Fort Worth', body: '“Hypnosis” can mean stage entertainment, self-hypnosis, coaching, or therapeutic support. For personal concerns, ask whether the practitioner offers hypnotherapy, what the intake process includes, how they structure sessions, and how they explain their method without promising outcomes.' },
                         { title: 'Hypnotherapist near me', body: 'If you are still in “near me” mode, use the national near-me checklist first, then come back to the Fort Worth listings once you know what to ask. Distance matters, but clear scope, safe language, and direct answers matter more.' },
+                        { title: 'Hypnosis near me', body: 'For “hypnosis near me,” decide whether you mean entertainment, self-hypnosis resources, or hypnotherapy support. If you mean practitioner support, compare nearby Fort Worth profiles, then verify training, session format, pricing, availability, and fit directly before booking.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
