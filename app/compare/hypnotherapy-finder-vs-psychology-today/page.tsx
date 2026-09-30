@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { Search, CheckCircle, ArrowRight, Shield, Target, MapPin, Filter, Users, Zap } from 'lucide-react';
 
 export const metadata = {
@@ -121,8 +121,8 @@ export default function HypnotherapyFinderVsPsychologyTodayPage() {
 
   return (
     <>
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} strategy="beforeInteractive" />
-      <Script id="schema-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-faq" data={faqJsonLd} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbJsonLd} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />

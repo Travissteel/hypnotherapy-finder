@@ -75,8 +75,19 @@ export function Header() {
         <button
           className="md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
-          style={{ background: 'none', border: 'none', color: 'var(--hf-fg)', cursor: 'pointer', padding: 4 }}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'var(--hf-fg)',
+            cursor: 'pointer',
+            width: 44,
+            height: 44,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -85,7 +96,7 @@ export function Header() {
       {/* Mobile dropdown */}
       {mobileOpen && (
         <div
-          className="glass md:hidden"
+          className="glass-nav-mobile md:hidden"
           style={{
             maxWidth: 980,
             margin: '8px auto 0',

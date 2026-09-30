@@ -40,7 +40,7 @@
 │                     Database Layer                           │
 ├─────────────────────────────────────────────────────────────┤
 │                                                               │
-│  practitioners (2,030+ records)                              │
+│  practitioners (1,123 records)                                │
 │    ├─ id, name, email, phone, city, state                   │
 │    ├─ claim_status (unclaimed/claimed/pending/rejected)     │
 │    └─ claimed_by, claim_date, verified                      │
@@ -315,7 +315,7 @@ user_profiles:
 ## 📊 Database Schema Details
 
 ### practitioners table
-- 2,030+ records from scraped data
+- 1,123 records from scraped data (verified via live DB query, 2026-09-30 — this doc previously said "2,030+", which was stale)
 - Each has unique ID and slug
 - Fields: name, email, phone, city, state, specialties, credentials
 - Claim fields: claim_status, claimed_by, claim_date, verified
@@ -433,7 +433,7 @@ Track these KPIs:
 
 You now have a **production-ready claim system** with:
 - ✅ Real authentication (not mocked)
-- ✅ Database with 2,030+ practitioners
+- ✅ Database with 1,123 practitioners
 - ✅ Complete claim workflow
 - ✅ Admin approval system
 - ✅ Secure API routes

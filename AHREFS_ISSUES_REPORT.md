@@ -2,6 +2,8 @@
 **Date**: 2026-02-07
 **Site**: https://hypnotherapy-finder.com
 
+> **ARCHIVED — 2026-09-30.** Every claim in this report was independently re-verified against live production during that date's full SEO audit (canonical host, the 5 "non-canonical" pages, `og:image` coverage, and the 404-causing malformed internal links) and confirmed fixed. Kept for history only — do not treat this as a current open-issues list. See `/home/travissteel/seo-audits/hypnotherapy-finder-audit/` for the current audit.
+
 ## Executive Summary
 
 I've analyzed all Ahrefs export files and found that **most critical issues have already been fixed** in your source code. The issues appearing in Ahrefs are from **old deployed code** that needs to be rebuilt and redeployed.

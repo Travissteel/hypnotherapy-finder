@@ -1,7 +1,8 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
+import { TopCitiesLinks } from '@/components/TopCitiesLinks';
 import { Brain, CheckCircle, HeartPulse, Search, Shield, Clock } from 'lucide-react';
 import { getAllPractitioners } from '@/lib/data/practitioners';
 
@@ -58,8 +59,8 @@ export default async function HypnotherapyForConfidencePage() {
 
   return (
     <>
-      <Script id="schema-service" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-service" data={jsonLd} />
+      <JsonLd id="schema-faq" data={faqJsonLd} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
@@ -272,6 +273,8 @@ export default async function HypnotherapyForConfidencePage() {
             </div>
           </section>
         </main>
+        <TopCitiesLinks specialtyLabel="Confidence & Performance" />
+        <TopCitiesLinks specialtyLabel="Confidence & Performance" />
         <Footer />
       </div>
     </>

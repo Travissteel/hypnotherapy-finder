@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PractitionerCard } from '@/components/search/PractitionerCard';
@@ -75,8 +75,8 @@ export function ModalityPage({ modality }: { modality: Modality }) {
 
   return (
     <>
-      <Script id="schema-modality-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <Script id="schema-modality-crumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <JsonLd id="schema-modality-faq" data={faqJsonLd} />
+      <JsonLd id="schema-modality-crumb" data={breadcrumbJsonLd} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />

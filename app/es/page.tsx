@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { MapPin, Search, MessageCircle, ShieldCheck } from 'lucide-react';
@@ -88,8 +88,8 @@ export default function EspanolPage() {
 
   return (
     <>
-      <Script id="schema-es-page" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd) }} />
-      <Script id="schema-es-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <JsonLd id="schema-es-page" data={pageJsonLd} />
+      <JsonLd id="schema-es-faq" data={faqJsonLd} />
 
       {/* The root layout hardcodes <html lang="en"> and only a root layout may render
           <html> in the App Router. Reading a middleware header there would force every

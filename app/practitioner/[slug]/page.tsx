@@ -8,9 +8,9 @@ import {
   ChevronRight, Languages, DollarSign, BrainCircuit
 } from 'lucide-react';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { stateAbbr } from '@/lib/seo';
-import { buildFallbackBio } from '@/lib/practitioner-bio';
+import { buildFallbackBio, schemaTypeFor, servicePhrase, hasNoContactInfo } from '@/lib/practitioner-bio';
 import { getModalitiesForPractitioner } from '@/lib/data/modalities';
 
 function normalizeWebsiteUrl(url: string | null | undefined): string | null {
@@ -82,12 +82,17 @@ export async function generateMetadata({ params }: PractitionerPageProps): Promi
   const ogTitle = snippetOverride?.title || `${practitioner.name} - Hypnotherapist in ${practitioner.city}, ${stateAbbr(practitioner.state)}`;
   const ogImage = practitioner.photo_url || 'https://hypnotherapy-finder.com/og-image.jpg';
 
+  // Keep the thinnest unclaimed listings crawlable (a future claim restores
+  // full indexability) without asking Google to rank a near-empty page.
+  const isThin = practitioner.claim_status !== 'claimed' && hasNoContactInfo(practitioner);
+
   return {
     // absolute: skip the "| Hypnotherapy Finder" template — practitioner titles already run to the 60-char limit
     title: { absolute: ogTitle }, description,
     alternates: { canonical: `https://hypnotherapy-finder.com/practitioner/${slug}` },
     openGraph: { title: ogTitle, description, url: `https://hypnotherapy-finder.com/practitioner/${slug}`, siteName: 'Hypnotherapy Finder', images: [{ url: ogImage, width: 1200, height: 630, alt: practitioner.name }], type: 'profile' },
     twitter: { card: 'summary_large_image', title: ogTitle, description, images: [ogImage] },
+    ...(isThin && { robots: { index: false, follow: true } }),
   };
 }
 
@@ -99,22 +104,24 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
   const websiteUrl = normalizeWebsiteUrl(practitioner.website);
 
+  const schemaType = schemaTypeFor(practitioner.categoryname);
   const jsonLd = {
-    '@context': 'https://schema.org', '@type': 'MedicalBusiness',
+    '@context': 'https://schema.org', '@type': schemaType,
     name: practitioner.name,
     // Do not assert certification here — it is not verified for unclaimed listings.
-    description: `Hypnotherapy practice listed in ${practitioner.city}, ${practitioner.state}`,
+    description: `${servicePhrase(practitioner.categoryname)[0].toUpperCase()}${servicePhrase(practitioner.categoryname).slice(1)} practice listed in ${practitioner.city}, ${practitioner.state}`,
     address: { '@type': 'PostalAddress', streetAddress: practitioner.address, addressLocality: practitioner.city, addressRegion: practitioner.state, addressCountry: 'US' },
     ...(practitioner.phone && { telephone: practitioner.phone }),
     ...(websiteUrl && { url: websiteUrl }),
-    medicalSpecialty: specialties,
+    // medicalSpecialty is only a valid schema.org property on MedicalBusiness.
+    ...(schemaType === 'MedicalBusiness' && { medicalSpecialty: specialties }),
   };
 
   const breadcrumbLinkStyle = { fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--hf-fg-dim)', textDecoration: 'none' };
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
-      <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd id="schema-medical" data={jsonLd} />
       <Header />
 
       <main style={{ flex: 1, paddingTop: 100 }}>
@@ -150,7 +157,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                   <div style={{ position: 'relative', flexShrink: 0 }}>
                     <div style={{ width: 120, height: 120, borderRadius: 24, border: '4px solid var(--hf-bg)', background: 'var(--hf-bg-mid)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       {practitioner.imageUrl ? (
-                        <img alt={practitioner.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={practitioner.imageUrl} />
+                        <img alt={practitioner.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} src={practitioner.imageUrl} fetchPriority="high" />
                       ) : (
                         <User style={{ width: 48, height: 48, color: 'var(--hf-fg-dim)' }} />
                       )}

@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { MapPin, Search, CheckCircle, Users, Star, Shield, Award } from 'lucide-react';
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
@@ -161,8 +161,8 @@ export default async function FindAHypnotherapistPage() {
 
     return (
         <>
-            <Script id="schema-webpage" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
-            <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} strategy="beforeInteractive" />
+            <JsonLd id="schema-webpage" data={jsonLd} />
+            <JsonLd id="schema-faq" data={faqJsonLd} />
 
             <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
                 <Header />
@@ -177,10 +177,38 @@ export default async function FindAHypnotherapistPage() {
                             <p style={{ fontSize: 18, color: 'var(--hf-fg-dim)', marginBottom: 32, lineHeight: 1.7, maxWidth: 640, margin: '0 auto 32px' }}>
                                 Compare {allPractitioners.length.toLocaleString()}+ hypnotherapist profiles across the United States before you choose who to contact. Start broad, shortlist by practical fit, then confirm credentials, fees, availability, and scope directly with the practitioner.
                             </p>
+                            {/* Real search input, not just a link to one — this is the page a
+                                visitor (or an agent) expects to search from directly. Plain GET
+                                form so it works with zero JS, using the same `q`/`location`
+                                query params /search already reads. */}
+                            <form action="/search" method="GET" className="glass" style={{ borderRadius: 9999, padding: 8, maxWidth: 560, margin: '0 auto 20px', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                                <div style={{ flex: 1, minWidth: 180, position: 'relative' }}>
+                                    <Search style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: 'var(--hf-fg-dim)' }} />
+                                    <input
+                                        type="text"
+                                        name="q"
+                                        placeholder="Name, title, or keyword…"
+                                        style={{ width: '100%', height: 48, paddingLeft: 44, paddingRight: 16, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'var(--hf-fg)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+                                    />
+                                </div>
+                                <div style={{ flex: 1, minWidth: 180, position: 'relative' }}>
+                                    <MapPin style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: 'var(--hf-fg-dim)' }} />
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        placeholder="City or state…"
+                                        style={{ width: '100%', height: 48, paddingLeft: 44, paddingRight: 16, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: 'var(--hf-fg)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+                                    />
+                                </div>
+                                <button type="submit" className="btn-gradient hf-btn-accent" style={{ height: 48, padding: '0 28px', borderRadius: 12, border: 'none', color: '#fff', fontWeight: 600, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap' }}>
+                                    <Search style={{ width: 15, height: 15 }} />
+                                    Search
+                                </button>
+                            </form>
                             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                                 <Link href="/search" className="btn-gradient hf-btn-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', borderRadius: 12, color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
                                     <Search style={{ width: 20, height: 20 }} />
-                                    Search Hypnotherapists Now
+                                    Browse Full Directory
                                 </Link>
                                 <Link href="/hypnotherapy-near-me" style={{ display: 'inline-flex', alignItems: 'center', padding: '14px 28px', borderRadius: 12, border: '2px solid rgba(255,255,255,0.18)', color: 'var(--hf-fg)', fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
                                     Find Hypnotherapy Near Me

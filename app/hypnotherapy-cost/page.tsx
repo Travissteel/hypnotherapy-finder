@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { DollarSign, MapPin, CheckCircle, Search, CreditCard } from 'lucide-react';
 
 export const metadata = {
@@ -52,12 +52,7 @@ export default function HypnotherapyCostPage() {
 
   return (
     <>
-      <Script
-        id="schema-faq"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        strategy="beforeInteractive"
-      />
+      <JsonLd id="schema-faq" data={faqSchema} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />

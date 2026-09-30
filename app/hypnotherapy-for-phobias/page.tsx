@@ -1,7 +1,8 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
+import { TopCitiesLinks } from '@/components/TopCitiesLinks';
 import { Brain, CheckCircle, Clock, Compass, Search, Shield } from 'lucide-react';
 import { getAllPractitioners } from '@/lib/data/practitioners';
 
@@ -48,8 +49,8 @@ export default async function HypnotherapyForPhobiasPage() {
 
   return (
     <>
-      <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-medical" data={jsonLd} />
+      <JsonLd id="schema-faq" data={faqJsonLd} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
@@ -262,6 +263,8 @@ export default async function HypnotherapyForPhobiasPage() {
             </div>
           </section>
         </main>
+        <TopCitiesLinks specialtyLabel="Phobia" />
+        <TopCitiesLinks specialtyLabel="Phobia" />
         <Footer />
       </div>
     </>

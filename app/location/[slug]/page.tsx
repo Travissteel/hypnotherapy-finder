@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PractitionerCard } from '@/components/search/PractitionerCard';
-import { getAllCities, getCityBySlug, getPractitionersByCity } from '@/lib/data/practitioners';
+import { getAllCities, getCityBySlug, getPractitionersByCity, getCityStats } from '@/lib/data/practitioners';
 import { getSpanishCityBySlug } from '@/lib/data/spanish';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { MapPin } from 'lucide-react';
 import { stateAbbr } from '@/lib/seo';
 
@@ -85,6 +85,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
   if (!city) notFound();
 
   const practitioners = getPractitionersByCity(slug);
+  const cityStats = getCityStats(slug);
 
   const itemListSchema = {
     '@context': 'https://schema.org', '@type': 'ItemList',
@@ -213,10 +214,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   return (
     <>
-      <Script id="schema-itemlist" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} strategy="beforeInteractive" />
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} strategy="beforeInteractive" />
-      <Script id="schema-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} strategy="beforeInteractive" />
-      <Script id="schema-collection-page" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-itemlist" data={itemListSchema} />
+      <JsonLd id="schema-faq" data={faqSchema} />
+      <JsonLd id="schema-breadcrumb" data={breadcrumbSchema} />
+      <JsonLd id="schema-collection-page" data={collectionPageSchema} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
@@ -305,6 +306,13 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>.
                 </p>
 
+                {/* Was only on the 6 cities with a large custom content block —
+                    the underlying risk (unverified directory listings for a
+                    health-adjacent service) is identical on every city page. */}
+                <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
+                  Hypnotherapy is a complementary approach. If you&apos;re experiencing significant symptoms, please consult a qualified healthcare provider.
+                </p>
+
                 {consolidationLinks.length > 0 && (
                   <div style={{ marginTop: 18, padding: '18px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                     <h3 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Searching more broadly than {city.name}?</h3>
@@ -349,9 +357,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -387,9 +392,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -414,9 +416,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -441,9 +440,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -468,9 +464,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -493,9 +486,6 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginTop: 14, fontWeight: 300 }}>
-                      Hypnotherapy is a complementary approach. If you're experiencing significant symptoms, please consult a qualified healthcare provider.
-                    </p>
                   </div>
                 )}
 
@@ -543,6 +533,60 @@ export default async function LocationPage({ params }: LocationPageProps) {
               </div>
             </div>
           </section>
+
+          {/* City Snapshot — computed from this city's real practitioner records
+              (Maps category + address/phone/website presence), not hand-written
+              per-city copy. Renders for every city, not just the 8 with custom
+              content above, which is what actually differentiates the other 23
+              location pages from each other instead of city-name find/replace. */}
+          {cityStats.total > 0 && (
+            <section style={{ padding: '0 24px 48px' }}>
+              <div style={{ maxWidth: 860, margin: '0 auto' }}>
+                <div className="glass-card" style={{ padding: '32px' }}>
+                  <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 20 }}>
+                    {city.name} Directory Snapshot
+                  </h2>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 24, marginBottom: 24 }}>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 10 }}>
+                        Listed by category
+                      </div>
+                      <ul style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        {cityStats.categoryBreakdown.slice(0, 5).map(({ label, count }) => (
+                          <li key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                            <span>{label}</span>
+                            <span style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>{count}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 10 }}>
+                        Contact details on file
+                      </div>
+                      <ul style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <li style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <span>Physical address listed</span>
+                          <span style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>{cityStats.withAddress} of {cityStats.total}</span>
+                        </li>
+                        <li style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <span>Phone number listed</span>
+                          <span style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>{cityStats.withPhone} of {cityStats.total}</span>
+                        </li>
+                        <li style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, color: 'var(--hf-fg-dim)' }}>
+                          <span>Website listed</span>
+                          <span style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>{cityStats.withWebsite} of {cityStats.total}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 12, color: 'var(--hf-fg-dim)', lineHeight: 1.6, margin: 0 }}>
+                    Category and contact-detail counts come from how each practice is listed with us, not from a review or endorsement. A missing phone number or website usually means the practice hasn&apos;t claimed and completed its profile yet — confirm current contact details directly before reaching out.
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
 
           {/* Practitioners Grid */}
           <section style={{ padding: '48px 24px' }}>

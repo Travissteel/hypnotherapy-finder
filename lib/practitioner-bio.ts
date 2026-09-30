@@ -44,7 +44,7 @@ function pick<T>(options: T[], seed: number, salt: number): T {
 }
 
 /** Normalises the Maps category into a readable noun phrase. */
-function servicePhrase(categoryname?: string): string {
+export function servicePhrase(categoryname?: string): string {
   const c = (categoryname || '').toLowerCase();
   if (c.includes('hypnotherapy') || c.includes('hypnotist') || c.includes('hypnosis')) {
     return 'hypnotherapy';
@@ -52,6 +52,31 @@ function servicePhrase(categoryname?: string): string {
   if (c.includes('counsel') || c.includes('therapist')) return 'therapy and counselling';
   if (c.includes('coach')) return 'coaching';
   return 'hypnotherapy';
+}
+
+/**
+ * Schema.org @type for the practitioner's JSON-LD. Coaching is not a clinical
+ * service, so asserting MedicalBusiness for it overclaims — same categoryname
+ * signal servicePhrase() already uses, branched the same way.
+ */
+export function schemaTypeFor(categoryname?: string): 'MedicalBusiness' | 'ProfessionalService' {
+  const c = (categoryname || '').toLowerCase();
+  if (c.includes('coach')) return 'ProfessionalService';
+  return 'MedicalBusiness';
+}
+
+/**
+ * True when a listing has no phone, website, or address on file — the same
+ * "Limited contact information is currently on file" condition the bio
+ * fallback already detects below. Used to noindex the thinnest unclaimed
+ * profiles rather than removing them: keeps them crawlable so a future claim
+ * restores full indexability, without asking Google to rank a near-empty page.
+ */
+export function hasNoContactInfo(p: BioSource): boolean {
+  const hasSite = Boolean(p.website && String(p.website).trim());
+  const hasPhone = Boolean(p.phone && String(p.phone).trim());
+  const hasAddress = Boolean((p.address || p.street || '').toString().trim());
+  return !hasSite && !hasPhone && !hasAddress;
 }
 
 export function buildFallbackBio(p: BioSource, slug: string): string[] {

@@ -2,7 +2,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
 import { Award, BookOpen, History, Users, Linkedin, Shield, Heart, CheckCircle, Focus, Eye, Accessibility } from 'lucide-react';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 
 export const metadata = {
   title: 'About Hypnotherapy | History & Science',
@@ -55,7 +55,7 @@ const researchItems = [
 export default function AboutPage() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
-      <Script id="organization-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <JsonLd id="organization-schema" data={organizationSchema} />
       <Header />
 
       <main style={{ flex: 1, paddingTop: 80 }}>

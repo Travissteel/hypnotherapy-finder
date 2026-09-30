@@ -143,6 +143,48 @@ export function getCityBySlug(slug: string): City | undefined {
   return cities.find(c => c.slug === slug);
 }
 
+export interface CityStats {
+  total: number;
+  categoryBreakdown: { label: string; count: number }[];
+  withAddress: number;
+  withPhone: number;
+  withWebsite: number;
+}
+
+function titleCaseCategory(raw: string): string {
+  return raw.replace(/\w\S*/g, (word) => word[0].toUpperCase() + word.slice(1).toLowerCase());
+}
+
+/**
+ * Per-city stats computed from real, non-claim-gated Maps data (category,
+ * address/phone/website presence) — NOT fields like sessionType/priceRange/
+ * certifications/languages, which are ~100%-populated enrichment output and
+ * gated to claimed listings elsewhere (see PractitionerCard.tsx). Used to give
+ * each city page genuinely distinct, verifiable content instead of more
+ * hand-written boilerplate.
+ */
+export function getCityStats(citySlug: string): CityStats {
+  const cityPractitioners = getPractitionersByCity(citySlug);
+
+  const counts = new Map<string, number>();
+  for (const p of cityPractitioners) {
+    const raw = (p.categoryname || '').trim();
+    const label = raw ? titleCaseCategory(raw) : 'Uncategorized';
+    counts.set(label, (counts.get(label) || 0) + 1);
+  }
+  const categoryBreakdown = Array.from(counts.entries())
+    .map(([label, count]) => ({ label, count }))
+    .sort((a, b) => b.count - a.count);
+
+  return {
+    total: cityPractitioners.length,
+    categoryBreakdown,
+    withAddress: cityPractitioners.filter(p => p.address || p.street).length,
+    withPhone: cityPractitioners.filter(p => p.phone).length,
+    withWebsite: cityPractitioners.filter(p => p.website).length,
+  };
+}
+
 export function getAllSpecialties(): string[] {
   const specialtiesSet = new Set<string>();
   practitioners.forEach(p => {

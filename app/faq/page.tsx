@@ -2,7 +2,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
 import { HelpCircle } from 'lucide-react';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 
 export const metadata = {
   title: 'Hypnotherapy FAQs | Common Questions About Hypnosis Answered',
@@ -97,7 +97,7 @@ export default function FAQPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
-      <Script id="faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <JsonLd id="faq-schema" data={faqSchema} />
       <Header />
 
       <main style={{ flex: 1, paddingTop: 80 }}>

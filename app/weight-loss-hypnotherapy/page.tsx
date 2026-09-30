@@ -2,7 +2,8 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
+import { TopCitiesLinks } from '@/components/TopCitiesLinks';
 import { Scale, Target, CheckCircle, Search, TrendingDown, Brain } from 'lucide-react';
 import { getAllPractitioners } from '@/lib/data/practitioners';
 
@@ -29,8 +30,8 @@ export default async function WeightLossHypnotherapyPage() {
 
   return (
     <>
-      <Script id="schema-medical" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} strategy="beforeInteractive" />
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-medical" data={jsonLd} />
+      <JsonLd id="schema-faq" data={faqJsonLd} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />
@@ -242,6 +243,8 @@ export default async function WeightLossHypnotherapyPage() {
           </section>
 
         </main>
+        <TopCitiesLinks specialtyLabel="Weight Loss" />
+        <TopCitiesLinks specialtyLabel="Weight Loss" />
         <Footer />
       </div>
     </>

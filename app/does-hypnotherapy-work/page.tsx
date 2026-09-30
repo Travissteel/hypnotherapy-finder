@@ -1,7 +1,7 @@
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { CheckCircle, XCircle, Brain, TrendingUp, Search } from 'lucide-react';
 
 export const metadata = {
@@ -65,8 +65,8 @@ export default function DoesHypnotherapyWorkPage() {
 
   return (
     <>
-      <Script id="schema-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} strategy="beforeInteractive" />
-      <Script id="schema-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} strategy="beforeInteractive" />
+      <JsonLd id="schema-faq" data={faqSchema} />
+      <JsonLd id="schema-article" data={articleSchema} />
 
       <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
         <Header />

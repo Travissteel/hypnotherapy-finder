@@ -5,7 +5,7 @@ import { PractitionerCard } from '@/components/search/PractitionerCard';
 import { HeroVideo } from '@/app/components/HeroVideo';
 import { getFeaturedPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { MapPin, ArrowRight } from 'lucide-react';
 
 export const metadata = {
@@ -90,8 +90,8 @@ export default function Home() {
 
   return (
     <>
-      <Script id="schema-org" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      <Script id="schema-web" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+      <JsonLd id="schema-org" data={organizationSchema} />
+      <JsonLd id="schema-web" data={websiteSchema} />
 
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--hf-bg)' }}>
         <Header />

@@ -90,6 +90,26 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script src="https://analytics.ahrefs.com/analytics.js" data-key="hf3Bguy0ovGEzuCoUnDQMw" async></script>
+        {/* Prefetch the site's most common next-navigation: location page -> a practitioner card. */}
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prefetch: [
+                {
+                  source: 'document',
+                  where: { href_matches: '/practitioner/*' },
+                  eagerness: 'moderate',
+                },
+                {
+                  source: 'document',
+                  where: { href_matches: '/location/*' },
+                  eagerness: 'moderate',
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body
         className={`${dmSans.variable} ${instrumentSerif.variable} ${geistMono.variable} antialiased`}

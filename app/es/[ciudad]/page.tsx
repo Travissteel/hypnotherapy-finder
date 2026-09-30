@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PractitionerCardEs } from '@/components/search/PractitionerCardEs';
@@ -112,8 +112,8 @@ export default async function EsCityPage({ params }: EsCityPageProps) {
 
   return (
     <>
-      <Script id="schema-es-city-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <Script id="schema-es-city-crumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <JsonLd id="schema-es-city-faq" data={faqJsonLd} />
+      <JsonLd id="schema-es-city-crumb" data={breadcrumbJsonLd} />
 
       {/* See app/es/page.tsx for why lang is declared here rather than on <html>. */}
       <div lang="es" style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>

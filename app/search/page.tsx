@@ -162,9 +162,9 @@ function SearchContent() {
 
         {/* Content */}
         <section style={{ padding: '40px 24px 80px' }}>
-          <div style={{ maxWidth: 1020, margin: '0 auto', display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+          <div className="flex-col md:flex-row" style={{ maxWidth: 1020, margin: '0 auto', display: 'flex', gap: 32, alignItems: 'flex-start' }}>
             {/* Sidebar Filters */}
-            <aside style={{ width: 280, flexShrink: 0, position: 'sticky', top: 100 }}>
+            <aside className="w-full md:w-[280px]" style={{ flexShrink: 0, position: 'sticky', top: 100 }}>
               <div className="glass-card" style={{ padding: '28px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

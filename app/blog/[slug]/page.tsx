@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation';
 import { Calendar, Clock, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Script from 'next/script';
+import { JsonLd } from '@/components/JsonLd';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -90,11 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     return (
         <div style={{ minHeight: '100vh', background: 'var(--hf-bg)', display: 'flex', flexDirection: 'column' }}>
-            <Script
-                id="article-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
-            />
+            <JsonLd id="article-schema" data={articleSchema} />
             <Header />
 
             <main style={{ flex: 1, paddingTop: 96, paddingBottom: 80 }}>

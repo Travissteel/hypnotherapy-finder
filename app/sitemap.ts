@@ -19,7 +19,16 @@ const REMOVED_PRACTITIONER_SLUGS = new Set([
   'jq-new-york-67',
 ]);
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Split into per-content-type sitemaps (0=pages, 1=locations, 2=practitioners)
+// so indexation rate can be tracked separately by page type in Search Console,
+// rather than one blended ~1,200-URL sitemap. Next.js serves these at
+// /sitemap/0.xml, /sitemap/1.xml, /sitemap/2.xml under an auto-generated index.
+export async function generateSitemaps() {
+  return [{ id: 0 }, { id: 1 }, { id: 2 }];
+}
+
+export default async function sitemap({ id }: { id: Promise<string> }): Promise<MetadataRoute.Sitemap> {
+  const sitemapId = Number(await id);
   const baseUrl = 'https://hypnotherapy-finder.com';
 
   const practitioners = getAllPractitioners();
@@ -265,5 +274,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...locationPages, ...modalityPages, ...spanishPages, ...practitionerPages, ...blogPages];
+  // id 0: pages — everything that isn't a location or a practitioner profile
+  if (sitemapId === 0) {
+    return [...staticPages, ...modalityPages, ...spanishPages, ...blogPages];
+  }
+  // id 1: locations
+  if (sitemapId === 1) {
+    return locationPages;
+  }
+  // id 2: practitioners
+  return practitionerPages;
 }
