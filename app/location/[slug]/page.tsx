@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'austin') title = `Austin Hypnotherapy | How to Choose a Hypnotherapist in Austin`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
-  else if (slug === 'columbus') title = `Columbus Hypnotherapy | Hypnosis Therapy & Clinical Hypnosis in Ohio`;
+  else if (slug === 'columbus') title = `Hypnotherapy Columbus Ohio | Columbus Ohio Hypnosis Directory`;
   else if (slug === 'detroit') title = `Detroit Hypnotherapy | Smoking Cessation Hypnosis & Local Profiles`;
   else if (slug === 'baltimore') title = `Baltimore Hypnotherapy | Hypnosis Baltimore & Local Profiles`;
 
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'austin') description = `How to choose a hypnotherapist in Austin, TX: compare location, focus area, contact details, session format and questions to confirm directly.`;
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
   else if (slug === 'atlanta') description = `Find hypnotherapy in Atlanta, GA. Browse ${city.practitionerCount} local hypnotherapist profiles and use a safer checklist before contacting practitioners.`;
-  else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for hypnosis therapy, clinical hypnosis, and nearby hypnotherapist searches.`;
+  else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for Columbus Ohio hypnosis, clinical hypnosis, and nearby hypnotherapist searches.`;
   else if (slug === 'detroit') description = `Find Detroit hypnotherapy and smoking cessation hypnosis profiles. Compare ${city.practitionerCount} local listings, then confirm services and session fit directly.`;
   else if (slug === 'baltimore') description = `Find Baltimore hypnotherapy and hypnosis profiles. Compare ${city.practitionerCount} local listings, including named-practice searches, then confirm fit directly.`;
 
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : slug === 'atlanta' ? 'atlanta hypnotherapy, hypnotherapists atlanta, hypnotherapists directory atlanta, hypnosis therapy near me atlanta, hypnotherapist near me atlanta'
-      : slug === 'columbus' ? 'hypnotherapy columbus ohio, columbus hypnotherapy, hypnosis therapy near me columbus, clinical hypnosis near me columbus, hypnotherapist near me columbus'
+      : slug === 'columbus' ? 'hypnotherapy columbus ohio, columbus ohio hypnosis, columbus hypnotherapy, hypnosis therapy near me columbus, clinical hypnosis near me columbus, hypnotherapist near me columbus'
       : slug === 'detroit' ? 'detroit hypnosis, detroit hypnotherapy, smoking cessation hypnosis detroit, smoking cessation hypnotherapy detroit, hypnotherapist near me detroit'
       : slug === 'baltimore' ? 'hypnosis baltimore, hypnotherapy baltimore, hypnotherapy finder baltimore, from the heart hypnotherapy baltimore, baltimore hypnosis'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, ${city.name} hypnotherapy directory`,
@@ -119,6 +119,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
       ...(slug === 'columbus' ? [
         { '@type': 'Question', name: 'Where can I find hypnotherapy in Columbus, Ohio?', acceptedAnswer: { '@type': 'Answer', text: `Use the Columbus directory to compare ${city.practitionerCount} local hypnotherapist profiles by name, location, phone, website, and category. Contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'What is the difference between hypnosis therapy and clinical hypnosis near me?', acceptedAnswer: { '@type': 'Answer', text: 'Searchers use these phrases in different ways. When contacting a practitioner, ask whether they offer hypnotherapy, what their intake process includes, what training or certification they hold, and when they would refer a client to a licensed healthcare provider instead.' } },
+        { '@type': 'Question', name: 'How should I compare Columbus Ohio hypnosis profiles?', acceptedAnswer: { '@type': 'Answer', text: 'Start with practical listing details: name, address, phone, website, category, and whether the location works for you. Then contact practitioners directly to confirm services, training, certification, session format, current fees, availability, and fit for your concern.' } },
       ] : []),
       ...(slug === 'detroit' ? [
         { '@type': 'Question', name: 'Where can I find Detroit hypnotherapy?', acceptedAnswer: { '@type': 'Answer', text: `Use the Detroit directory to compare ${city.practitionerCount} local hypnotherapist profiles by name, address, phone, website, and category. Contact practitioners directly to confirm services, training, session format, current fees, and availability.` } },
@@ -166,7 +167,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'austin' ? 'Austin Hypnotherapy: How to Choose a Hypnotherapist'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : slug === 'atlanta' ? 'Atlanta Hypnotherapy Directory'
-    : slug === 'columbus' ? 'Columbus Hypnotherapy in Ohio'
+    : slug === 'columbus' ? 'Hypnotherapy Columbus Ohio: Local Hypnosis Profiles'
     : slug === 'detroit' ? 'Detroit Hypnotherapy and Smoking Cessation Hypnosis'
     : slug === 'baltimore' ? 'Baltimore Hypnotherapy and Hypnosis Profiles'
     : `${city.name} Hypnotherapy`;
@@ -437,16 +438,28 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Hypnotherapy Columbus Ohio: local searches and what to compare</h3>
                     <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
-                      Search Console shows this Columbus page appearing for “hypnotherapy Columbus Ohio,” “Columbus hypnotherapy,” “hypnosis therapy near me,” “clinical hypnosis near me,” searches that include “Revitalize You” and “Columbus,” and “hypnotherapist near me.” Those searches overlap, but they are not the same job. Use this page when you want Columbus-area profiles, and use the national near-me checklist when your search is broader than central Ohio.
+                      Search Console shows this Columbus page appearing for “hypnotherapy Columbus Ohio,” “Columbus Ohio hypnosis,” “Columbus hypnotherapy,” “hypnosis therapy near me,” “clinical hypnosis near me,” and “hypnotherapist near me.” Those searches overlap, but they are not the same job. Use this page when you want Columbus-area profiles, and use the national near-me checklist when your search is broader than central Ohio.
                     </p>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      A useful Columbus shortlist starts with facts a directory can safely show: practitioner name, address, phone, website, listed category, and whether the location works for your routine. The details that matter most before booking — training, certification, current fees, availability, session format, cancellation rules, and fit for your concern — should be confirmed directly with each practitioner.
+                    </p>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Columbus hypnotherapy comparison checklist</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Check whether the address works for Downtown Columbus, Short North, German Village, Clintonville, Dublin, Westerville, or online sessions.</li>
+                        <li>Ask what the first appointment includes: intake, goal-setting, hypnosis work, home practice, or a separate consultation.</li>
+                        <li>Ask how the practitioner explains their approach for anxiety, habits, smoking, sleep, confidence, stress, or another concern without promising outcomes.</li>
+                        <li>Confirm training, certification, professional scope, current fees, availability, session format, and referral boundaries directly.</li>
+                      </ul>
+                    </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
                       {[
-                        { title: 'Hypnotherapy Columbus Ohio', body: 'For Columbus-specific searches, compare local profile basics first: address, phone, website, category, and whether the location is practical for Downtown Columbus, Short North, Clintonville, Dublin, Westerville, or nearby suburbs.' },
-                        { title: 'Columbus hypnotherapy', body: 'If your query was shorter, clarify what kind of support you are seeking before contacting anyone. Ask how the practitioner explains their method, what an intake session includes, and whether they offer online, in-person, or hybrid sessions.' },
-                        { title: 'Hypnosis therapy near me', body: 'People often use “hypnosis therapy” when they mean hypnotherapy. Before booking, ask whether the practitioner offers therapeutic hypnotherapy, what training or certification they hold, and when they would refer someone to a qualified healthcare provider instead.' },
-                        { title: 'Clinical hypnosis near me', body: 'Do not assume clinical scope from a directory listing. Ask directly about certification, training background, professional boundaries, experience with your concern, and whether their work is complementary to medical or mental-health care.' },
-                        { title: 'Revitalize You Columbus searches', body: 'If a named Columbus practice prompted your search, treat this directory as a comparison tool rather than an endorsement. Check the practice website directly, then compare location, contact options, and practitioner fit alongside other local profiles.' },
-                        { title: 'Hypnotherapist near me', body: 'Near-me searches can mix city pages, national directories, and individual profiles. If you want Columbus options, stay here; if you are still comparing nearby choices across cities, use the national near-me checklist linked above.' },
+                        { title: 'Hypnotherapy Columbus Ohio', body: 'For Columbus-specific searches, compare local profile basics first: address, phone, website, category, and whether the location is practical for Downtown Columbus, Short North, Clintonville, Dublin, Westerville, or nearby suburbs. Then contact the practitioner directly to confirm training, session format, fees, availability, and whether their approach fits your concern.' },
+                        { title: 'Columbus Ohio hypnosis', body: '“Hypnosis” can mean stage hypnosis, self-hypnosis, coaching, or therapeutic hypnotherapy. If you are looking for practitioner support in Columbus, ask whether the person offers hypnotherapy, what the intake process includes, and how they explain their method in plain language.' },
+                        { title: 'Columbus hypnotherapy', body: 'If your query was shorter, clarify what kind of support you are seeking before contacting anyone. Ask whether sessions are online, in person, or hybrid, what a first session usually includes, what between-session practice may be suggested, and when the practitioner would refer someone to a qualified healthcare provider.' },
+                        { title: 'Hypnosis therapy near me', body: 'People often use “hypnosis therapy” when they mean hypnotherapy. Before booking, ask whether the practitioner offers therapeutic hypnotherapy, what training or certification they hold, what kinds of concerns they work with, and what falls outside their professional scope.' },
+                        { title: 'Clinical hypnosis near me', body: 'Do not assume clinical scope from a directory listing. Ask directly about certification, training background, professional boundaries, experience with your concern, and whether their work is complementary to medical or mental-health care. If symptoms are significant, consult a qualified healthcare provider.' },
+                        { title: 'Hypnotherapist near me', body: 'Near-me searches can mix city pages, national directories, and individual profiles. If you want Columbus options, stay here; if you are still comparing nearby choices across cities or online options, use the national near-me checklist linked above before contacting anyone.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
