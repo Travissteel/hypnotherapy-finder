@@ -27,8 +27,8 @@ interface PractitionerPageProps {
 
 const practitionerSnippetOverrides: Record<string, { title: string; description: string }> = {
   'mind-gym-by-marco-nashville-17': {
-    title: 'Mind Gym By Marco Nashville, TN | Hypnotherapy Finder',
-    description: 'Find Mind Gym By Marco in Nashville: address, phone, website, map details, and profile information on Hypnotherapy Finder.',
+    title: 'Mind Gym By Marco | Nashville Address, Phone & Website',
+    description: 'Mind Gym By Marco listing in Nashville, TN: view the Woodbury Falls Ct address, phone number, website, map, and practice details.',
   },
 };
 
