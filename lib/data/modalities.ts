@@ -154,23 +154,26 @@ export const MODALITIES: readonly Modality[] = [
   {
     slug: 'past-life-regression',
     title: 'Past Life Regression Therapists',
-    metaTitle: 'Past Life Regression Near Me | Regression Therapist Directory',
+    metaTitle: 'Past Life Regression Near Me | Regression Therapy Directory',
     metaDescription:
-      'Find past life regression therapists across the US. Browse practices that list regression therapy in their own listing, then contact them directly about approach and session format.',
+      'Find past life regression and regression therapy near you. Browse US practices, including Texas listings, and ask directly about format, training and availability.',
     keywords:
-      'past life regression near me, past life regression therapist, regression therapy near me, past life hypnotherapist near me, past life regression columbus ohio, past life regression phoenix, terapia regresiva',
+      'past life regression near me, past life regression therapist, regression therapy near me, regression near me, past life regression service texas, past life hypnotherapist near me, past life regression columbus ohio, past life regression phoenix, terapia regresiva',
     shortLabel: 'Past Life Regression',
     intro:
-      'Past life regression and regression therapy are offered by practitioners who usually also work in general hypnotherapy. The practices below list regression work in their own business listing.',
+      'Past life regression and regression therapy are offered by practitioners who usually also work in general hypnotherapy. The practices below list regression work in their own business listing, including practitioners in Texas and other US cities.',
     about: [
-      'Regression therapy uses hypnosis to guide attention toward earlier memories or imagery. Practitioners differ widely in how they frame what surfaces during a session — some treat it literally, others as symbolic material to work with.',
-      'It is not a regulated field and there is no single governing credential, so training varies considerably. Ask what approach a practitioner takes, how long they have practised it, and what a session involves.',
-      'Regression work is a complementary approach, not a treatment for a medical or psychological condition. If you are dealing with trauma or significant distress, speak with a qualified healthcare provider first.',
+      'Regression therapy uses hypnosis to guide attention toward earlier memories, imagined scenes or symbolic material. Practitioners differ widely in how they frame what surfaces during a session — some treat it literally, others as metaphor, memory work or exploratory imagery.',
+      'If you are searching for “past life regression near me”, start with location and session format rather than title alone. Some practitioners offer long single-session regressions, some blend regression into standard hypnotherapy, and some work online. Confirm whether the session is focused on past-life exploration, present-life regression, parts work, or a broader spiritual framework before booking.',
+      'For “regression therapy near me” or “regression near me” searches, language matters. A practice may list regression therapy, past-life regression, hypnotherapy regression, spiritual regression, or QHHT-style work. Those are not all identical, so ask what method they use, how they prepare clients, and how they handle unexpected emotional material during the session.',
+      'People searching for “past life regression service Texas” will find several Texas listings here, especially around Dallas, Austin and Houston. Hypnotherapy Finder groups practices by city so you can compare nearby options, but it does not verify credentials, pricing, insurance, availability or session length. Use the listing as a starting point, then confirm details directly with the practice.',
+      'It is not a regulated field and there is no single governing credential, so training varies considerably. Ask what approach a practitioner takes, how they were trained, how long a session usually runs, and whether they recommend regression work for your situation.',
+      'Regression work is a complementary approach, not a treatment for a medical or psychological condition. If you are dealing with trauma, dissociation, severe anxiety or significant distress, speak with a qualified healthcare provider first.',
     ],
     faq: [
       {
         q: 'How do I find a past life regression therapist near me?',
-        a: 'The practices on this page are grouped by city. Browse the listings or use the search to filter by location, then contact a practitioner directly to ask about availability, format and price.',
+        a: 'Start with the city groups on this page, then use the search to narrow by location. Contact the practitioner directly to ask whether they offer past-life regression specifically, whether sessions are in person or online, and what their session format looks like.',
       },
       {
         q: 'Is past life regression the same as hypnotherapy?',
@@ -178,11 +181,19 @@ export const MODALITIES: readonly Modality[] = [
       },
       {
         q: 'What happens in a regression session?',
-        a: 'Formats vary a great deal between practitioners, more so than in mainstream hypnotherapy. Ask in advance how long a session runs, what the practitioner does during it, and how they handle anything distressing that comes up.',
+        a: 'Formats vary a great deal between practitioners, more so than in mainstream hypnotherapy. Ask in advance how long a session runs, whether there is preparation or after-session integration, what the practitioner does during the session, and how they handle anything distressing that comes up.',
+      },
+      {
+        q: 'Where can I find past life regression service in Texas?',
+        a: 'This directory includes Texas practices that list past-life regression or regression therapy in their own business listing, including listings around Dallas, Austin and Houston. Use the city sections as a starting point, then confirm directly whether the service is currently offered and whether it is in person or online.',
+      },
+      {
+        q: 'Is regression therapy near me the same as past life regression near me?',
+        a: 'Not always. “Regression therapy” can mean earlier-life memory work, present-life regression, spiritual regression, or past-life exploration depending on the practitioner. Ask what framework they use before assuming the session matches the past-life regression search result you had in mind.',
       },
       {
         q: 'Do you verify regression therapists\' training?',
-        a: 'No. Hypnotherapy Finder lists profiles and contact details but does not verify credentials, training or experience. Ask each practitioner directly before booking.',
+        a: 'No. Hypnotherapy Finder lists profiles and contact details but does not verify credentials, training, experience, pricing, insurance or availability. Ask each practitioner directly before booking.',
       },
     ],
     practitionerSlugs: PAST_LIFE_SLUGS,
