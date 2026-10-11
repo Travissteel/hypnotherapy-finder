@@ -151,6 +151,14 @@ export default async function FindAHypnotherapistPage() {
         { title: '4. Verify before booking', body: 'Before paying for a session, contact the practitioner directly to confirm certification, training, professional scope, fees, session length, availability, and whether their approach fits what you want support with.' },
     ];
 
+    const broadIntentExamples = [
+        { city: 'Chicago', href: '/location/chicago', body: 'Use Chicago only after the city matters. If the search was just “hypnotherapists,” begin here, then narrow to Chicago once location is the filter.' },
+        { city: 'Atlanta', href: '/location/atlanta', body: 'Use Atlanta for local profile comparison. Use this directory first when you are still weighing cities, online sessions, and focus areas.' },
+        { city: 'Dallas', href: '/location/dallas', body: 'Use Dallas for Dallas-area names and contact routes. Use the national view when the search intent is still broad.' },
+        { city: 'Boston', href: '/location/boston', body: 'Use Boston when geography is settled. Broad directory searches need a page that keeps city, concern, and session format open.' },
+        { city: 'Memphis', href: '/location/memphis', body: 'Use Memphis for local shortlisting. Start here when “hypnotherapists” means compare options before choosing a city page.' },
+    ];
+
     const directoryDecisionPoints = [
         { title: 'The query is broad', body: 'A search for “hypnotherapists” usually means you are still comparing, not that you have chosen Chicago, Atlanta, Dallas, Boston, Memphis, or any other specific city yet.' },
         { title: 'The useful facts are practical', body: 'Start with location, website, phone number, session format signals, and stated focus areas. Those are the facts a directory can show without pretending to know current certification, insurance, fees, or availability.' },
@@ -283,8 +291,26 @@ export default async function FindAHypnotherapistPage() {
                         </div>
                     </section>
 
-                    {/* Hypnotherapists Search Intent */}
+                    {/* Broad Query Canonical Routing */}
                     <section style={{ padding: '64px 0', background: 'var(--hf-bg-mid)', borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div style={{ maxWidth: 960, margin: '0 auto', padding: '0 16px' }}>
+                            <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>City Pages Are for City Searches</h2>
+                            <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>
+                                A broad “hypnotherapists” search should not strand you on one local page. Use this national directory as the hub, then move to a city page only when the city is part of the decision.
+                            </p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+                                {broadIntentExamples.map((item) => (
+                                    <Link key={item.city} href={item.href} className="glass-card hf-card-hover" style={{ padding: 24, textDecoration: 'none', display: 'block' }}>
+                                        <h3 style={{ fontWeight: 700, fontSize: 16, color: 'var(--hf-accent)', marginBottom: 10 }}>{item.city} hypnotherapy</h3>
+                                        <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.65 }}>{item.body}</p>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Hypnotherapists Search Intent */}
+                    <section style={{ padding: '64px 0' }}>
                         <div style={{ maxWidth: 896, margin: '0 auto', padding: '0 16px' }}>
                             <h2 style={{ fontSize: 32, fontWeight: 800, color: 'var(--hf-fg)', textAlign: 'center', marginBottom: 16 }}>Hypnotherapists: How to Compare Profiles Without Guessing</h2>
                             <p style={{ textAlign: 'center', color: 'var(--hf-fg-dim)', marginBottom: 40, maxWidth: 720, margin: '0 auto 40px', lineHeight: 1.7 }}>

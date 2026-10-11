@@ -306,8 +306,8 @@ export default async function LocationPage({ params }: LocationPageProps) {
                   Not based in {city.name}? Search for a{' '}
                   <Link href="/hypnotherapy-near-me" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapist near me</Link>
                   {' '}nationwide, or{' '}
-                  <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>find a hypnotherapist</Link>
-                  {' '}by concern and session type. You can also{' '}
+                  <Link href="/find-a-hypnotherapist" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>hypnotherapists</Link>
+                  {' '}in the national directory by concern and session type. You can also{' '}
                   <Link href="/locations" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>browse every city we cover</Link>.
                 </p>
 
