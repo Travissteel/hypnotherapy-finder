@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Local Profiles in Chicago, IL`;
-  else if (slug === 'austin') title = `Austin Hypnotherapy | How to Choose a Hypnotherapist in Austin`;
+  else if (slug === 'austin') title = `Austin Hypnotherapist Directory | Compare Local Profiles`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
   else if (slug === 'columbus') title = `Hypnotherapy Columbus Ohio | Columbus Ohio Hypnosis Directory`;
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let description = `Find hypnotherapy in ${city.name}, ${city.state}. Browse ${city.practitionerCount} local practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
   else if (slug === 'chicago') description = `Find hypnotherapy in Chicago. Browse ${city.practitionerCount} hypnotherapist profiles — Downtown, Lincoln Park & suburbs.`;
-  else if (slug === 'austin') description = `How to choose a hypnotherapist in Austin, TX: compare location, focus area, contact details, session format and questions to confirm directly.`;
+  else if (slug === 'austin') description = `Looking for an Austin hypnotherapist? Compare local profile basics, contact details, session-format questions and what to verify directly before booking.`;
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
   else if (slug === 'atlanta') description = `Find hypnotherapy in Atlanta, GA. Browse ${city.practitionerCount} local hypnotherapist profiles and use a safer checklist before contacting practitioners.`;
   else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for Columbus Ohio hypnosis, clinical hypnosis, and nearby hypnotherapist searches.`;
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
     title: { absolute: title }, description,
     keywords: slug === 'los-angeles' ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
       : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
-      : slug === 'austin' ? 'hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
+      : slug === 'austin' ? 'austin hypnotherapist, hypnotherapist austin tx, hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : slug === 'atlanta' ? 'atlanta hypnotherapy, hypnotherapists atlanta, hypnotherapists directory atlanta, hypnosis therapy near me atlanta, hypnotherapist near me atlanta'
       : slug === 'columbus' ? 'hypnotherapy columbus ohio, columbus ohio hypnosis, columbus hypnotherapy, hypnosis therapy near me columbus, clinical hypnosis near me columbus, hypnotherapist near me columbus'
@@ -132,6 +132,8 @@ export default async function LocationPage({ params }: LocationPageProps) {
         { '@type': 'Question', name: 'How should I use Hypnotherapy Finder for Baltimore?', acceptedAnswer: { '@type': 'Answer', text: 'Use Hypnotherapy Finder as a shortlist tool, not an endorsement engine. Compare local profile details, then verify credentials, scope, pricing, availability, and fit directly with each practitioner before booking.' } },
       ] : []),
       ...(slug === 'austin' ? [
+        { '@type': 'Question', name: 'Where can I find an Austin hypnotherapist?', acceptedAnswer: { '@type': 'Answer', text: `Use this Austin hypnotherapist directory to compare ${city.practitionerCount} local profiles by name, address, phone, website, and category. Then contact practitioners directly to confirm training, certification, professional scope, session format, current fees, and availability.` } },
+        { '@type': 'Question', name: 'How should I use a hypnotherapist Austin TX search?', acceptedAnswer: { '@type': 'Answer', text: 'A hypnotherapist Austin TX search should produce a shortlist, not a final decision. Compare practical details first, then ask each practitioner what the first session includes, whether sessions are online or in person, and how they explain their approach without promising outcomes.' } },
         { '@type': 'Question', name: 'How to choose a hypnotherapist Austin?', acceptedAnswer: { '@type': 'Answer', text: `Use the Austin directory to compare ${city.practitionerCount} local hypnotherapist profiles by address, phone, website, category, and practical fit. Then contact practitioners directly to confirm training, certification, professional scope, current fees, availability, and whether their session format fits your concern.` } },
         { '@type': 'Question', name: 'What should I ask before booking hypnotherapy in Austin?', acceptedAnswer: { '@type': 'Answer', text: 'Ask how the practitioner structures sessions for your concern, whether they work online, in person, or both, what a first session includes, what between-session practice is expected, and when they would refer someone to a qualified healthcare provider.' } },
       ] : []),
@@ -166,7 +168,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
     : slug === 'chicago' ? 'Chicago Hypnotherapy Profiles'
-    : slug === 'austin' ? 'Austin Hypnotherapy: How to Choose a Hypnotherapist'
+    : slug === 'austin' ? 'Austin Hypnotherapist Directory'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : slug === 'atlanta' ? 'Atlanta Hypnotherapy Directory'
     : slug === 'columbus' ? 'Hypnotherapy Columbus Ohio: Local Hypnosis Profiles'
@@ -176,7 +178,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
     : slug === 'chicago' ? `Compare ${city.practitionerCount} Chicago hypnotherapy profiles by location, contact details, category, and questions to confirm directly`
-    : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, focus area, contact details, and the questions to ask before booking`
+    : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, contact details, category, session-format questions, and what to verify directly`
     : slug === 'fort-worth' ? `Compare ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnotherapy, local hypnosis searches, and the questions to confirm directly before booking`
     : slug === 'atlanta' ? `Compare ${city.practitionerCount} Atlanta hypnotherapist profiles by location, contact details, category, and the questions to confirm directly`
     : slug === 'columbus' ? `Compare ${city.practitionerCount} Columbus hypnotherapist profiles for local hypnotherapy, hypnosis therapy, and clinical hypnosis searches`
@@ -332,11 +334,14 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 )}
 
                 {slug === 'austin' && (
-                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>How to choose a hypnotherapist Austin</h3>
-                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
-                      Austin searches are often specific: South Austin smoking support, anxiety hypnosis, stress sessions, or a general question about choosing the right person. Start by deciding whether location, concern fit, or session format matters most, then use the profiles below to build a shortlist instead of treating the first result as the answer.
-                    </p>
+                <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Austin hypnotherapist: compare local profiles before booking</h3>
+                  <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                    If you searched “austin hypnotherapist” or “hypnotherapist Austin TX,” you probably need a local shortlist before you need one individual listing. Use this page to compare Austin profiles side by side, then open practitioner pages only after the location, contact route, and basic fit are clear.
+                  </p>
+                  <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                    Austin searches are often specific: South Austin smoking support, anxiety hypnosis, stress sessions, or a general question about choosing the right person. Start by deciding whether location, concern fit, or session format matters most, then use the profiles below to build a shortlist instead of treating the first result as the answer.
+                  </p>
                     <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
                       A useful Austin shortlist starts with facts this directory can safely show: name, address, phone, website, category, and whether the profile is actually in the part of the metro you want. The decision-making details — training, certification, insurance questions, pricing, availability, session length, and fit for your concern — still need to be confirmed directly with the practitioner before booking.
                     </p>

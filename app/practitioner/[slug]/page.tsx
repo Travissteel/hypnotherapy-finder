@@ -103,6 +103,12 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
 
   const specialties = Array.isArray(practitioner.specialties) ? practitioner.specialties : [];
   const websiteUrl = normalizeWebsiteUrl(practitioner.website);
+  const austinConsolidationSlugs = new Set([
+    'siri-wellness-austin-12',
+    'air-austin-10',
+    'higher-austin-5',
+    'alex-negrete-healing-austin-18',
+  ]);
 
   const schemaType = schemaTypeFor(practitioner.categoryname);
   const jsonLd = {
@@ -379,14 +385,14 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                   </div>
                 )}
 
-                {slug === 'higher-austin-5' && (
+                {austinConsolidationSlugs.has(slug) && (
                   <div className="glass-card" style={{ padding: '24px' }}>
                     <h3 style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-fg-dim)', marginBottom: 12 }}>Austin comparison guide</h3>
                     <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 12 }}>
-                      Comparing local options before contacting this practice? Use the city page for the broader shortlist.
+                      Comparing local options before contacting this practice? Use the Austin city page as the broader shortlist before narrowing to one profile.
                     </p>
                     <Link href="/location/austin" className="hf-link-hover" style={{ fontSize: 13, color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 700 }}>
-                      how to choose a hypnotherapist Austin →
+                      Austin hypnotherapist directory →
                     </Link>
                   </div>
                 )}
