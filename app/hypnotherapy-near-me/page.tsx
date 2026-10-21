@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me | Search Local Profiles Safely',
-  description: 'Search hypnotherapist near me results, compare local profiles, then verify training, fees, fit and availability directly before booking.',
+  title: 'Find a Hypnotherapist Near Me | Compare Local Profiles',
+  description: 'Find a hypnotherapist near me: compare local profiles by area and contact details, then ask directly about training, fit, fees and availability.',
   keywords: 'hypnotherapist near me, hypnotherapy near me, certified hypnotherapist near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me | Search Local Profiles Safely', description: 'Search local hypnotherapist profiles by area, compare contact details, and verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Search Local Profiles Safely', description: 'Search hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Find a Hypnotherapist Near Me | Compare Local Profiles', description: 'Compare local hypnotherapist profiles by area and contact details, then verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
+  twitter: { card: 'summary_large_image', title: 'Find a Hypnotherapist Near Me | Compare Local Profiles', description: 'Compare hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
