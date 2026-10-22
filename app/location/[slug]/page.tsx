@@ -388,6 +388,18 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         <li>Ask when they would refer someone to a qualified healthcare provider instead of continuing with hypnotherapy alone.</li>
                       </ul>
                     </div>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Clinical hypnotherapist Fort Worth TX: a practical first-contact checklist</h4>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 10, fontWeight: 300 }}>
+                        A directory profile is a starting point, not proof of clinical scope. When you contact a Fort Worth practitioner, make the conversation specific enough to compare answers rather than relying on labels alone.
+                      </p>
+                      <ol style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Describe the support you are seeking in one sentence and ask whether it is within their professional scope.</li>
+                        <li>Ask what training or certification they hold, how the intake works, and what a typical first session may include.</li>
+                        <li>Confirm practical fit: in-person or online format, location, current fees, cancellation terms, and availability.</li>
+                        <li>Ask what referral boundaries they use when someone needs medical, mental-health, or other licensed support.</li>
+                      </ol>
+                    </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
                       {[
                         { title: 'Clinical hypnotherapist Fort Worth TX', body: 'For this search, do not assume a profile has clinical training just because it appears in a directory. Ask the practitioner directly about certification, training background, supervision, professional scope, intake process, and whether they commonly work with your specific concern.' },
