@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
         '/auth/',
       ],
     },
-    sitemap: 'https://hypnotherapy-finder.com/sitemap.xml',
+    sitemap: 'https://hypnotherapy-finder.com/sitemap-index.xml',
     host: 'https://hypnotherapy-finder.com',
   };
 }

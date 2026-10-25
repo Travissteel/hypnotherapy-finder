@@ -22,7 +22,8 @@ const REMOVED_PRACTITIONER_SLUGS = new Set([
 // Split into per-content-type sitemaps (0=pages, 1=locations, 2=practitioners)
 // so indexation rate can be tracked separately by page type in Search Console,
 // rather than one blended ~1,200-URL sitemap. Next.js serves these at
-// /sitemap/0.xml, /sitemap/1.xml, /sitemap/2.xml under an auto-generated index.
+// /sitemap/0.xml, /sitemap/1.xml, /sitemap/2.xml; the index lives in
+// app/sitemap-index.xml/route.ts (keep its ids in sync) and is referenced by robots.ts.
 export async function generateSitemaps() {
   return [{ id: 0 }, { id: 1 }, { id: 2 }];
 }
