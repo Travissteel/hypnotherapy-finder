@@ -392,7 +392,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                       Comparing local options before contacting this practice? Use the Austin city page as the broader shortlist before narrowing to one profile.
                     </p>
                     <Link href="/location/austin" className="hf-link-hover" style={{ fontSize: 13, color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 700 }}>
-                      Austin hypnotherapist directory →
+                      Austin hypnotherapist →
                     </Link>
                   </div>
                 )}

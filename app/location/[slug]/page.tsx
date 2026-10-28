@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Local Profiles in Chicago, IL`;
-  else if (slug === 'austin') title = `Austin Hypnotherapist Directory | Compare Local Profiles`;
+  else if (slug === 'austin') title = `Austin Hypnotherapist | Local Directory & Profiles`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
   else if (slug === 'columbus') title = `Hypnotherapy Columbus Ohio | Columbus Ohio Hypnosis Directory`;
