@@ -488,6 +488,17 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         </div>
                       ))}
                     </div>
+                    <div style={{ marginTop: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>From a Columbus hypnosis search to a useful first conversation</h4>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 10, fontWeight: 300 }}>
+                        “Hypnotherapy Columbus Ohio,” “Columbus Ohio hypnosis,” and “clinical hypnosis near me” can all produce the same kind of local result, but the wording alone does not tell you what a practitioner offers. Use the profile details below to make a shortlist, then ask a consistent set of questions so you can compare answers rather than marketing language.
+                      </p>
+                      <ol style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Say what you want support with and ask whether it is within the practitioner&apos;s professional scope.</li>
+                        <li>Ask what the initial appointment includes, whether sessions are in person or online, and whether there is any between-session practice.</li>
+                        <li>Confirm training, certification, current fees, availability, and the circumstances in which they would recommend licensed medical or mental-health support.</li>
+                      </ol>
+                    </div>
                   </div>
                 )}
 
