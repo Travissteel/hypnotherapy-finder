@@ -126,6 +126,25 @@ export function ModalityPage({ modality }: { modality: Modality }) {
             </div>
           </section>
 
+          {/* Query-led location and format guidance */}
+          {modality.searchGuidance && modality.searchGuidance.length > 0 && (
+            <section style={{ padding: '48px 24px' }}>
+              <div style={{ maxWidth: 820, margin: '0 auto' }}>
+                <h2 style={h2}>Finding the right regression practitioner</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                  {modality.searchGuidance.map(item => (
+                    <div key={item.heading}>
+                      <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>
+                        {item.heading}
+                      </h3>
+                      <p style={body}>{item.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Practitioners grouped by city */}
           <section style={{ padding: '48px 24px' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto' }}>

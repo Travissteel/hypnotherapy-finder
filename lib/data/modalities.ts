@@ -52,6 +52,8 @@ export interface Modality {
   intro: string;
   /** Explains the modality in plain terms. Informational, never clinical advice. */
   about: string[];
+  /** Query-led booking guidance for searches this page already earns impressions for. */
+  searchGuidance?: { heading: string; body: string }[];
   faq: { q: string; a: string }[];
   practitionerSlugs: readonly string[];
 }
@@ -169,6 +171,24 @@ export const MODALITIES: readonly Modality[] = [
       'People searching for “past life regression service Texas” will find several Texas listings here, especially around Dallas, Austin and Houston. Hypnotherapy Finder groups practices by city so you can compare nearby options, but it does not verify credentials, pricing, insurance, availability or session length. Use the listing as a starting point, then confirm details directly with the practice.',
       'It is not a regulated field and there is no single governing credential, so training varies considerably. Ask what approach a practitioner takes, how they were trained, how long a session usually runs, and whether they recommend regression work for your situation.',
       'Regression work is a complementary approach, not a treatment for a medical or psychological condition. If you are dealing with trauma, dissociation, severe anxiety or significant distress, speak with a qualified healthcare provider first.',
+    ],
+    searchGuidance: [
+      {
+        heading: 'Past life regression near me: how to narrow the search',
+        body: 'Start with the city groups below, then open a profile and contact the practice directly. Ask whether they offer past-life regression specifically, whether sessions are in person or online, and whether the format is a single longer session or part of ongoing hypnotherapy. A listing is a starting point, not confirmation of current availability or session details.',
+      },
+      {
+        heading: 'Past life regression service in Texas',
+        body: 'The directory includes practices in Dallas, Austin and Houston whose own business listings mention past-life regression or regression therapy. Compare location first, then ask each practice what kind of regression they offer, how they prepare clients, and whether they work in person, online or both. Hypnotherapy Finder does not verify training, pricing, insurance, availability or session length.',
+      },
+      {
+        heading: 'Past life regression in Houston, TX',
+        body: 'For a Houston search, use the Houston group below and contact the listed practice before booking. Confirm the exact modality, the practitioner’s framing of the work, and what support is available if unexpected emotional material comes up. Do not assume that a general hypnotherapy listing offers a past-life-focused session without asking.',
+      },
+      {
+        heading: 'Regression therapy near me',
+        body: '“Regression therapy” is broader than “past life regression.” It can refer to earlier-life memory work, present-life regression, symbolic imagery or spiritual approaches. Use the profile language as a clue, then ask the practitioner which framework they use and whether it fits what you are looking for.',
+      },
     ],
     faq: [
       {
