@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let title = `${city.name} Hypnotherapy | ${city.practitionerCount} Hypnotherapist Profiles in ${stateAbbr(city.state)}`;
   if (slug === 'los-angeles') title = `Los Angeles Hypnotherapy | ${city.practitionerCount} Hypnotherapists & Hypnotists in LA`;
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Local Profiles in Chicago, IL`;
+  else if (slug === 'dallas') title = `Dallas Hypnotherapy | Clinical Hypnotherapist Directory`;
   else if (slug === 'austin') title = `Austin Hypnotherapist | Local Directory & Profiles`;
   else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
@@ -43,6 +44,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   let description = `Find hypnotherapy in ${city.name}, ${city.state}. Browse ${city.practitionerCount} local practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
   else if (slug === 'chicago') description = `Find hypnotherapy in Chicago. Browse ${city.practitionerCount} hypnotherapist profiles — Downtown, Lincoln Park & suburbs.`;
+  else if (slug === 'dallas') description = `Find Dallas hypnotherapy and clinical hypnotherapist profiles. Compare ${city.practitionerCount} local listings, then confirm services, training, and session fit directly.`;
   else if (slug === 'austin') description = `Looking for an Austin hypnotherapist? Compare local profile basics, contact details, session-format questions and what to verify directly before booking.`;
   else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
   else if (slug === 'atlanta') description = `Find hypnotherapy in Atlanta, GA. Browse ${city.practitionerCount} local hypnotherapist profiles and use a safer checklist before contacting practitioners.`;
@@ -64,6 +66,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
     title: { absolute: title }, description,
     keywords: slug === 'los-angeles' ? 'hypnotherapy los angeles, los angeles hypnotherapy, hypnotherapist los angeles, hypnotists los angeles, LA hypnotherapy, hypnosis los angeles, hypnotherapist near me los angeles'
       : slug === 'chicago' ? 'hypnotherapy chicago, chicago hypnotherapy, hypnotherapist chicago, hypnotists chicago, chicago hypnosis, hypnotherapist near me chicago, quit smoking hypnosis chicago'
+      : slug === 'dallas' ? 'dallas hypnotherapy, clinical hypnotherapist near me dallas, hypnotherapy near me dallas, hypnosis near me dallas, find a hypnotherapist near me dallas, hipnosis terapeutica regresiva dallas'
       : slug === 'austin' ? 'austin hypnotherapist, hypnotherapist austin tx, hypnotherapy austin, austin hypnotherapy, hypnotherapist austin, anxiety hypnosis austin, clinical hypnotherapy austin, hypnotherapy to quit smoking austin, south austin hypnotherapy, austin tx hypnosis'
       : slug === 'fort-worth' ? 'hypnotherapy fort worth, clinical hypnotherapist fort worth tx, clinical hypnotherapy sessions fort worth tx, hypnosis fort worth, fort worth tx hypnotherapy'
       : slug === 'atlanta' ? 'atlanta hypnotherapy, hypnotherapists atlanta, hypnotherapists directory atlanta, hypnosis therapy near me atlanta, hypnotherapist near me atlanta'
@@ -105,6 +108,12 @@ export default async function LocationPage({ params }: LocationPageProps) {
       { '@type': 'Question', name: `How many hypnotherapists are in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `There are ${city.practitionerCount} hypnotherapist profiles in ${city.name}, ${city.state} listed in our directory.` } },
       { '@type': 'Question', name: `What does hypnotherapy cost in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `Hypnotherapy fees in ${city.name}, ${city.state} vary by practitioner, session format, and session length. Contact practitioners directly for current pricing.` } },
       { '@type': 'Question', name: `How do I choose a hypnotherapist in ${city.name}?`, acceptedAnswer: { '@type': 'Answer', text: `When choosing a hypnotherapist in ${city.name}, ask about certification, training background, experience with your concern, session format, and whether you feel comfortable with their approach.` } },
+      ...(slug === 'dallas' ? [
+        { '@type': 'Question', name: 'Where can I find a clinical hypnotherapist near me in Dallas?', acceptedAnswer: { '@type': 'Answer', text: `Use this Dallas directory to compare ${city.practitionerCount} local profiles by name, address, phone, website, and category. Before booking, ask directly about training, certification, professional scope, session format, current fees, and availability.` } },
+        { '@type': 'Question', name: 'Is hypnosis near me the same as hypnotherapy in Dallas?', acceptedAnswer: { '@type': 'Answer', text: 'Not always. Hypnosis can refer to entertainment, self-hypnosis, coaching, or hypnotherapy support. If you are seeking practitioner support in Dallas, ask whether the person offers hypnotherapy, what the first session includes, and what their professional boundaries are.' } },
+        { '@type': 'Question', name: 'How can I find a hypnotherapist near me in Dallas?', acceptedAnswer: { '@type': 'Answer', text: 'Start by comparing practical local details such as address, phone, website, and category. Then contact practitioners directly to confirm what concerns they work with, session format, training, current fees, availability, and whether their approach fits your needs.' } },
+        { '@type': 'Question', name: '¿Dónde puedo encontrar hipnosis terapéutica regresiva en Dallas, Texas?', acceptedAnswer: { '@type': 'Answer', text: 'Use local profiles as a starting point, then contact each practice directly to ask whether regression-focused hypnotherapy is currently offered, what the session format includes, and what training and professional scope the practitioner has. A directory listing is not an endorsement or proof of credentials.' } },
+      ] : []),
       ...(slug === 'fort-worth' ? [
         { '@type': 'Question', name: 'Where can I find clinical hypnotherapy sessions in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: `Use the Fort Worth directory to compare ${city.practitionerCount} local hypnotherapist profiles by location, phone, website, and category, then contact practitioners directly to confirm training, services, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'What should I ask a clinical hypnotherapist in Fort Worth, TX?', acceptedAnswer: { '@type': 'Answer', text: 'Ask about certification, training background, professional scope, experience with your concern, intake process, referral boundaries, and whether sessions are online, in-person, or both. Do not infer credentials or clinical scope from a directory listing alone.' } },
@@ -169,6 +178,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const cityHeading = slug === 'los-angeles' ? 'Los Angeles Hypnotherapy & Hypnotherapists'
     : slug === 'chicago' ? 'Chicago Hypnotherapy Profiles'
+    : slug === 'dallas' ? 'Dallas Hypnotherapy and Clinical Hypnotherapist Profiles'
     : slug === 'austin' ? 'Austin Hypnotherapist Directory'
     : slug === 'fort-worth' ? 'Clinical Hypnotherapy in Fort Worth, TX'
     : slug === 'atlanta' ? 'Atlanta Hypnotherapy Directory'
@@ -179,6 +189,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
     : slug === 'chicago' ? `Compare ${city.practitionerCount} Chicago hypnotherapy profiles by location, contact details, category, and questions to confirm directly`
+    : slug === 'dallas' ? `Compare ${city.practitionerCount} Dallas hypnotherapy profiles for clinical hypnotherapist and near-me searches, then confirm details directly`
     : slug === 'austin' ? `Compare ${city.practitionerCount} Austin hypnotherapist profiles by location, contact details, category, session-format questions, and what to verify directly`
     : slug === 'fort-worth' ? `Compare ${city.practitionerCount} Fort Worth hypnotherapist profiles for clinical hypnotherapy, local hypnosis searches, and the questions to confirm directly before booking`
     : slug === 'atlanta' ? `Compare ${city.practitionerCount} Atlanta hypnotherapist profiles by location, contact details, category, and the questions to confirm directly`
@@ -250,6 +261,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 <h2 style={{ fontSize: 22, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>
                   {slug === 'los-angeles' ? 'Find the Best Hypnotherapy in Los Angeles, CA'
                     : slug === 'chicago' ? 'Find the Best Hypnotherapy in Chicago, IL'
+                    : slug === 'dallas' ? 'Find Dallas Hypnotherapy and Clinical Hypnotherapist Profiles'
                     : slug === 'austin' ? 'Find the Best Hypnotherapy in Austin, TX'
                     : slug === 'fort-worth' ? 'Find Clinical Hypnotherapy in Fort Worth, TX'
                     : slug === 'columbus' ? 'Find Hypnotherapy in Columbus, Ohio'
@@ -265,6 +277,10 @@ export default async function LocationPage({ params }: LocationPageProps) {
                 ) : slug === 'chicago' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
                     <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Chicago?</strong> Our directory features {city.practitionerCount} Chicago hypnotherapist and hypnotist profiles across Chicago neighbourhoods including <strong style={{ color: 'var(--hf-fg)' }}>Downtown, Lincoln Park, Lakeview, Oak Park, Evanston, Naperville, and the greater Chicagoland area</strong>.
+                  </p>
+                ) : slug === 'dallas' ? (
+                  <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
+                    <strong style={{ color: 'var(--hf-fg)', fontWeight: 600 }}>Looking for hypnotherapy in Dallas?</strong> Our directory features {city.practitionerCount} Dallas-area profiles. Use the listing details to compare names, addresses, phone numbers, websites, and categories, then confirm training, professional scope, session format, current fees, availability, and fit directly with each practitioner.
                   </p>
                 ) : slug === 'austin' ? (
                   <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 16, fontWeight: 300 }}>
@@ -408,6 +424,41 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         { title: 'Hypnosis Fort Worth', body: '“Hypnosis” can mean stage entertainment, self-hypnosis, coaching, or therapeutic support. For personal concerns, ask whether the practitioner offers hypnotherapy, what the intake process includes, how they structure sessions, and how they explain their method without promising outcomes.' },
                         { title: 'Hypnotherapist near me', body: 'If you are still in “near me” mode, use the national near-me checklist first, then come back to the Fort Worth listings once you know what to ask. Distance matters, but clear scope, safe language, and direct answers matter more.' },
                         { title: 'Hypnosis near me', body: 'For “hypnosis near me,” decide whether you mean entertainment, self-hypnosis resources, or hypnotherapy support. If you mean practitioner support, compare nearby Fort Worth profiles, then verify training, session format, pricing, availability, and fit directly before booking.' },
+                      ].map((item) => (
+                        <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
+                          <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {slug === 'dallas' && (
+                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Dallas hypnotherapy: turn a near-me search into a useful shortlist</h3>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      Search Console shows this page for “clinical hypnotherapist near me,” “hypnotherapy near me,” “hypnosis near me,” and “find a hypnotherapist near me.” Those phrases can return a mix of entertainment, self-hypnosis resources, coaching, and practitioner profiles. This page is for the last category: Dallas-area profiles you can compare before making direct contact.
+                    </p>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      A directory can safely help with the practical first pass: name, address, phone number, website, listed category, and whether a location works for you. It cannot establish what a practitioner currently offers or whether they are the right fit. Ask directly about training, certification, professional scope, first-session structure, session format, current fees, availability, and referral boundaries.
+                    </p>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Before contacting a Dallas hypnotherapist</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Decide whether an in-person Dallas location, an online session, or either format would work for you.</li>
+                        <li>Describe the support you want in one sentence and ask whether it is within the practitioner&apos;s professional scope.</li>
+                        <li>Ask what an initial appointment includes: intake, goal-setting, hypnosis work, between-session practice, or a separate consultation.</li>
+                        <li>Confirm training, certification, current fees, availability, cancellation terms, and when they would refer someone to qualified healthcare or mental-health support.</li>
+                      </ul>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {[
+                        { title: 'Clinical hypnotherapist near me', body: '“Clinical” is not something a directory listing can prove. Use nearby Dallas profiles as a shortlist, then ask directly about training, certification, professional scope, experience with your concern, and when the practitioner would recommend licensed support instead.' },
+                        { title: 'Hypnotherapy near me', body: 'For a local hypnotherapy search, start with practical fit: address, phone, website, category, and session format. Then ask what the first session includes and how the practitioner explains their approach without making promises about outcomes.' },
+                        { title: 'Hypnosis near me', body: '“Hypnosis” can mean stage work, self-hypnosis, coaching, or therapeutic hypnotherapy. If you are looking for practitioner support, ask whether hypnotherapy is offered, how sessions are structured, and what concerns fall inside or outside their scope.' },
+                        { title: 'Find a hypnotherapist near me', body: 'A near-me search is useful when it gives you a comparison process, not just the first name on a map. Shortlist a few Dallas profiles, ask the same practical questions of each, and compare the answers before deciding whom to contact again.' },
+                        { title: 'Hipnosis terapéutica regresiva en Dallas, Texas', body: 'Si buscas hipnosis terapéutica regresiva en Dallas, usa los perfiles locales como punto de partida y pregunta directamente si ese enfoque se ofrece actualmente. Confirma la formación, el alcance profesional, el formato de la sesión y qué incluye la primera consulta; un perfil no es una recomendación ni una prueba de credenciales.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
