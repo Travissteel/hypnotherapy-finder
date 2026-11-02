@@ -234,6 +234,20 @@ export const MODALITIES: readonly Modality[] = [
       'Hypnofertility is typically offered as individual sessions focused on stress and relaxation while trying to conceive. It is a complementary approach and is not a fertility treatment — it does not replace medical care from a fertility specialist or obstetric team.',
       'If you are undergoing fertility treatment or are pregnant, tell your medical team about anything complementary you are considering, and ask the practitioner directly what experience they have in this specific area.',
     ],
+    searchGuidance: [
+      {
+        heading: 'Hypnofertility: what to look for while trying to conceive',
+        body: 'Hypnofertility is a complementary, relaxation-focused approach that some people explore alongside fertility care. Start by asking whether a practice offers fertility-focused sessions specifically, how it frames the work, and whether it has experience working alongside a client’s existing medical plan. A directory listing is not confirmation of training, availability or fit, so confirm those details directly before booking.',
+      },
+      {
+        heading: 'Hypnofertility in Denver',
+        body: 'For a Denver search, begin with the Denver practice listed below, then contact it directly to ask whether hypnofertility sessions are currently offered, whether they are in person or online, and what the session format involves. Hypnotherapy Finder does not verify credentials, experience, pricing, insurance or availability. If you are working with a fertility specialist, keep them informed about complementary support you are considering.',
+      },
+      {
+        heading: 'Hypnofertiliteit: understanding the search term',
+        body: '“Hypnofertiliteit” is a Dutch-language term used for fertility-focused hypnosis. The same practical questions apply: is the service designed as complementary support rather than treatment, what does a session involve, and how does the practitioner describe their approach? For medical advice, fertility testing or treatment decisions, speak with a qualified healthcare provider.',
+      },
+    ],
     faq: [
       {
         q: 'What is the difference between hypnofertility and hypnobirthing?',

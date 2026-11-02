@@ -130,7 +130,7 @@ export function ModalityPage({ modality }: { modality: Modality }) {
           {modality.searchGuidance && modality.searchGuidance.length > 0 && (
             <section style={{ padding: '48px 24px' }}>
               <div style={{ maxWidth: 820, margin: '0 auto' }}>
-                <h2 style={h2}>Finding the right regression practitioner</h2>
+                <h2 style={h2}>Finding the right {modality.shortLabel.toLowerCase()} practitioner</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   {modality.searchGuidance.map(item => (
                     <div key={item.heading}>
