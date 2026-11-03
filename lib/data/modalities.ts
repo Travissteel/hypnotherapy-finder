@@ -104,6 +104,17 @@ const PAST_LIFE_SLUGS = [
   'stephanie-riseley-hypnotherapy-past-life-regressions-los-angeles-19',
 ] as const;
 
+// Practices whose own listing names RTT / Rapid Transformational Therapy
+// (business name, title or specialties). Not a credential check.
+const RTT_SLUGS = [
+  'rtt-hypnotherapy-and-emotional-healing-fischer-new-york-45',
+  'rapid-transformational-therapy-and-past-life-regression-therapy-with-ellen-haines-phoenix-2',
+  'somatics-embodied-rtt-hypnotherapy-nlp-somatic-counseling-san-francisco-27',
+  'lorena-borello-hypnotherapy-life-coaching-san-francisco-34',
+  'seattle-rapid-transformation-therapy-seattle-31',
+  'carla-grace-seattle-1080',
+] as const;
+
 const FERTILITY_SLUGS = [
   'birth-education-center-san-diego-70',
   'body-centered-seattle-39',
@@ -160,7 +171,7 @@ export const MODALITIES: readonly Modality[] = [
     metaDescription:
       'Find past life regression and regression therapy near you. Browse US practices, including Texas listings, and ask directly about format, training and availability.',
     keywords:
-      'past life regression near me, past life regression therapist, regression therapy near me, regression near me, past life regression service texas, past life hypnotherapist near me, past life regression columbus ohio, past life regression phoenix, terapia regresiva',
+      'past life regression near me, past life regression therapy near me, what is past life regression, past life regression therapist, regression therapy near me, regression near me, past life regression service texas, past life hypnotherapist near me, past life regression columbus ohio, past life regression phoenix, terapia regresiva',
     shortLabel: 'Past Life Regression',
     intro:
       'Past life regression and regression therapy are offered by practitioners who usually also work in general hypnotherapy. The practices below list regression work in their own business listing, including practitioners in Texas and other US cities.',
@@ -173,6 +184,18 @@ export const MODALITIES: readonly Modality[] = [
       'Regression work is a complementary approach, not a treatment for a medical or psychological condition. If you are dealing with trauma, dissociation, severe anxiety or significant distress, speak with a qualified healthcare provider first.',
     ],
     searchGuidance: [
+      {
+        heading: 'What is past life regression?',
+        body: 'Past life regression is a hypnosis-based technique in which a practitioner guides you to imagine or recall scenes that are framed as memories of earlier lives. Many people try it out of curiosity or for personal reflection. There is no scientific evidence that past lives can be recalled, and research on hypnotic regression suggests vivid imagery can feel like memory without being accurate. Some practitioners and clients treat sessions literally, others as metaphor or imaginative exploration. Be wary of any practitioner who promises proof or a guaranteed outcome.',
+      },
+      {
+        heading: 'Past life regression therapy near me',
+        body: 'Past life regression therapy usually means a longer session than standard hypnotherapy, sometimes with an intake conversation beforehand and time to talk through what came up afterward. When you contact a practice, ask how long the session runs, whether it can be done online, whether you receive a recording, and how the practitioner supports you if the session brings up strong emotion. Hypnotherapy Finder does not verify any of these details, so confirm them before booking.',
+      },
+      {
+        heading: 'Brian Weiss-style past life regression',
+        body: 'Psychiatrist Brian Weiss popularised past life regression with his 1988 book Many Lives, Many Masters, and many people search for his approach by name. Listings here do not indicate training with him or any particular teacher. If a Weiss-style session is what you want, ask the practitioner directly which method they use, who trained them, and how they frame what comes up during the session.',
+      },
       {
         heading: 'Past life regression near me: how to narrow the search',
         body: 'Start with the city groups below, then open a profile and contact the practice directly. Ask whether they offer past-life regression specifically, whether sessions are in person or online, and whether the format is a single longer session or part of ongoing hypnotherapy. A listing is a starting point, not confirmation of current availability or session details.',
@@ -196,6 +219,14 @@ export const MODALITIES: readonly Modality[] = [
         a: 'Start with the city groups on this page, then use the search to narrow by location. Contact the practitioner directly to ask whether they offer past-life regression specifically, whether sessions are in person or online, and what their session format looks like.',
       },
       {
+        q: 'What is past life regression?',
+        a: 'It is a hypnosis-based technique where a practitioner guides you toward scenes framed as memories of earlier lives. There is no scientific evidence that past lives can be recalled, so many people treat it as imaginative or reflective work. Ask the practitioner how they frame it before you book.',
+      },
+      {
+        q: 'Is past life regression real or backed by science?',
+        a: 'There is no scientific evidence that past life regression recovers real memories of earlier lives, and research suggests hypnotic imagery can feel like memory without being accurate. Whether it is useful to you personally is a separate question. It is not a medical or psychological treatment, so speak with a healthcare provider about any health concern.',
+      },
+      {
         q: 'Is past life regression the same as hypnotherapy?',
         a: 'It uses hypnosis, but it is a specific application rather than a separate discipline. Most practitioners offering regression also offer general hypnotherapy, and many list both in their profile.',
       },
@@ -217,6 +248,60 @@ export const MODALITIES: readonly Modality[] = [
       },
     ],
     practitionerSlugs: PAST_LIFE_SLUGS,
+  },
+  {
+    slug: 'rapid-transformational-therapy',
+    title: 'Rapid Transformational Therapy (RTT) Practitioners',
+    metaTitle: 'Rapid Transformational Therapy (RTT) Near Me | RTT Directory',
+    metaDescription:
+      'Find Rapid Transformational Therapy (RTT) and RTT hypnotherapy practitioners in the US. Browse practices that list RTT, then contact them directly to confirm training and format.',
+    keywords:
+      'rapid transformational therapy, rapid transformational therapy near me, rtt therapy, rtt therapy near me, rtt hypnotherapist, rtt hypnotherapy, rtt practitioner near me, marisa peer rtt',
+    shortLabel: 'Rapid Transformational Therapy',
+    intro:
+      'Rapid Transformational Therapy (RTT) is a branded method that combines hypnosis with regression-style questioning and personalised recordings. The practices below list RTT in their own business listing.',
+    about: [
+      'RTT was developed by Marisa Peer and is taught through her training programme, so it is a specific branded approach rather than a general term for hypnotherapy. Practitioners describe it differently, and training level varies. Hypnotherapy Finder does not verify RTT certification, so ask each practitioner where and when they trained.',
+      'RTT is usually described as a short course: an intake conversation, a hypnosis session that explores where a belief or pattern started, and often a personalised audio recording to listen to afterward. Exact format, session length and number of sessions vary between practices, so ask before booking.',
+      'RTT is a complementary approach, not a medical or psychological treatment, and no practitioner should guarantee a result. If you are dealing with trauma, severe anxiety, depression or significant distress, speak with a qualified healthcare provider first.',
+    ],
+    searchGuidance: [
+      {
+        heading: 'Rapid transformational therapy near me',
+        body: 'Start with the cities below, then contact a practice directly. Ask whether they are trained in RTT specifically or offer general hypnotherapy that includes similar elements, how many sessions they usually recommend, whether you receive a recording, and whether sessions are available online. A listing is a starting point and does not confirm training, availability or pricing.',
+      },
+      {
+        heading: 'RTT therapy vs hypnotherapy',
+        body: 'RTT uses hypnosis, so it overlaps with hypnotherapy, but it is a specific branded method with its own structure. Standard hypnotherapy covers a wider range of approaches and is often delivered over several sessions. Many RTT practitioners also offer general hypnotherapy, so ask which method they would use for your goal and why.',
+      },
+      {
+        heading: 'RTT hypnotherapist: what to ask',
+        body: 'Ask which RTT training they completed and when, how they handle emotional material that comes up in a session, what results they can honestly promise (the answer should be that they cannot guarantee outcomes), and when they would refer you to a healthcare provider.',
+      },
+    ],
+    faq: [
+      {
+        q: 'What is Rapid Transformational Therapy (RTT)?',
+        a: 'RTT is a branded method developed by Marisa Peer that combines hypnosis with regression-style questioning and a personalised recording. Practitioners are trained through her programme. It is a complementary approach, not a medical treatment.',
+      },
+      {
+        q: 'How do I find an RTT therapist near me?',
+        a: 'Browse the practices on this page by city, or use the search to filter by location. Contact the practice to confirm they are trained in RTT, how sessions work, and whether online sessions are available.',
+      },
+      {
+        q: 'Is RTT the same as hypnotherapy?',
+        a: 'RTT uses hypnosis, but it is one specific method rather than hypnotherapy as a whole. Many practitioners offer both. Ask which they would use for your goal.',
+      },
+      {
+        q: 'How many RTT sessions will I need?',
+        a: 'It varies by practitioner and goal. RTT is often described as a short course, but you should ask the practitioner what they recommend and why, and be cautious of promises of guaranteed results.',
+      },
+      {
+        q: 'Do you verify RTT practitioners\' training?',
+        a: 'No. These practices list RTT in their own business listing, which is why they appear here. Hypnotherapy Finder does not verify credentials, training, pricing or availability. Confirm directly with the practitioner.',
+      },
+    ],
+    practitionerSlugs: RTT_SLUGS,
   },
   {
     slug: 'hypnotherapy-for-fertility',

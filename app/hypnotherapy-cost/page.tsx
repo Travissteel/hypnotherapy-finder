@@ -257,6 +257,10 @@ export default function HypnotherapyCostPage() {
                 </div>
               </div>
 
+              <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginBottom: 24 }}>
+                Want the detail on Medicare, Medicaid and HSA/FSA? Read our guide: <Link href="/does-insurance-cover-hypnotherapy" className="hf-link-hover" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 500 }}>does insurance cover hypnotherapy?</Link>
+              </p>
+
               <h3 style={{ fontSize: 22, fontWeight: 600, color: 'var(--hf-fg)', marginBottom: 24 }}>How to Get Insurance Coverage</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[

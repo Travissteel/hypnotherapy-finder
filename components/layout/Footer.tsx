@@ -59,6 +59,7 @@ const FOOTER_COLS = [
       // orphaned like the 19 city hubs did.
       ['QHHT & Quantum Healing', '/qhht-quantum-healing'],
       ['Past Life Regression', '/past-life-regression'],
+      ['Rapid Transformational Therapy', '/rapid-transformational-therapy'],
       ['Fertility & Hypnobirthing', '/hypnotherapy-for-fertility'],
       ['Confidence Hypnotherapy', '/hypnotherapy-for-confidence'],
       ['How it Works', '/how-it-works'],

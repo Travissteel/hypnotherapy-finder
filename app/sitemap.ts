@@ -141,6 +141,12 @@ export default async function sitemap({ id }: { id: Promise<string> }): Promise<
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/does-insurance-cover-hypnotherapy`,
+      lastModified: SITE_LAST_UPDATED,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/faq`,
       lastModified: SITE_LAST_UPDATED,
       changeFrequency: 'monthly',
