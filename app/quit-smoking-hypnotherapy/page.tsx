@@ -93,7 +93,7 @@ export default async function QuitSmokingHypnotherapyPage() {
         name: 'How effective is quit smoking hypnotherapy compared to other methods?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Studies suggest quit smoking hypnotherapy has higher success rates than many other cessation methods. Research shows hypnotherapy can be 2-3 times more effective than nicotine replacement therapy alone. It addresses both the physical addiction and psychological aspects of smoking, making it a comprehensive solution for permanent smoking cessation.',
+          text: 'The evidence is mixed. A 2025 systematic review concluded that the efficacy of hypnotherapy for smoking cessation is positive, and a 2024 randomised trial of 360 smokers found hypnotherapy and cognitive-behavioural therapy gave similar continuous abstinence over 12 months (15.0% vs 15.6%). However, a 2019 Cochrane review found insufficient evidence that hypnotherapy helps people quit more than other behavioural support. Hypnotherapy is best viewed as one option alongside other evidence-based cessation support, and no practitioner can guarantee you will quit.',
         },
       },
     ],
@@ -170,10 +170,14 @@ export default async function QuitSmokingHypnotherapyPage() {
                   habit — your conscious mind may want to quit, but your subconscious drives the urge to smoke.
                 </p>
                 <p style={{ fontSize: 16, color: 'var(--hf-fg-dim)', lineHeight: 1.7 }}>
-                  Research supports quit smoking hypnotherapy as an effective cessation method. A meta-analysis in the
-                  International Journal of Clinical and Experimental Hypnosis found that hypnosis to quit smoking showed
-                  higher success rates than unassisted quitting and was comparable to or better than nicotine replacement
-                  therapy. Many people successfully quit smoking after just one to three quit smoking hypnotherapy sessions.
+                  The evidence on hypnotherapy for quitting smoking is mixed. A 2025 systematic review in the
+                  International Journal of Clinical and Experimental Hypnosis concluded that its efficacy for smoking
+                  cessation is positive, while calling for more studies with biochemically confirmed abstinence
+                  (Ekanayake &amp; Elkins, 2025). A 2024 randomised trial of 360 smokers found hypnotherapy and
+                  cognitive-behavioural therapy produced similar continuous abstinence over 12 months, 15.0% vs 15.6%
+                  (Batra et al., 2024). A 2019 Cochrane review, however, found insufficient evidence that hypnotherapy
+                  helps people quit more than other behavioural support (Barnes et al., 2019). The number of sessions
+                  people need varies, and results are not guaranteed.
                 </p>
               </div>
             </div>
@@ -186,7 +190,7 @@ export default async function QuitSmokingHypnotherapyPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
                 {[
                   { icon: <Ban style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'No Nicotine Replacement', body: 'Quit smoking hypnotherapy works without patches, gum, or medication — just natural, effective behavioral change.' },
-                  { icon: <TrendingUp style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'High Success Rate', body: 'Studies show quit smoking hypnotherapy has success rates significantly higher than willpower alone or nicotine replacement.' },
+                  { icon: <TrendingUp style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'Comparable to CBT in One Trial', body: 'A 2024 randomised trial found hypnotherapy and cognitive-behavioural therapy gave similar 12-month abstinence rates. Evidence overall is mixed.' },
                   { icon: <Wind style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'Reduces Cravings', body: 'Hypnosis to quit smoking significantly reduces or eliminates cravings by changing your subconscious association with cigarettes.' },
                   { icon: <CheckCircle style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'Fast Results', body: 'Many people quit smoking after just one quit smoking hypnotherapy session, with some programs offering 1-3 session packages.' },
                   { icon: <Heart style={{ width: 22, height: 22, color: 'var(--hf-accent)' }} />, title: 'Addresses Root Causes', body: 'Quit smoking hypnotherapy identifies and resolves psychological triggers that cause smoking, not just the physical addiction.' },
@@ -363,7 +367,7 @@ export default async function QuitSmokingHypnotherapyPage() {
                   { q: 'Can anyone quit smoking with hypnotherapy?', a: 'Quit smoking hypnotherapy works best for people who are genuinely motivated to quit. While nearly everyone can benefit from hypnosis, you must actually want to stop smoking for it to be effective. If you\'re being pressured by others but aren\'t personally committed, results may be limited. The good news is that if you truly want to quit, hypnosis is one of the most effective methods available.' },
                   { q: 'How many sessions does it take to quit smoking?', a: 'Many people quit smoking after just one quit smoking hypnotherapy session. Some hypnotherapists offer single-session intensive programs (2-3 hours), while others recommend 2-3 sessions for reinforcement. If you\'ve been a heavy smoker for many years, you might benefit from additional follow-up sessions to ensure long-term success.' },
                   { q: 'Will I experience withdrawal symptoms?', a: 'Quit smoking hypnotherapy significantly reduces withdrawal symptoms for most people. While you may experience some mild physical symptoms as nicotine leaves your body, the psychological cravings and irritability are usually minimal. Many clients report being surprised at how easy quitting was with hypnosis compared to previous attempts.' },
-                  { q: "What's the success rate of quit smoking hypnotherapy?", a: 'Studies show quit smoking hypnotherapy has success rates ranging from 50-80%, significantly higher than the 5-7% success rate of quitting cold turkey. Success depends on factors like your motivation level, the hypnotherapist\'s skill, and whether you follow through with post-session recommendations. Many practitioners offer satisfaction guarantees or free follow-up sessions.' },
+                  { q: "What's the success rate of quit smoking hypnotherapy?", a: 'There is no single reliable figure. In a 2024 randomised trial of 360 smokers, 15.0% of people in the hypnotherapy group were continuously abstinent at 12 months, similar to 15.6% with cognitive-behavioural therapy, and a 2019 Cochrane review found insufficient evidence that hypnotherapy beats other support. Success depends on factors like your motivation level, the hypnotherapist\'s skill, and whether you follow through with post-session recommendations. Many practitioners offer satisfaction guarantees or free follow-up sessions.' },
                   { q: 'Will I gain weight after quitting smoking with hypnotherapy?', a: 'One advantage of quit smoking hypnotherapy is that it can include suggestions to prevent weight gain. The hypnotherapist can address concerns about substituting food for cigarettes and help you maintain healthy eating habits. Many people maintain their weight or even lose weight after quitting with hypnosis.' },
                   { q: 'How much does quit smoking hypnotherapy cost?', a: 'Smoking cessation hypnotherapy typically costs $150-$500 per session, with some practitioners offering package deals. While this may seem expensive, consider that a pack-a-day smoker spends over $2,500 per year on cigarettes. Quit smoking hypnotherapy pays for itself within weeks and may be covered by some health insurance plans.' },
                 ].map((faq, i) => (
