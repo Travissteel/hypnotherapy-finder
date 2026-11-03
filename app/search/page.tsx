@@ -24,6 +24,41 @@ const SPECIALTIES_LIST = [
   'Public Speaking', 'Self-Esteem', 'Addiction Recovery', 'Performance Anxiety'
 ];
 
+// Landing-page CTAs link here with short slugs (?specialty=anxiety), while the
+// filter checkboxes use display labels. Resolve slugs to labels so the filter applies.
+const SPECIALTY_ALIASES: Record<string, string> = {
+  anxiety: 'Anxiety & Stress',
+  stress: 'Anxiety & Stress',
+  smoking: 'Smoking Cessation',
+  'quit-smoking': 'Smoking Cessation',
+  weight: 'Weight Loss',
+  'weight-loss': 'Weight Loss',
+  pain: 'Pain Management',
+  ptsd: 'PTSD & Trauma',
+  trauma: 'PTSD & Trauma',
+  confidence: 'Confidence & Performance',
+  'past-life-regression': 'Past Life Regression',
+  phobias: 'Phobias & Fears',
+  phobia: 'Phobias & Fears',
+  sleep: 'Sleep Issues',
+  'public-speaking': 'Public Speaking',
+  'self-esteem': 'Self-Esteem',
+  addiction: 'Addiction Recovery',
+  'performance-anxiety': 'Performance Anxiety',
+};
+
+function parseSpecialtyParam(raw: string | null): string[] {
+  if (!raw) return [];
+  return raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => {
+      const key = s.toLowerCase();
+      return SPECIALTY_ALIASES[key] ?? SPECIALTIES_LIST.find((l) => l.toLowerCase() === key) ?? s;
+    });
+}
+
 interface FilterState {
   specializations: string[];
   sessionTypes: string[];
@@ -59,7 +94,7 @@ function SearchContent() {
   const [specSearch, setSpecSearch] = useState('');
 
   const [filters, setFilters] = useState<FilterState>({
-    specializations: searchParams.get('specialty') ? [searchParams.get('specialty')!] : [],
+    specializations: parseSpecialtyParam(searchParams.get('specialty')),
     sessionTypes: [],
     location: searchParams.get('location') || searchParams.get('city') || '',
     searchQuery: searchParams.get('q') || '',

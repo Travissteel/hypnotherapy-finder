@@ -32,10 +32,10 @@ export default async function HypnotherapyNearMePage() {
 
   const nearMeSignalCities = [
     { href: '/location/detroit', city: 'Detroit', cue: 'Detroit can help if the search is local, but the broader “near me” checklist belongs here.' },
-    { href: '/location/fort-worth', city: 'Fort Worth', cue: 'Fort Worth profiles narrow the city; this page owns the broader “hypnotherapist near me” screening process.' },
+    { href: '/location/fort-worth', city: 'Fort Worth', cue: 'Fort Worth profiles narrow the city; come back here for the broader “hypnotherapist near me” screening process.' },
     { href: '/location/columbus', city: 'Columbus', cue: 'Columbus listings can narrow distance, but they do not replace credential and fit questions.' },
     { href: '/location/charlotte', city: 'Charlotte', cue: 'Charlotte is a city shortlist. Use this page when the search is still “near me,” not city-specific.' },
-    { href: '/location/boston', city: 'Boston', cue: 'Boston profiles should support local comparison, while this page owns the national near-me process.' },
+    { href: '/location/boston', city: 'Boston', cue: 'Boston profiles should support local comparison, while this page covers the broader near-me process.' },
     { href: '/location/baltimore', city: 'Baltimore', cue: 'Baltimore profiles are useful after you know the city; this page explains the first screening pass.' },
   ];
 
@@ -155,7 +155,7 @@ export default async function HypnotherapyNearMePage() {
               <div className="glass-card" style={{ padding: '36px' }}>
                 <h2 style={{ fontSize: 26, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: When to Use the National Page Instead of a City Page</h2>
                 <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 18 }}>
-                  A search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> is usually not asking for one city article. Search Console currently shows Fort Worth, Detroit, Columbus, Boston, and Charlotte pages competing for that broad query, which splits the signal. City pages help once you know the location. This page should own the broader search because it explains the comparison process before you start booking calls.
+                  A search for <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> often starts before you have picked a city. City pages are useful once you know where you want to look. This page covers the step before that: how to compare nearby practitioners before you start booking calls.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
                   {nearMeSignalCities.map((item) => (
@@ -166,7 +166,7 @@ export default async function HypnotherapyNearMePage() {
                   ))}
                 </div>
                 <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 18, marginBottom: 0 }}>
-                  Use Fort Worth, Detroit, Columbus, Boston, Charlotte, or any other local page for geography. Use this <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> page for the shortlist logic: check location, confirm contact details, ask about certification and training directly, compare session format, and only then decide who is worth contacting.
+                  Use a city page when you know where you want to look. Use this page to build your shortlist: check location, confirm contact details, ask about certification and training directly, compare session format, and only then decide who is worth contacting.
                 </p>
               </div>
             </div>
@@ -193,7 +193,7 @@ export default async function HypnotherapyNearMePage() {
                 ))}
               </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
-                That is the consolidation job for this page: local pages support specific cities, while this page owns the national “near me” process and points people toward safe, direct verification.
+                City pages show who is listed in one place. This page helps you decide what to check before you contact anyone.
               </p>
             </div>
           </section>
@@ -253,7 +253,7 @@ export default async function HypnotherapyNearMePage() {
           {/* Canonical Near Me Route */}
           <section style={{ padding: '64px 24px', background: 'var(--hf-bg-mid)' }}>
             <div style={{ maxWidth: 880, margin: '0 auto' }}>
-              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Why This Page Should Own “Hypnotherapist Near Me”</h2>
+              <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>City Pages vs. a Broad “Hypnotherapist Near Me” Search</h2>
               <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 22 }}>
                 A city page answers one question: “Who is listed in this city?” A <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> search is broader. It needs a way to search nearby profiles, compare direct contact details, and decide what to verify before making contact.
               </p>
@@ -270,7 +270,7 @@ export default async function HypnotherapyNearMePage() {
                 ))}
               </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
-                That is the clean internal-link signal: local pages point here with the exact anchor text <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong>, and this page sends people onward to search or city pages only after the intent is clear.
+                Once you know your area, move on to the search tool or a city page to see individual profiles.
               </p>
             </div>
           </section>
@@ -357,7 +357,7 @@ export default async function HypnotherapyNearMePage() {
                 ))}
               </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
-                This is why the national <strong style={{ color: 'var(--hf-fg)' }}>certified hypnotherapist near me</strong> page should own broad “near me” searches. City pages are useful when the city matters; this page is useful when the real job is comparing local options without assuming credentials from a listing.
+                City pages are useful when the city matters; this page is useful when the real job is comparing local options without assuming credentials from a listing.
               </p>
             </div>
           </section>
@@ -367,7 +367,7 @@ export default async function HypnotherapyNearMePage() {
             <div style={{ maxWidth: 900, margin: '0 auto' }}>
               <h2 style={{ fontSize: 28, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 16 }}>Hypnotherapist Near Me: Common Search Mistakes</h2>
               <p style={{ fontSize: 15, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 24 }}>
-                Search Console shows broad <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> searches can land on city pages even when the person has not chosen a city yet. Use this page when the job is comparing local options safely; use a city page only after geography is the deciding filter.
+                A broad <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> search can lead to a single city page before you have chosen a city. Use this page when you are still comparing options safely; use a city page once location is the deciding filter.
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 18 }}>
                 {nearMeMistakes.map((item) => (
@@ -428,7 +428,7 @@ export default async function HypnotherapyNearMePage() {
                 ))}
               </div>
               <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
-                This is why broad city results should point back here: a city page can show local options, but this page answers the searcher’s real question — how to choose a hypnotherapist near me without assuming the listing has already done the verification.
+                A city page can show local options, but choosing a hypnotherapist near you also means checking the details yourself. A listing has not done that verification for you.
               </p>
             </div>
           </section>
