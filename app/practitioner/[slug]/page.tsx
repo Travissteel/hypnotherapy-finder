@@ -111,6 +111,7 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
   ]);
 
   const schemaType = schemaTypeFor(practitioner.categoryname);
+  const jacksonvilleSearchGuidance = slug === 'ben-edmonson-jacksonville-7';
   const jsonLd = {
     '@context': 'https://schema.org', '@type': schemaType,
     name: practitioner.name,
@@ -288,6 +289,24 @@ export default async function PractitionerPage({ params }: PractitionerPageProps
                     ))}
                   </div>
                 </div>
+
+                {/* Jacksonville search-intent guidance: answers the queries this listing earns impressions for without making claims about an unclaimed practice. */}
+                {jacksonvilleSearchGuidance && (
+                  <section className="glass-card" style={{ padding: '28px' }}>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 14 }}>Self-hypnosis in Jacksonville, FL: questions to ask</h2>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, fontWeight: 300, marginBottom: 14 }}>
+                      People searching for self-hypnosis in Jacksonville, FL may be looking for guided support, a class, or practical techniques to practise between appointments. Ask any provider what approach they use, whether they teach take-home exercises, and what follow-up support is available. This directory listing does not confirm which services this practice offers.
+                    </p>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 14 }}>Looking for a certified medical hypnotist in Jacksonville, FL?</h2>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, fontWeight: 300, marginBottom: 14 }}>
+                      Credentials, clinical scope, and training should be confirmed directly with the provider. This unclaimed listing does not verify certifications or medical qualifications. For symptoms that need medical or mental-health care, consult a qualified healthcare professional; hypnotherapy is a complementary approach, not a replacement for that care.
+                    </p>
+                    <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 14 }}>Choosing a hypnosis center in Jacksonville, FL</h2>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, fontWeight: 300, marginBottom: 0 }}>
+                      Compare the practical details before making contact: location, contact method, the practitioner&apos;s stated scope, session format, fees, and whether they are a fit for the support you are seeking. You can also browse the broader <Link href="/location/jacksonville" style={{ color: 'var(--hf-accent)', textDecoration: 'none', fontWeight: 600 }}>Jacksonville hypnotherapy directory</Link> to review local options.
+                    </p>
+                  </section>
+                )}
 
                 {/* Claim CTA */}
                 {practitioner.claim_status === 'unclaimed' && (
