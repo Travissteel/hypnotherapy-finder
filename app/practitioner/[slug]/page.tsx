@@ -27,8 +27,8 @@ interface PractitionerPageProps {
 
 const practitionerSnippetOverrides: Record<string, { title: string; description: string }> = {
   'mind-gym-by-marco-nashville-17': {
-    title: 'Mind Gym By Marco | Nashville Address, Phone & Website',
-    description: 'Mind Gym By Marco listing in Nashville, TN: view the Woodbury Falls Ct address, phone number, website, map, and practice details.',
+    title: 'Mind Gym by Marco | Nashville, TN Phone, Address & Website',
+    description: 'Find Mind Gym by Marco in Nashville, Tennessee: 1122 Woodbury Falls Ct, phone (615) 852-6636, website, map, and contact details.',
   },
 };
 
