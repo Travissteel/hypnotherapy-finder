@@ -7,12 +7,12 @@ import { MapPin, Search, CheckCircle, Users, Star } from 'lucide-react';
 import { getAllPractitioners, getCitiesByInventory } from '@/lib/data/practitioners';
 
 export const metadata = {
-  title: 'Hypnotherapist Near Me | Find Hypnotherapy & Hypnotists',
-  description: 'Find a hypnotherapist or hypnotist near me: compare local hypnotherapy profiles by area and contact details, then ask about training, fit, fees and availability.',
-  keywords: 'hypnotherapist near me, hypnotherapy near me, hypnotist near me, best hypnotherapist near me, certified hypnotherapist near me, local hypnotherapist near me, hypnosis therapy near me',
+  title: 'Hypnotherapy Near Me | Compare Local Hypnotherapist Profiles',
+  description: 'Searching hypnotherapy near me? Compare local hypnotherapist profiles by area and contact details, then ask about training, fit, fees and availability.',
+  keywords: 'hypnotherapy near me, hypnotherapist near me, hypnotist near me, best hypnotherapist near me, certified hypnotherapist near me, local hypnotherapist near me, hypnosis therapy near me',
   alternates: { canonical: 'https://hypnotherapy-finder.com/hypnotherapy-near-me' },
-  openGraph: { title: 'Hypnotherapist Near Me | Find Hypnotherapy & Hypnotists', description: 'Compare local hypnotherapist and hypnotist profiles by area and contact details, then verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapists near me' }] },
-  twitter: { card: 'summary_large_image', title: 'Hypnotherapist Near Me | Find Hypnotherapy & Hypnotists', description: 'Compare hypnotherapy practitioner profiles near you, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
+  openGraph: { title: 'Hypnotherapy Near Me | Compare Local Hypnotherapist Profiles', description: 'Searching hypnotherapy near me? Compare local profiles by area and contact details, then verify training questions directly before booking.', url: 'https://hypnotherapy-finder.com/hypnotherapy-near-me', type: 'website', images: [{ url: '/hypnotherapy-near-me.png', width: 1200, height: 630, alt: 'Find hypnotherapy near me with local practitioner profiles' }] },
+  twitter: { card: 'summary_large_image', title: 'Hypnotherapy Near Me | Compare Local Hypnotherapist Profiles', description: 'Compare local hypnotherapy practitioner profiles, then verify training and fit directly.', images: ['/hypnotherapy-near-me.png'] },
 };
 
 export default async function HypnotherapyNearMePage() {
@@ -69,7 +69,7 @@ export default async function HypnotherapyNearMePage() {
             <div style={{ maxWidth: 720, margin: '0 auto' }}>
               <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--hf-accent)', marginBottom: 16 }}>Find Local Practitioners</span>
               <h1 className="font-serif-display" style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--hf-fg)', lineHeight: 1.15, marginBottom: 20 }}>
-                Hypnotherapist Near Me: Compare Local Profiles Without Guessing
+                Hypnotherapy Near Me: Compare Local Profiles Without Guessing
               </h1>
               <p style={{ fontSize: 17, color: 'var(--hf-fg-dim)', lineHeight: 1.6, marginBottom: 32 }}>
                 Searching <strong style={{ color: 'var(--hf-fg)' }}>hypnotherapist near me</strong> or <strong style={{ color: 'var(--hf-fg)' }}>hypnotist near me</strong>? Use Hypnotherapy Finder to search 1,150+ hypnotherapy practitioner profiles in your area, compare listed services and contact details, then ask each practitioner directly about certification, training, scope, fees, and availability before booking.
