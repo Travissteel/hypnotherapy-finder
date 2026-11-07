@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'chicago') title = `Chicago Hypnotherapy | ${city.practitionerCount} Local Profiles in Chicago, IL`;
   else if (slug === 'dallas') title = `Dallas Hypnotherapy | Clinical Hypnotherapist Directory`;
   else if (slug === 'austin') title = `Austin Hypnotherapist | Local Directory & Profiles`;
-  else if (slug === 'fort-worth') title = `Clinical Hypnotherapy in Fort Worth, TX | Hypnotherapist Directory`;
+  else if (slug === 'fort-worth') title = `Clinical Hypnotherapy Sessions Fort Worth, TX | Directory`;
   else if (slug === 'atlanta') title = `Atlanta Hypnotherapy Directory | ${city.practitionerCount} Local Hypnotherapist Profiles`;
   else if (slug === 'columbus') title = `Hypnotherapy Columbus Ohio | Columbus Ohio Hypnosis Directory`;
   else if (slug === 'detroit') title = `Detroit Hypnotherapy | Smoking Cessation Hypnosis & Local Profiles`;
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'chicago') description = `Find hypnotherapy in Chicago. Browse ${city.practitionerCount} hypnotherapist profiles — Downtown, Lincoln Park & suburbs.`;
   else if (slug === 'dallas') description = `Find Dallas hypnotherapy and clinical hypnotherapist profiles. Compare ${city.practitionerCount} local listings, then confirm services, training, and session fit directly.`;
   else if (slug === 'austin') description = `Looking for an Austin hypnotherapist? Compare local profile basics, contact details, session-format questions and what to verify directly before booking.`;
-  else if (slug === 'fort-worth') description = `Find clinical hypnotherapy in Fort Worth, TX. Browse ${city.practitionerCount} hypnotherapist profiles for anxiety, stress, habits & clinical hypnosis sessions.`;
+  else if (slug === 'fort-worth') description = `Compare Fort Worth clinical hypnotherapy sessions and local hypnotherapist profiles. Check location and contact details, then confirm session format, training, fees, and availability directly.`;
   else if (slug === 'atlanta') description = `Find hypnotherapy in Atlanta, GA. Browse ${city.practitionerCount} local hypnotherapist profiles and use a safer checklist before contacting practitioners.`;
   else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for Columbus Ohio hypnosis, clinical hypnosis, and nearby hypnotherapist searches.`;
   else if (slug === 'detroit') description = `Find Detroit hypnotherapy and smoking cessation hypnosis profiles. Compare ${city.practitionerCount} local listings, then confirm services and session fit directly.`;
@@ -430,6 +430,17 @@ export default async function LocationPage({ params }: LocationPageProps) {
                           <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
                         </div>
                       ))}
+                    </div>
+                    <div style={{ marginTop: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>What to clarify about hypnotherapy sessions in Fort Worth</h4>
+                      <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, marginBottom: 10, fontWeight: 300 }}>
+                        “Clinical hypnotherapy sessions Fort Worth TX” is a session-format question as much as a local search. A profile can help you find a practical contact route, but it cannot tell you what a current appointment includes. Before choosing from a Fort Worth shortlist, ask the same questions of each practitioner so the answers are comparable.
+                      </p>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Is the first contact a consultation, an intake, or a full session, and what happens in each?</li>
+                        <li>What is the expected session format: in person, online, hybrid, individual, or another arrangement?</li>
+                        <li>What should you prepare or practise between sessions, if anything, and when would a referral to qualified healthcare or mental-health support be appropriate?</li>
+                      </ul>
                     </div>
                   </div>
                 )}
