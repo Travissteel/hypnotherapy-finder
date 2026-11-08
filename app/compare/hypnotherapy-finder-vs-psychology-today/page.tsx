@@ -5,20 +5,20 @@ import { JsonLd } from '@/components/JsonLd';
 import { Search, CheckCircle, ArrowRight, Shield, Target, MapPin, Filter, Users, Zap } from 'lucide-react';
 
 export const metadata = {
-  title: 'Hypnotherapy Finder vs Psychology Today',
-  description: 'Comparing Hypnotherapy Finder and Psychology Today for finding a hypnotherapist. See why a specialist directory can make search, filtering, and matching easier.',
+  title: 'Hypnotherapy Directory Alternatives | Find a Specialist',
+  description: 'Compare hypnotherapy directory alternatives and see how a specialist search differs from a general therapist directory when finding a practitioner.',
   alternates: { canonical: 'https://hypnotherapy-finder.com/compare/hypnotherapy-finder-vs-psychology-today' },
   openGraph: {
-    title: 'Hypnotherapy Finder vs Psychology Today | Best Way to Find a Hypnotherapist',
-    description: 'Comparing Hypnotherapy Finder and Psychology Today for finding a hypnotherapist. See why a specialist directory can make search, filtering, and matching easier.',
+    title: 'Hypnotherapy Directory Alternatives | Find a Specialist',
+    description: 'Compare hypnotherapy directory alternatives and see how a specialist search differs from a general therapist directory when finding a practitioner.',
     url: 'https://hypnotherapy-finder.com/compare/hypnotherapy-finder-vs-psychology-today',
     type: 'article',
     images: [{ url: '/logo.png', width: 1200, height: 630, alt: 'Hypnotherapy Finder vs Psychology Today' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hypnotherapy Finder vs Psychology Today',
-    description: 'Comparing Hypnotherapy Finder and Psychology Today for finding a hypnotherapist. See why a specialist directory can make search easier.',
+    title: 'Hypnotherapy Directory Alternatives | Find a Specialist',
+    description: 'Compare hypnotherapy directory alternatives and see how a specialist search differs from a general therapist directory.',
   },
 };
 
