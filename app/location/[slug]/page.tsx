@@ -40,6 +40,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'columbus') title = `Hypnotherapy Columbus Ohio | Columbus Ohio Hypnosis Directory`;
   else if (slug === 'detroit') title = `Detroit Hypnotherapy | Smoking Cessation Hypnosis & Local Profiles`;
   else if (slug === 'baltimore') title = `Baltimore Hypnotherapy | Hypnosis Baltimore & Local Profiles`;
+  else if (slug === 'boston') title = `Boston Hypnotherapy | Local Hypnotherapist Profiles`;
 
   let description = `Find hypnotherapy in ${city.name}, ${city.state}. Browse ${city.practitionerCount} local practitioner profiles by location and contact details.`;
   if (slug === 'los-angeles') description = `Find hypnotherapy in Los Angeles. Browse ${city.practitionerCount} LA hypnotherapist profiles — Santa Monica to Pasadena.`;
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
   else if (slug === 'columbus') description = `Find hypnotherapy in Columbus, Ohio. Compare ${city.practitionerCount} local profiles for Columbus Ohio hypnosis, clinical hypnosis, and nearby hypnotherapist searches.`;
   else if (slug === 'detroit') description = `Find Detroit hypnotherapy and smoking cessation hypnosis profiles. Compare ${city.practitionerCount} local listings, then confirm services and session fit directly.`;
   else if (slug === 'baltimore') description = `Find Baltimore hypnotherapy and hypnosis profiles. Compare ${city.practitionerCount} local listings, including named-practice searches, then confirm fit directly.`;
+  else if (slug === 'boston') description = `Find Boston hypnotherapy and compare ${city.practitionerCount} local profiles by location and contact details before confirming session fit directly.`;
 
   const url = `https://hypnotherapy-finder.com/location/${slug}`;
 
@@ -73,6 +75,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       : slug === 'columbus' ? 'hypnotherapy columbus ohio, columbus ohio hypnosis, columbus hypnotherapy, hypnosis therapy near me columbus, clinical hypnosis near me columbus, hypnotherapist near me columbus'
       : slug === 'detroit' ? 'detroit hypnosis, detroit hypnotherapy, smoking cessation hypnosis detroit, smoking cessation hypnotherapy detroit, hypnotherapist near me detroit'
       : slug === 'baltimore' ? 'hypnosis baltimore, hypnotherapy baltimore, hypnotherapy finder baltimore, from the heart hypnotherapy baltimore, baltimore hypnosis'
+      : slug === 'boston' ? 'boston hypnotherapy, boston hypnotherapist, hypnotherapy near me boston, hypnotherapist near me boston, hypnosis therapy near me boston'
       : `hypnotherapy ${city.name}, hypnotherapist ${city.name}, ${city.name} hypnosis, ${city.name} hypnotherapy directory`,
     alternates: { canonical: url, ...(languages && { languages }) },
     openGraph: {
@@ -141,6 +144,11 @@ export default async function LocationPage({ params }: LocationPageProps) {
         { '@type': 'Question', name: 'Where can I find hypnosis Baltimore profiles?', acceptedAnswer: { '@type': 'Answer', text: `Use the Baltimore directory to compare ${city.practitionerCount} local hypnotherapist and hypnosis-related profiles by name, address, phone, website, and category. Contact practitioners directly to confirm services, training, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'How should I use Hypnotherapy Finder for Baltimore?', acceptedAnswer: { '@type': 'Answer', text: 'Use Hypnotherapy Finder as a shortlist tool, not an endorsement engine. Compare local profile details, then verify credentials, scope, pricing, availability, and fit directly with each practitioner before booking.' } },
       ] : []),
+      ...(slug === 'boston' ? [
+        { '@type': 'Question', name: 'Where can I find hypnotherapy near me in Boston?', acceptedAnswer: { '@type': 'Answer', text: `Use this Boston directory to compare ${city.practitionerCount} local profiles by name, address, phone, website, and category. Then contact practitioners directly to confirm training, professional scope, session format, current fees, availability, and fit.` } },
+        { '@type': 'Question', name: 'How should I compare a hypnotherapist near me in Boston?', acceptedAnswer: { '@type': 'Answer', text: 'Start with practical fit: location, contact details, website, and category. Ask the same questions of each practitioner about their approach, first-session structure, training, current fees, availability, and referral boundaries before choosing whom to contact again.' } },
+        { '@type': 'Question', name: 'Is hypnosis therapy near me the same as hypnotherapy?', acceptedAnswer: { '@type': 'Answer', text: 'Searchers often use hypnosis therapy to mean hypnotherapy, but hypnosis can also refer to entertainment, self-hypnosis, or coaching. Ask directly whether the practitioner offers hypnotherapy, what their intake includes, and what concerns fall within their professional scope.' } },
+      ] : []),
       ...(slug === 'austin' ? [
         { '@type': 'Question', name: 'Where can I find an Austin hypnotherapist?', acceptedAnswer: { '@type': 'Answer', text: `Use this Austin hypnotherapist directory to compare ${city.practitionerCount} local profiles by name, address, phone, website, and category. Then contact practitioners directly to confirm training, certification, professional scope, session format, current fees, and availability.` } },
         { '@type': 'Question', name: 'How should I use a hypnotherapist Austin TX search?', acceptedAnswer: { '@type': 'Answer', text: 'A hypnotherapist Austin TX search should produce a shortlist, not a final decision. Compare practical details first, then ask each practitioner what the first session includes, whether sessions are online or in person, and how they explain their approach without promising outcomes.' } },
@@ -185,6 +193,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'columbus' ? 'Hypnotherapy Columbus Ohio: Local Hypnosis Profiles'
     : slug === 'detroit' ? 'Detroit Hypnotherapy and Smoking Cessation Hypnosis'
     : slug === 'baltimore' ? 'Baltimore Hypnotherapy and Hypnosis Profiles'
+    : slug === 'boston' ? 'Boston Hypnotherapy and Local Profiles'
     : `${city.name} Hypnotherapy`;
 
   const citySubheading = slug === 'los-angeles' ? `Connect with ${city.practitionerCount} LA hypnotherapist and hypnotist profiles in Los Angeles, California`
@@ -196,6 +205,7 @@ export default async function LocationPage({ params }: LocationPageProps) {
     : slug === 'columbus' ? `Compare ${city.practitionerCount} Columbus hypnotherapist profiles for local hypnotherapy, hypnosis therapy, and clinical hypnosis searches`
     : slug === 'detroit' ? `Compare ${city.practitionerCount} Detroit hypnotherapist profiles for local hypnotherapy, Detroit hypnosis, and smoking cessation hypnosis searches`
     : slug === 'baltimore' ? `Compare ${city.practitionerCount} Baltimore hypnotherapist profiles for hypnotherapy Baltimore, hypnosis Baltimore, and named-practice searches`
+    : slug === 'boston' ? `Compare ${city.practitionerCount} Boston hypnotherapist profiles for local hypnotherapy, near-me, and hypnosis therapy searches`
     : `Connect with ${city.practitionerCount} hypnotherapy practitioner profiles in ${city.name}, ${city.state}`;
 
   // These were three independently-gated blocks. Cities sat in more than one set
@@ -613,6 +623,39 @@ export default async function LocationPage({ params }: LocationPageProps) {
                         { title: 'From the Heart Hypnotherapy', body: 'Named-practice searches usually mean you are checking one option. Use the listing as a starting point, then visit the practice website or call directly to confirm services, credentials, session format, current fees, and availability. The directory listing is not an endorsement.' },
                         { title: 'Hypnosis Baltimore', body: '“Hypnosis” can mean stage work, self-hypnosis, coaching, or therapeutic hypnotherapy. For personal concerns, ask whether the practitioner offers hypnotherapy, what the intake process includes, and how they explain their method in plain language.' },
                         { title: 'Hypnotherapy Baltimore', body: 'For Baltimore-specific hypnotherapy searches, compare practical details first: address, phone, website, category, and whether the location works for your routine. Then ask each practitioner directly about training, professional scope, session structure, and fit for your concern.' },
+                      ].map((item) => (
+                        <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                          <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
+                          <p style={{ fontSize: 13, color: 'var(--hf-fg-dim)', lineHeight: 1.65, margin: 0, fontWeight: 300 }}>{item.body}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {slug === 'boston' && (
+                  <div style={{ marginTop: 28, padding: '24px', borderRadius: 14, background: 'rgba(var(--hf-accent-rgb), 0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--hf-fg)', marginBottom: 12 }}>Boston hypnotherapy: use a near-me search as a shortlist, not a verdict</h3>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      Search Console shows this page for “hypnotherapy near me,” “hypnotherapist near me,” and “hypnosis therapy near me.” Those phrases overlap, but they can pull in entertainment, self-hypnosis resources, coaching, and practitioner listings. This page is for the last category: Boston-area profiles you can compare before making direct contact.
+                    </p>
+                    <p style={{ fontSize: 14, color: 'var(--hf-fg-dim)', lineHeight: 1.75, marginBottom: 14, fontWeight: 300 }}>
+                      The directory can help with the practical first pass: name, address, phone number, website, and listed category. It cannot establish training, professional scope, session format, current fees, availability, or whether someone is right for your concern. Those details need a direct conversation.
+                    </p>
+                    <div style={{ marginBottom: 14, padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>Before contacting a Boston hypnotherapist</h4>
+                      <ul style={{ margin: 0, paddingLeft: 18, color: 'var(--hf-fg-dim)', fontSize: 13, lineHeight: 1.7, fontWeight: 300 }}>
+                        <li>Check whether the location and session format are practical before treating proximity as the deciding factor.</li>
+                        <li>Describe the support you are looking for in one sentence and ask whether it is within the practitioner&apos;s professional scope.</li>
+                        <li>Ask what an initial appointment includes: intake, goal-setting, hypnosis work, between-session practice, or a separate consultation.</li>
+                        <li>Confirm training, certification, current fees, availability, cancellation terms, and referral boundaries directly.</li>
+                      </ul>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 14 }}>
+                      {[
+                        { title: 'Hypnotherapy near me', body: 'For a Boston-local hypnotherapy search, compare address, phone, website, category, and session format first. Then ask how the practitioner describes their approach, what the first session includes, and when they would refer someone to qualified healthcare or mental-health support.' },
+                        { title: 'Hypnotherapist near me', body: 'A nearby listing is a starting point, not proof of credentials or fit. Shortlist a few Boston profiles, ask each practitioner the same questions about training, scope, sessions, current fees, and availability, then compare the answers rather than the marketing language.' },
+                        { title: 'Hypnosis therapy near me', body: 'People often use “hypnosis therapy” to mean hypnotherapy. Ask directly whether hypnotherapy is offered, how sessions are structured, what concerns are within scope, and whether the work is in person, online, or another format. Hypnotherapy is complementary; significant symptoms deserve qualified healthcare support.' },
                       ].map((item) => (
                         <div key={item.title} style={{ padding: 16, borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                           <h4 style={{ fontSize: 14, fontWeight: 700, color: 'var(--hf-fg)', marginBottom: 8 }}>{item.title}</h4>
